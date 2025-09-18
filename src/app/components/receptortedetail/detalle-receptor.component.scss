@@ -1,0 +1,65 @@
+.content-wrapper {
+  padding: 16px;
+}
+
+.detalle-card, .resoluciones-card {
+  margin-bottom: 24px;
+}
+
+.tabla-detalle,
+.tabla-resoluciones {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla-detalle th {
+  text-align: left;
+  padding: 10px;
+  width: 40%;
+  background: #f0f0f0;
+  font-weight: 600;
+}
+
+.tabla-detalle td {
+  padding: 10px;
+  word-break: break-word;
+}
+
+.tabla-resoluciones {
+  margin-top: 1rem;
+  font-size: 14px;
+}
+
+.tabla-resoluciones th, 
+.tabla-resoluciones td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.tabla-resoluciones th {
+  background-color: #3f51b5;
+  color: white;
+  font-weight: bold;
+}
+
+.tabla-resoluciones tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.tabla-resoluciones tr:hover {
+  background-color: #f1f1f1;
+}
+
+.sin-datos {
+  text-align: center;
+  color: #888;
+  margin-top: 1rem;
+}
+
+.loader-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+}

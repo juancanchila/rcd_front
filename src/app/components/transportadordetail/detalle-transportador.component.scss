@@ -1,0 +1,43 @@
+.content-wrapper {
+  padding: 16px;
+}
+
+.detalle-card,
+.vehiculos-card {
+  margin-bottom: 24px;
+}
+
+.tabla-detalle,
+.tabla-vehiculos {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla-detalle th,
+.tabla-vehiculos th {
+  text-align: left;
+  padding: 10px;
+  background: #f0f0f0;
+  font-weight: 600;
+}
+
+.tabla-detalle td,
+.tabla-vehiculos td {
+  padding: 10px;
+  word-break: break-word;
+  border-bottom: 1px solid #ddd;
+}
+
+.sin-datos {
+  text-align: center;
+  margin-top: 20px;
+  font-style: italic;
+  color: #777;
+}
+
+.loader-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+}

@@ -1,0 +1,87 @@
+/* Contenedor principal */
+.sidenav-container {
+  height: 100vh;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Sidenav */
+.mat-sidenav {
+  width: 220px; /* un poco más compacto */
+  background-color: #549911; /* verde más elegante */
+  color: #ffffff !important;
+  padding-top: 0;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Títulos de secciones */
+h3[mat-subheader] {
+  background-color: #268d96 !important; /* contraste elegante */
+  color: #ffffff;
+  font-size: 14px;
+  padding: 8px 16px;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-radius: 4px;
+}
+
+/* Items del menú */
+.mat-nav-list a.mat-list-item {
+  margin: 4px 8px;
+  border-radius: 20px; /* bordes redondeados */
+  background-color: #268d96 !important;
+  color: #ffffff !important;
+  transition: all 0.3s ease;
+  padding-left: 12px;
+}
+
+.mat-nav-list a.mat-list-item:hover {
+  background-color: #268d96;
+  transform: translateX(3px);
+}
+
+/* Iconos dentro del menu */
+.mat-nav-list a.mat-list-item mat-icon {
+  margin-right: 12px;
+  color: #ffffff;
+}
+
+/* Toolbar */
+.mat-toolbar {
+  background-color: #549911 !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Título de toolbar */
+.toolbar-title {
+  font-size: 0.9rem;
+  margin-left: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Contenido principal */
+.main-content {
+  padding: 16px;
+  background-color: #f1f8e9;
+  min-height: calc(100vh - 64px); /* ajusta según altura del toolbar */
+}
+
+/* Icono de logout */
+.color-red {
+  color: #e53935 !important;
+    padding: 2px;
+  padding-top: 5px;
+  vertical-align: bottom;
+}
+.color-white {
+  color: #fff !important;
+  padding: 2px;
+  padding-top: 5px;
+  vertical-align: bottom;
+}
+
+
+

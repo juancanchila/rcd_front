@@ -1,0 +1,109 @@
+<div class="detalle-wrapper">
+  <h2 *ngIf="!loading && vehiculo">Vehículo {{ vehiculo.placaVehiculo }}</h2>
+
+  <div *ngIf="loading" class="loading">
+    <p>Cargando vehículo...</p>
+  </div>
+
+  <div *ngIf="!loading && vehiculo" class="tabla-container">
+    <table class="tabla-detalle">
+      <tr>
+        <th>ID:</th>
+        <td>{{ vehiculo.id }}</td>
+      </tr>
+      <tr>
+        <th>Placa:</th>
+        <td>{{ vehiculo.placaVehiculo }}</td>
+      </tr>
+      <tr>
+        <th>Lugar Expedición:</th>
+        <td>{{ vehiculo.lugarExpedicion }}</td>
+      </tr>
+      <tr>
+        <th>Modelo:</th>
+        <td>{{ vehiculo.modelo }}</td>
+      </tr>
+      <tr>
+        <th>Capacidad:</th>
+        <td>{{ vehiculo.capacidad }}</td>
+      </tr>
+      <tr>
+        <th>Fecha Última Rev. Tec. Mec.:</th>
+        <td>{{ vehiculo.fechaUltimaRevTecMec }}</td>
+      </tr>
+      <tr>
+        <th>Permiso Movilización:</th>
+        <td>{{ vehiculo.permisoMovilizacion }}</td>
+      </tr>
+      <tr>
+        <th>Nombre Conductor:</th>
+        <td>{{ vehiculo.nombreConductor || '—' }}</td>
+      </tr>
+      <tr>
+        <th>Identificación Conductor:</th>
+        <td>{{ vehiculo.numeroIdentificacion || '—' }}</td>
+      </tr>
+      <tr>
+        <th>PIN:</th>
+        <td>{{ vehiculo.pin }}</td>
+      </tr>
+      <tr>
+        <th>Licencia Tránsito:</th>
+
+        <td>
+          <a [href]="encodeUrl(vehiculo.licenciaTransito)" target="_blank">
+            {{ vehiculo.licenciaTransito }}
+          </a>
+        </td>
+      </tr>
+      <tr>
+        <th>Certificado Rev. Tec. Mec.:</th>
+        <td>
+          <a [href]="encodeUrl(vehiculo.certificadoRevTecMec)" target="_blank">
+            {{ vehiculo.certificadoRevTecMec }}
+          </a>
+        </td>
+      </tr>
+      <tr>
+        <th>Fecha Exp. PIN:</th>
+        <td>{{ vehiculo.fechaExpedicionPIN }}</td>
+      </tr>
+      <tr>
+        <th>Fecha Venc. PIN:</th>
+        <td>{{ vehiculo.fechaVencimientoPIN }}</td>
+      </tr>
+      <tr>
+        <th>Código Radicado SIGOD:</th>
+        <td>{{ vehiculo.codigoRadicadoSIGOD }}</td>
+      </tr>
+      <tr>
+        <th>Acciones</th>
+        <td>
+          <button mat-icon-button (click)="goToPin(vehiculo.id)">
+            <mat-icon>picture_as_pdf</mat-icon>
+          </button>
+        </td>
+      </tr>
+    </table>
+
+    <h3>Fotos del Vehículo</h3>
+    <div class="fotos-container">
+      <img *ngIf="vehiculo.fotoFrente" [src]="encodeImage(vehiculo.fotoFrente)" alt="Frente" />
+      <img
+        *ngIf="vehiculo.fotoLadoDerecho"
+        [src]="encodeImage(vehiculo.fotoLadoDerecho)"
+        alt="Lado Derecho"
+      />
+      <img
+        *ngIf="vehiculo.fotoLadoIzquierdo"
+        [src]="encodeImage(vehiculo.fotoLadoIzquierdo)"
+        alt="Lado Izquierdo"
+      />
+      <img *ngIf="vehiculo.fotoTrasera" [src]="encodeImage(vehiculo.fotoTrasera)" alt="Trasera" />
+    </div>
+
+    <p *ngIf="!loading && !vehiculo" class="sin-datos">No se encontró información del vehículo.</p>
+  </div>
+  <br /><br /><br /><br />
+  <shared-footer></shared-footer>
+</div>

@@ -1,0 +1,96 @@
+<!-- Toolbar -->
+<mat-toolbar color="primary">
+  <button mat-icon-button (click)="goBack()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <span class="toolbar-title">
+    {{ proyecto?.nombre || 'Detalle del Proyecto' }}
+  </span>
+</mat-toolbar>
+
+<!-- Contenido -->
+<div class="content-wrapper" *ngIf="!loading">
+
+  <!-- Card: Detalle Proyecto -->
+  <mat-card *ngIf="proyecto" class="detalle-card">
+    <mat-card-header>
+      <mat-card-title>📋 Detalle del Proyecto</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <table class="tabla-detalle">
+ <tr><th>Ubicación:</th><td>{{ proyecto.ubicacion }}</td></tr>
+      <tr><th>Tipo de uso:</th><td>{{ proyecto.tipoUsoPredio }}</td></tr>
+      <tr><th>Localidad:</th><td>{{ proyecto.localidad }}</td></tr>
+      <tr><th>Barrio:</th><td>{{ proyecto.barrio }}</td></tr>
+      <tr><th>Matrícula Inmobiliaria:</th><td>{{ proyecto.matriculaInmobiliaria }}</td></tr>
+      <tr><th>Referencia Catastral:</th><td>{{ proyecto.referenciaCatastral || '—' }}</td></tr>
+      <tr><th>Fecha Inicio:</th><td>{{ proyecto.fechaInicio }}</td></tr>
+      <tr><th>Fecha Fin:</th><td>{{ proyecto.fechaFin }}</td></tr>
+      <tr><th>Estado:</th><td>{{ proyecto.estadoProyecto }}</td></tr>
+      <tr><th>Número Licencia Urbanismo:</th><td>{{ proyecto.numLicenciaUrbanismo }}</td></tr>
+      <tr><th>Fecha Exp. Licencia:</th><td>{{ proyecto.fechaExpLicUrb }}</td></tr>
+      <tr><th>Titular Licencia:</th><td>{{ proyecto.titularLicUrb }}</td></tr>
+      <tr><th>Identificación Titular:</th><td>{{ proyecto.tipoIdentLicUrb }} {{ proyecto.identificacionLicUrb }}</td></tr>
+      <tr><th>Curaduría:</th><td>{{ proyecto.curaduria }}</td></tr>
+      <tr><th>Área Verdes:</th><td>{{ proyecto.areaVerdes || '—' }}</td></tr>
+      <tr><th>Área Construcción Aprobada:</th><td>{{ proyecto.areaConstruccionAprobada }}</td></tr>
+      <tr><th>Valor:</th><td>{{ proyecto.valor }}</td></tr>
+      <tr><th>Volumen Escombros:</th><td>{{ proyecto.volumenEstimGenrEscombros }}</td></tr>
+      <tr><th>Volumen Excavaciones:</th><td>{{ proyecto.volumenEstimEscavaciones || '—' }}</td></tr>
+      <tr><th>ID Generador:</th><td>{{ proyecto.idgenerador }}</td></tr>
+      <tr><th>PIN:</th><td>{{ proyecto.pin }}</td></tr>
+      <tr><th>Fecha Expedición PIN:</th><td>{{ proyecto.fechaExpedicionPIN }}</td></tr>
+      <tr><th>Radicado SIGOD:</th><td>{{ proyecto.codigoRadicadoSIGOD }}</td></tr>
+      <tr><th>Coordenada X:</th><td>{{ proyecto.CoordenadaX }}</td></tr>
+      <tr><th>Coordenada Y:</th><td>{{ proyecto.CoordenadaY }}</td></tr>
+       <tr><th>Ver Pin</th><td><button mat-icon-button  (click)="goToPin(proyecto.id)">  <mat-icon>picture_as_pdf</mat-icon></button></td></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Card: Visitas Técnicas -->
+  <mat-card class="visitas-card">
+    <mat-card-header>
+      <mat-card-title>📂 Visitas Técnicas</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <table *ngIf="visitas.length > 0" class="tabla-visitas">
+        <thead>
+          <tr>
+                <th>Fecha Visita</th>
+              <th>Estado</th>
+              <th>Observaciones</th>
+              <th>Acta</th>
+                <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let visita of visitas">
+            <td>{{ visita.fechaVisita || '—' }}</td>
+              <td>{{ visita.estado || '—' }}</td>
+              <td>{{ visita.observaciones|| '—' }}</td>
+                 <td>
+                <a [href]="'/assets/actas/' + visita.acta" target="_blank">Ver Acta</a>
+              </td>
+
+               <td>  <button mat-icon-button (click)="goToDetalle(visita.id)">
+                <mat-icon>search</mat-icon>
+              </button></td>
+          </tr>
+        </tbody>
+      </table>
+      <p *ngIf="visitas.length === 0" class="sin-datos">
+        No hay visitas técnicas registradas para este proyecto.
+      </p>
+    </mat-card-content>
+  </mat-card>
+
+</div>
+
+<!-- Loader -->
+<div *ngIf="loading" class="loader-wrapper">
+  <mat-spinner></mat-spinner>
+</div>
+<br><br><br><br>
+<!-- Footer -->
+<shared-footer></shared-footer>

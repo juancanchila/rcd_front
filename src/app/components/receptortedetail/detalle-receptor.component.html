@@ -1,0 +1,99 @@
+<!-- Toolbar -->
+<mat-toolbar color="primary">
+  <button mat-icon-button (click)="goBack()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <span class="toolbar-title">
+    {{ receptor?.razonSocial || receptor?.primerNombre + ' ' + receptor?.primerApellidos || 'Detalle del Receptor' }}
+  </span>
+</mat-toolbar>
+
+<!-- Contenido -->
+<div class="content-wrapper" *ngIf="!loading">
+
+  <!-- Card: Detalle Receptor -->
+  <mat-card *ngIf="receptor" class="detalle-card">
+    <mat-card-header>
+      <mat-card-title>📋 Detalle del Receptor</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <table class="tabla-detalle">
+        <tr><th>ID:</th><td>{{ receptor.id }}</td></tr>
+        <tr><th>Tipo Documento:</th><td>{{ receptor.tipoDocumento }}</td></tr>
+        <tr><th>Número Documento:</th><td>{{ receptor.numeroDocumento }}</td></tr>
+        <tr><th>Primer Nombre:</th><td>{{ receptor.primerNombre || '—' }}</td></tr>
+        <tr><th>Segundo Nombre:</th><td>{{ receptor.segundoNombre || '—' }}</td></tr>
+        <tr><th>Primer Apellido:</th><td>{{ receptor.primerApellidos || '—' }}</td></tr>
+        <tr><th>Segundo Apellido:</th><td>{{ receptor.segundoApellido || '—' }}</td></tr>
+        <tr><th>Razón Social:</th><td>{{ receptor.razonSocial || '—' }}</td></tr>
+        <tr><th>Dirección:</th><td>{{ receptor.direccion }}</td></tr>
+        <tr><th>Correo:</th><td>{{ receptor.correoElectronico }}</td></tr>
+        <tr><th>Teléfono:</th><td>{{ receptor.telefono }}</td></tr>
+        <tr><th>Fax:</th><td>{{ receptor.fax || '—' }}</td></tr>
+        <tr><th>Celular:</th><td>{{ receptor.celular || '—' }}</td></tr>
+        <tr><th>CIIU:</th><td>{{ receptor.ciiu || '—' }}</td></tr>
+        <tr><th>Tipo Doc. RL:</th><td>{{ receptor.tipoDocumentoRL || '—' }}</td></tr>
+        <tr><th>Número Doc. RL:</th><td>{{ receptor.numeroDocumentoRL || '—' }}</td></tr>
+        <tr><th>Nombre RL:</th><td>{{ receptor.nombreRL || '—' }}</td></tr>
+        <tr><th>Email RL:</th><td>{{ receptor.emailRL || '—' }}</td></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Card: Resoluciones -->
+  <mat-card class="resoluciones-card">
+    <mat-card-header>
+      <mat-card-title>📂 Resoluciones del Receptor</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <table *ngIf="resoluciones.length > 0" class="tabla-resoluciones">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Número Resolución</th>
+            <th>Ubicación</th>
+            <th>Actividad</th>
+            <th>Tipo Aprovechamiento</th>
+            <th>Fecha Inicio</th>
+            <th>Fecha Fin</th>
+            <th>PIN</th>
+            <th>Ver PIN</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let resolucion of resoluciones">
+            <td>{{ resolucion.idresolucion }}</td>
+            <td>{{ resolucion.numeroResolucion }}</td>
+            <td>{{ resolucion.ubicacion }}</td>
+            <td>{{ resolucion.naturalezaActividad }}</td>
+            <td>{{ resolucion.tipoAprovechamiento }}</td>
+            <td>{{ resolucion.fechaInicio }}</td>
+            <td>{{ resolucion.fechaFin || '—' }}</td>
+            <td>{{ resolucion.pin }}</td>
+            <td>
+          <button mat-icon-button  (click)="goToPin(resolucion.idresolucion)">  <mat-icon>picture_as_pdf</mat-icon></button>
+            </td>
+            <td>
+              <button mat-icon-button (click)="goToDetalle(resolucion.idresolucion)">
+                <mat-icon>search</mat-icon>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p *ngIf="resoluciones.length === 0" class="sin-datos">
+        No hay resoluciones registradas para este receptor.
+      </p>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<!-- Loader -->
+<div *ngIf="loading" class="loader-wrapper">
+  <mat-spinner></mat-spinner>
+</div>
+
+<!-- Footer -->
+<shared-footer></shared-footer>

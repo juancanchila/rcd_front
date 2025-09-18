@@ -1,0 +1,22 @@
+<!-- src/app/sitemap/sitemap.component.html -->
+<main class="sitemap-wrapper">
+  <mat-card *ngFor="let item of sitemap" class="sitemap-card" (click)="navigate(item.path)">
+    <mat-card-content>
+      <mat-icon class="icon-large">chevron_right</mat-icon>
+      <!-- Mostrar solo el último segmento de la ruta -->
+      <span>{{ item.path.split('/').pop() || item.path }}</span>
+    </mat-card-content>
+
+    <!-- Subniveles -->
+    <div *ngIf="item.children?.length" class="subitems">
+      <mat-card *ngFor="let child of item.children" class="subitem-card" (click)="navigate(child.path)">
+        <mat-card-content>
+          <mat-icon class="icon-small">arrow_right</mat-icon>
+          <span>{{ child.path.split('/').pop() || child.path }}</span>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </mat-card>
+<br><br><br><br>
+  <shared-footer></shared-footer>
+</main>

@@ -1,0 +1,45 @@
+<!-- Toolbar -->
+<mat-toolbar color="primary">
+  <button mat-icon-button routerLink="/proyectos">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <span class="toolbar-title">
+    {{ visita ? 'Visita Técnica #' + visita.id : 'Detalle Visita Técnica' }}
+  </span>
+</mat-toolbar>
+
+<!-- Contenido -->
+<div class="content-wrapper" *ngIf="!loading">
+  <mat-card *ngIf="visita">
+    <mat-card-header>
+      <mat-card-title>📋 Detalle de la Visita Técnica</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <table class="tabla-detalle">
+        <tr><th>ID Visita:</th><td>{{ visita.id }}</td></tr>
+        <tr><th>Fecha creación:</th><td>{{ visita.fechaCreacion || '—' }}</td></tr>
+        <tr><th>Estado:</th><td>{{ visita.estado || '—' }}</td></tr>
+        <tr><th>Fecha visita:</th><td>{{ visita.fechaVisita || '—' }}</td></tr>
+        <tr><th>ID Técnico:</th><td>{{ visita.idTecnico || '—' }}</td></tr>
+        <tr><th>Estado del proyecto:</th><td>{{ visita.estadoProyecto || '—' }}</td></tr>
+        <tr><th>Observaciones:</th><td>{{ visita.observaciones || '—' }}</td></tr>
+        <tr><th>ID Proyecto:</th><td>{{ visita.idProyecto || '—' }}</td></tr>
+        <tr><th>Ver Acta:</th>
+          <td>
+        <a [href]="encodeUrl(visita.acta)" target="_blank">
+  Ver Acta
+</a>
+          </td>
+        </tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<!-- Loader -->
+<div *ngIf="loading" class="loader-wrapper">
+  <mat-spinner></mat-spinner>
+</div>
+<br><br><br><br>
+<!-- Footer -->
+<shared-footer></shared-footer>

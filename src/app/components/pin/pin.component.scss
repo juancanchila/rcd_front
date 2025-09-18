@@ -1,0 +1,203 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+}
+
+.pdf-container {
+  width: 8.5in;
+  height: 11in;
+  position: relative;
+  page-break-inside: avoid;
+}
+
+.pdf-background {
+  width: 100%;
+  height: 100%;
+  background: url('../../../assets/Hoja-Membrete-EPA.jpg') no-repeat center center;
+  background-size: cover;
+  padding: 0.6cm; // REDUCIDO
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  page-break-inside: avoid;
+}
+
+.content-wrapper {
+  height: calc(60% - 20px); // REDUCIDO
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.pin-header {
+  text-align: center;
+  margin-bottom: 10px; // REDUCIDO
+  margin-top: 50px;
+  
+  h1 {
+    color: #003366;
+    font-size: 20px; // REDUCIDO
+    margin: 0;
+    text-transform: uppercase;
+    line-height: 1.2;
+  }
+}
+
+.pin-data {
+  margin-bottom: 3px; // REDUCIDO
+  
+  h2 {
+    color: #003366;
+    font-size: 14px; // REDUCIDO
+    margin-top: 8px; // REDUCIDO
+    margin-bottom: 6px; // REDUCIDO
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 3px; // REDUCIDO
+  }
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 4px; // REDUCIDO
+  font-size: 11px; // REDUCIDO
+  
+  tr {
+    border-bottom: 1px solid #eee;
+  }
+  
+  td {
+    padding: 3px 2px; // REDUCIDO
+    vertical-align: top;
+    line-height: 1.2;
+  }
+  
+  td:first-child {
+    width: 35%;
+    font-weight: bold;
+  }
+}
+
+.legal-text {
+  font-style: italic;
+  margin: 10px 0; // REDUCIDO
+  text-align: justify;
+  font-size: 11px; // REDUCIDO
+  line-height: 1.3;
+}
+
+.signature-section {
+  margin: 15px 0 10px; // REDUCIDO
+  text-align: right;
+  
+  p {
+    font-weight: bold;
+    border-top: 1px solid #000;
+    padding-top: 3px; // REDUCIDO
+    display: inline-block;
+    font-size: 11px; // REDUCIDO
+    margin: 0;
+  }
+}
+
+.verification-notice {
+  background-color: #f9f9f9;
+  border-left: 3px solid #003366; // REDUCIDO
+  padding: 6px 10px; // REDUCIDO
+  margin: 12px 0; // REDUCIDO
+  font-size: 11px; // REDUCIDO
+  line-height: 1.3;
+}
+
+.qr-section {
+  text-align: right;
+  margin-top: 10px !important; // REDUCIDO
+  
+  // Asegurar que el QR no sea demasiado grande
+  ::ng-deep canvas {
+    width: 90px !important;
+    height: 90px !important;
+  }
+}
+
+.button-container {
+  margin-top: 15px;
+}
+
+/* Estilos para impresión */
+@media print {
+  .container {
+    padding: 0;
+  }
+  
+  .button-container {
+    display: none;
+  }
+  
+  .pdf-container {
+    border: none;
+    box-shadow: none;
+    margin: 0;
+    padding: 0;
+    width: 8.5in;
+    height: 11in;
+    overflow: hidden;
+  }
+  
+  .pdf-background {
+    padding: 0.5cm;
+  }
+}
+
+// Estilos para el snackbar de error
+::ng-deep .error-snackbar {
+  background-color: #f44336 !important;
+  color: white !important;
+  font-weight: bold;
+  
+  .mat-simple-snackbar-action {
+    color: white !important;
+  }
+}
+
+// Estilos para loading y error
+.loading, .error-container {
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.error-container {
+  text-align: center;
+  
+  mat-icon {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+    color: #f44336;
+    margin-bottom: 16px;
+  }
+  
+  h2 {
+    color: #f44336;
+    margin-bottom: 8px;
+  }
+  
+  p {
+    color: #666;
+    margin-bottom: 16px;
+  }
+  
+  .error-actions {
+    display: flex;
+    gap: 12px;
+    
+    button {
+      min-width: 120px;
+    }
+  }
+}

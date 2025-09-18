@@ -1,0 +1,14 @@
+<!-- Contenido principal -->
+<main class="lista-page-wrapper">
+  <!-- Título dinámico -->
+  <h2 class="lista-page-title">Lista de {{ tipo | titlecase }}</h2>
+
+  <!-- Tabla -->
+  <app-tabla
+    [tipo]="tipo"
+    [title]="'Lista de ' + (tipo | titlecase)">
+  </app-tabla>
+
+  <!-- Footer compartido -->
+  <shared-footer></shared-footer>
+</main>

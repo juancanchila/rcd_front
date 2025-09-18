@@ -1,0 +1,36 @@
+.content-wrapper {
+  padding: 16px;
+}
+
+.mat-card {
+  margin-bottom: 24px;
+}
+
+.tabla-detalle {
+  width: 100%;
+  border-collapse: collapse;
+
+  th {
+    text-align: left;
+    padding: 10px;
+    width: 40%;
+    background: #f0f0f0;
+    font-weight: 600;
+  }
+
+  td {
+    padding: 10px;
+    word-break: break-word;
+  }
+
+  tr:nth-child(even) {
+    background: #fafafa;
+  }
+}
+
+.loader-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+}

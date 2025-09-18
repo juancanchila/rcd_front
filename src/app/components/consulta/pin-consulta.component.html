@@ -1,0 +1,185 @@
+<mat-toolbar color="primary">
+  <span class="toolbar-title">Consulta de PIN</span>
+</mat-toolbar>
+
+<div class="content-wrapper" *ngIf="!loading; else loadingTpl">
+  <!-- Formulario -->
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Consultar PIN</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="consultaForm" (ngSubmit)="consultar()">
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Tipo de PIN</mat-label>
+          <mat-select formControlName="tipo" required>
+            <mat-option value="generador">Generador</mat-option>
+            <mat-option value="transportador">Transportador</mat-option>
+            <mat-option value="receptor">Receptor</mat-option>
+            <mat-option value="vehiculo">Vehículo</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Valor a buscar</mat-label>
+          <input matInput formControlName="valor" required placeholder="Documento, nombre o placa">
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit" [disabled]="consultaForm.invalid">
+          Consultar
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Generador -->
+  <mat-card *ngIf="generador">
+    <mat-card-header>
+      <mat-card-title>📂 Proyectos del Generador</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <table *ngIf="proyectos.length > 0" class="tabla-proyectos">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Ubicación</th>
+            <th>Estado</th>
+            <th>PIN</th>
+            <th>Ver PIN</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let proyecto of proyectos">
+            <td>{{ proyecto.nombre }}</td>
+            <td>{{ proyecto.ubicacion }}</td>
+            <td>{{ proyecto.estadoProyecto }}</td>
+            <td>{{ proyecto.pin }}</td>
+            <td>
+              <button mat-icon-button (click)="goToPinProyecto(proyecto.id)">
+                <mat-icon>picture_as_pdf</mat-icon>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p *ngIf="proyectos.length === 0" class="sin-datos">
+        No hay proyectos registrados para este generador.
+      </p>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Transportador -->
+  <mat-card *ngIf="transportador">
+    <mat-card-header>
+      <mat-card-title>🚚 Vehículos del Transportador</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <table *ngIf="vehiculos.length > 0" class="tabla-vehiculos">
+        <thead>
+          <tr>
+            <th>Placa</th>
+            <th>Modelo</th>
+            <th>Capacidad</th>
+            <th>PIN</th>
+            <th>Ver PIN</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let vehiculo of vehiculos">
+            <td>{{ vehiculo.placaVehiculo }}</td>
+            <td>{{ vehiculo.modelo }}</td>
+            <td>{{ vehiculo.capacidad ?? 'N/A' }} kg</td>
+            <td>{{ vehiculo.pin }}</td>
+            <td>
+              <button mat-icon-button (click)="goToPinVehiculo(vehiculo.id)">
+                <mat-icon>picture_as_pdf</mat-icon>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p *ngIf="vehiculos.length === 0" class="sin-datos">
+        No hay vehículos registrados para este transportador.
+      </p>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Vehículo por placa -->
+  <mat-card *ngIf="vehiculo">
+    <mat-card-header>
+      <mat-card-title>🚗 Vehículo Consultado</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <table class="tabla-vehiculos">
+        <thead>
+          <tr>
+
+            <th>Placa Vehículo</th>
+            <th>Capacidad</th>
+            <th>PIN</th>
+            <th>Ver PIN</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+
+            <td>{{ vehiculo.placaVehiculo }}</td>
+  
+            <td>{{ vehiculo.capacidad ?? 'N/A' }} kg</td>
+
+            <td>{{ vehiculo.pin ?? 'N/A' }}</td>
+            <td>
+              <button mat-icon-button (click)="goToPinVehiculo(vehiculo.idvehiculo)">
+                <mat-icon>picture_as_pdf</mat-icon>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Receptor -->
+  <mat-card *ngIf="receptor">
+    <mat-card-header>
+      <mat-card-title>📂 Resoluciones del Receptor</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <table *ngIf="resoluciones.length > 0" class="tabla-resoluciones">
+        <thead>
+          <tr>
+            <th>Número Resolución</th>
+            <th>Ubicación</th>
+            <th>Actividad</th>
+            <th>Tipo Aprovechamiento</th>
+            <th>PIN</th>
+            <th>Ver PIN</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let resolucion of resoluciones">
+            <td>{{ resolucion.numeroResolucion }}</td>
+            <td>{{ resolucion.ubicacion }}</td>
+            <td>{{ resolucion.naturalezaActividad }}</td>
+            <td>{{ resolucion.tipoAprovechamiento }}</td>
+            <td>{{ resolucion.pin }}</td>
+            <td>
+              <button mat-icon-button (click)="goToPinResolucion(resolucion.id)">
+                <mat-icon>picture_as_pdf</mat-icon>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p *ngIf="resoluciones.length === 0" class="sin-datos">
+        No hay resoluciones registradas para este receptor.
+      </p>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<ng-template #loadingTpl>
+  <div class="spinner-wrapper">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>

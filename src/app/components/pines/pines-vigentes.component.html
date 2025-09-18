@@ -1,0 +1,23 @@
+<!-- pines-vigentes.component.html -->
+<div class="pines-container">
+  <div class="grid">
+    <div class="row">
+      <div class="col" *ngFor="let pin of pines">
+        <div class="card" (click)="navigate(pin.ruta)">
+          <!-- Usamos un div con clase específica en lugar de img -->
+          <div [class]="'card-img-' + pin.titulo.toLowerCase()" class="fallback-image">
+            <!-- Texto de respaldo si la imagen no carga -->
+            <span *ngIf="!imageLoaded(pin.titulo)">{{ pin.titulo }}</span>
+          </div>
+          <div class="card-overlay">
+            <h2>{{ pin.titulo }}</h2>
+            <button class="btn-primary">CLIC AQUÍ</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br><br><br><br>
+<!-- Footer -->
+<shared-footer></shared-footer>

@@ -1,0 +1,51 @@
+<!-- perfil.component.html -->
+<mat-toolbar color="primary">
+  <button mat-icon-button routerLink="/home">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <span class="toolbar-title">{{ usuario?.nombre }}</span>
+</mat-toolbar>
+
+<div class="content-wrapper">
+
+  <!-- Card Perfil -->
+  <mat-card *ngIf="usuario">
+    <mat-card-header>
+      <mat-card-title>🧑 Perfil del Usuario</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p><strong>Nombre:</strong> {{ usuario.nombre }}</p>
+      <p><strong>Rol:</strong> {{ usuario.rol }}</p>
+      <p><strong>Email:</strong> {{ usuario.email }}</p>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Card Cambio de Contraseña -->
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>🔐 Cambiar Contraseña</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="passwordForm" (ngSubmit)="actualizarClave()">
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Nueva Clave</mat-label>
+          <input matInput type="password" formControlName="nuevaClave">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Repetir Clave</mat-label>
+          <input matInput type="password" formControlName="repetirClave">
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit" [disabled]="!passwordForm.valid">
+          Actualizar Clave
+        </button>
+
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+</div>
+<br><br><br><br>
+<shared-footer></shared-footer>

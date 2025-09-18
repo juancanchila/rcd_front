@@ -1,0 +1,154 @@
+/* Header */
+.header-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+}
+
+.toolbar-title {
+  flex: 1;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.menu-button, .back-button {
+  flex: 0 0 auto;
+}
+
+/* Layout */
+.content-container {
+  padding: 16px;
+  min-height: 100vh;
+ /* background-image: url('../../assets/wallpaper.jpg');
+  background-size: cover;
+  background-position: center;*/
+  padding-bottom: 80px; /* Espacio para el footer */
+}
+
+.main-content {
+  background-image: url('../../assets/wallpaper.jpg') !important;
+  background-size: cover!important;
+  background-position: center!important;
+
+}
+/* Boxes */
+.box {
+  background: #fff;
+  border-radius: 12px;
+  padding: 18px;
+  margin: 20px auto;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  max-width: 95%;
+}
+
+.box h2 {
+  margin-top: 0;
+  color: #333;
+  font-size: 18px;
+  margin-bottom: 16px;
+}
+
+/* Box de estadísticas */
+.box-estadisticas {
+  width: 100%;
+}
+
+/* Box de recordatorio */
+.box-recordatorio {
+  border-left: 6px solid #549911;
+  background: #f3f9ff;
+  font-style: italic;
+}
+
+/* Grid */
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  margin-top: 12px;
+}
+
+/* Cards */
+.access-card {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  text-align: center;
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  margin: 8px 0;
+}
+
+.access-card:hover {
+  transform: scale(1.03);
+}
+
+.center-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.icon-large {
+  font-size: 40px;
+  height: 40px;
+  width: 40px;
+  margin-bottom: 8px;
+}
+
+.label {
+  font-weight: 500;
+  font-size: 14px;
+  text-align: center;
+  margin-top: 8px;
+}
+
+/* Task cards */
+.task-card {
+  margin-bottom: 12px;
+}
+
+/* Colors */
+.color-generador { background-color: #549911; color: white; }
+.color-proyectos { background-color: #549911; color: white; }
+.color-visita { background-color: #549911; color: white; }
+.color-reporte { background-color: #549911; color: white; }
+.color-mapa { background-color: #549911; color: white; }
+.color-transportador { background-color: #549911; color: white; }
+.color-vehiculo { background-color: #549911; color: white; }
+.color-receptor { background-color: #549911; color: white; }
+.color-resolucion { background-color: #549911; color: white; }
+
+/* Responsive */
+@media screen and (min-width: 768px) {
+  .box {
+    max-width: 60%;
+  }
+  
+  .grid-container {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .grid-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .icon-large {
+    font-size: 32px;
+    height: 32px;
+    width: 32px;
+  }
+  
+  .label {
+    font-size: 12px;
+  }
+}

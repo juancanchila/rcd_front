@@ -1,0 +1,41 @@
+.sitemap-wrapper {
+  padding: 20px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.sitemap-card {
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.sitemap-card:hover {
+  background-color: #e3f2fd;
+}
+
+.subitems {
+  margin-left: 20px;
+  margin-top: 5px;
+}
+
+.subitem-card {
+  margin-bottom: 5px;
+  cursor: pointer;
+  background-color: #f1f1f1;
+}
+
+.subitem-card:hover {
+  background-color: #bbdefb;
+}
+
+.icon-large {
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+.icon-small {
+  vertical-align: middle;
+  margin-right: 6px;
+  font-size: 16px;
+}

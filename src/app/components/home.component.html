@@ -1,0 +1,110 @@
+<!-- Contenido principal -->
+<main class="content-container">
+  
+  <!-- 🔹 Estadísticas -->
+  <div *ngIf="rol === 'super-admin'" class="box box-estadisticas">
+    <h2>📊 Estadísticas generales</h2>
+    <canvas baseChart [data]="barChartData" chartType="bar"></canvas>
+  </div>
+
+  <!-- 🔹 Tareas -->
+  <div *ngIf="rol === 'super-admin'" class="box box-tareas">
+    <h2>📋 Tareas en sistema</h2>
+    <mat-card *ngFor="let tarea of tareas" class="task-card">
+      <mat-card-header>
+        <mat-card-title>{{ tarea.titulo }}</mat-card-title>
+        <mat-card-subtitle>{{ tarea.estado }}</mat-card-subtitle>
+      </mat-card-header>
+    </mat-card>
+  </div>
+
+  <!-- 🔹 Recordatorio -->
+  <div *ngIf="rol === 'super-admin'" class="box box-recordatorio">
+    <h2>🧠 Recordatorio del día</h2>
+    <p>{{ recordatorio }}</p>
+  </div>
+
+  <!-- 🔹 Módulo: Generador -->
+  <div class="box box-generador">
+    <h2>🛠️ Generador</h2>
+    <div class="grid-container">
+      <mat-card (click)="navigate('generador')" class="access-card color-generador">
+        <mat-card-content class="center-content">
+          <mat-icon class="icon-large">construction</mat-icon>
+          <div class="label">Generador</div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card (click)="navigate('proyecto')" class="access-card color-proyectos">
+        <mat-card-content class="center-content">
+          <mat-icon class="icon-large">folder_open</mat-icon>
+          <div class="label">Proyectos</div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card (click)="navigate('visitatecnica')" class="access-card color-visita">
+        <mat-card-content class="center-content">
+          <mat-icon class="icon-large">explore</mat-icon>
+          <div class="label">Visita Técnica</div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card (click)="navigate('reporte')" class="access-card color-reporte">
+        <mat-card-content class="center-content">
+          <mat-icon class="icon-large">bar_chart</mat-icon>
+          <div class="label">Reporte PMA-RCD</div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card (click)="navigateTo('sitemap')" class="access-card color-mapa">
+        <mat-card-content class="center-content">
+          <mat-icon class="icon-large">map</mat-icon>
+          <div class="label">Mapa</div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <!-- 🔹 Módulo: Transportador -->
+  <div class="box box-transportador">
+    <h2>🚚 Transportador</h2>
+    <div class="grid-container">
+      <mat-card (click)="navigate('transportador')" class="access-card color-transportador">
+        <mat-card-content class="center-content">
+          <mat-icon class="icon-large">local_shipping</mat-icon>
+          <div class="label">Transportador</div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card (click)="navigate('vehiculo')" class="access-card color-vehiculo">
+        <mat-card-content class="center-content">
+          <mat-icon class="icon-large">directions_car</mat-icon>
+          <div class="label">Vehículo</div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <!-- 🔹 Módulo: Receptor -->
+  <div class="box box-receptor">
+    <h2>🏗️ Receptor</h2>
+    <div class="grid-container">
+      <mat-card (click)="navigate('receptor')" class="access-card color-receptor">
+        <mat-card-content class="center-content">
+          <mat-icon class="icon-large">recycling</mat-icon>
+          <div class="label">Receptor</div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card (click)="navigate('resolucion')" class="access-card color-resolucion">
+        <mat-card-content class="center-content">
+          <mat-icon class="icon-large">description</mat-icon>
+          <div class="label">Resolución de Aprovechamiento</div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <shared-footer></shared-footer>
+</main>

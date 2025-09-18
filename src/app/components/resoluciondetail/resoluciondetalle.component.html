@@ -1,0 +1,52 @@
+<!-- Toolbar -->
+<mat-toolbar color="primary">
+  <button mat-icon-button (click)="volver()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <span class="toolbar-title">
+    Resolución {{ resolucion?.numeroResolucion || '' }}
+  </span>
+</mat-toolbar>
+
+<!-- Contenido -->
+<div class="content-wrapper" *ngIf="!loading && resolucion">
+
+  <mat-card class="detalle-card">
+    <mat-card-header>
+      <mat-card-title>📋 Detalle Resolución</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <table class="tabla-detalle">
+        <tr><th>ID Resolución:</th><td>{{ resolucion.id }}</td></tr>
+        <tr><th>Número:</th><td>{{ resolucion.numeroResolucion }}</td></tr>
+        <tr><th>Ubicación:</th><td>{{ resolucion.ubicacion }}</td></tr>
+        <tr><th>Localidad:</th><td>{{ resolucion.localidad || "—" }}</td></tr>
+        <tr><th>Naturaleza Actividad:</th><td>{{ resolucion.naturalezaActividad }}</td></tr>
+        <tr><th>Tipo Aprovechamiento:</th><td>{{ resolucion.tipoAprovechamiento }}</td></tr>
+        <tr><th>Fecha Inicio:</th><td>{{ resolucion.fechaInicio }}</td></tr>
+        <tr><th>Fecha Fin:</th><td>{{ resolucion.fechaFin || "—" }}</td></tr>
+        <tr><th>Cantidad RCD:</th><td>{{ resolucion.cantidadRCD }}</td></tr>
+        <tr><th>Coordenada X:</th><td>{{ resolucion.CoordenadaX || "—" }}</td></tr>
+        <tr><th>Coordenada Y:</th><td>{{ resolucion.CoordenadaY || "—" }}</td></tr>
+        <tr><th>Fecha Expedición PIN:</th><td>{{ resolucion.fechaExpedicionPIN }}</td></tr>
+        <tr><th>Código Radicado SIGOD:</th><td>{{ resolucion.codigoRadicadoSIGOD }}</td></tr>
+        <tr><th>ID Receptor:</th><td>{{ resolucion.idReceptor }}</td></tr>
+        <tr><th>PIN:</th><td>{{ resolucion.pin }}</td></tr>
+        <tr>
+          <th>Ver PIN:</th>
+          <td>
+          <button mat-icon-button  (click)="goToPin(resolucion.id)">   <mat-icon>picture_as_pdf</mat-icon> </button>
+          </td>
+        </tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<!-- Loader -->
+<div *ngIf="loading" class="loader-wrapper">
+  <mat-spinner></mat-spinner>
+</div>
+
+<!-- Footer -->
+<shared-footer></shared-footer>

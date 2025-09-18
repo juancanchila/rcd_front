@@ -1,0 +1,101 @@
+<!-- Toolbar -->
+<mat-toolbar color="primary">
+  <button mat-icon-button (click)="goBack()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <span class="toolbar-title">Editar Usuario</span>
+</mat-toolbar>
+
+<div class="content-wrapper" *ngIf="!loading; else loadingTpl">
+
+  <!-- Información General -->
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Información del Usuario</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="infoForm" (ngSubmit)="guardarInfo()">
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Nombre</mat-label>
+          <input matInput formControlName="nombre">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Usuario</mat-label>
+          <input matInput formControlName="usuario">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" formControlName="email">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Rol</mat-label>
+          <mat-select formControlName="rol">
+            <mat-option *ngFor="let r of roles" [value]="r.rol">{{ r.rol }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit" [disabled]="infoForm.invalid">
+          Guardar Información
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Cambio de Contraseña -->
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Cambiar Contraseña</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="passwordForm" (ngSubmit)="cambiarPassword()">
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Nueva Contraseña</mat-label>
+          <input matInput type="password" formControlName="password">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Confirmar Contraseña</mat-label>
+          <input matInput type="password" formControlName="confirmPassword">
+        </mat-form-field>
+
+        <button mat-raised-button color="accent" type="submit" [disabled]="passwordForm.invalid">
+          Cambiar Contraseña
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Estado del Usuario -->
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Estado del Usuario</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="estadoForm" (ngSubmit)="cambiarEstado()">
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Estado</mat-label>
+          <mat-select formControlName="estado">
+            <mat-option value="Activo">Activo</mat-option>
+            <mat-option value="Inactivo">Inactivo</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <button mat-raised-button color="warn" type="submit" [disabled]="estadoForm.invalid">
+          Cambiar Estado
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+</div>
+
+<ng-template #loadingTpl>
+  <div class="spinner-wrapper">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>
+<br><br><br><br>
+<shared-footer></shared-footer>

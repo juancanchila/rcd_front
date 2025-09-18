@@ -1,0 +1,70 @@
+<!-- Toolbar -->
+<mat-toolbar color="primary">
+  <button mat-icon-button routerLink="/reportes">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <span class="toolbar-title">Detalle Reporte IMP RCD</span>
+</mat-toolbar>
+
+<!-- Contenido -->
+<div class="content-wrapper" *ngIf="!loading && reporte">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>📋 Detalle Reporte IMP RCD</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <table class="tabla-detalle">
+        <tr><th>ID Reporte:</th><td>{{ reporte.id }}</td></tr>
+        <tr><th>ID Proyecto:</th><td>{{ reporte.idproyecto }}</td></tr>
+        <tr><th>Nombre Proyecto:</th>
+          <td>{{ reporte.proyecto?.nombre || reporte.proyectoNombre || '—' }}</td>
+        </tr>
+        <tr><th>Ubicación Proyecto:</th><td>{{ reporte.proyecto?.ubicacion || '—' }}</td></tr>
+        <tr><th>Fecha Presentación:</th><td>{{ reporte.fechapresentacionreporte || '—' }}</td></tr>
+        <tr><th>Fecha Inicio:</th><td>{{ reporte.fechainicioreporte || '—' }}</td></tr>
+        <tr><th>Fecha Final:</th><td>{{ reporte.fechafinalreporte || '—' }}</td></tr>
+        <tr *ngIf="reporte.observaciones"><th>Observaciones:</th><td>{{ reporte.observaciones }}</td></tr>
+        <tr><th>Formato:</th>
+          <td>
+            <a [href]="'/assets/formato/' + reporte.formato" target="_blank">{{ reporte.formato || '—' }}</a>
+          </td>
+        </tr>
+
+        <!-- RCD Susceptibles Totales -->
+        <tr class="divider"><th colspan="2">RCD Susceptibles – Totales</th></tr>
+        <tr><th>Aprob. obra (t)</th><td>{{ reporte.rcd_sus_apro_apro_obra || '—' }}</td></tr>
+        <tr><th>Punto limpio (t)</th><td>{{ reporte.rcd_sus_apro_entr_punto_limpio || '—' }}</td></tr>
+        <tr><th>Planta apro. (t)</th><td>{{ reporte.rcd_sus_apro_entr_planta_aprov || '—' }}</td></tr>
+        <tr><th>Disp. final (t)</th><td>{{ reporte.rcd_sus_apro_entr_sitio_disp_final || '—' }}</td></tr>
+        <tr><th>Total (t)</th><td>{{ reporte.rcd_sus_apro_total || '—' }}</td></tr>
+
+        <!-- Detalle Susceptibles 1.x -->
+        <tr class="divider"><th colspan="2">Detalle Susceptibles 1.x</th></tr>
+        <tr><th>1.1 Aprob. obra (t)</th><td>{{ reporte.rcd_sus_apro_1_1_apro_obra || '—' }}</td></tr>
+        <tr><th>1.1 Punto limpio (t)</th><td>{{ reporte.rcd_sus_apro_1_1_entr_punto_limpio || '—' }}</td></tr>
+        <tr><th>1.1 Planta apro. (t)</th><td>{{ reporte.rcd_sus_apro_1_1_entr_planta_aprov || '—' }}</td></tr>
+        <tr><th>1.1 Disp. final (t)</th><td>{{ reporte.rcd_sus_apro_1_1_entr_sitio_disp_final || '—' }}</td></tr>
+        <tr><th>1.1 Total (t)</th><td>{{ reporte.rcd_sus_apro_1_1_total || '—' }}</td></tr>
+
+        <tr><th>1.2 Aprob. obra (t)</th><td>{{ reporte.rcd_sus_apro_1_2_apro_obra || '—' }}</td></tr>
+        <tr><th>1.2 Punto limpio (t)</th><td>{{ reporte.rcd_sus_apro_1_2_entr_punto_limpio || '—' }}</td></tr>
+        <tr><th>1.2 Planta apro. (t)</th><td>{{ reporte.rcd_sus_apro_1_2_entr_planta_aprov || '—' }}</td></tr>
+        <tr><th>1.2 Disp. final (t)</th><td>{{ reporte.rcd_sus_apro_1_2_entr_sitio_disp_final || '—' }}</td></tr>
+        <tr><th>1.2 Total (t)</th><td>{{ reporte.rcd_sus_apro_1_2_total || '—' }}</td></tr>
+
+        <tr><th>1.3 Aprob. obra (t)</th><td>{{ reporte.rcd_sus_apro_1_3_apro_obra || '—' }}</td></tr>
+        <tr><th>1.3 Punto limpio (t)</th><td>{{ reporte.rcd_sus_apro_1_3_entr_punto_limpio || '—' }}</td></tr>
+        <tr><th>1.3 Planta apro. (t)</th><td>{{ reporte.rcd_sus_apro_1_3_entr_planta_aprov || '—' }}</td></tr>
+        <tr><th>1.3 Disp. final (t)</th><td>{{ reporte.rcd_sus_apro_1_3_entr_sitio_disp_final || '—' }}</td></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<!-- Loader -->
+<div *ngIf="loading" class="loader-wrapper">
+  <mat-spinner></mat-spinner>
+</div>
+
+<!-- Footer -->
+<shared-footer></shared-footer>

@@ -1,0 +1,15 @@
+/* perfil.component.scss */
+.content-wrapper {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+mat-card {
+  padding: 16px;
+}

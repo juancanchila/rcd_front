@@ -1,0 +1,177 @@
+<div class="container">
+  <div *ngIf="loading" class="loading">
+    <mat-spinner diameter="40"></mat-spinner>
+    <p>Cargando información del PIN...</p>
+  </div>
+
+  <div *ngIf="!loading" #pdfContent class="pdf-container">
+    <div class="pdf-background">
+      <!-- Código QR -->
+      <div class="qr-section">
+        <qrcode [qrdata]="currentUrl" [width]="120" [errorCorrectionLevel]="'M'"></qrcode>
+      </div>
+
+      <div class="content-wrapper">
+        <!-- Encabezado -->
+        <div class="pin-header">
+          <h1>PIN {{ pinData.tipoPin | uppercase }}: {{ pinData.numeroPin }}</h1>
+        </div>
+        
+        <!-- Datos principales -->
+        <div class="pin-data">
+          <!-- DATOS DEL GENERADOR (para proyectos) -->
+          <div *ngIf="tipo === 'proyecto'">
+            <h2>DATOS DEL GENERADOR</h2>
+            <table class="data-table">
+              <tr>
+                <td><strong>TIPO DE IDENTIFICACIÓN</strong></td>
+                <td>{{ pinData.tipoIdentificacion }}</td>
+              </tr>
+              <tr>
+                <td><strong>NÚMERO</strong></td>
+                <td>{{ pinData.numeroIdentificacion }}</td>
+              </tr>
+              <tr>
+                <td><strong>NOMBRE O RAZÓN SOCIAL</strong></td>
+                <td>{{ pinData.razonSocial }}</td>
+              </tr>
+            </table>
+
+            <h2>DATOS DEL PROYECTO</h2>
+            <table class="data-table">
+              <tr>
+                <td><strong>NOMBRE DEL PROYECTO</strong></td>
+                <td>{{ pinData.nombreProyecto }}</td>
+              </tr>
+              <tr>
+                <td><strong>DIRECCIÓN</strong></td>
+                <td>{{ pinData.Direccion }}</td>
+              </tr>
+              <tr>
+                <td><strong>MATRÍCULA INMOBILIARIA</strong></td>
+                <td>{{ pinData.matriculaInmobiliaria }}</td>
+              </tr>
+              <tr>
+                <td><strong>FECHA DE INICIO</strong></td>
+                <td>{{ formatDate(pinData.fechaInicio) }}</td>
+              </tr>
+              <tr>
+                <td><strong>FECHA DE FINALIZACIÓN</strong></td>
+                <td>{{ formatDate(pinData.fechaFinalizacion) }}</td>
+              </tr>
+            </table>
+          </div>
+
+          <!-- DATOS DEL TRANSPORTADOR (para vehículos) -->
+          <div *ngIf="tipo === 'vehiculo'">
+            <h2>DATOS DEL TRANSPORTADOR</h2>
+            <table class="data-table">
+              <tr>
+                <td><strong>TIPO DE IDENTIFICACIÓN</strong></td>
+                <td>{{ pinData.tipoIdentificacion }}</td>
+              </tr>
+              <tr>
+                <td><strong>NÚMERO</strong></td>
+                <td>{{ pinData.numeroIdentificacion }}</td>
+              </tr>
+              <tr>
+                <td><strong>NOMBRE O RAZÓN SOCIAL</strong></td>
+                <td>{{ pinData.razonSocial }}</td>
+              </tr>
+            </table>
+
+            <h2>DATOS DEL VEHÍCULO</h2>
+            <table class="data-table">
+              <tr>
+                <td><strong>PLACA</strong></td>
+                <td>{{ pinData.placa }}</td>
+              </tr>
+              <tr>
+                <td><strong>LUGAR DE EXPEDICIÓN</strong></td>
+                <td>{{ pinData.lugarExpedicion }}</td>
+              </tr>
+              <tr>
+                <td><strong>MODELO</strong></td>
+                <td>{{ pinData.modelo }}</td>
+              </tr>
+              <tr>
+                <td><strong>CAPACIDAD</strong></td>
+                <td>{{ pinData.capacidad }}</td>
+              </tr>
+            </table>
+          </div>
+
+          <!-- DATOS DE LA RESOLUCIÓN -->
+          <div *ngIf="tipo === 'resolucion'">
+            <h2>DATOS DEL TITULAR</h2>
+            <table class="data-table">
+              <tr>
+                <td><strong>TIPO DE IDENTIFICACIÓN</strong></td>
+                <td>{{ pinData.tipoIdentificacion }}</td>
+              </tr>
+              <tr>
+                <td><strong>NÚMERO</strong></td>
+                <td>{{ pinData.numeroIdentificacion }}</td>
+              </tr>
+              <tr>
+                <td><strong>NOMBRE O RAZÓN SOCIAL</strong></td>
+                <td>{{ pinData.razonSocial }}</td>
+              </tr>
+              <tr>
+                <td><strong>DIRECCIÓN</strong></td>
+                <td>{{ pinData.direccion }}</td>
+              </tr>
+            </table>
+
+            <h2>DATOS DE LA RESOLUCIÓN</h2>
+            <table class="data-table">
+              <tr>
+                <td><strong>NÚMERO DE RESOLUCIÓN</strong></td>
+                <td>{{ pinData.numeroResolucion }}</td>
+              </tr>
+              <tr>
+                <td><strong>TIPO DE APROVECHAMIENTO</strong></td>
+                <td>{{ pinData.tipoAprovechamiento }}</td>
+              </tr>
+            </table>
+          </div>
+
+          <!-- Información común para todos los tipos -->
+          <table class="data-table">
+            <tr>
+              <td><strong>FECHA DE EXPEDICIÓN</strong></td>
+              <td>{{ pinData.fechaExpedicion }}</td>
+            </tr>
+            <tr>
+              <td><strong>FECHA DE VENCIMIENTO</strong></td>
+              <td>{{ pinData.fechaVencimiento }}</td>
+            </tr>
+          </table>
+          
+          <p class="legal-text">
+            Este PIN se expide el {{ pinData.fechaExpedicion }} en la ciudad de {{ pinData.ciudadExpedicion }}, 
+            siguiendo los requerimientos establecidos en la resolución 658 de 2019.
+          </p>
+          
+          <div class="signature-section">
+            <p>V. B. Subdirección Técnica y Desarrollo Sostenible</p>
+          </div>
+          
+          <div class="verification-notice">
+            <p>
+              Se le solicita a todas las autoridades consultar el código QR del documento y verificar 
+              que la información mostrada coincida con la del PIN {{ pinData.tipoPin | uppercase }} expedido.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!loading" class="button-container">
+    <button mat-raised-button color="primary" (click)="generatePdf()">
+      <mat-icon>picture_as_pdf</mat-icon>
+      Generar PDF
+    </button>
+  </div>
+</div>

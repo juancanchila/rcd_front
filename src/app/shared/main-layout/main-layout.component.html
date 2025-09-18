@@ -1,0 +1,103 @@
+<mat-sidenav-container class="sidenav-container">
+  <!-- 🔹 Menú lateral -->
+  <mat-sidenav #drawer mode="side" [(opened)]="menuAbierto">
+    <mat-toolbar color="primary">Menú</mat-toolbar>
+
+    <mat-nav-list>
+      <!-- General -->
+      <h3 mat-subheader>General</h3>
+      <a mat-list-item (click)="go('/home', drawer)">
+        <mat-icon class="color-white">home</mat-icon>
+        <span class="color-white">Inicio</span>
+      </a>
+
+      <a mat-list-item *ngIf="usuario?.rol === 'Administrador'" (click)="goTo('usuarios', drawer)">
+        <mat-icon class="color-white">person</mat-icon>
+        <span class="color-white">Usuarios</span>
+      </a>
+
+      <a mat-list-item (click)="go('/perfil', drawer)">
+        <mat-icon class="color-white">person</mat-icon>
+        <span class="color-white">Perfil</span>
+      </a>
+
+         <a mat-list-item (click)="go('/consulta', drawer)">
+        <mat-icon class="color-white">search</mat-icon>
+        <span class="color-white">Consulta</span>
+      </a>
+      <!-- Generador -->
+      <h3 mat-subheader>Generador</h3>
+      <a mat-list-item (click)="goTo('generador', drawer)">
+        <mat-icon class="color-white">construction</mat-icon>
+        <span class="color-white">Generador</span>
+      </a>
+
+      <a mat-list-item (click)="goTo('proyecto', drawer)">
+        <mat-icon class="color-white">folder_open</mat-icon>
+        <span class="color-white">Proyectos</span>
+      </a>
+
+      <a mat-list-item (click)="goTo('visitatecnica', drawer)">
+        <mat-icon class="color-white">explore</mat-icon>
+        <span class="color-white">Visita Técnica</span>
+      </a>
+
+      <a mat-list-item (click)="goTo('reporte', drawer)">
+        <mat-icon class="color-white">bar_chart</mat-icon>
+        <span class="color-white">Reporte PMA-RCD</span>
+      </a>
+
+      <a mat-list-item (click)="go('/sitemap', drawer)">
+        <mat-icon class="color-white">map</mat-icon>
+        <span class="color-white">Mapa</span>
+      </a>
+
+      <!-- Transportador -->
+      <h3 mat-subheader>Transportador</h3>
+      <a mat-list-item (click)="goTo('transportador', drawer)">
+        <mat-icon class="color-white">local_shipping</mat-icon>
+        <span class="color-white">Transportador</span>
+      </a>
+
+      <a mat-list-item (click)="goTo('vehiculo', drawer)">
+        <mat-icon class="color-white">directions_car</mat-icon>
+        <span class="color-white">Vehículo</span>
+      </a>
+
+      <!-- Receptor -->
+      <h3 mat-subheader>Receptor</h3>
+      <a mat-list-item (click)="goTo('receptor', drawer)">
+        <mat-icon class="color-white">recycling</mat-icon>
+        <span class="color-white">Receptor</span>
+      </a>
+
+      <a mat-list-item (click)="goTo('resolucion', drawer)">
+        <mat-icon class="color-white">description</mat-icon>
+        <span class="color-white">Resolución</span>
+      </a>
+
+      <!-- Sesión -->
+      <h3 mat-subheader>Sesión</h3>
+      <a mat-list-item (click)="logout()">
+        <mat-icon class="color-red">logout</mat-icon>
+        <span>Cerrar sesión</span>
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <!-- 🔹 Contenido principal -->
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button mat-icon-button (click)="abrirMenu(drawer)">
+       <mat-icon >menu</mat-icon>
+      </button>
+      <span class="toolbar-title"
+        >Gestión Integral de los Reciduos de Construcción y Demolición</span
+      >
+    </mat-toolbar>
+
+    <div class="main-content">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

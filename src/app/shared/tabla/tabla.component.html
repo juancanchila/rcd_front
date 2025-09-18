@@ -1,0 +1,65 @@
+<div class="tabla-wrapper">
+  <h3 class="tabla-title">{{ tipo | titlecase }}</h3>
+
+  <!-- 🔎 Formulario de búsqueda -->
+  <form [formGroup]="busquedaForm" (ngSubmit)="buscar()" class="busqueda-form">
+    <input
+      type="text"
+      formControlName="valor"
+      placeholder="Ingrese valor a buscar"
+    />
+    <button type="submit" [disabled]="loading">Buscar</button>
+    <button type="button" (click)="resetBusqueda()" [disabled]="loading">Limpiar</button>
+  </form>
+
+  <!-- Spinner -->
+  <div *ngIf="loading" class="spinner">Cargando...</div>
+
+  <!-- Tabla -->
+  <div class="tabla-container" *ngIf="!loading">
+    <table class="tabla-general" role="table">
+      <thead>
+        <tr>
+          <th *ngFor="let head of encabezados" role="columnheader">
+            {{ head }}
+          </th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of data; let i = index" [class.alt-row]="i % 2 === 1">
+          <td *ngFor="let campo of campos">
+            {{ getValue(item, campo) ?? '—' }}
+          </td>
+          <td>
+            <button
+              *ngFor="let accion of actions"
+              type="button"
+              (click)="onAccion(accion, item.id)"
+              class="accion-btn"
+            >
+              {{ accion | titlecase }}
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="data?.length === 0">
+          <td [attr.colspan]="campos.length + 1" class="no-data">
+            No hay resultados
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Paginación -->
+  <div class="pagination" *ngIf="total > limit">
+    <button (click)="onPageChange(false)" [disabled]="offset === 0">
+      ← Anterior
+    </button>
+    <span>Página {{ paginaActual }} de {{ totalPaginas }}</span>
+    <button (click)="onPageChange(true)" [disabled]="offset + limit >= total">
+      Siguiente →
+    </button>
+  </div>
+  <br /><br />
+</div>

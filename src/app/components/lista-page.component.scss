@@ -1,0 +1,39 @@
+/* src/app/components/lista-page.component.scss */
+.lista-page-wrapper {
+  padding: 1rem;
+}
+
+.lista-page-title {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+/* Header */
+.header-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+}
+
+.toolbar-title {
+  flex: 1;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.menu-button, .back-button {
+  flex: 0 0 auto;
+}
+
+/* Layout */
+.content-container {
+  padding: 16px;
+  min-height: 100vh;
+  background-image: url('/assets/wallpaper.jpg');
+  background-size: cover;
+  background-position: center;
+  padding-bottom: 80px; /* Espacio para el footer */
+}

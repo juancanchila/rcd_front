@@ -1,0 +1,51 @@
+.detalle-wrapper {
+  padding: 1rem;
+}
+
+.tabla-container {
+  overflow-x: auto;
+}
+
+.tabla-detalle {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+}
+
+.tabla-detalle th {
+  text-align: left;
+  padding: 8px;
+  background: #f4f4f4;
+  width: 40%;
+}
+
+.tabla-detalle td {
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+}
+
+.fotos-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 1rem;
+}
+
+.fotos-container img {
+  width: 180px;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.sin-datos {
+  text-align: center;
+  margin-top: 2rem;
+  color: #666;
+}
+
+.loading {
+  text-align: center;
+  margin-top: 2rem;
+  font-style: italic;
+}

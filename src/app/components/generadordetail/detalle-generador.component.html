@@ -1,0 +1,120 @@
+<!-- Toolbar -->
+<mat-toolbar color="primary">
+  <button mat-icon-button (click)="goBack()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <span class="toolbar-title">
+    {{ generador?.razonSocial || generador?.primerNombre + ' ' + generador?.primerApellidos }}
+  </span>
+</mat-toolbar>
+
+<!-- Contenido -->
+<div class="content-wrapper" *ngIf="!loading">
+
+  <!-- Card: Detalle Generador -->
+  <mat-card *ngIf="generador" class="detalle-card">
+    <mat-card-header>
+      <mat-card-title>📋 Detalle del Generador</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <table class="tabla-detalle">
+        <tr><th>ID:</th><td>{{ generador.id }}</td></tr>
+        <tr><th>Tipo Documento:</th><td>{{ generador.tipoDocumento }}</td></tr>
+        <tr><th>Número Documento:</th><td>{{ generador.numeroDocumento }}</td></tr>
+        <tr><th>Primer Nombre:</th><td>{{ generador.primerNombre || '—' }}</td></tr>
+        <tr><th>Segundo Nombre:</th><td>{{ generador.segundoNombre || '—' }}</td></tr>
+        <tr><th>Primer Apellido:</th><td>{{ generador.primerApellidos || '—' }}</td></tr>
+        <tr><th>Segundo Apellido:</th><td>{{ generador.segundoApellido || '—' }}</td></tr>
+        <tr><th>Razón Social:</th><td>{{ generador.razonSocial }}</td></tr>
+        <tr><th>Documento Identificación:</th><td>{{ generador.documentoIdentificacion }}</td></tr>
+        <tr><th>Documento RUT:</th><td>{{ generador.documentoRUT }}</td></tr>
+        <tr><th>Tipo Registro:</th><td>{{ generador.tipoRegistro }}</td></tr>
+        <tr><th>Contratista De:</th><td>{{ generador.contratistaDe }}</td></tr>
+        <tr><th>Dirección:</th><td>{{ generador.direccion }}</td></tr>
+        <tr><th>Correo:</th><td>{{ generador.correoElectronico }}</td></tr>
+        <tr><th>Teléfono:</th><td>{{ generador.telefono }}</td></tr>
+        <tr><th>Fax:</th><td>{{ generador.fax || '—' }}</td></tr>
+        <tr><th>Celular:</th><td>{{ generador.celular }}</td></tr>
+        <tr><th>Clave:</th><td>{{ generador.clave }}</td></tr>
+        <tr><th>CIIU:</th><td>{{ generador.ciiu }}</td></tr>
+       <tr>
+  <th>Cédula o Certificado Cámara de Comercio:</th>
+  <td>
+    <a [href]="encodeUrl(generador.documentoIdentificacion)" target="_blank">
+      {{ generador.documentoIdentificacion }}
+    </a>
+  </td>
+</tr>
+
+<tr>
+  <th>RUT:</th>
+  <td>
+    <a [href]="encodeUrl(generador.documentoRUT)"  target="_blank">
+      {{ generador.documentoRUT }}
+    </a>
+  </td>
+</tr>
+
+        <tr><th>Tipo Doc. RL:</th><td>{{ generador.tipoDocumentoRL }}</td></tr>
+        <tr><th>Número Doc. RL:</th><td>{{ generador.numeroDocumentoRL }}</td></tr>
+        <tr><th>Nombre RL:</th><td>{{ generador.nombreRL }}</td></tr>
+        <tr><th>Email RL:</th><td>{{ generador.emailRL }}</td></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Card: Proyectos -->
+  <mat-card class="proyectos-card">
+    <mat-card-header>
+      <mat-card-title>📂 Proyectos del Generador</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <table *ngIf="proyectos.length > 0" class="tabla-proyectos">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Ubicación</th>
+            <th>Fecha Inicio</th>
+            <th>Fecha Fin</th>
+            <th>Estado</th>
+            <th>Pin</th>
+            <th>Ver PIN</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let proyecto of proyectos">
+            <td>{{ proyecto.nombre }}</td>
+            <td>{{ proyecto.ubicacion }}</td>
+            <td>{{ proyecto.fechaInicio }}</td>
+            <td>{{ proyecto.fechaFin }}</td>
+            <td>{{ proyecto.estadoProyecto }}</td>
+            <td>{{ proyecto.pin }}</td>
+            <td>
+              <button mat-icon-button (click)="goToPin(proyecto.id)" >
+            <mat-icon>picture_as_pdf</mat-icon>
+              </button>
+            </td>
+            <td>
+              <button mat-icon-button (click)="goToDetalle(proyecto.id)">
+                <mat-icon>search</mat-icon>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p *ngIf="proyectos.length === 0" class="sin-datos">
+        No hay proyectos registrados para este generador.
+      </p>
+    </mat-card-content>
+  </mat-card>
+
+</div>
+
+<!-- Loader -->
+<div *ngIf="loading" class="loader-wrapper">
+  <mat-spinner></mat-spinner>
+</div>
+<br><br><br><br>
+<!-- Footer -->
+<shared-footer></shared-footer>

@@ -1,0 +1,30 @@
+.content-wrapper {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+mat-card {
+  padding: 16px;
+}
+
+mat-toolbar {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.toolbar-title {
+  flex: 1;
+  text-align: center;
+}
+
+.spinner-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 32px;
+}

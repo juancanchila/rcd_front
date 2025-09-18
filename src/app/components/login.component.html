@@ -1,0 +1,39 @@
+<div class="login-background">
+  <div class="login-card">
+    <div class="logo" ></div>
+    <h2>GESTIÓN INTEGRAL DE LOS RESIDUOS DE CONSTRUCCIÓN Y DEMOLICIÓN</h2>
+
+    <form (ngSubmit)="login()" #loginForm="ngForm">
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Usuario</mat-label>
+        <input
+          matInput
+          name="usuario"
+          [(ngModel)]="usuario"
+          required
+        />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Clave</mat-label>
+        <input
+          matInput
+          name="clave"
+          [(ngModel)]="clave"
+          required
+          type="password"
+        />
+      </mat-form-field>
+
+      <button
+        mat-raised-button
+        color="primary"
+        class="full-width bg-green"
+        type="submit"
+        [disabled]="!loginForm.form.valid"
+      >
+        Ingresar
+      </button>
+    </form>
+  </div>
+</div>

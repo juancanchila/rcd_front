@@ -1,0 +1,119 @@
+/* Contenedor general */
+.content-wrapper {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  font-family: Arial, sans-serif;
+}
+
+.full-width { width: 100%; }
+
+.spinner-wrapper { 
+  display: flex; 
+  justify-content: center; 
+  padding: 32px; 
+}
+
+.toolbar-title { 
+  flex: 1; 
+  text-align: center; 
+}
+
+/* Tablas */
+.tabla-proyectos,
+.tabla-vehiculos,
+.tabla-resoluciones {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  min-width: 600px;
+  margin-top: 10px;
+}
+
+.tabla-proyectos thead,
+.tabla-vehiculos thead,
+.tabla-resoluciones thead {
+  background-color: #268d96;
+  color: #fff;
+}
+
+.tabla-proyectos th,
+.tabla-vehiculos th,
+.tabla-resoluciones th {
+  padding: 8px;
+  border: 1px solid #ddd;
+  text-align: left;
+  font-weight: 500;
+}
+
+.tabla-proyectos td,
+.tabla-vehiculos td,
+.tabla-resoluciones td {
+  padding: 8px;
+  border: 1px solid #ddd;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.tabla-proyectos tbody tr:nth-child(even),
+.tabla-vehiculos tbody tr:nth-child(even),
+.tabla-resoluciones tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Tabla Vehículo por placa (nuevo) */
+.tabla-vehiculo-placa {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  min-width: 800px;
+  margin-top: 10px;
+}
+
+.tabla-vehiculo-placa thead {
+  background-color: #268d96;
+  color: #fff;
+}
+
+.tabla-vehiculo-placa th {
+  padding: 8px;
+  border: 1px solid #ddd;
+  text-align: left;
+  font-weight: 500;
+}
+
+.tabla-vehiculo-placa td {
+  padding: 8px;
+  border: 1px solid #ddd;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.tabla-vehiculo-placa tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Botones de acción en tabla */
+button[mat-icon-button] {
+  color: #268d96;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+button[mat-icon-button]:hover {
+  background-color: rgba(38, 141, 150, 0.1);
+  color: #1c6e75;
+  border-radius: 50%;
+}
+
+/* Mensaje sin datos */
+.sin-datos {
+  text-align: center;
+  padding: 12px;
+  font-style: italic;
+  color: #777;
+  margin-top: 10px;
+  border: 1px dashed #ccc;
+  border-radius: 6px;
+  background-color: #fafafa;
+}

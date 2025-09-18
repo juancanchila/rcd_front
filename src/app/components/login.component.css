@@ -1,0 +1,47 @@
+.login-background {
+  background-image: url('../../assets/wallpaper.jpg');
+  background-size: cover;
+  background-position: center;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-card {
+  background-color:  var(--global-palette-highlight);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.logo {
+  width: 120px;      /* tamaño del círculo */
+  height: 120px;     /* debe ser igual al width */
+  border-radius: 50%; /* lo vuelve redondo */
+  background-color: #fff; /* círculo blanco */
+  padding: 10px;     /* espacio interno para que no se corte el SVG */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); /* sombra opcional */
+  object-fit: contain; /* ajusta la imagen dentro */
+    background-image: url('../../assets/icono_tramite-rcd.svg');
+    margin: auto;
+}
+
+
+h2 {
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 1rem;
+ 
+}
+
+

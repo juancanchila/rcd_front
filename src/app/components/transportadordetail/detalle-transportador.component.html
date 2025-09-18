@@ -1,0 +1,99 @@
+<!-- Toolbar -->
+<mat-toolbar color="primary">
+  <button mat-icon-button (click)="volver()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <span class="toolbar-title">
+    {{ transportador?.razonSocial || (transportador?.primerNombre + ' ' + transportador?.primerApellidos) }}
+  </span>
+</mat-toolbar>
+
+<!-- Contenido -->
+<div class="content-wrapper" *ngIf="!loading && transportador">
+
+  <mat-card class="detalle-card">
+    <mat-card-header>
+      <mat-card-title>🚛 Detalle Transportador</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <table class="tabla-detalle">
+        <tr><th>ID:</th><td>{{ transportador.id }}</td></tr>
+        <tr><th>Tipo Documento:</th><td>{{ transportador.tipoDocumento }}</td></tr>
+        <tr><th>Número Documento:</th><td>{{ transportador.numeroDocumento }}</td></tr>
+        <tr><th>Primer Nombre:</th><td>{{ transportador.primerNombre || "—" }}</td></tr>
+        <tr><th>Segundo Nombre:</th><td>{{ transportador.segundoNombre || "—" }}</td></tr>
+        <tr><th>Primer Apellido:</th><td>{{ transportador.primerApellidos || "—" }}</td></tr>
+        <tr><th>Segundo Apellido:</th><td>{{ transportador.segundoApellido || "—" }}</td></tr>
+        <tr><th>Razón Social:</th><td>{{ transportador.razonSocial || "—" }}</td></tr>
+        <tr><th>Documento Identificación:</th><td>{{ transportador.documentoIdentificacion }}</td></tr>
+        <tr><th>Documento RUT:</th><td>{{ transportador.documentoRUT }}</td></tr>
+        <tr><th>Dirección:</th><td>{{ transportador.direccion }}</td></tr>
+        <tr><th>Correo:</th><td>{{ transportador.correoElectronico }}</td></tr>
+        <tr><th>Teléfono:</th><td>{{ transportador.telefono }}</td></tr>
+        <tr><th>Fax:</th><td>{{ transportador.fax || "—" }}</td></tr>
+        <tr><th>Celular:</th><td>{{ transportador.celular }}</td></tr>
+        <tr><th>CIIU:</th><td>{{ transportador.ciiu || "—" }}</td></tr>
+        <tr><th>Tipo Doc. RL:</th><td>{{ transportador.tipoDocumentoRL || "—" }}</td></tr>
+        <tr><th>Número Doc. RL:</th><td>{{ transportador.numeroDocumentoRL || "—" }}</td></tr>
+        <tr><th>Nombre RL:</th><td>{{ transportador.nombreRL || "—" }}</td></tr>
+        <tr><th>Email RL:</th><td>{{ transportador.emailRL || "—" }}</td></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Vehículos -->
+  <mat-card class="vehiculos-card" *ngIf="vehiculos.length > 0">
+    <mat-card-header>
+      <mat-card-title>🚚 Vehículos del Transportador</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <table class="tabla-vehiculos">
+        <thead>
+          <tr>
+            <th>Placa</th>
+            <th>Modelo</th>
+            <th>Capacidad</th>
+            <th>Fecha Exp. PIN</th>
+            <th>Fecha Venc. PIN</th>
+            <th>PIN</th>
+            <th>Ver PIN</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let vehiculo of vehiculos">
+            <td>{{ vehiculo.placaVehiculo }}</td>
+            <td>{{ vehiculo.modelo }}</td>
+            <td>{{ vehiculo.capacidad }} kg</td>
+            <td>{{ vehiculo.fechaExpedicionPIN }}</td>
+            <td>{{ vehiculo.fechaVencimientoPIN }}</td>
+            <td>{{ vehiculo.pin }}</td>
+            <td>
+           <button mat-icon-button  (click)="goToPin(vehiculo.id)">
+             <mat-icon>picture_as_pdf</mat-icon></button> 
+            </td>
+            <td>
+              <button mat-icon-button (click)="goToDetalle(vehiculo.id)">
+               
+                <mat-icon>search</mat-icon>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Mensaje si no hay vehículos -->
+  <p *ngIf="vehiculos.length === 0" class="sin-datos">
+    No hay vehículos registrados para este transportador.
+  </p>
+</div>
+
+<!-- Loader -->
+<div *ngIf="loading" class="loader-wrapper">
+  <mat-spinner></mat-spinner>
+</div>
+
+<!-- Footer -->
+<shared-footer></shared-footer>

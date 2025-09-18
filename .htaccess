@@ -1,0 +1,12 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # 🔹 Sirve archivos estáticos si existen
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # 🔹 Redirige todo lo demás a index.html (SPA)
+  RewriteRule ^ index.html [L]
+</IfModule>
