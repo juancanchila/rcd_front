@@ -47,3 +47,5 @@ sudo chown -R www-data:www-data /var/www/rcd_epa_front/dist/rcd_epa_front/browse
 
 
 Esto asegura que los archivos en /files/apprcd/upload tengan los permisos correctos para lectura y escritura por el servidor web.
+
+Update test
