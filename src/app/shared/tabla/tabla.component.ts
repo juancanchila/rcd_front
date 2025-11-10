@@ -27,6 +27,7 @@ import { ProyectoService } from '../../services/proyecto.service';
 import { VisitaTecnicaService } from '../../services/visitatecnica.service';
 import { ReporteImpPmaRcdService } from '../../services/reporteimp-pma.service';
 import { UserService } from '../../services/user.service';
+import { environment } from '../../../environments/environment.prod';
 
 type TipoEntidad =
   | 'usuarios'
@@ -57,7 +58,7 @@ export class TablaComponent implements OnChanges {
   limit: number = 50;
   offset: number = 0;
   loading: boolean = false;
-
+  private baseUrl = environment.API_URL;
   // 👇 Formulario de búsqueda
   busquedaForm: FormGroup;
 
@@ -95,7 +96,7 @@ export class TablaComponent implements OnChanges {
 
     this.loading = true;
     try {
-      const url = `http://161.35.233.204:3002/api/pin?tipo=${this.tipo}&valor=${valor}`;
+      const url = `${this.baseUrl}/api/pin?tipo=${this.tipo}&valor=${valor}`;
       const res: any = await this.http.get(url).toPromise();
 
       // 👇 Adaptamos respuesta

@@ -60,13 +60,16 @@ export class VehiculodetalleComponent implements OnInit {
     this.router.navigate(['/pin/proyecto/', id]);
   }
 
-  encodeImage(fileName: string | null): string {
+encodeImage(fileName: string | null): string {
   if (!fileName) return '';
-  return '/files/apprcd/upload/' + encodeURIComponent(fileName);
+  // URL completa hacia el backend para descargar la imagen
+  return 'https://rcdenlinea.epacartagena.gov.co/api/files/' + encodeURIComponent(fileName);
 }
+
 encodeUrl(fileName: string | null): string {
-  if (!fileName) return '#'; // o devuelve una URL vacía o un placeholder
-  return '/files/apprcd/upload/' + encodeURIComponent(fileName);
+  if (!fileName) return '#'; // placeholder si no hay archivo
+  // URL completa hacia el backend para abrir en nueva pestaña
+  return 'https://rcdenlinea.epacartagena.gov.co/api/files/' + encodeURIComponent(fileName);
 }
 
 }

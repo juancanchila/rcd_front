@@ -19,6 +19,7 @@ import { Vehiculo } from '../../models/vehiculo.model';
 import { VehiculoConsulta } from '../../models/vehiculoconsulta.model';
 import { Receptor } from '../../models/receptor.model';
 import { Resolucion } from '../../models/resolucion.model';
+import { environment } from '../../../environments/environment.prod';
 
 @Component({
   selector: 'app-pin-consulta',
@@ -38,6 +39,7 @@ import { Resolucion } from '../../models/resolucion.model';
   styleUrls: ['./pin-consulta.component.scss']
 })
 export class PinConsultaComponent {
+  private baseUrl = environment.API_URL;
   consultaForm: FormGroup;
 
   generador: Generador | null = null;
@@ -68,7 +70,7 @@ async consultar() {
   this.resetDatos();
 
   const { tipo, valor } = this.consultaForm.value;
-  const url = `http://161.35.233.204:3002/api/pin?tipo=${tipo}&valor=${valor}`;
+  const url = `${this.baseUrl}/pin?tipo=${tipo}&valor=${valor}`;
 
   try {
     const res: any = await this.httpService.get<any>(url).toPromise();
