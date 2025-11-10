@@ -11,23 +11,25 @@ export class AuthService {
 
   constructor(private http: HttpService) {}
 
-  async login(credentials: { usuario: string; clave: string }) {
-    try {
-      const response: any = await this.http
-        .post(`${environment.API_URL}/auth/login`, credentials)
-        .toPromise();
+async login(credentials: { usuario: string; clave: string }) {
+  try {
+    const response: any = await this.http
+      .post(`${environment.API_URL}/auth/login`, credentials)
+      .toPromise();
 
-      this.usuarioActual = Usuario.fromLoginResponse(response);
+    this.usuarioActual = Usuario.fromLoginResponse(response);
 
-      localStorage.setItem('token', this.usuarioActual.token);
-      localStorage.setItem('usuario', JSON.stringify(this.usuarioActual));
+    // Guardar en localStorage para header Authorization opcional
+    localStorage.setItem('token', this.usuarioActual.token);
+    localStorage.setItem('usuario', JSON.stringify(this.usuarioActual));
 
-      return this.usuarioActual;
-    } catch (err) {
-      console.error('Error en AuthService login:', err);
-      throw err;
-    }
+    return this.usuarioActual;
+  } catch (err) {
+    console.error('Error en AuthService login:', err);
+    throw err;
   }
+}
+
 
   getUsuario(): Usuario | null {
     if (this.usuarioActual) return this.usuarioActual;

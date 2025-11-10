@@ -81,8 +81,9 @@ export class DetalleGeneradorComponent implements OnInit {
   }
 
 encodeUrl(fileName: string | null): string {
-  if (!fileName) return '#'; // o devuelve una URL vacía o un placeholder
-  return '/files/apprcd/upload/' + encodeURIComponent(fileName);
+  if (!fileName) return '#'; // placeholder si no hay archivo
+  // URL completa hacia el backend para abrir en nueva pestaña
+  return 'https://rcdenlinea.epacartagena.gov.co/api/files/' + encodeURIComponent(fileName);
 }
 
 
