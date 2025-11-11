@@ -1,0 +1,347 @@
+[
+    {
+        "name": "ALCIBIA"
+    },
+    {
+        "name": "BOSTON"
+    },
+    {
+        "name": "CAMINO DEL MEDIO"
+    },
+    {
+        "name": "CASTILLETE"
+    },
+    {
+        "name": "CHAPACUA"
+    },
+    {
+        "name": "CHIPRE"
+    },
+    {
+        "name": "CHIQUINQUIRA"
+    },
+    {
+        "name": "CIUDAD BOICENTENARIO"
+    },
+    {
+        "name": "CONJUNTO RES LA CARACOLA"
+    },
+    {
+        "name": "CONTADORA"
+    },
+    {
+        "name": "COSTA LINDA"
+    },
+    {
+        "name": "EL GALLO"
+    },
+    {
+        "name": "EL POZON"
+    },
+    {
+        "name": "FLOR DEL CAMPO"
+    },
+    {
+        "name": "FREDONIA"
+    },
+    {
+        "name": "HABITAT 89"
+    },
+    {
+        "name": "LA CANDELARIA"
+    },
+    {
+        "name": "LA CASTELLANA"
+    },
+    {
+        "name": "LA ESPERANZA"
+    },
+    {
+        "name": "LA FLORESTA"
+    },
+    {
+        "name": "LA HEROICA"
+    },
+    {
+        "name": "LA INDIA"
+    },
+    {
+        "name": "LA MARIA"
+    },
+    {
+        "name": "LA PUNTILLA"
+    },
+    {
+        "name": "LA QUINTA"
+    },
+    {
+        "name": "LAS AMERICAS"
+    },
+    {
+        "name": "LAS DELICIAS"
+    },
+    {
+        "name": "LAS FLORES"
+    },
+    {
+        "name": "LAS GAVIAS"
+    },
+    {
+        "name": "LAS GAVIOTAS"
+    },
+    {
+        "name": "LAS PALMERAS"
+    },
+    {
+        "name": "LOMAS DEL CIELO"
+    },
+    {
+        "name": "LOS ALPES"
+    },
+    {
+        "name": "LOS CEREZOS"
+    },
+    {
+        "name": "MARIA AUXILIADORA"
+    },
+    {
+        "name": "MIRADOR DE LA VIRGEN"
+    },
+    {
+        "name": "NUEVO PARAISO"
+    },
+    {
+        "name": "NUEVO PORVENIR"
+    },
+    {
+        "name": "OLAYA HERRERA"
+    },
+    {
+        "name": "OLAYA HERRERA (COM 5)"
+    },
+    {
+        "name": "PANTANO DE VARGAS"
+    },
+    {
+        "name": "PLAYAS DE ACAPULCO"
+    },
+    {
+        "name": "PTO DE PESCADORES"
+    },
+    {
+        "name": "REPUBLICA DE VENEZUELA"
+    },
+    {
+        "name": "REPUBLICA DEL LIBANO"
+    },
+    {
+        "name": "SAN ANTONIO"
+    },
+    {
+        "name": "SAN JOSE OBRERO"
+    },
+    {
+        "name": "SECTOR 14 DE FEBRERO"
+    },
+    {
+        "name": "SECTOR 19 DE FEBRERO"
+    },
+    {
+        "name": "SECTOR 1° DE MAYO"
+    },
+    {
+        "name": "SECTOR 20 DE ENERO"
+    },
+    {
+        "name": "SECTOR BARRIO OBRERO"
+    },
+    {
+        "name": "SECTOR CAMILO TORRES"
+    },
+    {
+        "name": "SECTOR CENTRAL"
+    },
+    {
+        "name": "SECTOR CENTRAL 1-2"
+    },
+    {
+        "name": "SECTOR CIUDADELA LA PAZ"
+    },
+    {
+        "name": "SECTOR CORAZON DE JESUS"
+    },
+    {
+        "name": "SECTOR EL POBLADO"
+    },
+    {
+        "name": "SECTOR EL TORIL"
+    },
+    {
+        "name": "SECTOR ESTADIO"
+    },
+    {
+        "name": "SECTOR ESTELA"
+    },
+    {
+        "name": "SECTOR FOCO ROJO"
+    },
+    {
+        "name": "SECTOR GOSEN"
+    },
+    {
+        "name": "SECTOR LA FLORIDA"
+    },
+    {
+        "name": "SECTOR LA ISLITA"
+    },
+    {
+        "name": "SECTOR LA MAGDALENA"
+    },
+    {
+        "name": "SECTOR LA UNION"
+    },
+    {
+        "name": "SECTOR LAS ACACIAS"
+    },
+    {
+        "name": "SECTOR LAS MARGARITAS"
+    },
+    {
+        "name": "SECTOR LOMAS DE SAN BLAS"
+    },
+    {
+        "name": "SECTOR LOMAS DEL PEYE"
+    },
+    {
+        "name": "SECTOR LOS ANGELES"
+    },
+    {
+        "name": "SECTOR LOS CEREZOS"
+    },
+    {
+        "name": "SECTOR LOS CORALES"
+    },
+    {
+        "name": "SECTOR LOS LAGOS"
+    },
+    {
+        "name": "SECTOR LOS TRILLIZOS"
+    },
+    {
+        "name": "SECTOR MINUTO DE DIOS"
+    },
+    {
+        "name": "SECTOR MIRAMAR"
+    },
+    {
+        "name": "SECTOR NAVIDAD"
+    },
+    {
+        "name": "SECTOR NUEVA CARTAGENA"
+    },
+    {
+        "name": "SECTOR NUEVA CONQUISTA"
+    },
+    {
+        "name": "SECTOR NUEVA GENERACION"
+    },
+    {
+        "name": "SECTOR NUEVO HORIZONTE"
+    },
+    {
+        "name": "SECTOR NUEVO MILENIO"
+    },
+    {
+        "name": "SECTOR ONCE DE NOVIEMBRE"
+    },
+    {
+        "name": "SECTOR PANORAMA"
+    },
+    {
+        "name": "SECTOR PLAYAS BLANCAS"
+    },
+    {
+        "name": "SECTOR PLAYAS DE ACAPULCO"
+    },
+    {
+        "name": "SECTOR PROGRESO"
+    },
+    {
+        "name": "SECTOR RAFAEL NUÑEZ"
+    },
+    {
+        "name": "SECTOR RICAURTE"
+    },
+    {
+        "name": "SECTOR SAN ANTONIO"
+    },
+    {
+        "name": "SECTOR SAN NICOLAS"
+    },
+    {
+        "name": "SECTOR SANTA EDUVIGES"
+    },
+    {
+        "name": "SECTOR UCOPIN"
+    },
+    {
+        "name": "SECTOR URB. BELLA SUIZA"
+    },
+    {
+        "name": "SECTOR URB. JARDINES DE JUNIO"
+    },
+    {
+        "name": "SECTOR URB. QUINTAS DE ANTALUCIA"
+    },
+    {
+        "name": "SECTOR VICTOR BLANCO"
+    },
+    {
+        "name": "SECTOR VILLA LILIANA"
+    },
+    {
+        "name": "SECTOR ZARABANDA"
+    },
+    {
+        "name": "SECTOR ZARABANDA"
+    },
+    {
+        "name": "TESCA"
+    },
+    {
+        "name": "TRECE DE JUNIO"
+    },
+    {
+        "name": "URB. CINCO DE NOVIEMBRE"
+    },
+    {
+        "name": "URB. FLORIDA BLANCA"
+    },
+    {
+        "name": "URB. LOS COCOS"
+    },
+    {
+        "name": "URB. SEVILLA"
+    },
+    {
+        "name": "URB. VILLA ADRIANA"
+    },
+    {
+        "name": "URBANIZACION COLOMBIATON"
+    },
+    {
+        "name": "URBANIZACION LA INDIA"
+    },
+    {
+        "name": "VIEJO PORVENIR"
+    },
+    {
+        "name": "VILLA ESTRELLA"
+    },
+    {
+        "name": "VILLA OLIMPICA"
+    },
+    {
+        "name": "VILLAS DE ARANJUEZ"
+    }
+]

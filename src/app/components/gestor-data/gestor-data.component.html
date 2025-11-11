@@ -1,0 +1,13 @@
+<div [formGroup]="group" style="display:grid; gap:16px">
+  <h3>Datos del gestor</h3>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Volumen (m³)</mat-label>
+    <input matInput formControlName="volumen" type="number" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Tipo de proceso</mat-label>
+    <input matInput formControlName="tipoProceso" />
+  </mat-form-field>
+</div>

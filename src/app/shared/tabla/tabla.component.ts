@@ -96,7 +96,7 @@ export class TablaComponent implements OnChanges {
 
     this.loading = true;
     try {
-      const url = `${this.baseUrl}/api/pin?tipo=${this.tipo}&valor=${valor}`;
+      const url = `${this.baseUrl}/pin?tipo=${this.tipo}&valor=${valor}`;
       const res: any = await this.http.get(url).toPromise();
 
       // 👇 Adaptamos respuesta

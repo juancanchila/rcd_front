@@ -1,0 +1,66 @@
+<div [formGroup]="group" style="display:grid; gap:16px">
+  <h3>Datos del vehículo</h3>
+
+  <!-- Unidad de capacidad -->
+  <label>Unidad de capacidad</label>
+  <mat-radio-group formControlName="unidad_capacidad">
+    <mat-radio-button *ngFor="let u of unidadOpciones" [value]="u.value">
+      {{ u.label }}
+    </mat-radio-button>
+  </mat-radio-group>
+  <mat-error *ngIf="group.get('unidad_capacidad')?.hasError('required')">
+    Este campo es obligatorio
+  </mat-error>
+
+  <!-- Capacidad del vehículo -->
+  <mat-form-field appearance="outline">
+    <mat-label>Capacidad del vehículo</mat-label>
+    <input matInput type="number" formControlName="capacidad_vehiculo" />
+    <mat-error *ngIf="group.get('capacidad_vehiculo')?.hasError('required')">
+      Este campo es obligatorio
+    </mat-error>
+    <mat-error *ngIf="group.get('capacidad_vehiculo')?.hasError('min')">
+      La capacidad debe ser mayor que 0
+    </mat-error>
+  </mat-form-field>
+
+  <!-- Clase del vehículo -->
+  <mat-form-field appearance="outline">
+    <mat-label>Clase del vehículo</mat-label>
+    <input matInput type="text" formControlName="clase_vehiculo" maxlength="100" />
+    <mat-error *ngIf="group.get('clase_vehiculo')?.hasError('required')">
+      Este campo es obligatorio
+    </mat-error>
+  </mat-form-field>
+
+  <!-- Placa del vehículo -->
+  <mat-form-field appearance="outline">
+    <mat-label>Placa del vehículo</mat-label>
+    <input matInput type="text" formControlName="placa_vehiculo" maxlength="6" />
+    <mat-hint>Formato colombiano: ABC123 o AB1234</mat-hint>
+    <mat-error *ngIf="group.get('placa_vehiculo')?.hasError('required')">
+      Este campo es obligatorio
+    </mat-error>
+    <mat-error *ngIf="group.get('placa_vehiculo')?.hasError('pattern')">
+      Formato inválido de placa
+    </mat-error>
+  </mat-form-field>
+
+  <!-- Marca -->
+  <mat-form-field appearance="outline">
+    <mat-label>Marca</mat-label>
+    <input matInput type="text" formControlName="marca" maxlength="100" />
+    <mat-error *ngIf="group.get('marca')?.hasError('required')">
+      Este campo es obligatorio
+    </mat-error>
+  </mat-form-field>
+
+  <!-- Modelo -->
+  <mat-form-field appearance="outline">
+    <mat-label>Modelo</mat-label>
+    <input matInput type="text" formControlName="modelo" maxlength="100" />
+    <mat-error *ngIf="group.get('modelo')?.hasError('required')">
+      Este campo es obligatorio
+    </mat-error>
+  </mat-form-field>
+</div>

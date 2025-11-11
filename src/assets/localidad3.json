@@ -1,0 +1,551 @@
+[
+    {
+        "name": "ALAMEDA LA VICTORIA"
+    },
+    {
+        "name": "ALAMEDA REAL"
+    },
+    {
+        "name": "ALBORNOZ"
+    },
+    {
+        "name": "ALMIRANTE COLON"
+    },
+    {
+        "name": "ALTOS DEL CAMPESTRE"
+    },
+    {
+        "name": "ANTONIO JOSE DE SUCRE"
+    },
+    {
+        "name": "ARROZ BARATO"
+    },
+    {
+        "name": "BELLAVISTA"
+    },
+    {
+        "name": "BLAS DE LEZO"
+    },
+    {
+        "name": "CAMILO TORRES"
+    },
+    {
+        "name": "CEBALLOS"
+    },
+    {
+        "name": "CESAR FLOREZ"
+    },
+    {
+        "name": "CIUDAD JARDIN"
+    },
+    {
+        "name": "CIUDAD SEVILLA"
+    },
+    {
+        "name": "CIUDADELA 11 DE NOVIEMBRE"
+    },
+    {
+        "name": "CIUDADELA 2000"
+    },
+    {
+        "name": "CONJUNTO RES LA BONGUITA"
+    },
+    {
+        "name": "EDIFICIO LAS PALMAS"
+    },
+    {
+        "name": "EL CAMPESTRE"
+    },
+    {
+        "name": "EL CARMELO"
+    },
+    {
+        "name": "EL EDUCADOR"
+    },
+    {
+        "name": "EL LIBERTADOR"
+    },
+    {
+        "name": "EL MILAGRO"
+    },
+    {
+        "name": "EL RECREO"
+    },
+    {
+        "name": "EL REPOSO"
+    },
+    {
+        "name": "EL SILENCIO"
+    },
+    {
+        "name": "EL SOCORRO"
+    },
+    {
+        "name": "HENEQUEN"
+    },
+    {
+        "name": "JAIME PARDO LEAL"
+    },
+    {
+        "name": "JORGE ELIECER GAITAN"
+    },
+    {
+        "name": "LA CAROLINA"
+    },
+    {
+        "name": "LA CENTRAL"
+    },
+    {
+        "name": "LA CONCEPCION"
+    },
+    {
+        "name": "LA CONSOLATA"
+    },
+    {
+        "name": "LA ESMERALDA I"
+    },
+    {
+        "name": "LA ESMERALDA II"
+    },
+    {
+        "name": "LA FLORIDA"
+    },
+    {
+        "name": "LA PLAZUELA"
+    },
+    {
+        "name": "LA SIERRITA"
+    },
+    {
+        "name": "LA VICTORIA"
+    },
+    {
+        "name": "LOS ALCAZARES"
+    },
+    {
+        "name": "LOS CARACOLES"
+    },
+    {
+        "name": "LOS CORALES"
+    },
+    {
+        "name": "LOS JARDINES"
+    },
+    {
+        "name": "LOS SANTANDERES"
+    },
+    {
+        "name": "LUIS CARLOS GALAN"
+    },
+    {
+        "name": "MAMONAL"
+    },
+    {
+        "name": "MANUELA VERGARA DE CURI"
+    },
+    {
+        "name": "MARIA CANO"
+    },
+    {
+        "name": "NAZARENO"
+    },
+    {
+        "name": "NELSON MANDELA"
+    },
+    {
+        "name": "NUEVA DELHI"
+    },
+    {
+        "name": "NUEVA JERUSALEN"
+    },
+    {
+        "name": "NUEVO CAMPESTRE"
+    },
+    {
+        "name": "POLICARPA"
+    },
+    {
+        "name": "PROVIDENCIA"
+    },
+    {
+        "name": "PUERTA DE HIERRO"
+    },
+    {
+        "name": "ROSSENDAL"
+    },
+    {
+        "name": "SAN FERNANDO"
+    },
+    {
+        "name": "SAN JOSE DE LOS CAMPANOS"
+    },
+    {
+        "name": "SAN PEDRO"
+    },
+    {
+        "name": "SAN PEDRO MARTIR"
+    },
+    {
+        "name": "SANTA CLARA"
+    },
+    {
+        "name": "SANTA LUCIA"
+    },
+    {
+        "name": "SANTA MONICA"
+    },
+    {
+        "name": "SECTOR 18 DE ENERO"
+    },
+    {
+        "name": "SECTOR 27 DE JULIO"
+    },
+    {
+        "name": "SECTOR 7 DE DICIEMBRE"
+    },
+    {
+        "name": "SECTOR ALCAZAR"
+    },
+    {
+        "name": "SECTOR ALTO DEL EDUCADOR"
+    },
+    {
+        "name": "SECTOR ALTO PARAISO"
+    },
+    {
+        "name": "SECTOR ALTOS DE SAN PEDRO"
+    },
+    {
+        "name": "SECTOR ALTOS DE SAN PEDRO MARTIR"
+    },
+    {
+        "name": "SECTOR ANDRES PASTRANA"
+    },
+    {
+        "name": "SECTOR BARRIO NUEVO"
+    },
+    {
+        "name": "SECTOR BELEN"
+    },
+    {
+        "name": "SECTOR BERLIN"
+    },
+    {
+        "name": "SECTOR BERNARDO JARAMILLO"
+    },
+    {
+        "name": "SECTOR BLANQUICETT"
+    },
+    {
+        "name": "SECTOR BUENOS AIRES"
+    },
+    {
+        "name": "SECTOR COLINAS DE VILLA ROSA"
+    },
+    {
+        "name": "SECTOR DOS DE NOVIEMBRE"
+    },
+    {
+        "name": "SECTOR EL AMPARO"
+    },
+    {
+        "name": "SECTOR EL EDEN"
+    },
+    {
+        "name": "SECTOR EL MILLO"
+    },
+    {
+        "name": "SECTOR EL OLIVO"
+    },
+    {
+        "name": "SECTOR EL PROGRESO"
+    },
+    {
+        "name": "SECTOR EL PROGRESO"
+    },
+    {
+        "name": "SECTOR EL QUINDIO"
+    },
+    {
+        "name": "SECTOR EL TANQUE"
+    },
+    {
+        "name": "SECTOR FCO DE PAULA 1-2"
+    },
+    {
+        "name": "SECTOR INDIA CATALINA"
+    },
+    {
+        "name": "SECTOR LA COLINA"
+    },
+    {
+        "name": "SECTOR LA COQUERA"
+    },
+    {
+        "name": "SECTOR LA GAITANA"
+    },
+    {
+        "name": "SECTOR LA GLORIA VH"
+    },
+    {
+        "name": "SECTOR LAS COLINAS"
+    },
+    {
+        "name": "SECTOR LAS TORRES"
+    },
+    {
+        "name": "SECTOR LAS VEGAS"
+    },
+    {
+        "name": "SECTOR LOS CIRUELOS"
+    },
+    {
+        "name": "SECTOR LOS CIRUELOS"
+    },
+    {
+        "name": "SECTOR LOS DESEOS"
+    },
+    {
+        "name": "SECTOR LOS OLIVOS"
+    },
+    {
+        "name": "SECTOR LOS PINOS"
+    },
+    {
+        "name": "SECTOR LOS ROBLES"
+    },
+    {
+        "name": "SECTOR LOS TRUPILLOS"
+    },
+    {
+        "name": "SECTOR MARIA TERESA DE CALCUTA"
+    },
+    {
+        "name": "SECTOR MEDELLIN"
+    },
+    {
+        "name": "SECTOR NAVAS MEISEL"
+    },
+    {
+        "name": "SECTOR NUEVA VENECIA"
+    },
+    {
+        "name": "SECTOR NVA COLOMBIA"
+    },
+    {
+        "name": "SECTOR PARAISO"
+    },
+    {
+        "name": "SECTOR PLAN 400"
+    },
+    {
+        "name": "SECTOR PRIMAVERA"
+    },
+    {
+        "name": "SECTOR RIO ELBA"
+    },
+    {
+        "name": "SECTOR SAN JOSE DE LAS REINAS"
+    },
+    {
+        "name": "SECTOR SIMON BOLIVAR"
+    },
+    {
+        "name": "SECTOR SIMON BOLIVAR"
+    },
+    {
+        "name": "SECTOR VILLA ANDREA"
+    },
+    {
+        "name": "SECTOR VILLA CORELCA"
+    },
+    {
+        "name": "SECTOR VILLA GLORIA"
+    },
+    {
+        "name": "SECTOR VILLA ISABEL"
+    },
+    {
+        "name": "SECTOR VILLA ROSA"
+    },
+    {
+        "name": "SECTOR VILLAS DEL ROSARIO"
+    },
+    {
+        "name": "SECTOR VIRGEN DEL CARMEN"
+    },
+    {
+        "name": "SECTORES UNIDOS"
+    },
+    {
+        "name": "SJC SECTOR 5 DE NOVIEMBRE"
+    },
+    {
+        "name": "SJC SECTOR CAMPO ALEGRE"
+    },
+    {
+        "name": "SJC SECTOR COLONIA ARACHERA"
+    },
+    {
+        "name": "SJC SECTOR CRISTO REY"
+    },
+    {
+        "name": "SJC SECTOR LA CIUDADELA"
+    },
+    {
+        "name": "SJC SECTOR LA ESMERALDA"
+    },
+    {
+        "name": "SJC SECTOR LA ESPERANZA"
+    },
+    {
+        "name": "SJC SECTOR LA PRIMAVERA"
+    },
+    {
+        "name": "SJC SECTOR LA PRINCESA"
+    },
+    {
+        "name": "SJC SECTOR LAS CAMPANITAS"
+    },
+    {
+        "name": "SJC SECTOR LAS MARGARITAS"
+    },
+    {
+        "name": "SJC SECTOR LOS COCOS"
+    },
+    {
+        "name": "SJC SECTOR LOS ROSALES"
+    },
+    {
+        "name": "SJC SECTOR MANANTIAL"
+    },
+    {
+        "name": "SJC SECTOR MARTA CURI"
+    },
+    {
+        "name": "SJC SECTOR NUEVA VICTORIA"
+    },
+    {
+        "name": "SJC SECTOR SUENOS DEL FUTURO"
+    },
+    {
+        "name": "SJC SECTOR VILLA AMELIA"
+    },
+    {
+        "name": "SJC SECTOR VIRGEN DEL CARMEN"
+    },
+    {
+        "name": "TERNERA"
+    },
+    {
+        "name": "URB.  EL BIFFI"
+    },
+    {
+        "name": "URB. ALTOS DE LOS JARDINES"
+    },
+    {
+        "name": "URB. BAHIA"
+    },
+    {
+        "name": "URB. BARU"
+    },
+    {
+        "name": "URB. BEIRUT"
+    },
+    {
+        "name": "URB. CARTAGENA DE INDIAS"
+    },
+    {
+        "name": "URB. COSTA DEL  SOL"
+    },
+    {
+        "name": "URB. EL EDEN"
+    },
+    {
+        "name": "URB. EL GOLF"
+    },
+    {
+        "name": "URB. LA FRAGATA"
+    },
+    {
+        "name": "URB. LA PRINCESA"
+    },
+    {
+        "name": "URB. MAYORCA"
+    },
+    {
+        "name": "URB. NUEVO JARDINES"
+    },
+    {
+        "name": "URB. PARAISO REAL"
+    },
+    {
+        "name": "URB. RINCON DE LA VILLA"
+    },
+    {
+        "name": "URB. SAN BUENAVENTURA"
+    },
+    {
+        "name": "URB. SAN FERNANDO"
+    },
+    {
+        "name": "URB. SIBONEY"
+    },
+    {
+        "name": "URB. SOR TERESA DE CALCUTA"
+    },
+    {
+        "name": "URB. VALENCIA"
+    },
+    {
+        "name": "URB. VILLA ALEJANDRA"
+    },
+    {
+        "name": "URB. VILLA ANGELA"
+    },
+    {
+        "name": "URB. VILLA CONCHA"
+    },
+    {
+        "name": "URB. VILLA DEL SOL"
+    },
+    {
+        "name": "URB. VILLA VALENCIA"
+    },
+    {
+        "name": "URB. VILLAS DE LA VICTORIA"
+    },
+    {
+        "name": "URB. VILLAS DEL CIELO"
+    },
+    {
+        "name": "URB. VILLAS DEL SOCORRO"
+    },
+    {
+        "name": "URBANIZACION ANITA"
+    },
+    {
+        "name": "URBANIZACION SIMON BOLIVAR"
+    },
+    {
+        "name": "VEINTE DE JULIO SUR"
+    },
+    {
+        "name": "VILLA BARRAZA"
+    },
+    {
+        "name": "VILLA FANNY"
+    },
+    {
+        "name": "VILLA LORENA"
+    },
+    {
+        "name": "VILLA ROSITA"
+    },
+    {
+        "name": "VILLA RUBIA"
+    },
+    {
+        "name": "VISTA HERMOSA"
+    }
+]

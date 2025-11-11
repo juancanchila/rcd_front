@@ -1,0 +1,18 @@
+<div [formGroup]="group" style="display:grid; gap:16px">
+  <h3>Datos del proyecto</h3>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Título del proyecto</mat-label>
+    <input matInput formControlName="projectTitle" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Nombre del cliente</mat-label>
+    <input matInput formControlName="projectClient" />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Descripción</mat-label>
+    <textarea matInput formControlName="projectDescription"></textarea>
+  </mat-form-field>
+</div>

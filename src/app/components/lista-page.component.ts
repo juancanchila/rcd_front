@@ -8,6 +8,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { Subscription } from 'rxjs';
+import { RouterModule } from '@angular/router';
 
 type TipoEntidad = 'usuarios' | 'generador' | 'transportador' | 'receptor' | 'vehiculo' | 'resolucion' | 'proyecto' | 'visitatecnica' | 'reporte';
 
@@ -22,6 +23,8 @@ type TipoEntidad = 'usuarios' | 'generador' | 'transportador' | 'receptor' | 've
     MatCardModule,
     MatToolbarModule,
     MatButtonModule,
+     RouterModule,
+
   ],
   templateUrl: './lista-page.component.html',
   styleUrls: ['./lista-page.component.scss'],

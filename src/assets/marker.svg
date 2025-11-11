@@ -1,0 +1,26 @@
+<!--?xml version="1.0" encoding="UTF-8"?-->
+<svg xmlns="http://www.w3.org/2000/svg" width="25" height="41" viewBox="0 0 25 41" role="img" aria-label="Map marker">
+  <!-- marcador tipo pin -->
+  <defs>
+    <linearGradient id="g" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#ff5a5f"></stop>
+      <stop offset="1" stop-color="#c43030"></stop>
+    </linearGradient>
+    <filter id="f" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="1.2" result="b"></feGaussianBlur>
+      <feOffset dx="0" dy="1" in="b" result="o"></feOffset>
+      <feMerge><feMergeNode in="o"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+    </filter>
+  </defs>
+
+  <!-- sombra sutil detrás (dentro del mismo SVG para que sea autónomo) -->
+  <ellipse cx="12.5" cy="33.5" rx="8.5" ry="2.8" fill="rgba(0,0,0,0.2)"></ellipse>
+
+  <!-- forma del pin -->
+  <g filter="none">
+    <path d="M12.5 0C7.25 0 3 4.25 3 9.5c0 7.7 9.5 21.5 9.5 21.5s9.5-13.8 9.5-21.5C22 4.25 17.75 0 12.5 0z" fill="url(#g)"></path>
+    <!-- circulo interior -->
+    <circle cx="12.5" cy="9.5" r="4.2" fill="#fff" opacity="0.95"></circle>
+    <circle cx="12.5" cy="9.5" r="2.3" fill="#ff5a5f"></circle>
+  </g>
+</svg>

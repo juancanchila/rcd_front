@@ -1,5 +1,13 @@
 <!-- Contenido principal -->
 <main class="lista-page-wrapper">
+  <!-- Botón para crear nuevo -->
+<div style="text-align:right; margin-bottom:12px">
+  <button mat-raised-button color="primary" [routerLink]="['/create', tipo]">
+    <mat-icon>add</mat-icon>
+    Crear nuevo {{ tipo | titlecase }}
+  </button>
+</div>
+
   <!-- Título dinámico -->
   <h2 class="lista-page-title">Lista de {{ tipo | titlecase }}</h2>
 

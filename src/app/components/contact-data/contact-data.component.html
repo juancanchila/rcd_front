@@ -1,0 +1,98 @@
+<div [formGroup]="group" style="display: grid; gap: 16px;">
+  <h3>Datos de Contacto</h3>
+  <p>Ingresar en esta página la información del propietario de el o los vehículos.</p>
+
+  <!-- Tipo de solicitante -->
+  <mat-form-field appearance="outline">
+    <mat-label>Tipo de solicitante</mat-label>
+    <mat-select formControlName="tipo_de_solicitante">
+      <mat-option value="Persona Natural">Persona Natural</mat-option>
+      <mat-option value="Persona Jurídica">Persona Jurídica</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!-- Persona Natural -->
+  <ng-container *ngIf="group.get('tipo_de_solicitante')?.value === 'Persona Natural'">
+    <mat-form-field appearance="outline">
+      <mat-label>Nombres y apellidos</mat-label>
+      <input matInput formControlName="nombres_y_apellidos" placeholder="Ej: Juan Pérez" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Documento de identidad</mat-label>
+      <input matInput formControlName="documento_de_identidad" placeholder="Ej: 1234567890" />
+    </mat-form-field>
+  </ng-container>
+
+  <!-- Persona Jurídica -->
+  <ng-container *ngIf="group.get('tipo_de_solicitante')?.value === 'Persona Jurídica'">
+    <mat-form-field appearance="outline">
+      <mat-label>Razón social</mat-label>
+      <input matInput formControlName="razon_social" placeholder="Ej: Comercializadora ABC S.A.S" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>NIT</mat-label>
+      <input matInput formControlName="nit" placeholder="Ej: 900123456-7" />
+    </mat-form-field>
+  </ng-container>
+
+  <!-- Correo electrónico -->
+  <mat-form-field appearance="outline">
+    <mat-label>Correo electrónico</mat-label>
+    <input
+      matInput
+      type="email"
+      formControlName="correo_electronico"
+      placeholder="Ej: ejemplo@correo.com"
+    />
+  </mat-form-field>
+
+  <!-- Teléfono móvil -->
+  <mat-form-field appearance="outline">
+    <mat-label>Teléfono móvil</mat-label>
+    <input matInput formControlName="telefono_movil" placeholder="Ej: 3001234567" />
+  </mat-form-field>
+
+  <!-- Teléfono fijo -->
+  <mat-form-field appearance="outline">
+    <mat-label>Teléfono fijo</mat-label>
+    <input matInput formControlName="telefono_fijo" placeholder="Ej: 6051234567" />
+  </mat-form-field>
+
+  <!-- Localidad -->
+  <mat-form-field appearance="outline">
+    <mat-label>Localidad</mat-label>
+    <mat-select formControlName="localidad">
+      <mat-option value="localidad1">Localidad 1</mat-option>
+      <mat-option value="localidad2">Localidad 2</mat-option>
+      <mat-option value="localidad3">Localidad 3</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!-- Barrio (autocomplete) -->
+  <mat-form-field appearance="outline">
+    <mat-label>Barrio</mat-label>
+    <input
+      matInput
+      formControlName="barrio"
+      [matAutocomplete]="autoBarrio"
+      placeholder="Empieza a escribir para filtrar barrios"
+    />
+    <mat-autocomplete #autoBarrio="matAutocomplete" autoActiveFirstOption>
+      <mat-option *ngFor="let barrio of barriosFiltrados$ | async" [value]="barrio">
+        {{ barrio }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
+  <!-- Dirección -->
+  <mat-form-field appearance="outline">
+    <mat-label>Dirección de correspondencia del solicitante</mat-label>
+    <input
+      matInput
+      formControlName="direccion_de_correspondencia_del_solicitante"
+      placeholder="Ej: Calle 45 #12-34"
+    />
+  </mat-form-field>
+</div>

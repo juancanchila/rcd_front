@@ -18,6 +18,7 @@ import { PinesVigentesComponent } from './components/pines/pines-vigentes.compon
 import { PinComponent } from './components/pin/pin.component';
 import { PinConsultaComponent } from './components/consulta/pin-consulta.component';
 import { UsuariosEditComponent } from './components/perfildetail/usuarios-edit.component';
+import { FormCreate } from './components/form-create/form-create';
 
 // Detalles
 import { DetalleGeneradorComponent } from './components/generadordetail/detalle-generador.component';
@@ -56,7 +57,8 @@ export const routes: Routes = [
       { path: 'transportador-detalle/:id', component: DetalleTransportadorComponent, canActivate: [AuthGuard] },
       { path: 'vehiculo-detalle/:id', component: VehiculodetalleComponent, canActivate: [AuthGuard] },
       { path: 'usuarios-detalle/:id', component: UsuariosEditComponent, canActivate: [AuthGuard] },
-
+      { path: 'create/:tipo', component: FormCreate, canActivate: [AuthGuard] },
+      
       // ✅ Pines y consultas
       { path: 'pines', component: PinesVigentesComponent },
       { path: 'pin/:tipo/:id', component: PinComponent },

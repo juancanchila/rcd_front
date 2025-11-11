@@ -1,0 +1,152 @@
+<div class="summary-container">
+  <h3>Resumen de la Solicitud</h3>
+  <p>Revisa la información antes de guardar.</p>
+
+  <!-- 🔹 CONTACTO -->
+  <div class="summary-section" *ngIf="form.get('contacto')?.value">
+    <h4>Datos del Solicitante</h4>
+    <table>
+      <tr>
+        <td><strong>Tipo:</strong></td>
+        <td>{{ form.get('contacto.tipo_de_solicitante')?.value }}</td>
+      </tr>
+
+      <!-- Si es Persona Jurídica -->
+      <ng-container *ngIf="form.get('contacto.tipo_de_solicitante')?.value === 'Persona Jurídica'">
+        <tr>
+          <td><strong>Razón Social:</strong></td>
+          <td>{{ form.get('contacto.razon_social')?.value }}</td>
+        </tr>
+        <tr>
+          <td><strong>NIT:</strong></td>
+          <td>{{ form.get('contacto.nit')?.value }}</td>
+        </tr>
+        <tr *ngIf="form.get('contacto.nombre_de_representante_legal_')?.value">
+          <td><strong>Representante Legal:</strong></td>
+          <td>{{ form.get('contacto.nombre_de_representante_legal_')?.value }}</td>
+        </tr>
+      </ng-container>
+
+      <!-- Si es Persona Natural -->
+      <ng-container *ngIf="form.get('contacto.tipo_de_solicitante')?.value === 'Persona Natural'">
+        <tr>
+          <td><strong>Nombres y Apellidos:</strong></td>
+          <td>{{ form.get('contacto.nombres_y_apellidos')?.value }}</td>
+        </tr>
+        <tr>
+          <td><strong>Documento de Identidad:</strong></td>
+          <td>{{ form.get('contacto.documento_de_identidad')?.value }}</td>
+        </tr>
+      </ng-container>
+
+      <!-- Campos comunes -->
+      <tr>
+        <td><strong>Correo Electrónico:</strong></td>
+        <td>{{ form.get('contacto.correo_electronico')?.value }}</td>
+      </tr>
+
+      <tr>
+        <td><strong>Teléfono Móvil:</strong></td>
+        <td>{{ form.get('contacto.telefono_movil')?.value }}</td>
+      </tr>
+
+      <tr *ngIf="form.get('contacto.telefono_fijo')?.value">
+        <td><strong>Teléfono Fijo:</strong></td>
+        <td>{{ form.get('contacto.telefono_fijo')?.value }}</td>
+      </tr>
+
+      <tr>
+        <td><strong>Dirección:</strong></td>
+        <td>{{ form.get('contacto.direccion_de_correspondencia_del_solicitante')?.value }}</td>
+      </tr>
+
+      <tr>
+        <td><strong>Localidad:</strong></td>
+        <td>{{ form.get('contacto.localidad')?.value }}</td>
+      </tr>
+
+      <tr>
+        <td><strong>Barrio:</strong></td>
+        <td>{{ form.get('contacto.barrio')?.value }}</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 🔹 PROYECTO -->
+  <div class="summary-section" *ngIf="tipo === 'proyecto'">
+    <h4>Datos del Proyecto</h4>
+    <table>
+      <tr>
+        <td><strong>Título:</strong></td>
+        <td>{{ form.get('proyecto.projectTitle')?.value }}</td>
+      </tr>
+      <tr>
+        <td><strong>Cliente:</strong></td>
+        <td>{{ form.get('proyecto.projectClient')?.value }}</td>
+      </tr>
+      <tr>
+        <td><strong>Descripción:</strong></td>
+        <td>{{ form.get('proyecto.projectDescription')?.value }}</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 🔹 GESTOR -->
+  <div class="summary-section" *ngIf="tipo === 'gestor'">
+    <h4>Datos del Gestor</h4>
+    <table>
+      <tr>
+        <td><strong>Volumen:</strong></td>
+        <td>{{ form.get('gestor.volumen')?.value }}</td>
+      </tr>
+      <tr>
+        <td><strong>Tipo de Proceso:</strong></td>
+        <td>{{ form.get('gestor.tipoProceso')?.value }}</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 🔹 VEHÍCULO -->
+  <div class="summary-section" *ngIf="tipo === 'vehiculo' || tipo === 'transportador'">
+    <h4>Datos del Vehículo</h4>
+    <table>
+      <tr>
+        <td><strong>Clase:</strong></td>
+        <td>{{ form.get('vehiculo.clase_vehiculo')?.value }}</td>
+      </tr>
+      <tr>
+        <td><strong>Placa:</strong></td>
+        <td>{{ form.get('vehiculo.placa_vehiculo')?.value }}</td>
+      </tr>
+      <tr>
+        <td><strong>Marca:</strong></td>
+        <td>{{ form.get('vehiculo.marca')?.value }}</td>
+      </tr>
+      <tr>
+        <td><strong>Modelo:</strong></td>
+        <td>{{ form.get('vehiculo.modelo')?.value }}</td>
+      </tr>
+      <tr>
+        <td><strong>Capacidad:</strong></td>
+        <td>
+          {{ form.get('vehiculo.capacidad_vehiculo')?.value }}
+          {{ form.get('vehiculo.unidad_capacidad')?.value }}
+        </td>
+      </tr>
+    </table>
+
+    <div class="summary-section">
+      <h4>Documentos del Vehículo</h4>
+      <ul>
+        <li *ngFor="let doc of getUploadedDocuments()">{{ doc }}</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 🔹 UBICACIÓN -->
+  <div class="summary-section" *ngIf="form.get('latitud')?.value && form.get('longitud')?.value">
+    <h4>Ubicación</h4>
+    <p>Latitud: {{ form.get('latitud')?.value }}</p>
+    <p>Longitud: {{ form.get('longitud')?.value }}</p>
+  </div>
+</div>

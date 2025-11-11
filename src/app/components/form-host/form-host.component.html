@@ -1,0 +1,31 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-host">
+  <mat-progress-bar mode="determinate" [value]="(step + 1) * (100 / totalSteps)"></mat-progress-bar>
+
+  <div *ngIf="step === 0">
+    <contact-data [group]="contacto!"></contact-data>
+  </div>
+
+  <div *ngIf="step === 1">
+<gestor-data *ngIf="tipo === 'gestor'" [group]="gestor!"></gestor-data>
+<project-data *ngIf="tipo === 'generador' || tipo === 'proyecto'" [group]="proyecto!"></project-data>
+<vehicle-data *ngIf="tipo === 'vehiculo' || tipo === 'transportador'" [group]="vehiculo!"></vehicle-data>
+<map-picker *ngIf="tipo !== 'vehiculo' && tipo !== 'transportador'" (coordinates)="onMap($event)"></map-picker>
+
+   
+  </div>
+
+  <div *ngIf="step === 2">
+     <h3>Documentos</h3>
+  <vehicle-documents *ngIf="tipo === 'vehiculo' || tipo === 'transportador'" [group]="vehiculodocuments!"></vehicle-documents>
+
+  </div>
+<div *ngIf="step === 3">
+  <summary-data [form]="form" [tipo]="tipo!"></summary-data>
+</div>
+  <!-- SECCIÓN DE BOTONES -->
+  <div class="form-actions">
+    <button mat-stroked-button type="button" (click)="prevStep()" [disabled]="step === 0">Anterior</button>
+    <button mat-stroked-button type="button" (click)="nextStep()" *ngIf="step < totalSteps - 1">Siguiente</button>
+    <button mat-flat-button color="primary" type="submit" *ngIf="step === totalSteps - 1">Guardar</button>
+  </div>
+</form>

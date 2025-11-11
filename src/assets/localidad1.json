@@ -1,0 +1,392 @@
+[
+    {
+        "name": "ALTO BOSQUE"
+    },
+    {
+        "name": "ALTOS DE SAN ISIDRO"
+    },
+    {
+        "name": "ALTOS DEL NUEVO BOSQUE"
+    },
+    {
+        "name": "AMBERES"
+    },
+    {
+        "name": "ARMENIA"
+    },
+    {
+        "name": "BALCONES DE ZARAGOCILLA"
+    },
+    {
+        "name": "BARRIO CHINO"
+    },
+    {
+        "name": "BOCAGRANDE"
+    },
+    {
+        "name": "BOSQUE"
+    },
+    {
+        "name": "BRUSELAS"
+    },
+    {
+        "name": "BUENOS AIRES"
+    },
+    {
+        "name": "CALAMARES"
+    },
+    {
+        "name": "CAMAGÜEY"
+    },
+    {
+        "name": "CANAPOTE"
+    },
+    {
+        "name": "CASTILLOGRANDE"
+    },
+    {
+        "name": "CENTRO"
+    },
+    {
+        "name": "CERRO DE LA POPA"
+    },
+    {
+        "name": "CHAMBACU"
+    },
+    {
+        "name": "CONJUNTO RES. LOS TAMARINDOS"
+    },
+    {
+        "name": "CONJUNTO RESIDENCIAL SAN JUAN"
+    },
+    {
+        "name": "CONJUNTO RESINDENCIAL SANTILLANA DE LOS PATIOS"
+    },
+    {
+        "name": "CRESPO"
+    },
+    {
+        "name": "DANIEL LEMAITRE"
+    },
+    {
+        "name": "EL CABRERO"
+    },
+    {
+        "name": "EL CAIRO"
+    },
+    {
+        "name": "EL CARMEN"
+    },
+    {
+        "name": "EL COUNTRY"
+    },
+    {
+        "name": "EL LAGUITO"
+    },
+    {
+        "name": "EL PAPAYAL"
+    },
+    {
+        "name": "EL PRADO"
+    },
+    {
+        "name": "ESCALLON VILLA"
+    },
+    {
+        "name": "ESPAÑA"
+    },
+    {
+        "name": "ESPINAL"
+    },
+    {
+        "name": "GETSEMANI"
+    },
+    {
+        "name": "ISLA DE MANZANILLO"
+    },
+    {
+        "name": "JOSE ANTONIO GALAN"
+    },
+    {
+        "name": "JUAN XXIII"
+    },
+    {
+        "name": "JUNIN"
+    },
+    {
+        "name": "LA CAMPIÑA"
+    },
+    {
+        "name": "LA ESPAÑOLA"
+    },
+    {
+        "name": "LA GLORIA"
+    },
+    {
+        "name": "LA MATUNA"
+    },
+    {
+        "name": "LA PAZ"
+    },
+    {
+        "name": "LA TRONCAL"
+    },
+    {
+        "name": "LA VILLA"
+    },
+    {
+        "name": "LAS BRISAS"
+    },
+    {
+        "name": "LAS DELICIAS"
+    },
+    {
+        "name": "LO AMADOR"
+    },
+    {
+        "name": "LOMA FRESCA"
+    },
+    {
+        "name": "LOMAS DE SAN BERNARDO"
+    },
+    {
+        "name": "LOS ANGELES"
+    },
+    {
+        "name": "LOS CERROS"
+    },
+    {
+        "name": "LOS COMUNEROS"
+    },
+    {
+        "name": "LOS EJECUTIVOS"
+    },
+    {
+        "name": "MANGA"
+    },
+    {
+        "name": "MARBELLA"
+    },
+    {
+        "name": "MARTINEZ MARTELO"
+    },
+    {
+        "name": "MIRADOR DE ZARAGOCILLA"
+    },
+    {
+        "name": "MIRADOR DEL NUEVO BOSQUE"
+    },
+    {
+        "name": "NARIÑO"
+    },
+    {
+        "name": "NUEVA GRANADA"
+    },
+    {
+        "name": "NUEVE DE ABRIL"
+    },
+    {
+        "name": "NUEVO BOSQUE"
+    },
+    {
+        "name": "NUEVO BOSQUESITO"
+    },
+    {
+        "name": "PABLO VI - I"
+    },
+    {
+        "name": "PABLO VI - II"
+    },
+    {
+        "name": "PALESTINA"
+    },
+    {
+        "name": "PARAGUAY"
+    },
+    {
+        "name": "PARAISO I"
+    },
+    {
+        "name": "PARAISO II"
+    },
+    {
+        "name": "PEDRO SALAZAR"
+    },
+    {
+        "name": "PETARE"
+    },
+    {
+        "name": "PIE DE LA POPA"
+    },
+    {
+        "name": "PIE DEL CERRO"
+    },
+    {
+        "name": "PIEDRA DE BOLIVAR"
+    },
+    {
+        "name": "REPUBLICA DE CHILE"
+    },
+    {
+        "name": "REPUBLICA DEL CARIBE"
+    },
+    {
+        "name": "RUBI"
+    },
+    {
+        "name": "SAN BERNARDO"
+    },
+    {
+        "name": "SAN DIEGO"
+    },
+    {
+        "name": "SAN FRANCISCO"
+    },
+    {
+        "name": "SAN ISIDRO"
+    },
+    {
+        "name": "SAN PEDRO Y LIBERTAD"
+    },
+    {
+        "name": "SANTA MARIA"
+    },
+    {
+        "name": "SECTOR 20 DE JULIO"
+    },
+    {
+        "name": "SECTOR ANDALUCIA"
+    },
+    {
+        "name": "SECTOR BAJO DE SAN ISIDRO"
+    },
+    {
+        "name": "SECTOR BAJO LIBERTAD"
+    },
+    {
+        "name": "SECTOR BUENOS AIRES"
+    },
+    {
+        "name": "SECTOR CARTAGENITA"
+    },
+    {
+        "name": "SECTOR CERROMAR"
+    },
+    {
+        "name": "SECTOR EL CONQUISTADOR"
+    },
+    {
+        "name": "SECTOR EL MARION"
+    },
+    {
+        "name": "SECTOR EL OLIVO"
+    },
+    {
+        "name": "SECTOR EL PROGRESO"
+    },
+    {
+        "name": "SECTOR GUSTAVO LEMAITRE"
+    },
+    {
+        "name": "SECTOR LA CONQUISTA"
+    },
+    {
+        "name": "SECTOR LA GLORIA"
+    },
+    {
+        "name": "SECTOR LA HEROICA"
+    },
+    {
+        "name": "SECTOR LA LOMA"
+    },
+    {
+        "name": "SECTOR LA POZA"
+    },
+    {
+        "name": "SECTOR LA SIERRA"
+    },
+    {
+        "name": "SECTOR LAS CANTERAS"
+    },
+    {
+        "name": "SECTOR MANZANARES"
+    },
+    {
+        "name": "SECTOR MANZANILLO"
+    },
+    {
+        "name": "SECTOR NUEVO CHILE"
+    },
+    {
+        "name": "SECTOR NUEVO ORIENTE"
+    },
+    {
+        "name": "SECTOR PRIMAVERA"
+    },
+    {
+        "name": "SECTOR SAN VICENTE DE PAUL"
+    },
+    {
+        "name": "SECTOR SINAI"
+    },
+    {
+        "name": "SECTOR TRECE DE MAYO"
+    },
+    {
+        "name": "SECTOR VIRGEN DEL CARMEN"
+    },
+    {
+        "name": "SECTOR ZAPATERO"
+    },
+    {
+        "name": "SIETE DE AGOSTO"
+    },
+    {
+        "name": "TACARIGUA"
+    },
+    {
+        "name": "TORICES"
+    },
+    {
+        "name": "URB. BARLOVENTO"
+    },
+    {
+        "name": "URB. BRITANIA"
+    },
+    {
+        "name": "URB. CAVIPETROL"
+    },
+    {
+        "name": "URB. LAS LOMAS"
+    },
+    {
+        "name": "URB. LOS ALMENDROS"
+    },
+    {
+        "name": "URB. LOS LAURELES"
+    },
+    {
+        "name": "URB. MONSERRATE"
+    },
+    {
+        "name": "URB. NUEVO BOSQUE"
+    },
+    {
+        "name": "URB. PARAGUAY"
+    },
+    {
+        "name": "URB. PORTAL DEL VIRREY"
+    },
+    {
+        "name": "URB. TEQUENDAMA"
+    },
+    {
+        "name": "VILLA SANDRA"
+    },
+    {
+        "name": "VILLA SANDRA II"
+    },
+    {
+        "name": "ZARAGOCILLA"
+    }
+]

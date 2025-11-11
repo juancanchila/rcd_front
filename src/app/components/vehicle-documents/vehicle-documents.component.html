@@ -1,0 +1,117 @@
+<div [formGroup]="group" class="vehicle-documents">
+  <h3 class="section-title">Documentos del Vehículo</h3>
+
+  <!-- Identificación -->
+  <div class="file-group">
+    <label [class.required]="isInvalid('identificacion')">
+      Identificación (PDF) <span *ngIf="isRequired('identificacion')" class="asterisk">*</span>
+    </label>
+    <input id="identificacion" type="file" formControlName="identificacion" accept=".pdf" />
+    <div class="error" *ngIf="isInvalid('identificacion')">
+      Debes adjuntar la identificación (PDF).
+    </div>
+  </div>
+
+  <!-- Certificado existencia (solo obligatorio si persona jurídica, pero si lo pones required en TS, se validará) -->
+  <div class="file-group">
+    <label [class.required]="isInvalid('cert_ext_legal')">
+      Certificado de existencia y representación legal (PDF)
+      <span *ngIf="isRequired('cert_ext_legal')" class="asterisk">*</span>
+    </label>
+    <input id="cert_ext_legal" type="file" formControlName="cert_ext_legal" accept=".pdf" />
+    <small *ngIf="group.get('tipo_de_solicitante')?.value === 'Persona Jurídica'">
+      Debe adjuntar el certificado con fecha de expedición no mayor a tres (3) meses.
+    </small>
+    <div class="error" *ngIf="isInvalid('cert_ext_legal')">
+      Debes adjuntar el certificado de existencia.
+    </div>
+  </div>
+
+  <!-- Licencia de tránsito -->
+  <div class="file-group">
+    <label [class.required]="isInvalid('licencia_transito')">
+      Licencia de tránsito (tarjeta de propiedad) <span *ngIf="isRequired('licencia_transito')" class="asterisk">*</span>
+    </label>
+    <input id="licencia_transito" type="file" formControlName="licencia_transito" accept=".pdf" />
+    <div class="error" *ngIf="isInvalid('licencia_transito')">
+      Debes adjuntar la licencia de tránsito.
+    </div>
+  </div>
+
+  <!-- Foto frontal -->
+  <div class="file-group">
+    <label [class.required]="isInvalid('foto_frontal')">
+      Foto frontal del vehículo (JPG/PNG) <span *ngIf="isRequired('foto_frontal')" class="asterisk">*</span>
+    </label>
+    <input id="foto_frontal" type="file" formControlName="foto_frontal" accept=".jpg,.jpeg,.png" />
+    <div class="error" *ngIf="isInvalid('foto_frontal')">Debes adjuntar la foto frontal.</div>
+  </div>
+
+  <!-- Foto trasera -->
+  <div class="file-group">
+    <label [class.required]="isInvalid('foto_trasera')">
+      Foto trasera del vehículo (JPG/PNG) <span *ngIf="isRequired('foto_trasera')" class="asterisk">*</span>
+    </label>
+    <input id="foto_trasera" type="file" formControlName="foto_trasera" accept=".jpg,.jpeg,.png" />
+    <div class="error" *ngIf="isInvalid('foto_trasera')">Debes adjuntar la foto trasera.</div>
+  </div>
+
+  <!-- Lateral derecha -->
+  <div class="file-group">
+    <label [class.required]="isInvalid('foto_lateral_derecha')">
+      Foto lateral derecha (JPG/PNG) <span *ngIf="isRequired('foto_lateral_derecha')" class="asterisk">*</span>
+    </label>
+    <input id="foto_lateral_derecha" type="file" formControlName="foto_lateral_derecha" accept=".jpg,.jpeg,.png" />
+    <div class="error" *ngIf="isInvalid('foto_lateral_derecha')">Debes adjuntar la foto lateral derecha.</div>
+  </div>
+
+  <!-- Lateral izquierda -->
+  <div class="file-group">
+    <label [class.required]="isInvalid('foto_lateral_izquierda')">
+      Foto lateral izquierda (JPG/PNG) <span *ngIf="isRequired('foto_lateral_izquierda')" class="asterisk">*</span>
+    </label>
+    <input id="foto_lateral_izquierda" type="file" formControlName="foto_lateral_izquierda" accept=".jpg,.jpeg,.png" />
+    <div class="error" *ngIf="isInvalid('foto_lateral_izquierda')">Debes adjuntar la foto lateral izquierda.</div>
+  </div>
+
+  <!-- Registro herramientas -->
+  <div class="file-group">
+    <label [class.required]="isInvalid('registro_herramientas')">
+      Registro fotográfico de herramientas o kit de limpieza <span *ngIf="isRequired('registro_herramientas')" class="asterisk">*</span>
+    </label>
+    <input id="registro_herramientas" type="file" formControlName="registro_herramientas" accept=".pdf" />
+    <div class="error" *ngIf="isInvalid('registro_herramientas')">Debes adjuntar el registro de herramientas.</div>
+  </div>
+
+  <!-- Certificado leasing -->
+  <div class="file-group">
+    <label [class.required]="isInvalid('certificado_leasing')">
+      Certificado de entidad bancaria o financiera (leasing) <span *ngIf="isRequired('certificado_leasing')" class="asterisk">*</span>
+    </label>
+    <input id="certificado_leasing" type="file" formControlName="certificado_leasing" accept=".pdf" />
+    <small *ngIf="group.get('modalidad_vehiculo')?.value === 'Leasing'">
+      Adjuntar certificado expedido por entidad bancaria o financiera, no mayor a 3 meses.
+    </small>
+    <div class="error" *ngIf="isInvalid('certificado_leasing')">Debes adjuntar el certificado de leasing.</div>
+  </div>
+
+  <!-- Certificado técnico-mecánica -->
+  <div class="file-group">
+    <label [class.required]="isInvalid('certificado_tecnicomecanica')">
+      Certificado de revisión técnico-mecánica <span *ngIf="isRequired('certificado_tecnicomecanica')" class="asterisk">*</span>
+    </label>
+    <input id="certificado_tecnicomecanica" type="file" formControlName="certificado_tecnicomecanica" accept=".pdf" />
+    <div class="error" *ngIf="isInvalid('certificado_tecnicomecanica')">Debes adjuntar el certificado técnico-mecánico.</div>
+  </div>
+
+  <!-- Opcionales -->
+  <div class="file-group">
+    <label>Registro de defunción del propietario (opcional)</label>
+    <input id="registro_defuncion" type="file" formControlName="registro_defuncion" accept=".pdf" />
+  </div>
+
+  <div class="file-group">
+    <label>Autorización del propietario (opcional)</label>
+    <input id="autoriza_propietario" type="file" formControlName="autoriza_propietario" accept=".pdf" />
+  </div>
+</div>
