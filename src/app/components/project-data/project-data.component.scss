@@ -1,0 +1,19 @@
+/* Separación entre los panels */
+mat-expansion-panel {
+  margin-bottom: 16px; /* Ajusta la separación entre cada panel */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Opcional: sombra suave */
+  border-radius: 8px; /* Bordes redondeados */
+}
+
+/* Quitar la animación de colapso y mantenerlos abiertos visualmente */
+mat-expansion-panel .mat-expansion-panel-body {
+  display: block !important;
+  transition: none !important;
+  overflow: visible !important;
+}
+
+/* Cambiar color de fondo si quieres distinguir cada panel */
+mat-expansion-panel-header {
+  background-color: #f5f5f5; 
+  border-bottom: 1px solid #ddd;
+}

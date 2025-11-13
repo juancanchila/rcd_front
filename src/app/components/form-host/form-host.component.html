@@ -18,6 +18,16 @@
      <h3>Documentos</h3>
   <vehicle-documents *ngIf="tipo === 'vehiculo' || tipo === 'transportador'" [group]="vehiculodocuments!"></vehicle-documents>
 
+<personal-documents
+   *ngIf="tipo === 'generador' || tipo === 'receptor' || tipo === 'proyecto'"
+  [group]="personaldocuments"
+  [tipoSolicitante]="contacto.get('tipo_de_solicitante')?.value">
+</personal-documents>
+
+<gestor-general-documents
+ *ngIf="tipo === 'generador' || tipo === 'receptor' || tipo === 'proyecto'"  [group]="generaldocuments!">    
+</gestor-general-documents>
+
   </div>
 <div *ngIf="step === 3">
   <summary-data [form]="form" [tipo]="tipo!"></summary-data>

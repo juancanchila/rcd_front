@@ -1,0 +1,36 @@
+<div [formGroup]="group" class="personal-documents">
+  <h3 class="section-title">Documentos Personales</h3>
+
+  <!-- 👤 Persona Natural -->
+  <div *ngIf="tipoSolicitante === 'Persona Natural'" class="file-group">
+    <label [class.required]="isInvalid('identificacion_persona')">
+      Identificación (PDF) <span *ngIf="isRequired('identificacion_persona')" class="asterisk">*</span>
+    </label>
+    <input
+      id="identificacion_persona"
+      type="file"
+      formControlName="identificacion_persona"
+      accept=".pdf"
+    />
+    <div class="error" *ngIf="isInvalid('identificacion_persona')">
+      Debes adjuntar el documento de identificación.
+    </div>
+  </div>
+
+  <!-- 🏢 Persona Jurídica -->
+  <div *ngIf="tipoSolicitante === 'Persona Jurídica'" class="file-group">
+    <label [class.required]="isInvalid('certificado_existencia')">
+      Certificado de existencia y representación legal (PDF)
+      <span *ngIf="isRequired('certificado_existencia')" class="asterisk">*</span>
+    </label>
+    <input
+      id="certificado_existencia"
+      type="file"
+      formControlName="certificado_existencia"
+      accept=".pdf"
+    />
+    <div class="error" *ngIf="isInvalid('certificado_existencia')">
+      Debes adjuntar el certificado de existencia y representación legal.
+    </div>
+  </div>
+</div>

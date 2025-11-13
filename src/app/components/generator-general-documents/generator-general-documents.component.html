@@ -1,0 +1,46 @@
+<div [formGroup]="group" class="general-documents">
+  <h3 class="section-title">Documentos Generales</h3>
+
+  <!-- 🏠 Certificado de Tradición y Libertad -->
+  <div class="file-group">
+    <label [class.required]="isInvalid('certificado_tradicion_libertad')">
+      Certificado de Tradición y Libertad del inmueble
+      <span *ngIf="isRequired('certificado_tradicion_libertad')" class="asterisk">*</span>
+    </label>
+    <input
+      id="certificado_tradicion_libertad"
+      type="file"
+      formControlName="certificado_tradicion_libertad"
+      accept=".pdf"
+    />
+    <p class="help-text">Fecha de expedición no mayor a 3 meses.</p>
+    <div class="error" *ngIf="isInvalid('certificado_tradicion_libertad')">
+      Debes adjuntar el Certificado de Tradición y Libertad.
+    </div>
+  </div>
+
+  <!-- 🌱 Programa de manejo ambiental de RCD -->
+  <div class="file-group">
+    <label [class.required]="isInvalid('programa_manejo_rcd_pdf')">
+      Programa de manejo ambiental de RCD (PDF)
+      <span *ngIf="isRequired('programa_manejo_rcd_pdf')" class="asterisk">*</span>
+    </label>
+    <input
+      id="programa_manejo_rcd_pdf"
+      type="file"
+      formControlName="programa_manejo_rcd_pdf"
+      accept=".pdf"
+    />
+    <p class="help-text">
+      Formulado conforme a la Resolución 1257 de 2021 y requisitos de la autoridad ambiental.
+    </p>
+    <div class="error" *ngIf="isInvalid('programa_manejo_rcd_pdf')">
+      Debes adjuntar el Programa de Manejo Ambiental de RCD.
+    </div>
+  </div>
+
+  <!-- 📝 Nota general -->
+  <p class="help-text final-note">
+    Todos los archivos preferiblemente en PDF; incluir nombre del proyecto y fecha en cada documento.
+  </p>
+</div>

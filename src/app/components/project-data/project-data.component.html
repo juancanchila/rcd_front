@@ -1,18 +1,189 @@
-<div [formGroup]="group" style="display:grid; gap:16px">
-  <h3>Datos del proyecto</h3>
+<div [formGroup]="group" style="display: grid; gap: 16px;">
+  <h3>Datos del Proyecto</h3>
+  <p>Ingresar en esta página la información del Proyecto</p>
 
+  <!-- Tipo de Generador -->
   <mat-form-field appearance="outline">
-    <mat-label>Título del proyecto</mat-label>
-    <input matInput formControlName="projectTitle" />
+    <mat-label>Tipo de Generador</mat-label>
+    <mat-select formControlName="tipo_de_generador">
+      <mat-option value="PEQUEÑO GENERADOR QUE NO REQUIERE LICENCIA O PERMISO.">
+        PEQUEÑO GENERADOR QUE NO REQUIERE LICENCIA O PERMISO.
+      </mat-option>
+      <mat-option value="PEQUEÑO GENERADOR DE RCD">PEQUEÑO GENERADOR DE RCD</mat-option>
+      <mat-option value="GRAN GENERADOR DE RCD">GRAN GENERADOR DE RCD</mat-option>
+    </mat-select>
+    <mat-error *ngIf="group.get('tipo_de_generador')?.touched && group.get('tipo_de_generador')?.hasError('required')">
+      Seleccionar Tipo de Generador
+    </mat-error>
   </mat-form-field>
 
+  <!-- Localidad -->
   <mat-form-field appearance="outline">
-    <mat-label>Nombre del cliente</mat-label>
-    <input matInput formControlName="projectClient" />
+    <mat-label>Localidad</mat-label>
+    <mat-select formControlName="localidad_proyecto">
+      <mat-option value="localidad1">Localidad 1</mat-option>
+      <mat-option value="localidad2">Localidad 2</mat-option>
+      <mat-option value="locali">Localidad 3</mat-option>
+    </mat-select>
+    <mat-error *ngIf="group.get('localidad_proyecto')?.touched && group.get('localidad_proyecto')?.hasError('required')">
+      Seleccionar Localidad
+    </mat-error>
   </mat-form-field>
 
+  <!-- Barrio -->
   <mat-form-field appearance="outline">
-    <mat-label>Descripción</mat-label>
-    <textarea matInput formControlName="projectDescription"></textarea>
+    <mat-label>Barrio</mat-label>
+    <input
+      matInput
+      formControlName="barrio_proyecto"
+      [matAutocomplete]="autoBarrio"
+      placeholder="Empieza a escribir para filtrar barrios"
+    />
+    <mat-autocomplete #autoBarrio="matAutocomplete">
+      <mat-option *ngFor="let barrio of barriosFiltrados$ | async" [value]="barrio">
+        {{ barrio }}
+      </mat-option>
+    </mat-autocomplete>
   </mat-form-field>
+
+  <!-- Dirección del Proyecto -->
+  <mat-form-field appearance="outline">
+    <mat-label>Dirección del Proyecto</mat-label>
+    <input matInput formControlName="direccion_del_proyecto" placeholder="Ej: Calle 45 #12-34" />
+  </mat-form-field>
+
+  <!-- Fechas -->
+  <div style="display: flex; gap: 12px;">
+    <mat-form-field appearance="outline" style="flex:1;">
+      <mat-label>Fecha Inicio</mat-label>
+      <input matInput [matDatepicker]="inicio" formControlName="fecha_inicio" />
+      <mat-datepicker-toggle matSuffix [for]="inicio"></mat-datepicker-toggle>
+      <mat-datepicker #inicio></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" style="flex:1;">
+      <mat-label>Fecha Final</mat-label>
+      <input matInput [matDatepicker]="final" formControlName="fecha_final" />
+      <mat-datepicker-toggle matSuffix [for]="final"></mat-datepicker-toggle>
+      <mat-datepicker #final></mat-datepicker>
+    </mat-form-field>
+  </div>
+
+  <!-- Nombre del Proyecto -->
+  <mat-form-field appearance="outline">
+    <mat-label>Nombre del Proyecto</mat-label>
+    <input matInput formControlName="nombre_del_proyecto" placeholder="Ej: Edificio Los Robles" />
+  </mat-form-field>
+
+  <!-- Datos del Predio -->
+  <div formArrayName="datos_predios" class="predios">
+    <h4>Datos del Predio</h4>
+
+    <div *ngFor="let predio of datosPredios.controls; let i = index" [formGroupName]="i" style="display:flex;gap:12px;align-items:center;">
+      <mat-form-field appearance="outline" style="flex:1;">
+        <mat-label>Referencia Catastral</mat-label>
+        <input matInput formControlName="referencia_catastral" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" style="flex:1;">
+        <mat-label>Matrícula Inmobiliaria</mat-label>
+        <input matInput formControlName="matricula_inmobiliaria" />
+      </mat-form-field>
+
+      <button mat-stroked-button color="warn" (click)="eliminarPredio(i)">Eliminar</button>
+    </div>
+
+    <button mat-raised-button color="primary" (click)="agregarPredio()">Agregar otro predio</button>
+  </div>
+
+  <!-- Descripción -->
+  <mat-form-field appearance="outline">
+    <mat-label>Descripción del proyecto o actividad</mat-label>
+    <textarea matInput rows="4" formControlName="descripcion_del_proyecto_o_actividad_a_ejecutar" placeholder="Describe brevemente el alcance del proyecto"></textarea>
+  </mat-form-field>
+
+  <!-- Área y Toneladas -->
+  <div style="display:flex;gap:12px;">
+    <mat-form-field appearance="outline" style="flex:1;">
+      <mat-label>Área a Intervenir (m²)</mat-label>
+      <input matInput type="number" formControlName="area_a_intervenir_m2" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" style="flex:1;">
+      <mat-label>Cantidad de RCD a generar (Toneladas)</mat-label>
+      <input matInput type="number" formControlName="cantidad_de_rcd_a_generar_toneladas" />
+    </mat-form-field>
+  </div>
+
+  <!-- TIPO LICENCIA (si aplica) -->
+  <div *ngIf="group.get('tipo_de_generador')?.value !== 'PEQUEÑO GENERADOR QUE NO REQUIERE LICENCIA O PERMISO.'">
+    <fieldset formGroupName="tipo_licencia_0100">
+      <legend>TIPO LICENCIA</legend>
+
+      <!-- Urbanización -->
+      <div formGroupName="urbanizacion_block_0100" style="border:1px solid #ccc;padding:10px;border-radius:8px;margin-bottom:8px;">
+        <h4>1. Urbanización</h4>
+        <mat-checkbox formControlName="desarrollo">Desarrollo</mat-checkbox>
+        <mat-checkbox formControlName="saneamiento">Saneamiento</mat-checkbox>
+        <mat-checkbox formControlName="reurbanizacion">Reurbanización</mat-checkbox>
+      </div>
+
+      <!-- Construcción -->
+      <div formGroupName="construccion_block_0100" style="border:1px solid #ccc;padding:10px;border-radius:8px;margin-bottom:8px;">
+        <h4>2. Construcción</h4>
+        <mat-checkbox formControlName="obra_nueva">Obra nueva</mat-checkbox>
+        <mat-checkbox formControlName="ampliacion">Ampliación</mat-checkbox>
+        <mat-checkbox formControlName="adecuacion">Adecuación</mat-checkbox>
+        <mat-checkbox formControlName="modificacion">Modificación</mat-checkbox>
+        <mat-checkbox formControlName="restauracion">Restauración</mat-checkbox>
+        <mat-checkbox formControlName="reforzamiento_estructural">Reforzamiento estructural</mat-checkbox>
+        <mat-checkbox formControlName="demolicion">Demolición</mat-checkbox>
+        <mat-checkbox formControlName="reconstruccion">Reconstrucción</mat-checkbox>
+        <mat-checkbox formControlName="cerramiento">Cerramiento</mat-checkbox>
+        <mat-checkbox formControlName="otra_construccion">Otra</mat-checkbox>
+
+        <mat-form-field *ngIf="group.get('tipo_licencia_0100.construccion_block_0100.otra_construccion')?.value" appearance="outline">
+          <mat-label>¿Cuál?</mat-label>
+          <input matInput formControlName="otra_cual_construccion_0100" />
+        </mat-form-field>
+      </div>
+
+      <!-- Permiso BIC -->
+      <div formGroupName="bic_block_0100" style="border:1px solid #ccc;padding:10px;border-radius:8px;margin-bottom:8px;">
+        <h4>3. Permiso de Intervención de Bienes de Interés Cultural</h4>
+        <mat-checkbox formControlName="intervenciones_minimas">Intervenciones mínimas</mat-checkbox>
+        <mat-checkbox formControlName="primeros_auxilios">Primeros auxilios</mat-checkbox>
+        <mat-checkbox formControlName="reparaciones_locativas">Reparaciones locativas</mat-checkbox>
+      </div>
+
+      <!-- Espacio Público -->
+      <div formGroupName="espacio_publico_block_0100" style="border:1px solid #ccc;padding:10px;border-radius:8px;margin-bottom:8px;">
+        <h4>4. Intervención / Ocupación del Espacio Público</h4>
+        <mat-checkbox formControlName="instalaciones_redes">Construcción, rehabilitación, reparación, sustitución, modificación y/o ampliación de instalaciones y redes de servicios públicos o telecomunicaciones</mat-checkbox>
+        <mat-checkbox formControlName="andenes_parques">Construcción y rehabilitación de andenes, parques, plazas, separadores, vías peatonales, puentes peatonales, escaleras y rampas</mat-checkbox>
+        <mat-checkbox formControlName="otra_espacio_publico">OTRA</mat-checkbox>
+
+        <mat-form-field *ngIf="group.get('tipo_licencia_0100.espacio_publico_block_0100.otra_espacio_publico')?.value" appearance="outline">
+          <mat-label>OTRA — ¿Cuál?</mat-label>
+          <input matInput formControlName="otra_cual_espacio_publico_0100" />
+        </mat-form-field>
+      </div>
+
+      <!-- Demolición por ruina -->
+      <div formGroupName="demolicion_ruina_block_0100" style="border:1px solid #ccc;padding:10px;border-radius:8px;margin-bottom:8px;">
+        <h4>5. Demolición por Declaración de Estado de Ruina</h4>
+        <mat-radio-group formControlName="demolicion_respuesta_0100">
+          <mat-radio-button value="si">SI</mat-radio-button>
+          <mat-radio-button value="no">NO</mat-radio-button>
+        </mat-radio-group>
+        <p>Si su respuesta es SI, adjuntar el acto administrativo que declara el estado de ruina y ordena la demolición parcial o total.</p>
+      </div>
+
+      <!-- Resolución -->
+      <mat-form-field appearance="outline">
+        <mat-label>No. Resolución Licencia / Autorización BIC</mat-label>
+        <input matInput formControlName="resolucion_numero_0100" />
+      </mat-form-field>
+    </fieldset>
+  </div>
 </div>

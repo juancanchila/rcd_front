@@ -39,13 +39,9 @@ export class ContactDataComponent implements OnInit {
 
     if (!localidadControl || !barrioControl) return;
 
-    const localidad$ = localidadControl.valueChanges.pipe(
-      startWith(localidadControl.value)
-    );
+    const localidad$ = localidadControl.valueChanges.pipe(startWith(localidadControl.value));
 
-    const barrioInput$ = barrioControl.valueChanges.pipe(
-      startWith(barrioControl.value)
-    );
+    const barrioInput$ = barrioControl.valueChanges.pipe(startWith(barrioControl.value));
 
     // Cargar los barrios desde el archivo JSON correspondiente
     this.barriosActuales$ = localidad$.pipe(
@@ -66,10 +62,7 @@ export class ContactDataComponent implements OnInit {
     );
 
     // Filtrar barrios según texto del usuario
-    this.barriosFiltrados$ = combineLatest([
-      this.barriosActuales$,
-      barrioInput$,
-    ]).pipe(
+    this.barriosFiltrados$ = combineLatest([this.barriosActuales$, barrioInput$]).pipe(
       map(([barrios, texto]) => {
         if (!texto) return barrios;
         const t = ('' + texto).toLowerCase();
