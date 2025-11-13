@@ -11,6 +11,7 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 })
 export class GeneratorGeneralDocumentsComponent implements OnInit {
   @Input() group!: FormGroup;
+    @Input() tipoSolicitante!: string; // "Persona Natural" o "Persona Jurídica"
 
   ngOnInit() {
     console.log('📂 Inicializando documentos del proyecto');

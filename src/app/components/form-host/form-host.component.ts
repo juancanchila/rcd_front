@@ -59,16 +59,12 @@ export class FormHostComponent {
   // ============================================================
   private buildForm(): void {
     this.generaldocuments = this.fb.group({
-      cert_ext_rep_legal: ['', Validators.required],
+      carta_solicitud: ['', Validators.required],
+      descripcion_tecnica_proyecto: ['', Validators.required],
       certificado_tradicion_libertad: ['', Validators.required],
-      contrato_obra_y_otros: [''],
-      copia_resolucion_curaduria_licencias: ['', Validators.required],
-      nota_no_requiere_licencia_planeacion: [''],
-      autorizacion_intervencion_bic: [''],
-      programa_manejo_rcd_pdf: ['', Validators.required],
-      carta_de_solicitud: ['', Validators.required],
+      autorizacion_bic: [''],
+      registro_defuncion: [''],
     });
-
     // -------------------------------
     // 🟩 CONTACTO
     // -------------------------------

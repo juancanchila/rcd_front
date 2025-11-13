@@ -1,6 +1,42 @@
 <div [formGroup]="group" class="general-documents">
   <h3 class="section-title">Documentos Generales</h3>
 
+  <!-- 📄 Carta de solicitud -->
+  <div class="file-group">
+    <label [class.required]="isInvalid('carta_solicitud')">
+      Carta de Solicitud
+      <span *ngIf="isRequired('carta_solicitud')" class="asterisk">*</span>
+    </label>
+    <input
+      id="carta_solicitud"
+      type="file"
+      formControlName="carta_solicitud"
+      accept=".pdf"
+    />
+    <p class="help-text">Debe estar firmada por el solicitante o representante legal.</p>
+    <div class="error" *ngIf="isInvalid('carta_solicitud')">
+      Debes adjuntar la Carta de Solicitud.
+    </div>
+  </div>
+
+  <!-- 🧾 Descripción técnica del proyecto -->
+  <div class="file-group">
+    <label [class.required]="isInvalid('descripcion_tecnica_proyecto')">
+      Descripción técnica del proyecto
+      <span *ngIf="isRequired('descripcion_tecnica_proyecto')" class="asterisk">*</span>
+    </label>
+    <input
+      id="descripcion_tecnica_proyecto"
+      type="file"
+      formControlName="descripcion_tecnica_proyecto"
+      accept=".pdf"
+    />
+    <p class="help-text">Debe incluir planos, ubicación, área intervenida y objetivo del proyecto.</p>
+    <div class="error" *ngIf="isInvalid('descripcion_tecnica_proyecto')">
+      Debes adjuntar la Descripción Técnica del Proyecto.
+    </div>
+  </div>
+
   <!-- 🏠 Certificado de Tradición y Libertad -->
   <div class="file-group">
     <label [class.required]="isInvalid('certificado_tradicion_libertad')">
@@ -19,28 +55,53 @@
     </div>
   </div>
 
-  <!-- 🌱 Programa de manejo ambiental de RCD -->
+  <!-- 🏛️ Autorización de intervención BIC -->
   <div class="file-group">
-    <label [class.required]="isInvalid('programa_manejo_rcd_pdf')">
-      Programa de manejo ambiental de RCD (PDF)
-      <span *ngIf="isRequired('programa_manejo_rcd_pdf')" class="asterisk">*</span>
+    <label [class.required]="isInvalid('autorizacion_bic')">
+      Copia de la autorización de intervención de Bienes de Interés Cultural (BIC) <em>(si aplica)</em>
     </label>
     <input
-      id="programa_manejo_rcd_pdf"
+      id="autorizacion_bic"
       type="file"
-      formControlName="programa_manejo_rcd_pdf"
+      formControlName="autorizacion_bic"
+      accept=".pdf"
+    />
+    <p class="help-text">Solo en caso de que el inmueble esté catalogado como BIC.</p>
+    <div class="error" *ngIf="isInvalid('autorizacion_bic')">
+      Debes adjuntar la autorización de intervención de BIC si aplica.
+    </div>
+  </div>
+
+  <!-- ⚰️ Fallecimiento del propietario (solo persona natural) -->
+  <div class="file-group" *ngIf="tipoSolicitante === 'Persona Natural'">
+    <label [class.required]="isInvalid('registro_defuncion')">
+      Registro de defunción del propietario del bien inmueble <em>(si aplica)</em>
+    </label>
+    <input
+      id="registro_defuncion"
+      type="file"
+      formControlName="registro_defuncion"
       accept=".pdf"
     />
     <p class="help-text">
-      Formulado conforme a la Resolución 1257 de 2021 y requisitos de la autoridad ambiental.
+      En caso de fallecimiento del propietario, se debe anexar este documento junto con los siguientes:
     </p>
-    <div class="error" *ngIf="isInvalid('programa_manejo_rcd_pdf')">
-      Debes adjuntar el Programa de Manejo Ambiental de RCD.
+
+    <ul class="help-text">
+      <li>
+        Radicación ante juzgado o notaría del proceso de sucesión, o documento privado notariado suscrito por los posibles herederos donde se manifieste que no hay herederos con mayor derecho y se comprometan a realizar los trámites de sucesión.
+      </li>
+      <li>Copia del documento de identificación del o los herederos.</li>
+      <li>Copia del registro civil de nacimiento de los hijos o registro de matrimonio del cónyuge (según el caso).</li>
+    </ul>
+
+    <div class="error" *ngIf="isInvalid('registro_defuncion')">
+      Debes adjuntar el registro de defunción del propietario si aplica.
     </div>
   </div>
 
   <!-- 📝 Nota general -->
   <p class="help-text final-note">
-    Todos los archivos preferiblemente en PDF; incluir nombre del proyecto y fecha en cada documento.
+    Todos los archivos deben estar en formato PDF e incluir el nombre del proyecto y la fecha en cada documento.
   </p>
 </div>
