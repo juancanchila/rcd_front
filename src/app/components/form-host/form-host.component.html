@@ -24,9 +24,9 @@
   [tipoSolicitante]="contacto.get('tipo_de_solicitante')?.value">
 </personal-documents>
 
-<gestor-general-documents
+<generator-general-documents
  *ngIf="tipo === 'generador' || tipo === 'receptor' || tipo === 'proyecto'"  [group]="generaldocuments!">    
-</gestor-general-documents>
+</generator-general-documents>
 
   </div>
 <div *ngIf="step === 3">

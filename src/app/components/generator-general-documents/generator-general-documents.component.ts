@@ -6,8 +6,8 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
   selector: 'generator-general-documents',
   imports: [CommonModule, ReactiveFormsModule],
   standalone: true,
-  templateUrl: './gestor-general-documents.component.html',
-  styleUrl: './gestor-general-documents.component.css',
+  templateUrl: './generator-general-documents.component.html',
+  styleUrl: './generator-general-documents.component.css',
 })
 export class GeneratorGeneralDocumentsComponent implements OnInit {
   @Input() group!: FormGroup;
