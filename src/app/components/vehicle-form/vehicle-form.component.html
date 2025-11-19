@@ -1,0 +1,56 @@
+<div class="form-host">
+
+  <!-- Barra de progreso -->
+  <mat-progress-bar
+    mode="determinate"
+    [value]="(step + 1) * (100 / totalSteps)">
+  </mat-progress-bar>
+
+  <!-- PASO 1 — DATOS DEL VEHÍCULO -->
+  <div *ngIf="step === 0">
+    <vehicle-data [group]="vehicleForm"></vehicle-data>
+
+    <div class="form-actions">
+      <button mat-flat-button color="primary" (click)="nextStep()">Siguiente</button>
+    </div>
+  </div>
+
+  <!-- PASO 2 — DOCUMENTOS -->
+  <div *ngIf="step === 1">
+    <vehicle-documents [group]="vehicleDocumentsForm" ></vehicle-documents>
+
+    <div class="form-actions">
+      <button mat-stroked-button (click)="prevStep()">Anterior</button>
+      <button mat-flat-button color="primary" (click)="nextStep()">Siguiente</button>
+    </div>
+  </div>
+
+  <!-- PASO 3 — RESUMEN -->
+  <div *ngIf="step === 2">
+    <h2>Resumen del Vehículo</h2>
+
+    <div class="summary-box">
+
+      <p><strong>Clase:</strong> {{ vehicleForm.get('clase_vehiculo')?.value }}</p>
+      <p><strong>Placa:</strong> {{ vehicleForm.get('placa_vehiculo')?.value }}</p>
+      <p><strong>Marca:</strong> {{ vehicleForm.get('marca')?.value }}</p>
+      <p><strong>Modelo:</strong> {{ vehicleForm.get('modelo')?.value }}</p>
+
+      <p><strong>Capacidad:</strong>
+        {{ vehicleForm.get('capacidad_vehiculo')?.value }}
+        {{ vehicleForm.get('unidad_capacidad')?.value }}
+      </p>
+
+      <h3>Documentos cargados</h3>
+      <ul>
+        <li *ngFor="let doc of getUploadedDocuments()">{{ doc }}</li>
+      </ul>
+    </div>
+
+    <div class="form-actions">
+      <button mat-stroked-button (click)="prevStep()">Anterior</button>
+      <button mat-flat-button color="accent" (click)="onSubmit()">Guardar</button>
+    </div>
+  </div>
+
+</div>

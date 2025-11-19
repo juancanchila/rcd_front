@@ -31,6 +31,7 @@ export class DetalleTransportadorComponent implements OnInit {
   transportador: Transportador | null = null;
   vehiculos: Vehiculo[] = [];
   loading = false;
+  private id: number | undefined;
 
   constructor(
     private transportadorService: TransportadorService,
@@ -39,9 +40,9 @@ export class DetalleTransportadorComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    if (id) {
-      await this.cargarTransportador(id);
+   this.id = Number(this.route.snapshot.paramMap.get('id'));
+    if (this.id) {
+      await this.cargarTransportador(this.id);
     }
   }
 
@@ -72,7 +73,9 @@ export class DetalleTransportadorComponent implements OnInit {
       this.loading = false;
     }
   }
-
+ agregarVehiculo() {
+  this.router.navigate([`/transportador/${this.id}/vehiculo-create`]);
+}
   goToDetalle(id: number) {
     this.router.navigate(['/vehiculo-detalle', id]);
   }

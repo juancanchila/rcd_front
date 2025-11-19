@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-
 import { Vehiculo } from '../../models/vehiculo.model';
 import { VehiculoService } from '../../services/vehiculo.service';
 import { MatButtonModule } from '@angular/material/button';
@@ -33,7 +32,7 @@ export class VehiculodetalleComponent implements OnInit {
   constructor(
     private vehiculoService: VehiculoService,
     private route: ActivatedRoute,
-       private router: Router
+    private router: Router
   ) {}
 
   async ngOnInit() {
@@ -56,20 +55,26 @@ export class VehiculodetalleComponent implements OnInit {
     }
   }
 
-    goToPin(id: number) {
+  goToPin(id: number) {
     this.router.navigate(['/pin/proyecto/', id]);
   }
 
-encodeImage(fileName: string | null): string {
-  if (!fileName) return '';
-  // URL completa hacia el backend para descargar la imagen
-  return 'https://rcdenlinea.epacartagena.gov.co/api/files/' + encodeURIComponent(fileName);
-}
+  // Detecta si el archivo es imagen
+  isImage(file: string | null): boolean {
+    if (!file) return false;
+    const ext = file.split('.').pop()?.toLowerCase();
+    return ['jpg','jpeg','png','gif'].includes(ext || '');
+  }
 
-encodeUrl(fileName: string | null): string {
-  if (!fileName) return '#'; // placeholder si no hay archivo
-  // URL completa hacia el backend para abrir en nueva pestaña
-  return 'https://rcdenlinea.epacartagena.gov.co/api/files/' + encodeURIComponent(fileName);
-}
+  // URL para mostrar imagen
+  encodeImage(file: string | null): string {
+    if (!file) return '';
+    return `https://rcdenlinea.epacartagena.gov.co/api/files/${encodeURIComponent(file)}`;
+  }
 
+  // URL para abrir documentos en nueva pestaña
+  encodeUrl(file: string | null): string {
+    if (!file) return '#';
+    return `https://rcdenlinea.epacartagena.gov.co/api/files/${encodeURIComponent(file)}`;
+  }
 }

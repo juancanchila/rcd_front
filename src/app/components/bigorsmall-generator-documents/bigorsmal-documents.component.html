@@ -1,0 +1,141 @@
+<div [formGroup]="group" class="general-documents">
+  <h3 class="section-title">Documentos Para Peueños y Grandes Generadores</h3>
+
+  <!-- 📊 Cuadro de Cantidades de RCD -->
+  <div class="file-group">
+    <label [class.required]="isInvalid('cuadro_cantidades_rcd')">
+      Cuadro de cantidades de RCD a generar, discriminados por tipo de RCD
+      <span *ngIf="isRequired('cuadro_cantidades_rcd')" class="asterisk">*</span>
+    </label>
+    <input id="cuadro_cantidades_rcd" type="file" formControlName="cuadro_cantidades_rcd" accept=".pdf" />
+    <p class="help-text">
+      Debe seguir la clasificación establecida en el Artículo 2 de la Resolución 0472 de 2017.
+    </p>
+    <div class="error" *ngIf="isInvalid('cuadro_cantidades_rcd')">
+      Debes adjuntar el Cuadro de Cantidades de RCD.
+    </div>
+  </div>
+
+  <!-- 💳 Soporte de pago del PIN -->
+  <div class="file-group">
+    <label [class.required]="isInvalid('soporte_pago_pin')">
+      Soporte de pago del PIN
+      <span *ngIf="isRequired('soporte_pago_pin')" class="asterisk">*</span>
+    </label>
+    <input id="soporte_pago_pin" type="file" formControlName="soporte_pago_pin" accept=".pdf" />
+    <p class="help-text">Comprobante de pago asociado al trámite ambiental.</p>
+    <div class="error" *ngIf="isInvalid('soporte_pago_pin')">
+      Debes adjuntar el soporte de pago del PIN.
+    </div>
+  </div>
+
+  <!-- 📅 Cronograma de actividades -->
+  <div class="file-group">
+    <label [class.required]="isInvalid('cronograma_actividades')">
+      Cronograma de actividades del proyecto
+      <span *ngIf="isRequired('cronograma_actividades')" class="asterisk">*</span>
+    </label>
+    <input id="cronograma_actividades" type="file" formControlName="cronograma_actividades" accept=".pdf" />
+    <p class="help-text">Debe incluir las fechas estimadas y responsables de cada actividad.</p>
+    <div class="error" *ngIf="isInvalid('cronograma_actividades')">
+      Debes adjuntar el Cronograma de Actividades.
+    </div>
+  </div>
+
+  <!-- 🏗️ Planos arquitectónicos -->
+  <div class="file-group">
+    <label [class.required]="isInvalid('planos_aprobados_curaduria')">
+      Copia de los planos arquitectónicos aprobados por curaduría urbana
+      <span *ngIf="isRequired('planos_aprobados_curaduria')" class="asterisk">*</span>
+    </label>
+    <input id="planos_aprobados_curaduria" type="file" formControlName="planos_aprobados_curaduria" accept=".pdf" />
+    <p class="help-text">Planos oficiales debidamente aprobados por la curaduría urbana.</p>
+    <div class="error" *ngIf="isInvalid('planos_aprobados_curaduria')">
+      Debes adjuntar los planos aprobados por curaduría.
+    </div>
+  </div>
+
+  <!-- 📜 Contrato de Obra y otrosí -->
+  <div class="file-group">
+    <label [class.required]="isInvalid('contrato_obra_otros')">
+      Contrato de Obra y OTROSÍ, debidamente firmados por las partes
+      <span *ngIf="isRequired('contrato_obra_otros')" class="asterisk">*</span>
+    </label>
+    <input id="contrato_obra_otros" type="file" formControlName="contrato_obra_otros" accept=".pdf" />
+    <p class="help-text">
+      Aplica si la solicitud del PIN la realiza el contratista de obra.
+    </p>
+    <div class="error" *ngIf="isInvalid('contrato_obra_otros')">
+      Debes adjuntar el Contrato de Obra y sus otrosí.
+    </div>
+  </div>
+
+  <!-- 🏛️ Resolución o Licencia -->
+  <div class="file-group">
+    <label [class.required]="isInvalid('resolucion_curaduria_o_licencia')">
+      Copia de la resolución o licencia correspondiente
+      <span *ngIf="isRequired('resolucion_curaduria_o_licencia')" class="asterisk">*</span>
+    </label>
+    <input id="resolucion_curaduria_o_licencia" type="file" formControlName="resolucion_curaduria_o_licencia" accept=".pdf" />
+    <p class="help-text">
+      Puede ser licencia urbanística, de intervención u ocupación del espacio público, o licencia ambiental (según aplique).
+    </p>
+    <div class="error" *ngIf="isInvalid('resolucion_curaduria_o_licencia')">
+      Debes adjuntar la licencia o resolución correspondiente.
+    </div>
+  </div>
+
+  <!-- 🌱 Programa de manejo ambiental de RCD -->
+  <div class="file-group">
+    <label [class.required]="isInvalid('programa_manejo_rcd_pdf')">
+      Programa de manejo ambiental de Residuos de Construcción y Demolición (RCD)
+      <span *ngIf="isRequired('programa_manejo_rcd_pdf')" class="asterisk">*</span>
+    </label>
+    <input id="programa_manejo_rcd_pdf" type="file" formControlName="programa_manejo_rcd_pdf" accept=".pdf" />
+    <p class="help-text">
+      Formulado según los requisitos mínimos de la Resolución 1257 de 2021 y los establecidos por la autoridad ambiental.
+    </p>
+    <div class="error" *ngIf="isInvalid('programa_manejo_rcd_pdf')">
+      Debes adjuntar el Programa de Manejo Ambiental de RCD.
+    </div>
+  </div>
+
+  <!-- 🏛️ Autorización BIC -->
+  <div class="file-group">
+    <label [class.required]="isInvalid('autorizacion_bic')">
+      Copia de la autorización de intervención de Bienes de Interés Cultural (BIC)
+      <em>(si aplica)</em>
+    </label>
+    <input id="autorizacion_bic" type="file" formControlName="autorizacion_bic" accept=".pdf" />
+    <p class="help-text">
+      Expedido por la Alcaldía Mayor de Cartagena (artículos 9 al 12 del Decreto 0404 de 2024).
+    </p>
+  </div>
+
+  <!-- 🧾 Certificado de Planeación (si no requiere licencia) -->
+  <div class="file-group">
+    <label [class.required]="isInvalid('certificado_no_requiere_licencia')">
+      Certificado de Planeación (si no se requiere licencia)
+    </label>
+    <input id="certificado_no_requiere_licencia" type="file" formControlName="certificado_no_requiere_licencia" accept=".pdf" />
+    <p class="help-text">
+      Certificado expedido por la Secretaría de Planeación donde conste que no se requiere licencia de intervención y ocupación de espacio público.
+    </p>
+  </div>
+
+  <!-- 🌊 Permiso de Ocupación de Cauce -->
+  <div class="file-group">
+    <label [class.required]="isInvalid('permiso_ocupacion_cauce')">
+      Permiso de ocupación de cauce <em>(si aplica)</em>
+    </label>
+    <input id="permiso_ocupacion_cauce" type="file" formControlName="permiso_ocupacion_cauce" accept=".pdf" />
+    <p class="help-text">
+      Copia del acto administrativo a través del cual se otorga el permiso de ocupación de cauce.
+    </p>
+  </div>
+
+  <!-- 📝 Nota general -->
+  <p class="help-text final-note">
+    Todos los documentos deben presentarse en formato PDF, con nombre del proyecto y fecha de emisión visibles.
+  </p>
+</div>

@@ -13,6 +13,7 @@ import { VehicleDocumentsComponent } from '../vehicle-documents/vehicle-document
 import { SummaryDataComponent } from '../summary-data/summary-data.component';
 import { PersonalDocuments } from '../personal-documents/personal-documents.component';
 import { GeneratorGeneralDocumentsComponent } from '../generator-general-documents/generator-general-documents.component';
+import { BigOrSmallGeneratorDocuments } from '../bigorsmall-generator-documents/bigorsmal-documents.component';
 @Component({
   selector: 'form-host',
   standalone: true,
@@ -30,6 +31,7 @@ import { GeneratorGeneralDocumentsComponent } from '../generator-general-documen
     VehicleDocumentsComponent,
     SummaryDataComponent,
     PersonalDocuments,
+    BigOrSmallGeneratorDocuments
   ],
   templateUrl: './form-host.component.html',
   styleUrls: ['./form-host.component.scss'],
@@ -46,9 +48,10 @@ export class FormHostComponent {
   vehiculodocuments!: FormGroup;
   personaldocuments!: FormGroup;
   generaldocuments!: FormGroup;
+  bigorsmalldocuments!: FormGroup;
 
   step = 0;
-  totalSteps = 4; // contacto, proyecto, gestor, vehículo, mapa
+  totalSteps = 5; // contacto, proyecto, gestor, vehículo, mapa
 
   constructor(private fb: FormBuilder) {
     this.buildForm();
@@ -58,6 +61,21 @@ export class FormHostComponent {
   // 🔹 CONSTRUCCIÓN DE FORMULARIOS
   // ============================================================
   private buildForm(): void {
+
+
+        this.bigorsmalldocuments = this.fb.group({
+      cuadro_cantidades_rcd: ['', Validators.required],
+      soporte_pago_pin: ['', Validators.required],
+      cronograma_actividades: ['', Validators.required],
+      planos_aprobados_curaduria: ['', Validators.required],
+      contrato_obra_otros: ['', Validators.required],
+      resolucion_curaduria_o_licencia: ['', Validators.required],
+      programa_manejo_rcd_pdf: ['', Validators.required],
+      autorizacion_bic: [''],
+      certificado_no_requiere_licencia: [''],
+      permiso_ocupacion_cauce: ['']
+    });
+
     this.generaldocuments = this.fb.group({
       carta_solicitud: ['', Validators.required],
       descripcion_tecnica_proyecto: ['', Validators.required],
@@ -251,6 +269,7 @@ export class FormHostComponent {
       vehiculodocuments: this.vehiculodocuments,
       personaldocuments: this.personaldocuments,
       generaldocuments: this.generaldocuments,
+      bigorsmalldocuments: this.bigorsmalldocuments,
       latitud: [''],
       longitud: [''],
     });

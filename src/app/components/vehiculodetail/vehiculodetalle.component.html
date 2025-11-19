@@ -86,24 +86,35 @@
       </tr>
     </table>
 
-    <h3>Fotos del Vehículo</h3>
-    <div class="fotos-container">
-      <img *ngIf="vehiculo.fotoFrente" [src]="encodeImage(vehiculo.fotoFrente)" alt="Frente" />
-      <img
-        *ngIf="vehiculo.fotoLadoDerecho"
-        [src]="encodeImage(vehiculo.fotoLadoDerecho)"
-        alt="Lado Derecho"
-      />
-      <img
-        *ngIf="vehiculo.fotoLadoIzquierdo"
-        [src]="encodeImage(vehiculo.fotoLadoIzquierdo)"
-        alt="Lado Izquierdo"
-      />
-      <img *ngIf="vehiculo.fotoTrasera" [src]="encodeImage(vehiculo.fotoTrasera)" alt="Trasera" />
-    </div>
+   <h3>Fotos del Vehículo</h3>
+<div class="fotos-container">
+  <!-- Frente -->
+  <ng-container *ngIf="vehiculo.fotoFrente">
+    <img *ngIf="isImage(vehiculo.fotoFrente)" [src]="encodeImage(vehiculo.fotoFrente)" alt="Frente" />
+    <a *ngIf="!isImage(vehiculo.fotoFrente)" [href]="encodeUrl(vehiculo.fotoFrente)" target="_blank" rel="noopener noreferrer">Frente</a>
+  </ng-container>
 
-    <p *ngIf="!loading && !vehiculo" class="sin-datos">No se encontró información del vehículo.</p>
-  </div>
+  <!-- Lado Derecho -->
+  <ng-container *ngIf="vehiculo.fotoLadoDerecho">
+    <img *ngIf="isImage(vehiculo.fotoLadoDerecho)" [src]="encodeImage(vehiculo.fotoLadoDerecho)" alt="Lado Derecho" />
+    <a *ngIf="!isImage(vehiculo.fotoLadoDerecho)" [href]="encodeUrl(vehiculo.fotoLadoDerecho)" target="_blank" rel="noopener noreferrer">Lado Derecho</a>
+  </ng-container>
+
+  <!-- Lado Izquierdo -->
+  <ng-container *ngIf="vehiculo.fotoLadoIzquierdo">
+    <img *ngIf="isImage(vehiculo.fotoLadoIzquierdo)" [src]="encodeImage(vehiculo.fotoLadoIzquierdo)" alt="Lado Izquierdo" />
+    <a *ngIf="!isImage(vehiculo.fotoLadoIzquierdo)" [href]="encodeUrl(vehiculo.fotoLadoIzquierdo)" target="_blank" rel="noopener noreferrer">Lado Izquierdo</a>
+  </ng-container>
+
+  <!-- Trasera -->
+  <ng-container *ngIf="vehiculo.fotoTrasera">
+    <img *ngIf="isImage(vehiculo.fotoTrasera)" [src]="encodeImage(vehiculo.fotoTrasera)" alt="Trasera" />
+    <a *ngIf="!isImage(vehiculo.fotoTrasera)" [href]="encodeUrl(vehiculo.fotoTrasera)" target="_blank" rel="noopener noreferrer">Trasera</a>
+  </ng-container>
+</div>
+
+<p *ngIf="!loading && !vehiculo" class="sin-datos">No se encontró información del vehículo.</p>
+
   <br /><br /><br /><br />
   <shared-footer></shared-footer>
 </div>

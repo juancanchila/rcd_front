@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { FormHostComponent } from '../form-host/form-host.component';
 
+
 @Component({
   selector: 'app-form-create',
   standalone: true,
@@ -16,7 +17,7 @@ import { FormHostComponent } from '../form-host/form-host.component';
     MatToolbarModule,
     MatCardModule,
     MatIconModule,
-    FormHostComponent
+    FormHostComponent,
   ],
   templateUrl: './form-create.html',
   styleUrl: './form-create.css'

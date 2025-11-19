@@ -1,8 +1,9 @@
 <!-- Contenido principal -->
 <main class="lista-page-wrapper">
   <!-- Botón para crear nuevo -->
-<div style="text-align:right; margin-bottom:12px">
-  <button mat-raised-button color="primary" [routerLink]="['/create', tipo]">
+<div style="text-align:right; margin-bottom:12px"
+     *ngIf="!['resolucion', 'visitatecnica', 'reporte', 'vehiculo'].includes(tipo)">
+  <button mat-raised-button color="primary"   [routerLink]="['/', tipo, 'create']">
     <mat-icon>add</mat-icon>
     Crear nuevo {{ tipo | titlecase }}
   </button>

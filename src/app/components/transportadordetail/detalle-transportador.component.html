@@ -45,6 +45,13 @@
   <mat-card class="vehiculos-card" *ngIf="vehiculos.length > 0">
     <mat-card-header>
       <mat-card-title>🚚 Vehículos del Transportador</mat-card-title>
+      
+  <!-- ⭐ Botón agregar vehículo -->
+  <button mat-icon-button color="primary"
+          class="btn-add-vehiculo"
+          (click)="agregarVehiculo()">
+    <mat-icon>add_circle</mat-icon>
+  </button>
     </mat-card-header>
     <mat-card-content>
       <table class="tabla-vehiculos">

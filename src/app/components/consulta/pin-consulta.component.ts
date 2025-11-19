@@ -36,7 +36,7 @@ import { environment } from '../../../environments/environment.prod';
     MatProgressSpinnerModule
   ],
   templateUrl: './pin-consulta.component.html',
-  styleUrls: ['./pin-consulta.component.scss']
+  styleUrls: ['./pin-consulta.component.css']
 })
 export class PinConsultaComponent {
   private baseUrl = environment.API_URL;
@@ -132,7 +132,7 @@ async consultar() {
     this.resoluciones = [];
     this.vehiculo = null;
   }
-
+  
   goToPinResolucion(id: number) { this.router.navigate(['/pin/resolucion/', id]); }
   goToPinProyecto(id: number) { this.router.navigate(['/pin/proyecto/', id]); }
   goToPinVehiculo(id: number) { this.router.navigate(['/pin/vehiculo/', id]); }

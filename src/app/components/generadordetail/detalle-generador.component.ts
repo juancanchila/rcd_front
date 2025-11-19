@@ -21,8 +21,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatIconModule,
     MatButtonModule,
     MatToolbarModule,
-    SharedFooterComponent,
     MatProgressSpinnerModule,
+    SharedFooterComponent
   ],
   templateUrl: './detalle-generador.component.html',
   styleUrls: ['./detalle-generador.component.scss'],
@@ -31,6 +31,7 @@ export class DetalleGeneradorComponent implements OnInit {
   generador: Generador | null = null;
   proyectos: Proyecto[] = [];
   loading = false;
+  id: number | null = 0;
 
   constructor(
     private generadorService: GeneradorService,
@@ -41,9 +42,9 @@ export class DetalleGeneradorComponent implements OnInit {
 
   async ngOnInit() {
     const idParam = this.route.snapshot.paramMap.get('id');
-    const id = idParam ? Number(idParam) : null;
-    if (id) {
-      await this.cargarGenerador(id);
+   this.id = idParam ? Number(idParam) : null;
+    if (this.id) {
+      await this.cargarGenerador(this.id);
     }
   }
 
@@ -70,6 +71,11 @@ export class DetalleGeneradorComponent implements OnInit {
     }
   }
 
+  agregarResolucion() {
+   console.log('Navegando a agregar resolución para generador ID:');
+   // agregar redireccion al fomrulariioqu agrega resolcuion al id del generador  path: 'generador/:id/resolucion-create', cuanto this.id
+   this.router.navigate(['/generador', this.id, 'proyecto-create']);
+  }
   goToDetalle(id: number) {
     this.router.navigate(['/proyecto-detalle', id]);
   }

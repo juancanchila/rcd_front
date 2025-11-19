@@ -27,8 +27,14 @@
 <generator-general-documents
  *ngIf="tipo === 'generador' || tipo === 'receptor' || tipo === 'proyecto'"  [group]="generaldocuments!">    
 </generator-general-documents>
+<bigorsmall-documents
+  *ngIf="tipo === 'generador' "
+  [group]="bigorsmalldocuments!">
+</bigorsmall-documents> 
+
 
   </div>
+
 <div *ngIf="step === 3">
   <summary-data [form]="form" [tipo]="tipo!"></summary-data>
 </div>

@@ -1,0 +1,32 @@
+.section-title {
+  font-weight: 600;
+  color: #1f1f1f;
+}
+
+.info-text {
+  font-size: 14px;
+  color: #444;
+  margin-bottom: 12px;
+}
+
+.file-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.file-group label {
+  font-weight: 500;
+  color: #333;
+}
+
+.file-group input[type="file"] {
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+small {
+  color: #666;
+  font-size: 13px;
+}

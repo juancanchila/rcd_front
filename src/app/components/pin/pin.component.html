@@ -1,4 +1,82 @@
-<div class="container">
+<!-- ==========================
+     USUARIO NO AUTENTICADO
+     Solo tabla resumida
+=========================== -->
+<div *ngIf="!isAuthenticated" data-unauthenticated>
+  <h2>Información del PIN</h2>
+  <table class="data-table">
+    <tr>
+      <td><strong>Tipo de PIN</strong></td>
+      <td>{{ pinData.tipoPin | uppercase }}</td>
+    </tr>
+    <tr>
+      <td><strong>Número de PIN</strong></td>
+      <td>{{ pinData.numeroPin }}</td>
+    </tr>
+
+    <!-- DATOS GENERALES SEGÚN TIPO -->
+    <ng-container *ngIf="tipo === 'proyecto'">
+      <tr>
+        <td><strong>Nombre del Proyecto</strong></td>
+        <td>{{ pinData.nombreProyecto }}</td>
+      </tr>
+      <tr>
+        <td><strong>Dirección</strong></td>
+        <td>{{ pinData.Direccion }}</td>
+      </tr>
+      <tr>
+        <td><strong>Matrícula Inmobiliaria</strong></td>
+        <td>{{ pinData.matriculaInmobiliaria }}</td>
+      </tr>
+    </ng-container>
+
+    <ng-container *ngIf="tipo === 'vehiculo'">
+      <tr>
+        <td><strong>Placa</strong></td>
+        <td>{{ pinData.placa }}</td>
+      </tr>
+      <tr>
+        <td><strong>Modelo</strong></td>
+        <td>{{ pinData.modelo }}</td>
+      </tr>
+      <tr>
+        <td><strong>Capacidad</strong></td>
+        <td>{{ pinData.capacidad }}</td>
+      </tr>
+    </ng-container>
+
+    <ng-container *ngIf="tipo === 'resolucion'">
+      <tr>
+        <td><strong>Número de Resolución</strong></td>
+        <td>{{ pinData.numeroResolucion }}</td>
+      </tr>
+      <tr>
+        <td><strong>Tipo de Aprovechamiento</strong></td>
+        <td>{{ pinData.tipoAprovechamiento }}</td>
+      </tr>
+    </ng-container>
+
+    <tr>
+      <td><strong>Fecha de Expedición</strong></td>
+      <td>{{ pinData.fechaExpedicion }}</td>
+    </tr>
+    <tr>
+      <td><strong>Fecha de Vencimiento</strong></td>
+      <td>{{ pinData.fechaVencimiento }}</td>
+    </tr>
+  </table>
+
+  <p class="legal-text">
+    Este PIN se expide el {{ pinData.fechaExpedicion }} en la ciudad de {{ pinData.ciudadExpedicion }},
+    siguiendo los requerimientos establecidos en la resolución 658 de 2019.
+  </p>
+</div>
+
+<!-- ==========================
+     USUARIO AUTENTICADO
+     Todo el contenido completo
+=========================== -->
+<div *ngIf="isAuthenticated" class="container">
   <div *ngIf="loading" class="loading">
     <mat-spinner diameter="40"></mat-spinner>
     <p>Cargando información del PIN...</p>
@@ -6,20 +84,19 @@
 
   <div *ngIf="!loading" #pdfContent class="pdf-container">
     <div class="pdf-background">
-      <!-- Código QR -->
+
       <div class="qr-section">
         <qrcode [qrdata]="currentUrl" [width]="120" [errorCorrectionLevel]="'M'"></qrcode>
       </div>
 
       <div class="content-wrapper">
-        <!-- Encabezado -->
         <div class="pin-header">
           <h1>PIN {{ pinData.tipoPin | uppercase }}: {{ pinData.numeroPin }}</h1>
         </div>
-        
-        <!-- Datos principales -->
+
         <div class="pin-data">
-          <!-- DATOS DEL GENERADOR (para proyectos) -->
+
+          <!-- PROYECTO -->
           <div *ngIf="tipo === 'proyecto'">
             <h2>DATOS DEL GENERADOR</h2>
             <table class="data-table">
@@ -62,7 +139,7 @@
             </table>
           </div>
 
-          <!-- DATOS DEL TRANSPORTADOR (para vehículos) -->
+          <!-- VEHÍCULO -->
           <div *ngIf="tipo === 'vehiculo'">
             <h2>DATOS DEL TRANSPORTADOR</h2>
             <table class="data-table">
@@ -101,7 +178,7 @@
             </table>
           </div>
 
-          <!-- DATOS DE LA RESOLUCIÓN -->
+          <!-- RESOLUCIÓN -->
           <div *ngIf="tipo === 'resolucion'">
             <h2>DATOS DEL TITULAR</h2>
             <table class="data-table">
@@ -136,7 +213,6 @@
             </table>
           </div>
 
-          <!-- Información común para todos los tipos -->
           <table class="data-table">
             <tr>
               <td><strong>FECHA DE EXPEDICIÓN</strong></td>
@@ -147,22 +223,23 @@
               <td>{{ pinData.fechaVencimiento }}</td>
             </tr>
           </table>
-          
+
           <p class="legal-text">
-            Este PIN se expide el {{ pinData.fechaExpedicion }} en la ciudad de {{ pinData.ciudadExpedicion }}, 
+            Este PIN se expide el {{ pinData.fechaExpedicion }} en la ciudad de {{ pinData.ciudadExpedicion }},
             siguiendo los requerimientos establecidos en la resolución 658 de 2019.
           </p>
-          
+
           <div class="signature-section">
             <p>V. B. Subdirección Técnica y Desarrollo Sostenible</p>
           </div>
-          
+
           <div class="verification-notice">
             <p>
-              Se le solicita a todas las autoridades consultar el código QR del documento y verificar 
+              Se le solicita a todas las autoridades consultar el código QR del documento y verificar
               que la información mostrada coincida con la del PIN {{ pinData.tipoPin | uppercase }} expedido.
             </p>
           </div>
+
         </div>
       </div>
     </div>

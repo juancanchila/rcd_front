@@ -30,6 +30,7 @@ export class DetalleReceptorComponent implements OnInit {
   receptor: Receptor | null = null;
   resoluciones: any[] = [];
   loading = false;
+  id: number = 0;
 
   constructor(
     private receptorService: ReceptorService,
@@ -39,9 +40,9 @@ export class DetalleReceptorComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    if (id) {
-      await this.cargarReceptor(id);
+   this.id = Number(this.route.snapshot.paramMap.get('id'));
+    if (this.id) {
+      await this.cargarReceptor(this.id);
     }
   }
 
@@ -65,6 +66,13 @@ export class DetalleReceptorComponent implements OnInit {
     }
   }
 
+  agregarResolucion() {
+    console.log('Navegando a agregar resolución para receptor ID:');
+    // agregar redireccion al fomrulariioqu agrega resolcuion al id del receptor  path: 'receptor/:id/resolucion-create', cuanto this.id
+    this.router.navigate(['/receptor', this.id, 'resolucion-create']);
+
+    
+  }
   goBack() {
     this.location.back();
   }

@@ -67,7 +67,14 @@
   <mat-card class="proyectos-card">
     <mat-card-header>
       <mat-card-title>📂 Proyectos del Generador</mat-card-title>
+           <!-- ⭐ Botón agregar resolucion -->
+  <button mat-icon-button color="primary"
+          class="btn-add-resolucion"
+          (click)="agregarResolucion()">
+    <mat-icon>add_circle</mat-icon>
+  </button>
     </mat-card-header>
+ 
     <mat-card-content>
       <table *ngIf="proyectos.length > 0" class="tabla-proyectos">
         <thead>

@@ -1,0 +1,3 @@
+<div class="toast" *ngIf="visible" [class.success]="message?.type === 'success'" [class.error]="message?.type === 'error'">
+  <span>{{ message?.text }}</span>
+</div>

@@ -52,6 +52,13 @@
   <mat-card class="visitas-card">
     <mat-card-header>
       <mat-card-title>📂 Visitas Técnicas</mat-card-title>
+  <button mat-icon-button color="primary"
+          class="btn-add-tvisit"
+          (click)="agregarVisita()">
+    <mat-icon>add_circle</mat-icon>
+  </button>
+
+      
     </mat-card-header>
     <mat-card-content>
       <table *ngIf="visitas.length > 0" class="tabla-visitas">

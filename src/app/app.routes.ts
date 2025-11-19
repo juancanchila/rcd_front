@@ -29,6 +29,13 @@ import { DetalleReceptorComponent } from './components/receptortedetail/detalle-
 import { ResoluciondetalleComponent } from './components/resoluciondetail/resoluciondetalle.component';
 import { DetalleTransportadorComponent } from './components/transportadordetail/detalle-transportador.component';
 import { VehiculodetalleComponent } from './components/vehiculodetail/vehiculodetalle.component';
+import { VehicleFormComponent } from './components/vehicle-form/vehicle-form.component';
+import { TransportadorFormComponent } from './components/transportador-form/transportador-form.component';
+import { Receptor } from './models/receptor.model';
+import { GestorForm } from './components/gestor-form/gestor-form';
+import { ResolutionForm } from './components/resolution-form/resolution-form';
+import { GeneradorForm } from './components/generator-form/generador-form.component';
+import { ProjectForm } from './components/project-form/project-form';
 
 export const routes: Routes = [
   // 🔹 Rutas públicas
@@ -48,17 +55,80 @@ export const routes: Routes = [
       { path: 'lista/:tipo', component: ListaPageComponent, canActivate: [AuthGuard] },
 
       // ✅ Páginas de detalle (guard opcional según necesidad)
-      { path: 'generador-detalle/:id', component: DetalleGeneradorComponent, canActivate: [AuthGuard] },
-      { path: 'proyecto-detalle/:id', component: DetalleProyectoComponent, canActivate: [AuthGuard] },
-      { path: 'visitatecnica-detalle/:id', component: DetalleVisitaComponent, canActivate: [AuthGuard] },
+      {
+        path: 'generador-detalle/:id',
+        component: DetalleGeneradorComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'proyecto-detalle/:id',
+        component: DetalleProyectoComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'visitatecnica-detalle/:id',
+        component: DetalleVisitaComponent,
+        canActivate: [AuthGuard],
+      },
       { path: 'reporte-detalle/:id', component: DetalleReporteComponent, canActivate: [AuthGuard] },
-      { path: 'receptor-detalle/:id', component: DetalleReceptorComponent, canActivate: [AuthGuard] },
-      { path: 'resolucion-detalle/:id', component: ResoluciondetalleComponent, canActivate: [AuthGuard] },
-      { path: 'transportador-detalle/:id', component: DetalleTransportadorComponent, canActivate: [AuthGuard] },
-      { path: 'vehiculo-detalle/:id', component: VehiculodetalleComponent, canActivate: [AuthGuard] },
+      {
+        path: 'receptor-detalle/:id',
+        component: DetalleReceptorComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'resolucion-detalle/:id',
+        component: ResoluciondetalleComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'transportador-detalle/:id',
+        component: DetalleTransportadorComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'vehiculo-detalle/:id',
+        component: VehiculodetalleComponent,
+        canActivate: [AuthGuard],
+      },
       { path: 'usuarios-detalle/:id', component: UsuariosEditComponent, canActivate: [AuthGuard] },
       { path: 'create/:tipo', component: FormCreate, canActivate: [AuthGuard] },
-      
+
+      {
+        path: 'transportador/:id/vehiculo-create',
+        component: VehicleFormComponent,
+        canActivate: [AuthGuard],
+      },
+        {
+        path: 'generador/:id/proyecto-create',
+        component: ProjectForm,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'receptor/:id/resolucion-create',
+        component: ResolutionForm,
+        canActivate: [AuthGuard],
+      },
+        {
+        path: 'proyecto/:id/visita-create',
+        component: ResolutionForm,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'transportador/create',
+        component: TransportadorFormComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'receptor/create',
+        component: GestorForm,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'generador/create',
+        component: GeneradorForm,
+        canActivate: [AuthGuard],
+      },
       // ✅ Pines y consultas
       { path: 'pines', component: PinesVigentesComponent },
       { path: 'pin/:tipo/:id', component: PinComponent },

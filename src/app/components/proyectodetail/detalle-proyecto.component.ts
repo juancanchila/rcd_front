@@ -72,6 +72,11 @@ export class DetalleProyectoComponent implements OnInit {
     }
   }
 
+  agregarVisita() {
+  console.log('Navegando a agregar visita técnica para el proyecto:');
+
+  }
+
   goBack() {
     this.location.back();
   }

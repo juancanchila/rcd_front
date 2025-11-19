@@ -19,6 +19,7 @@ import { Vehiculo } from '../../models/vehiculo.model';
 import { Resolucion } from '../../models/resolucion.model';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-pin',
@@ -68,8 +69,10 @@ export class PinComponent implements OnInit {
   };
 
   loading: boolean = true;
+ isAuthenticated: boolean = false;
 
   constructor(
+    private auth: AuthService,
     private route: ActivatedRoute,
     private router: Router,
     private snackBar: MatSnackBar,
@@ -81,6 +84,7 @@ export class PinComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+      this.isAuthenticated = this.auth.isLoggedIn(); 
     this.currentUrl = window.location.href;
     
     // Capturar los parámetros de la ruta
