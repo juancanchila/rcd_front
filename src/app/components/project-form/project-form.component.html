@@ -8,6 +8,9 @@
 
   <!-- PASO 0 — DATOS DEL VEHÍCULO -->
   <div *ngIf="step === 0">
+<map-picker (coordinates)="onMap($event)"></map-picker>
+
+   
  <project-data  [group]="proyecto!"></project-data>
 
     <div class="form-actions">

@@ -13,6 +13,7 @@ import { ToastService } from '../../services/toast.service';
 import { VehiculoService } from '../../services/vehiculo.service';
 import { ArchivoService } from '../../services/archivo.service';
 import { ProjectDataComponent } from '../project-data/project-data.component';
+import { MapPickerComponent } from '../map-picker/map-picker.component';
 
 @Component({
   selector: 'project-form',
@@ -26,6 +27,7 @@ import { ProjectDataComponent } from '../project-data/project-data.component';
     MatButtonModule,
     MatProgressBarModule,
     ProjectDataComponent,
+     MapPickerComponent,
   ],
   templateUrl: './project-form.component.html',
   styleUrls: ['./project-form.component.css'],
@@ -42,6 +44,7 @@ export class ProjectFormComponent {
   infoextra!: FormGroup;
 
   transportadorId!: string | null;
+  form: any;
 
   constructor(
     private fb: FormBuilder,
@@ -190,6 +193,16 @@ export class ProjectFormComponent {
     return true;
   }
 
+    // ============================================================
+  // 🔹 MANEJO DE MAPA
+  // ============================================================
+  onMap(coords: { latitude: number; longitude: number }): void {
+    this.form.patchValue({
+      latitud: coords.latitude,
+      longitud: coords.longitude,
+    });
+  }
+  
   // -------------------------------
   // WIZARD
   // -------------------------------
