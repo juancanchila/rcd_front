@@ -289,8 +289,29 @@
   </div>
 </div>
 
- <!-- PASO 3: RESUMEN -->
-  <div *ngIf="step === 3" class="summary-container">
+<!-- PASO 3: INFORMACIÓN ADICIONAL -->
+<div *ngIf="step === 3" [formGroup]="infoextra">
+  <h3>Información adicional</h3>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Fecha de expedición del PIN</mat-label>
+    <input matInput type="date" formControlName="fecha_expedicion_pin" />
+    <mat-error *ngIf="isInvalid('fecha_expedicion_pin', infoextra)">
+      Debes ingresar la fecha de expedición del PIN.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Consecutivo SIGOB</mat-label>
+    <input matInput formControlName="consecutivo_sigob" placeholder="Ej: 2025-000123" />
+    <mat-error *ngIf="isInvalid('consecutivo_sigob', infoextra)">
+      Debes ingresar el consecutivo SIGOB.
+    </mat-error>
+  </mat-form-field>
+</div>
+
+ <!-- PASO 4: RESUMEN -->
+  <div *ngIf="step === 4" class="summary-container">
     <h3>Resumen del Transportador</h3>
     <p>Verifica los datos antes de guardar.</p>
 

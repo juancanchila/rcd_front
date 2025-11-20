@@ -215,7 +215,7 @@
 
           <table class="data-table">
             <tr>
-              <td><strong>FECHA DE EXPEDICIÓN</strong></td>
+              <td><strong>FECHA DE INICIO</strong></td>
               <td>{{ pinData.fechaExpedicion }}</td>
             </tr>
             <tr>
@@ -225,13 +225,42 @@
           </table>
 
           <p class="legal-text">
-            Este PIN se expide el {{ pinData.fechaExpedicion }} en la ciudad de {{ pinData.ciudadExpedicion }},
+            Este PIN se expide el {{ fechaActual}} en la ciudad de {{ pinData.ciudadExpedicion }},
             siguiendo los requerimientos establecidos en la resolución 658 de 2019.
           </p>
 
           <div class="signature-section">
             <p>V. B. Subdirección Técnica y Desarrollo Sostenible</p>
           </div>
+
+          <div *ngIf="pinData.tipoPin === 'TRANSPORTADOR'" class="obligaciones-container">
+  <h3>Obligaciones del Transportador</h3>
+  <p>El transportador debe cumplir con lo siguiente:</p>
+
+  <div class="grid-container">
+    <div class="grid-item">
+      <strong>1.</strong> Cubrir la carga durante el transporte, evitando el contacto con la lluvia y el viento.
+    </div>
+    <div class="grid-item">
+      <strong>2.</strong> Contar con las herramientas, equipos necesarios o kit de limpieza.
+    </div>
+    <div class="grid-item">
+      <strong>3.</strong> Entregar los RCD recolectados y transportados en los sitios autorizados y registrados ante EPA Cartagena y/o autoridad ambiental competente, como sitio de aprovechamiento o disposición final de RCD.
+    </div>
+    <div class="grid-item">
+      <strong>4.</strong> Cumplir las obligaciones contenidas en la Resolución 472 de 2017 (MADS) modificada por la Resolución 1257 de 2021 y la Resolución 658 de 2019, modificada parcialmente mediante Resolución 112 de 2020.
+    </div>
+    <div class="grid-item">
+      <strong>5.</strong> Utilizar vehículos que cumplan con las normas vigentes de tránsito, transporte y emisiones atmosféricas.
+    </div>
+    <div class="grid-item">
+      <strong>6.</strong> Aceptar el control y seguimiento ambiental que realizará el EPA Cartagena sobre las actividades registradas relacionadas con el manejo o gestión integral de RCD.
+    </div>
+    <div class="grid-item">
+      <strong>7.</strong> Está prohibido el almacenamiento temporal o permanente de RCD en zonas verdes, áreas arborizadas, reservas forestales, áreas de recreación y parques, ríos, quebradas, playas, canales, caños, páramos, humedales, manglares y zonas ribereñas.
+    </div>
+  </div>
+</div>
 
           <div class="verification-notice">
             <p>

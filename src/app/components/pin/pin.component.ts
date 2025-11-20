@@ -70,6 +70,7 @@ export class PinComponent implements OnInit {
 
   loading: boolean = true;
  isAuthenticated: boolean = false;
+ public fechaActual: string = '';
 
   constructor(
     private auth: AuthService,
@@ -84,6 +85,16 @@ export class PinComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    
+    const hoy = new Date();
+this.fechaActual = hoy.toLocaleDateString('es-ES', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+  timeZone: 'America/Bogota'
+});
+
+
       this.isAuthenticated = this.auth.isLoggedIn(); 
     this.currentUrl = window.location.href;
     

@@ -6,7 +6,7 @@
     [value]="(step + 1) * (100 / totalSteps)">
   </mat-progress-bar>
 
-  <!-- PASO 1 — DATOS DEL VEHÍCULO -->
+  <!-- PASO 0 — DATOS DEL VEHÍCULO -->
   <div *ngIf="step === 0">
     <vehicle-data [group]="vehicleForm"></vehicle-data>
 
@@ -15,9 +15,134 @@
     </div>
   </div>
 
-  <!-- PASO 2 — DOCUMENTOS -->
-  <div *ngIf="step === 1">
-    <vehicle-documents [group]="vehicleDocumentsForm" ></vehicle-documents>
+ <!-- PASO 1: DOCUMENTOS -->
+<div *ngIf="step === 1" [formGroup]="vehicleDocumentsForm" class="vehicle-documents">
+  <h3 class="section-title">Documentos del vehículo</h3>
+
+
+  <!-- Documentos comunes -->
+  <div class="file-group">
+    <label [class.required]="isInvalid('licencia_transito', vehicleDocumentsForm)">
+      Licencia de tránsito (tarjeta de propiedad)
+      <span *ngIf="isRequired('licencia_transito')" class="asterisk">*</span>
+    </label>
+    <input type="file" (change)="onFileSelected($event, 'licencia_transito')" accept=".pdf" />
+    <mat-error *ngIf="isInvalid('licencia_transito', vehicleDocumentsForm)">
+      Debes adjuntar la licencia.
+    </mat-error>
+  </div>
+
+  <div class="file-group">
+    <label [class.required]="isInvalid('foto_frontal', vehicleDocumentsForm)">
+      Foto frontal (JPG/PNG) <span *ngIf="isRequired('foto_frontal')" class="asterisk">*</span>
+    </label>
+    <input type="file" (change)="onFileSelected($event, 'foto_frontal')" accept=".jpg,.jpeg,.png" />
+    <mat-error *ngIf="isInvalid('foto_frontal', vehicleDocumentsForm)">
+      Debes adjuntar la foto frontal.
+    </mat-error>
+  </div>
+
+  <div class="file-group">
+    <label [class.required]="isInvalid('foto_trasera', vehicleDocumentsForm)">
+      Foto trasera (JPG/PNG) <span *ngIf="isRequired('foto_trasera')" class="asterisk">*</span>
+    </label>
+    <input type="file" (change)="onFileSelected($event, 'foto_trasera')" accept=".jpg,.jpeg,.png" />
+    <mat-error *ngIf="isInvalid('foto_trasera', vehicleDocumentsForm)">
+      Debes adjuntar la foto trasera.
+    </mat-error>
+  </div>
+
+  <div class="file-group">
+    <label [class.required]="isInvalid('foto_lateral_derecha', vehicleDocumentsForm)">
+      Foto lateral derecha (JPG/PNG) <span *ngIf="isRequired('foto_lateral_derecha')" class="asterisk">*</span>
+    </label>
+    <input type="file" (change)="onFileSelected($event, 'foto_lateral_derecha')" accept=".jpg,.jpeg,.png" />
+    <mat-error *ngIf="isInvalid('foto_lateral_derecha', vehicleDocumentsForm)">
+      Debes adjuntar la foto lateral derecha.
+    </mat-error>
+  </div>
+
+  <div class="file-group">
+    <label [class.required]="isInvalid('foto_lateral_izquierda', vehicleDocumentsForm)">
+      Foto lateral izquierda (JPG/PNG) <span *ngIf="isRequired('foto_lateral_izquierda')" class="asterisk">*</span>
+    </label>
+    <input type="file" (change)="onFileSelected($event, 'foto_lateral_izquierda')" accept=".jpg,.jpeg,.png" />
+    <mat-error *ngIf="isInvalid('foto_lateral_izquierda', vehicleDocumentsForm)">
+      Debes adjuntar la foto lateral izquierda.
+    </mat-error>
+  </div>
+
+  <div class="file-group">
+    <label [class.required]="isInvalid('registro_herramientas', vehicleDocumentsForm)">
+      Registro de herramientas / kit de limpieza (PDF/JPG/PNG)
+      <span *ngIf="isRequired('registro_herramientas')" class="asterisk">*</span>
+    </label>
+    <input type="file" (change)="onFileSelected($event, 'registro_herramientas')" accept=".pdf,.jpg,.jpeg,.png" />
+    <mat-error *ngIf="isInvalid('registro_herramientas', vehicleDocumentsForm)">
+      Debes adjuntar el registro.
+    </mat-error>
+  </div>
+
+  <div class="file-group">
+    <label [class.required]="isInvalid('certificado_tecnicomecanica', vehicleDocumentsForm)">
+      Certificado técnico-mecánica (PDF) <span *ngIf="isRequired('certificado_tecnicomecanica')" class="asterisk">*</span>
+    </label>
+    <input type="file" (change)="onFileSelected($event, 'certificado_tecnicomecanica')" accept=".pdf" />
+    <mat-error *ngIf="isInvalid('certificado_tecnicomecanica', vehicleDocumentsForm)">
+      Debes adjuntar el certificado técnico-mecánica.
+    </mat-error>
+  </div>
+<div class="file-group">
+  <label>Certificado entidad financiera Leasing (PDF)</label>
+  <input type="file" (change)="onFileSelected($event, 'certificado_leasing')" accept=".pdf" />
+  <small>
+    Adjuntar certificado expedido por entidad bancaria o financiera, no mayor a 3 meses.
+  </small>
+</div>
+
+  <!-- Opcionales -->
+  <div class="file-group">
+    <label>Registro de defunción del propietario (opcional)</label>
+    <input type="file" (change)="onFileSelected($event, 'registro_defuncion')" accept=".pdf" />
+  </div>
+
+  <div class="file-group">
+    <label>Autorización del propietario (opcional)</label>
+    <input type="file" (change)="onFileSelected($event, 'autoriza_propietario')" accept=".pdf" />
+  </div>
+
+  <!-- Mensaje general de validación -->
+  <div class="form-errors" *ngIf="vehicleDocumentsForm.invalid && vehicleDocumentsForm.touched">
+    <p class="error">Revisa los campos marcados en rojo y adjunta los documentos obligatorios.</p>
+  </div>
+
+  <!-- Botones -->
+  <div class="form-actions">
+    <button mat-stroked-button type="button" (click)="prevStep()">Anterior</button>
+    <button mat-flat-button color="primary" type="button" (click)="nextStep()">Siguiente</button>
+  </div>
+</div>
+
+
+  <!-- PASO 2 — INFORMACIÓN ADICIONAL -->
+  <div *ngIf="step === 2" [formGroup]="infoextra">
+    <h3>Información adicional</h3>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Fecha de expedición del PIN</mat-label>
+      <input matInput type="date" formControlName="fecha_expedicion_pin" />
+      <mat-error *ngIf="isInvalid('fecha_expedicion_pin', infoextra)">
+        Debes ingresar la fecha de expedición del PIN.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Consecutivo SIGOB</mat-label>
+      <input matInput formControlName="consecutivo_sigob" placeholder="Ej: 2025-000123" />
+      <mat-error *ngIf="isInvalid('consecutivo_sigob', infoextra)">
+        Debes ingresar el consecutivo SIGOB.
+      </mat-error>
+    </mat-form-field>
 
     <div class="form-actions">
       <button mat-stroked-button (click)="prevStep()">Anterior</button>
@@ -25,8 +150,8 @@
     </div>
   </div>
 
-  <!-- PASO 3 — RESUMEN -->
-  <div *ngIf="step === 2">
+  <!-- PASO 3 — RESUMEN FINAL -->
+  <div *ngIf="step === 3">
     <h2>Resumen del Vehículo</h2>
 
     <div class="summary-box">
@@ -45,6 +170,11 @@
       <ul>
         <li *ngFor="let doc of getUploadedDocuments()">{{ doc }}</li>
       </ul>
+
+      <h3>Información adicional</h3>
+      <p><strong>Fecha PIN:</strong> {{ infoextra.get('fecha_expedicion_pin')?.value }}</p>
+      <p><strong>Consecutivo SIGOB:</strong> {{ infoextra.get('consecutivo_sigob')?.value }}</p>
+
     </div>
 
     <div class="form-actions">

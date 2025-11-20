@@ -56,7 +56,7 @@ export class VehiculodetalleComponent implements OnInit {
   }
 
   goToPin(id: number) {
-    this.router.navigate(['/pin/proyecto/', id]);
+    this.router.navigate(['/pin/vehiculo/', id]);
   }
 
   // Detecta si el archivo es imagen

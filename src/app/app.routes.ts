@@ -32,7 +32,7 @@ import { VehiculodetalleComponent } from './components/vehiculodetail/vehiculode
 import { VehicleFormComponent } from './components/vehicle-form/vehicle-form.component';
 import { TransportadorFormComponent } from './components/transportador-form/transportador-form.component';
 import { Receptor } from './models/receptor.model';
-import { GestorForm } from './components/gestor-form/gestor-form';
+import { GestorFormComponent } from './components/gestor-form/gestor-form.component';
 import { ResolutionForm } from './components/resolution-form/resolution-form';
 import { GeneradorForm } from './components/generator-form/generador-form.component';
 import { ProjectForm } from './components/project-form/project-form';
@@ -121,7 +121,7 @@ export const routes: Routes = [
       },
       {
         path: 'receptor/create',
-        component: GestorForm,
+        component: GestorFormComponent,
         canActivate: [AuthGuard],
       },
       {

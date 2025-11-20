@@ -7,7 +7,7 @@ import { environment } from '../../environments/environment.prod';
   providedIn: 'root',
 })
 export class ArchivoService {
-  private baseUrl = `${environment.API_URL}/archivos`; // ajusta según tu ruta real
+  private baseUrl = `${environment.API_URL}/files`; // ajusta según tu ruta real
 
   constructor(private http: HttpClient, private auth: AuthService) {}
 

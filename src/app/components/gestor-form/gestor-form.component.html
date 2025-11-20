@@ -1,0 +1,359 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-host">
+  <mat-progress-bar mode="determinate" [value]="(step + 1) * (100 / totalSteps)"></mat-progress-bar>
+
+  <!-- PASO 0: DATOS DE CONTACTO -->
+  <div *ngIf="step === 0" [formGroup]="contacto">
+    <h3>Datos de Contacto</h3>
+    <p>Ingresar la información del propietario del vehículo.</p>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Tipo de solicitante</mat-label>
+      <mat-select formControlName="tipo_de_solicitante" required>
+        <mat-option value="Persona Natural">Persona Natural</mat-option>
+        <mat-option value="Persona Jurídica">Persona Jurídica</mat-option>
+      </mat-select>
+      <mat-error *ngIf="isInvalid('tipo_de_solicitante', contacto)">
+        Debes seleccionar el tipo de solicitante.
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Persona Natural -->
+    <ng-container *ngIf="contacto.get('tipo_de_solicitante')?.value === 'Persona Natural'">
+      <mat-form-field appearance="outline">
+        <mat-label>Nombres y apellidos</mat-label>
+        <input matInput formControlName="nombres_y_apellidos" placeholder="Ej: Juan Pérez" />
+        <mat-error *ngIf="isInvalid('nombres_y_apellidos', contacto)">
+          Debes ingresar nombres y apellidos.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Documento de identidad</mat-label>
+        <input matInput formControlName="documento_de_identidad" placeholder="Ej: 1234567890" />
+        <mat-error *ngIf="isInvalid('documento_de_identidad', contacto)">
+          Debes ingresar el documento de identidad.
+        </mat-error>
+      </mat-form-field>
+    </ng-container>
+
+    <!-- Persona Jurídica -->
+    <ng-container *ngIf="contacto.get('tipo_de_solicitante')?.value === 'Persona Jurídica'">
+      <mat-form-field appearance="outline">
+        <mat-label>Razón social</mat-label>
+        <input matInput formControlName="razon_social" placeholder="Ej: Comercializadora ABC S.A.S" />
+        <mat-error *ngIf="isInvalid('razon_social', contacto)">
+          Debes ingresar la razón social.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>NIT</mat-label>
+        <input matInput formControlName="nit" placeholder="Ej: 900123456-7" />
+        <mat-error *ngIf="isInvalid('nit', contacto)">
+          Debes ingresar el NIT.
+        </mat-error>
+      </mat-form-field>
+    </ng-container>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Correo electrónico</mat-label>
+      <input matInput type="email" formControlName="correo_electronico" placeholder="ejemplo@correo.com" />
+      <mat-error *ngIf="isInvalid('correo_electronico', contacto)">
+        Ingresa un correo válido.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Teléfono móvil</mat-label>
+      <input matInput formControlName="telefono_movil" placeholder="Ej: 3001234567" />
+      <mat-error *ngIf="isInvalid('telefono_movil', contacto)">
+        Debes ingresar el teléfono móvil.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Teléfono fijo</mat-label>
+      <input matInput formControlName="telefono_fijo" placeholder="Ej: 6051234567" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Localidad</mat-label>
+      <mat-select formControlName="localidad" required>
+        <mat-option value="localidad1">Localidad 1</mat-option>
+        <mat-option value="localidad2">Localidad 2</mat-option>
+        <mat-option value="localidad3">Localidad 3</mat-option>
+      </mat-select>
+      <mat-error *ngIf="isInvalid('localidad', contacto)">
+        Debes seleccionar la localidad.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Barrio</mat-label>
+      <input matInput formControlName="barrio" [matAutocomplete]="autoBarrio" placeholder="Empieza a escribir" />
+      <mat-autocomplete #autoBarrio="matAutocomplete">
+        <mat-option *ngFor="let barrio of barriosFiltrados$ | async" [value]="barrio">{{ barrio }}</mat-option>
+      </mat-autocomplete>
+      <mat-error *ngIf="isInvalid('barrio', contacto)">
+        Debes seleccionar un barrio.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Dirección de correspondencia</mat-label>
+      <input matInput formControlName="direccion_de_correspondencia_del_solicitante" placeholder="Ej: Calle 45 #12-34" />
+      <mat-error *ngIf="isInvalid('direccion_de_correspondencia_del_solicitante', contacto)">
+        Debes ingresar la dirección de correspondencia.
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <!-- PASO 1: DATOS DEL GESTOR -->
+  <div *ngIf="step === 1" [formGroup]="gestor" class="gestor-step">
+    <h3>Datos del Gestor</h3>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Localidad del Gestor</mat-label>
+      <mat-select formControlName="localidad_gestor" required>
+        <mat-option value="localidad1">Localidad 1</mat-option>
+        <mat-option value="localidad2">Localidad 2</mat-option>
+        <mat-option value="localidad3">Localidad 3</mat-option>
+      </mat-select>
+      <mat-error *ngIf="isInvalid('localidad_gestor', gestor)">
+        Debes seleccionar la localidad del gestor.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Barrio del Gestor</mat-label>
+      <input matInput formControlName="barrio_gestor" [matAutocomplete]="autoBarrioGestor" placeholder="Empieza a escribir" />
+      <mat-autocomplete #autoBarrioGestor="matAutocomplete">
+        <mat-option *ngFor="let barrio of barriosFiltradosGestor$ | async" [value]="barrio">{{ barrio }}</mat-option>
+      </mat-autocomplete>
+      <mat-error *ngIf="isInvalid('barrio_gestor', gestor)">
+        Debes seleccionar un barrio.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Dirección del Gestor</mat-label>
+      <input matInput formControlName="direccion_gestor" placeholder="Ej: Calle 45 #12-34" />
+      <mat-error *ngIf="isInvalid('direccion_gestor', gestor)">
+        Debes ingresar la dirección del gestor.
+      </mat-error>
+    </mat-form-field>
+
+    <!-- MAPA -->
+    <map-picker (coordinates)="onMap($event)"></map-picker>
+
+    <!-- FECHAS -->
+    <div class="flexbox">
+      <div class="form-field">
+        <label>Fecha Inicio</label>
+        <input type="date" formControlName="fecha_inicio" [min]="minDate" max="2026-12-31" />
+      </div>
+
+      <div class="form-field">
+        <label>Fecha Final <span class="required">*</span></label>
+        <input type="date" formControlName="fecha_final" [min]="minDate" max="2026-12-31" />
+        <div class="error" *ngIf="isInvalid('fecha_final', gestor)">Seleccionar fecha</div>
+      </div>
+    </div>
+
+    <!-- TIPO DE RCD -->
+    <div class="form-field">
+      <label>Tipos de RCD</label>
+      <select formControlName="tipo_rcd">
+        <option value="">Seleccionar</option>
+        <option value="aprovechable">1. RCD susceptibles de aprovechamiento</option>
+        <option value="no_aprovechable">2. RCD no susceptibles de aprovechamiento</option>
+      </select>
+    </div>
+
+    <!-- CHECKBOXES RCD APROVECHABLE -->
+    <div class="form-field" *ngIf="gestor.get('tipo_rcd')?.value === 'aprovechable'">
+      <label>Tipos de RCD (marque las que apliquen)</label>
+      <p>Seleccione todas las opciones que correspondan</p>
+      <div *ngFor="let key of rcdAprovechableKeys">
+        <label>
+          <input type="checkbox" [formControlName]="key" />
+          {{ rcdAprovechable[key] }}
+        </label>
+      </div>
+    </div>
+
+    <!-- CHECKBOXES RCD NO APROVECHABLE -->
+    <div class="form-field" *ngIf="gestor.get('tipo_rcd')?.value === 'no_aprovechable'">
+      <label>Tipos de RCD (marque las que apliquen)</label>
+      <p>Seleccione todas las opciones que correspondan</p>
+      <div *ngFor="let key of rcdNoAprovechableKeys">
+        <label>
+          <input type="checkbox" [formControlName]="key" />
+          {{ rcdNoAprovechable[key] }}
+        </label>
+      </div>
+    </div>
+
+    <!-- ACTIVIDAD EJECUTADA -->
+    <div class="form-field">
+      <label>Actividad ejecutada <span class="required">*</span></label>
+      <select formControlName="actividad_ejecutada">
+        <option value="">Seleccionar</option>
+        <option value="almacenamiento_punto_limpio">Almacenamiento en Punto Limpio</option>
+        <option value="aprovechamiento_planta">Aprovechamiento a través de planta fija o móvil</option>
+        <option value="receptor_rcd_estructural">Receptor de RCD para actividades estructurales</option>
+        <option value="receptor_rcd_materia_prima">Receptor de RCD como materia prima</option>
+        <option value="disposicion_final">Disposición Final</option>
+      </select>
+      <div class="error" *ngIf="isInvalid('actividad_ejecutada', gestor)">Campo obligatorio</div>
+    </div>
+
+    <!-- CAPACIDAD -->
+    <div class="flexbox">
+      <div class="form-field">
+        <label>Capacidad (t/mes) <span class="required">*</span></label>
+        <input type="number" formControlName="capacidad_t_mes" min="0" step="0.01" />
+        <div class="error" *ngIf="isInvalid('capacidad_t_mes', gestor)">Campo obligatorio</div>
+      </div>
+
+      <div class="form-field">
+        <label>Capacidad total (t) <span class="required">*</span></label>
+        <input type="number" formControlName="capacidad_total_t" min="0" step="0.01" />
+        <div class="error" *ngIf="isInvalid('capacidad_total_t', gestor)">Campo obligatorio</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PASO 2: DOCUMENTOS -->
+  <div *ngIf="step === 2" class="documentos">
+    <h3 class="section-title">Documentos del vehículo</h3>
+
+    <!-- Dependiendo del tipo de solicitante -->
+    <ng-container *ngIf="contacto.get('tipo_de_solicitante')?.value as tipo">
+      <!-- Persona Natural -->
+      <div *ngIf="tipo === 'Persona Natural'" class="file-group">
+        <label [class.required]="isInvalid('identificacion', documentos)">
+          Identificación (PDF) <span *ngIf="isRequired('identificacion')" class="asterisk">*</span>
+        </label>
+        <input type="file" (change)="onFileSelected($event, 'identificacion')" accept=".pdf" />
+        <mat-error *ngIf="isInvalid('identificacion', documentos)">
+          Debes adjuntar la identificación.
+        </mat-error>
+      </div>
+
+      <!-- Persona Jurídica -->
+      <div *ngIf="tipo === 'Persona Jurídica'" class="file-group">
+        <label [class.required]="isInvalid('cert_ext_legal', documentos)">
+          Certificado de existencia y representación legal (PDF)
+          <span *ngIf="isRequired('cert_ext_legal')" class="asterisk">*</span>
+        </label>
+        <input type="file" (change)="onFileSelected($event, 'cert_ext_legal')" accept=".pdf" />
+        <mat-error *ngIf="isInvalid('cert_ext_legal', documentos)">
+          Debes adjuntar el certificado.
+        </mat-error>
+      </div>
+    </ng-container>
+
+    <!-- Documentos obligatorios comunes -->
+    <div class="file-group">
+      <label [class.required]="isInvalid('licencia_transito', documentos)">
+        Licencia de tránsito (tarjeta de propiedad)
+        <span *ngIf="isRequired('licencia_transito')" class="asterisk">*</span>
+      </label>
+      <input type="file" (change)="onFileSelected($event, 'licencia_transito')" accept=".pdf" />
+      <mat-error *ngIf="isInvalid('licencia_transito', documentos)">
+        Debes adjuntar la licencia.
+      </mat-error>
+    </div>
+
+    <div class="file-group">
+      <label [class.required]="isInvalid('certificado_tecnicomecanica', documentos)">
+        Certificado técnico-mecánica (PDF) <span *ngIf="isRequired('certificado_tecnicomecanica')" class="asterisk">*</span>
+      </label>
+      <input type="file" (change)="onFileSelected($event, 'certificado_tecnicomecanica')" accept=".pdf" />
+      <mat-error *ngIf="isInvalid('certificado_tecnicomecanica', documentos)">
+        Debes adjuntar el certificado técnico-mecánica.
+      </mat-error>
+    </div>
+
+    <div class="file-group">
+      <label [class.required]="isInvalid('foto_frontal', documentos)">
+        Foto frontal (JPG/PNG) <span *ngIf="isRequired('foto_frontal')" class="asterisk">*</span>
+      </label>
+      <input type="file" (change)="onFileSelected($event, 'foto_frontal')" accept=".jpg,.jpeg,.png" />
+      <mat-error *ngIf="isInvalid('foto_frontal', documentos)">
+        Debes adjuntar la foto frontal.
+      </mat-error>
+    </div>
+
+    <div class="file-group">
+      <label [class.required]="isInvalid('foto_trasera', documentos)">
+        Foto trasera (JPG/PNG) <span *ngIf="isRequired('foto_trasera')" class="asterisk">*</span>
+      </label>
+      <input type="file" (change)="onFileSelected($event, 'foto_trasera')" accept=".jpg,.jpeg,.png" />
+      <mat-error *ngIf="isInvalid('foto_trasera', documentos)">
+        Debes adjuntar la foto trasera.
+      </mat-error>
+    </div>
+
+    <div class="file-group">
+      <label [class.required]="isInvalid('foto_lateral_derecha', documentos)">
+        Foto lateral derecha (JPG/PNG) <span *ngIf="isRequired('foto_lateral_derecha')" class="asterisk">*</span>
+      </label>
+      <input type="file" (change)="onFileSelected($event, 'foto_lateral_derecha')" accept=".jpg,.jpeg,.png" />
+      <mat-error *ngIf="isInvalid('foto_lateral_derecha', documentos)">
+        Debes adjuntar la foto lateral derecha.
+      </mat-error>
+    </div>
+
+    <div class="file-group">
+      <label [class.required]="isInvalid('foto_lateral_izquierda', documentos)">
+        Foto lateral izquierda (JPG/PNG) <span *ngIf="isRequired('foto_lateral_izquierda')" class="asterisk">*</span>
+      </label>
+      <input type="file" (change)="onFileSelected($event, 'foto_lateral_izquierda')" accept=".jpg,.jpeg,.png" />
+      <mat-error *ngIf="isInvalid('foto_lateral_izquierda', documentos)">
+        Debes adjuntar la foto lateral izquierda.
+      </mat-error>
+    </div>
+
+    <div class="file-group">
+      <label [class.required]="isInvalid('registro_herramientas', documentos)">
+        Registro fotográfico de herramientas o kit de limpieza (PDF/JPG/PNG)
+        <span *ngIf="isRequired('registro_herramientas')" class="asterisk">*</span>
+      </label>
+      <input type="file" (change)="onFileSelected($event, 'registro_herramientas')" accept=".pdf,.jpg,.jpeg,.png" />
+      <mat-error *ngIf="isInvalid('registro_herramientas', documentos)">
+        Debes adjuntar el registro.
+      </mat-error>
+    </div>
+
+    <div class="file-group">
+      <label [class.required]="isInvalid('certificado_leasing', documentos)">
+        Certificado entidad financiera Leasing (PDF)
+        <span *ngIf="isRequired('certificado_leasing')" class="asterisk">*</span>
+      </label>
+      <input type="file" (change)="onFileSelected($event, 'certificado_leasing')" accept=".pdf" />
+      <small *ngIf="vehiculo.get('modalidad_vehiculo')?.value === 'Leasing'">
+        Adjuntar certificado expedido por entidad bancaria o financiera, no mayor a 3 meses.
+      </small>
+      <mat-error *ngIf="isInvalid('certificado_leasing', documentos)">
+        Debes adjuntar el certificado.
+      </mat-error>
+    </div>
+
+    <!-- Opcionales -->
+    <div class="file-group">
+      <label>
+        Otros documentos (opcional)
+      </label>
+      <input type="file" (change)="onFileSelected($event, 'otros_documentos')" accept=".pdf,.jpg,.jpeg,.png" multiple />
+    </div>
+  </div>
+
+  <!-- BOTONES DE NAVEGACIÓN -->
+  <div class="navigation-buttons">
+    <button type="button" (click)="prevStep()" [disabled]="step === 0">Anterior</button>
+    <button type="button" (click)="nextStep()" *ngIf="step < totalSteps - 1">Siguiente</button>
+    <button type="submit" *ngIf="step === totalSteps - 1">Enviar</button>
+  </div>
+</form>
