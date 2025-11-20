@@ -9,9 +9,13 @@ export class VehiculoService {
 
   constructor(private http: HttpClient, private auth: AuthService) {}
 
+  // Devuelve headers con token si hay usuario, sino headers vacíos
   private getHeaders(): HttpHeaders {
     const usuario = this.auth.getUsuario();
-    if (!usuario || !usuario.token) throw new Error('Usuario no autenticado');
+    if (!usuario || !usuario.token) {
+      // No autenticado, no ponemos Authorization
+      return new HttpHeaders();
+    }
     return new HttpHeaders({ Authorization: `Bearer ${usuario.token}` });
   }
 
@@ -48,8 +52,10 @@ export class VehiculoService {
 
   async crearVehiculo(data: any): Promise<any> {
     const headers = this.getHeaders();
+    const url = this.endpoint;
+
     try {
-      return await this.http.post(this.endpoint, data, { headers }).toPromise();
+      return await this.http.post(url, data, { headers }).toPromise();
     } catch (err) {
       console.error('Error creando vehículo:', err);
       throw err;
@@ -59,6 +65,7 @@ export class VehiculoService {
   async actualizarVehiculo(id: number, data: any): Promise<any> {
     const headers = this.getHeaders();
     const url = `${this.endpoint}/${id}`;
+
     try {
       console.log('Actualizando vehículo con datos:', data);
       return await this.http.put(url, data, { headers }).toPromise();
@@ -71,6 +78,7 @@ export class VehiculoService {
   async eliminarVehiculo(id: number): Promise<any> {
     const headers = this.getHeaders();
     const url = `${this.endpoint}/${id}`;
+
     try {
       return await this.http.delete(url, { headers }).toPromise();
     } catch (err) {
