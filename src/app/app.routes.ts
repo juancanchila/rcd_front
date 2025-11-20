@@ -35,7 +35,7 @@ import { Receptor } from './models/receptor.model';
 import { GestorFormComponent } from './components/gestor-form/gestor-form.component';
 import { ResolutionForm } from './components/resolution-form/resolution-form';
 import { GeneradorForm } from './components/generator-form/generador-form.component';
-import { ProjectForm } from './components/project-form/project-form';
+import { ProjctFormComponent } from './components/project-form/project-form.component';
 
 export const routes: Routes = [
   // 🔹 Rutas públicas
@@ -101,7 +101,7 @@ export const routes: Routes = [
       },
         {
         path: 'generador/:id/proyecto-create',
-        component: ProjectForm,
+        component: ProjctFormComponent,
         canActivate: [AuthGuard],
       },
       {
