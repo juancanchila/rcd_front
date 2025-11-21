@@ -256,6 +256,7 @@
       <label>Certificado de existencia y representación legal (PDF) *</label>
       <input type="file" (change)="onFileSelected($event, 'cert_ext_rep_legal')" accept=".pdf" />
     </div>
+<<<<<<< Updated upstream
 
     <!-- DOCUMENTOS COMUNES -->
     <div class="file-group">
@@ -271,6 +272,22 @@
       <input type="file" (change)="onFileSelected($event, 'carta_solicitud')" accept=".pdf" />
 >>>>>>> Stashed changes
     </div>
+=======
+<!-- DOCUMENTOS COMUNES -->
+<div class="file-group">
+  <label>Documento viabilidad ambiental para adecuacion de terreno (PDF) *</label>
+  <input
+    type="file"
+    (change)="onFileSelected($event, 'medidas_manejo_ambiental')"
+    accept=".pdf"
+  />
+  <small class="file-description">
+  Incluir:
+Cédula de ciudadanía o extranjería del RL
+Certificado de Tradición y Libertad del inmueble
+  </small>
+</div>
+>>>>>>> Stashed changes
 
     <div class="file-group">
       <label>Permisos, licencias y autorizaciones ambientales (PDF) *</label>
@@ -333,7 +350,7 @@
           />
         </div>
         <div class="file-group">
-          <label>Viabilidad ambiental (PDF)</label>
+          <label>Complementar viabilidad ambiental para adecuacion de terreno (PDF)</label>
           <input
             type="file"
             (change)="onFileSelected($event, 'viabilidad_ambiental_rcd')"
