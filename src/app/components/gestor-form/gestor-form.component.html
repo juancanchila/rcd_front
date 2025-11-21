@@ -224,131 +224,151 @@
     </div>
   </div>
 
-  <!-- PASO 2: DOCUMENTOS -->
-  <div *ngIf="step === 2" class="documentos">
-    <h3 class="section-title">Documentos del vehículo</h3>
+<!-- PASO 2: DOCUMENTOS -->
+<div *ngIf="step === 2" class="documentos">
+  <h3 class="section-title">Documentos requeridos</h3>
 
-    <!-- Dependiendo del tipo de solicitante -->
-    <ng-container *ngIf="contacto.get('tipo_de_solicitante')?.value as tipo">
-      <!-- Persona Natural -->
-      <div *ngIf="tipo === 'Persona Natural'" class="file-group">
-        <label [class.required]="isInvalid('identificacion', documentos)">
-          Identificación (PDF) <span *ngIf="isRequired('identificacion')" class="asterisk">*</span>
-        </label>
-        <input type="file" (change)="onFileSelected($event, 'identificacion')" accept=".pdf" />
-        <mat-error *ngIf="isInvalid('identificacion', documentos)">
-          Debes adjuntar la identificación.
-        </mat-error>
-      </div>
-
-      <!-- Persona Jurídica -->
-      <div *ngIf="tipo === 'Persona Jurídica'" class="file-group">
-        <label [class.required]="isInvalid('cert_ext_legal', documentos)">
-          Certificado de existencia y representación legal (PDF)
-          <span *ngIf="isRequired('cert_ext_legal')" class="asterisk">*</span>
-        </label>
-        <input type="file" (change)="onFileSelected($event, 'cert_ext_legal')" accept=".pdf" />
-        <mat-error *ngIf="isInvalid('cert_ext_legal', documentos)">
-          Debes adjuntar el certificado.
-        </mat-error>
-      </div>
-    </ng-container>
-
-    <!-- Documentos obligatorios comunes -->
-    <div class="file-group">
-      <label [class.required]="isInvalid('licencia_transito', documentos)">
-        Licencia de tránsito (tarjeta de propiedad)
-        <span *ngIf="isRequired('licencia_transito')" class="asterisk">*</span>
+  <!-- Dependiendo del tipo de solicitante -->
+  <ng-container *ngIf="contacto.get('tipo_de_solicitante')?.value as tipo">
+    <!-- Persona Natural -->
+    <div *ngIf="tipo === 'Persona Natural'" class="file-group">
+      <label [class.required]="isInvalid('identificacion', documentos)">
+        Identificación (PDF) <span *ngIf="isRequired('identificacion')" class="asterisk">*</span>
       </label>
-      <input type="file" (change)="onFileSelected($event, 'licencia_transito')" accept=".pdf" />
-      <mat-error *ngIf="isInvalid('licencia_transito', documentos)">
-        Debes adjuntar la licencia.
+      <input type="file" (change)="onFileSelected($event, 'identificacion')" accept=".pdf" />
+      <mat-error *ngIf="isInvalid('identificacion', documentos)">
+        Debes adjuntar la identificación.
       </mat-error>
     </div>
 
-    <div class="file-group">
-      <label [class.required]="isInvalid('certificado_tecnicomecanica', documentos)">
-        Certificado técnico-mecánica (PDF) <span *ngIf="isRequired('certificado_tecnicomecanica')" class="asterisk">*</span>
+    <!-- Persona Jurídica -->
+    <div *ngIf="tipo === 'Persona Jurídica'" class="file-group">
+      <label [class.required]="isInvalid('cert_ext_rep_legal', documentos)">
+        Certificado de existencia y representación legal (PDF)
+        <span *ngIf="isRequired('cert_ext_rep_legal')" class="asterisk">*</span>
       </label>
-      <input type="file" (change)="onFileSelected($event, 'certificado_tecnicomecanica')" accept=".pdf" />
-      <mat-error *ngIf="isInvalid('certificado_tecnicomecanica', documentos)">
-        Debes adjuntar el certificado técnico-mecánica.
-      </mat-error>
-    </div>
-
-    <div class="file-group">
-      <label [class.required]="isInvalid('foto_frontal', documentos)">
-        Foto frontal (JPG/PNG) <span *ngIf="isRequired('foto_frontal')" class="asterisk">*</span>
-      </label>
-      <input type="file" (change)="onFileSelected($event, 'foto_frontal')" accept=".jpg,.jpeg,.png" />
-      <mat-error *ngIf="isInvalid('foto_frontal', documentos)">
-        Debes adjuntar la foto frontal.
-      </mat-error>
-    </div>
-
-    <div class="file-group">
-      <label [class.required]="isInvalid('foto_trasera', documentos)">
-        Foto trasera (JPG/PNG) <span *ngIf="isRequired('foto_trasera')" class="asterisk">*</span>
-      </label>
-      <input type="file" (change)="onFileSelected($event, 'foto_trasera')" accept=".jpg,.jpeg,.png" />
-      <mat-error *ngIf="isInvalid('foto_trasera', documentos)">
-        Debes adjuntar la foto trasera.
-      </mat-error>
-    </div>
-
-    <div class="file-group">
-      <label [class.required]="isInvalid('foto_lateral_derecha', documentos)">
-        Foto lateral derecha (JPG/PNG) <span *ngIf="isRequired('foto_lateral_derecha')" class="asterisk">*</span>
-      </label>
-      <input type="file" (change)="onFileSelected($event, 'foto_lateral_derecha')" accept=".jpg,.jpeg,.png" />
-      <mat-error *ngIf="isInvalid('foto_lateral_derecha', documentos)">
-        Debes adjuntar la foto lateral derecha.
-      </mat-error>
-    </div>
-
-    <div class="file-group">
-      <label [class.required]="isInvalid('foto_lateral_izquierda', documentos)">
-        Foto lateral izquierda (JPG/PNG) <span *ngIf="isRequired('foto_lateral_izquierda')" class="asterisk">*</span>
-      </label>
-      <input type="file" (change)="onFileSelected($event, 'foto_lateral_izquierda')" accept=".jpg,.jpeg,.png" />
-      <mat-error *ngIf="isInvalid('foto_lateral_izquierda', documentos)">
-        Debes adjuntar la foto lateral izquierda.
-      </mat-error>
-    </div>
-
-    <div class="file-group">
-      <label [class.required]="isInvalid('registro_herramientas', documentos)">
-        Registro fotográfico de herramientas o kit de limpieza (PDF/JPG/PNG)
-        <span *ngIf="isRequired('registro_herramientas')" class="asterisk">*</span>
-      </label>
-      <input type="file" (change)="onFileSelected($event, 'registro_herramientas')" accept=".pdf,.jpg,.jpeg,.png" />
-      <mat-error *ngIf="isInvalid('registro_herramientas', documentos)">
-        Debes adjuntar el registro.
-      </mat-error>
-    </div>
-
-    <div class="file-group">
-      <label [class.required]="isInvalid('certificado_leasing', documentos)">
-        Certificado entidad financiera Leasing (PDF)
-        <span *ngIf="isRequired('certificado_leasing')" class="asterisk">*</span>
-      </label>
-      <input type="file" (change)="onFileSelected($event, 'certificado_leasing')" accept=".pdf" />
-      <small *ngIf="vehiculo.get('modalidad_vehiculo')?.value === 'Leasing'">
-        Adjuntar certificado expedido por entidad bancaria o financiera, no mayor a 3 meses.
-      </small>
-      <mat-error *ngIf="isInvalid('certificado_leasing', documentos)">
+      <input type="file" (change)="onFileSelected($event, 'cert_ext_rep_legal')" accept=".pdf" />
+      <mat-error *ngIf="isInvalid('cert_ext_rep_legal', documentos)">
         Debes adjuntar el certificado.
       </mat-error>
     </div>
+  </ng-container>
 
-    <!-- Opcionales -->
+  <!-- Documentos obligatorios comunes -->
+  <div class="file-group">
+    <label [class.required]="isInvalid('medidas_manejo_ambiental', documentos)">
+      Documento de medidas de manejo ambiental (PDF)
+      <span *ngIf="isRequired('medidas_manejo_ambiental')" class="asterisk">*</span>
+    </label>
+    <input type="file" (change)="onFileSelected($event, 'medidas_manejo_ambiental')" accept=".pdf" />
+    <mat-error *ngIf="isInvalid('medidas_manejo_ambiental', documentos)">
+      Debes adjuntar el documento.
+    </mat-error>
+  </div>
+
+  <div class="file-group">
+    <label [class.required]="isInvalid('permisos_licencias_autorizaciones', documentos)">
+      Permisos, licencias y autorizaciones ambientales (PDF)
+      <span *ngIf="isRequired('permisos_licencias_autorizaciones')" class="asterisk">*</span>
+    </label>
+    <input type="file" (change)="onFileSelected($event, 'permisos_licencias_autorizaciones')" accept=".pdf" />
+    <mat-error *ngIf="isInvalid('permisos_licencias_autorizaciones', documentos)">
+      Debes adjuntar los permisos.
+    </mat-error>
+  </div>
+
+  <div class="file-group">
+    <label [class.required]="isInvalid('certificacion_pot', documentos)">
+      Certificación POT (PDF)
+      <span *ngIf="isRequired('certificacion_pot')" class="asterisk">*</span>
+    </label>
+    <input type="file" (change)="onFileSelected($event, 'certificacion_pot')" accept=".pdf" />
+    <mat-error *ngIf="isInvalid('certificacion_pot', documentos)">
+      Debes adjuntar la certificación.
+    </mat-error>
+  </div>
+
+  <!-- Sección RCD como materia prima -->
+  <div *ngIf="gestor.get('actividad_ejecutada')?.value === 'receptor_rcd_materia_prima'" class="file-group">
+    <label [class.required]="isInvalid('planos_rcd_materiaprima', documentos)">
+      Planos DWG y PDF del área de almacenamiento y separación de RCD
+      <span *ngIf="isRequired('planos_rcd_materiaprima')" class="asterisk">*</span>
+    </label>
+    <input type="file" (change)="onFileSelected($event, 'planos_rcd_materiaprima')" accept=".pdf,.dwg" />
+  </div>
+
+  <div *ngIf="gestor.get('actividad_ejecutada')?.value === 'receptor_rcd_materia_prima'" class="file-group">
+    <label [class.required]="isInvalid('documento_tecnico_rcd_materiaprima', documentos)">
+      Documento técnico RCD como materia prima (PDF)
+      <span *ngIf="isRequired('documento_tecnico_rcd_materiaprima')" class="asterisk">*</span>
+    </label>
+    <input type="file" (change)="onFileSelected($event, 'documento_tecnico_rcd_materiaprima')" accept=".pdf" />
+  </div>
+
+  <div *ngIf="gestor.get('actividad_ejecutada')?.value === 'receptor_rcd_materia_prima'" class="file-group">
+    <label [class.required]="isInvalid('permisos_rcd_materiaprima', documentos)">
+      Permisos y autorizaciones ambientales (RCD como materia prima)
+      <span *ngIf="isRequired('permisos_rcd_materiaprima')" class="asterisk">*</span>
+    </label>
+    <input type="file" (change)="onFileSelected($event, 'permisos_rcd_materiaprima')" accept=".pdf" />
+  </div>
+
+  <!-- Sección RCD estructural -->
+  <div *ngIf="gestor.get('actividad_ejecutada')?.value === 'receptor_rcd_estructural'">
     <div class="file-group">
-      <label>
-        Otros documentos (opcional)
+      <label [class.required]="isInvalid('licencia_urbanistica_rcd', documentos)">
+        Licencia urbanística vigente (PDF)
       </label>
-      <input type="file" (change)="onFileSelected($event, 'otros_documentos')" accept=".pdf,.jpg,.jpeg,.png" multiple />
+      <input type="file" (change)="onFileSelected($event, 'licencia_urbanistica_rcd')" accept=".pdf" />
+    </div>
+
+    <div class="file-group">
+      <label [class.required]="isInvalid('viabilidad_ambiental_rcd', documentos)">
+        Viabilidad Ambiental para adecuación de terreno (PDF)
+      </label>
+      <input type="file" (change)="onFileSelected($event, 'viabilidad_ambiental_rcd')" accept=".pdf" />
+    </div>
+
+    <div class="file-group">
+      <label [class.required]="isInvalid('documento_tecnico_rcd_estructural', documentos)">
+        Documento técnico RCD estructural (PDF)
+      </label>
+      <input type="file" (change)="onFileSelected($event, 'documento_tecnico_rcd_estructural')" accept=".pdf" />
+    </div>
+
+    <div class="file-group">
+      <label [class.required]="isInvalid('planos_topograficos_rcd', documentos)">
+        Planos topográficos en DWG y PDF
+      </label>
+      <input type="file" (change)="onFileSelected($event, 'planos_topograficos_rcd')" accept=".pdf,.dwg" />
     </div>
   </div>
+
+  <!-- Sección disposición final -->
+  <div *ngIf="gestor.get('actividad_ejecutada')?.value === 'disposicion_final'">
+    <div class="file-group">
+      <label [class.required]="isInvalid('medidas_manejo_disp_final', documentos)">
+        Medidas de manejo ambiental disposición final (PDF)
+      </label>
+      <input type="file" (change)="onFileSelected($event, 'medidas_manejo_disp_final')" accept=".pdf" />
+    </div>
+
+    <div class="file-group">
+      <label [class.required]="isInvalid('permisos_disp_final', documentos)">
+        Permisos y autorizaciones ambientales disposición final (PDF)
+      </label>
+      <input type="file" (change)="onFileSelected($event, 'permisos_disp_final')" accept=".pdf" />
+    </div>
+
+    <div class="file-group">
+      <label [class.required]="isInvalid('certificacion_pot_disp_final', documentos)">
+        Certificación POT disposición final (PDF)
+      </label>
+      <input type="file" (change)="onFileSelected($event, 'certificacion_pot_disp_final')" accept=".pdf" />
+    </div>
+  </div>
+</div>
+
 
   <!-- BOTONES DE NAVEGACIÓN -->
   <div class="navigation-buttons">

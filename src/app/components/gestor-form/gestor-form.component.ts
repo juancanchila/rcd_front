@@ -93,8 +93,6 @@ export class GestorFormComponent implements OnInit {
       direccion_de_correspondencia_del_solicitante: ['', Validators.required],
     });
 
-    this.vehiculo = this.fb.group({});
-
     this.gestor = this.fb.group({
       localidad_gestor: ['', Validators.required],
       barrio_gestor: ['', Validators.required],
@@ -162,7 +160,6 @@ export class GestorFormComponent implements OnInit {
 
     this.form = this.fb.group({
       contacto: this.contacto,
-      vehiculo: this.vehiculo,
       gestor: this.gestor,
       documentos: this.documentos,
       infoextra: this.infoextra,
@@ -273,15 +270,12 @@ export class GestorFormComponent implements OnInit {
   private setupDocumentosValidation() {
     const actividadControl = this.gestor.get('actividad_ejecutada')!;
     actividadControl.valueChanges.pipe(startWith(actividadControl.value)).subscribe((actividad) => {
-      // Limpiar validaciones dinámicas
       Object.keys(this.documentos.controls).forEach((ctrl) => this.documentos.get(ctrl)!.clearValidators());
 
-      // Documentos obligatorios generales
       ['medidas_manejo_ambiental', 'permisos_licencias_autorizaciones', 'certificacion_pot'].forEach((ctrl) =>
         this.documentos.get(ctrl)!.setValidators([Validators.required])
       );
 
-      // Documentos según actividad
       if (actividad === 'receptor_rcd_materia_prima') {
         ['planos_rcd_materiaprima', 'documento_tecnico_rcd_materiaprima', 'permisos_rcd_materiaprima'].forEach((ctrl) =>
           this.documentos.get(ctrl)!.setValidators([Validators.required])
@@ -296,7 +290,6 @@ export class GestorFormComponent implements OnInit {
         );
       }
 
-      // Actualizar validaciones
       Object.keys(this.documentos.controls).forEach((ctrl) => this.documentos.get(ctrl)!.updateValueAndValidity());
     });
   }
@@ -307,7 +300,6 @@ export class GestorFormComponent implements OnInit {
   onFileSelected(event: any, controlName: string) {
     const file: File = event.target.files[0];
     if (!file) return;
-
     this.documentos.get(controlName)?.setValue(file);
     console.log(`Archivo seleccionado (${controlName}): ${file.name}`);
   }
@@ -316,6 +308,13 @@ export class GestorFormComponent implements OnInit {
     if (!value) return '';
     if (value instanceof File) return value.name;
     return value;
+  }
+
+  getUploadedDocuments(): string[] {
+    const docs = this.documentos.value;
+    return Object.keys(docs)
+      .filter((key) => docs[key] !== null && docs[key] !== undefined && docs[key] !== '')
+      .map((key) => key.replace(/_/g, ' '));
   }
 
   // ==============================
@@ -354,13 +353,6 @@ export class GestorFormComponent implements OnInit {
     if (!c || !c.validator) return false;
     const result = c.validator({} as any);
     return !!(result && result['required']);
-  }
-
-  getUploadedDocuments(): string[] {
-    const docs = this.documentos.value;
-    return Object.keys(docs)
-      .filter((key) => docs[key] !== null && docs[key] !== undefined && docs[key] !== '')
-      .map((key) => key.replace(/_/g, ' '));
   }
 
   // ==============================
