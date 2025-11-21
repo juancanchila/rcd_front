@@ -92,25 +92,40 @@ export class GestorFormComponent implements OnInit {
       barrio: ['', Validators.required],
       direccion_de_correspondencia_del_solicitante: ['', Validators.required],
     });
+this.gestor = this.fb.group(
+  {
+    localidad_gestor: ['', Validators.required],
+    barrio_gestor: ['', Validators.required],
+    direccion_gestor: ['', Validators.required],
+    fecha_inicio: [''],
+    fecha_final: ['', Validators.required],
+    tipo_rcd: [''],
+    actividad_ejecutada: ['', Validators.required],
+    capacidad_t_mes: [0, [Validators.required, Validators.min(0)]],
+    capacidad_total_t: [0, [Validators.required, Validators.min(0)]],
+    '1_1': [false],
+    '1_2': [false],
+    '1_3': [false],
+    '1_4': [false],
+    '2_1': [false],
+    '2_2': [false],
+    '2_3': [false],
+  },
+  {
+    validators: (form) => {
+      const inicio = form.get('fecha_inicio')?.value;
+      const final = form.get('fecha_final')?.value;
 
-    this.gestor = this.fb.group({
-      localidad_gestor: ['', Validators.required],
-      barrio_gestor: ['', Validators.required],
-      direccion_gestor: ['', Validators.required],
-      fecha_inicio: [''],
-      fecha_final: ['', Validators.required],
-      tipo_rcd: [''],
-      actividad_ejecutada: ['', Validators.required],
-      capacidad_t_mes: [0, [Validators.required, Validators.min(0)]],
-      capacidad_total_t: [0, [Validators.required, Validators.min(0)]],
-      '1_1': [false],
-      '1_2': [false],
-      '1_3': [false],
-      '1_4': [false],
-      '2_1': [false],
-      '2_2': [false],
-      '2_3': [false],
-    });
+      if (!inicio || !final) return null;
+
+      const fechaInicio = new Date(inicio);
+      const fechaFinal = new Date(final);
+
+      return fechaInicio <= fechaFinal ? null : { fechaInvalida: true };
+    },
+  }
+);
+
 
     this.gestor.addControl('latitud', this.fb.control(null));
     this.gestor.addControl('longitud', this.fb.control(null));
@@ -381,17 +396,7 @@ export class GestorFormComponent implements OnInit {
     };
   }
 
-  validarFechas(form: FormGroup) {
-    const inicio = form.get('fecha_inicio')?.value;
-    const final = form.get('fecha_final')?.value;
 
-    if (!inicio || !final) return null;
-
-    const fechaInicio = new Date(inicio);
-    const fechaFinal = new Date(final);
-
-    return fechaInicio <= fechaFinal ? null : { fechaInvalida: true };
-  }
 
   async onSubmit(): Promise<void> {
     if (this.form.invalid) {
