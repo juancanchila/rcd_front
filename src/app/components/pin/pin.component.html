@@ -137,6 +137,22 @@
                 <td>{{ formatDate(pinData.fechaFinalizacion) }}</td>
               </tr>
             </table>
+
+        <div class="obligaciones-container">
+  <h3>Obligaciones del Generador de RCD</h3>
+  <p>El generador de RCD deberá cumplir con las siguientes obligaciones al momento de ejecutar las obras:</p>
+  <ol>
+    <li>El PIN GENERADOR sólo aplica para las obras en mención. En caso de presentar alguna suspensión o modificación de este, se deberá informar inmediatamente a esta autoridad ambiental.</li>
+    <li>Este PIN generador corresponde a una inscripción como generador de RCD ante esta autoridad ambiental; bajo ningún motivo este documento lo exime de la expedición de licencias urbanísticas y demás permisos o autorizaciones que las actividades a ejecutar requieran.</li>
+    <li>El generador de RCD será responsable por los impactos causados al ambiente derivados de un inadecuado manejo, transporte y disposición de los RCD, por lo que está obligado a trabajar la cadena de gestión integral únicamente con transportadores de RCD inscritos ante el EPA Cartagena y que hayan obtenido su respectivo PIN de autorización.</li>
+    <li>Garantizar la limpieza de las vías exteriores a la obra ocasionadas por la salida de los vehículos transportadores de RCD.</li>
+    <li>Entregar los RCD únicamente a gestores de RCD para que realicen las actividades de recolección, transporte, almacenamiento, aprovechamiento y/o disposición final en los puntos limpios, sitios de aprovechamiento y/o disposición final, según corresponda.</li>
+    <li>Dar cumplimiento a las obligaciones aplicables contenidas en la Resolución 472 de 2017 (MADS) modificada por la Resolución 1257 de 2021 y la Resolución 658 de 2019, modificada parcialmente mediante Resolución 112 de 2020, así como toda normativa que las modifique o sustituya.</li>
+    <li>Permitir a los funcionarios realizar las visitas de seguimiento y control que aquí se otorgan, sujetas al cobro estipulado en el plan tarifario de la entidad.</li>
+    <li>Los residuos peligrosos resultantes de las actividades de construcción, demolición, reparación o mejoras locativas de las obras civiles o de otras actividades conexas, complementarias o análogas, deberán ser gestionados como residuos peligrosos de acuerdo con la normatividad establecida para su manejo.</li>
+  </ol>
+</div>
+
           </div>
 
           <!-- VEHÍCULO -->
@@ -176,6 +192,34 @@
                 <td>{{ pinData.capacidad }}</td>
               </tr>
             </table>
+
+            <div class="obligaciones-container">
+              <h3>Obligaciones del Transportador</h3>
+              <p>El transportador debe cumplir con lo siguiente:</p>
+              <div class="grid-container">
+                <div class="grid-item">
+                  <strong>1.</strong> Cubrir la carga durante el transporte, evitando el contacto con la lluvia y el viento.
+                </div>
+                <div class="grid-item">
+                  <strong>2.</strong> Contar con las herramientas, equipos necesarios o kit de limpieza.
+                </div>
+                <div class="grid-item">
+                  <strong>3.</strong> Entregar los RCD recolectados y transportados en los sitios autorizados y registrados ante EPA Cartagena y/o autoridad ambiental competente.
+                </div>
+                <div class="grid-item">
+                  <strong>4.</strong> Cumplir las obligaciones contenidas en la Resolución 472 de 2017 (MADS) modificada por la Resolución 1257 de 2021 y la Resolución 658 de 2019, modificada parcialmente mediante Resolución 112 de 2020.
+                </div>
+                <div class="grid-item">
+                  <strong>5.</strong> Utilizar vehículos que cumplan con las normas vigentes de tránsito, transporte y emisiones atmosféricas.
+                </div>
+                <div class="grid-item">
+                  <strong>6.</strong> Aceptar el control y seguimiento ambiental que realizará el EPA Cartagena sobre las actividades registradas relacionadas con el manejo o gestión integral de RCD.
+                </div>
+                <div class="grid-item">
+                  <strong>7.</strong> Está prohibido el almacenamiento temporal o permanente de RCD en zonas verdes, áreas arborizadas, reservas forestales, áreas de recreación y parques, ríos, quebradas, playas, canales, caños, páramos, humedales, manglares y zonas ribereñas.
+                </div>
+              </div>
+            </div>
           </div>
 
           <!-- RESOLUCIÓN -->
@@ -211,9 +255,7 @@
                 <td>{{ pinData.tipoAprovechamiento }}</td>
               </tr>
             </table>
-          </div>
-
-          <table class="data-table">
+    <table class="data-table">
             <tr>
               <td><strong>FECHA DE INICIO</strong></td>
               <td>{{ pinData.fechaExpedicion }}</td>
@@ -223,44 +265,40 @@
               <td>{{ pinData.fechaVencimiento }}</td>
             </tr>
           </table>
+           <div class="obligaciones-container">
+  <h3>Obligaciones del Receptor de RCD</h3>
+  <p>El receptor de RCD deberá cumplir con las siguientes obligaciones al momento de recibir y manejar los residuos:</p>
+  <ol>
+    <li>Contar como mínimo con un área de almacenamiento de RCD debidamente adecuada.</li>
+    <li>Entregar al gran generador los siguientes soportes del aprovechamiento de RCD en sus actividades:
+      <ul>
+        <li>Registro fotográfico del proyecto, obra o actividad para la que se requiere el RCD.</li>
+        <li>Fecha programada para la recepción de los RCD aprovechables.</li>
+        <li>Copia de los permisos, autorizaciones y licencias correspondientes al desarrollo del proyecto, obra o actividad.</li>
+      </ul>
+    </li>
+    <li>Expedir constancia al generador de la cantidad exacta de residuos aprovechados en un tiempo máximo de 15 días calendario posteriores a la recepción del material, conforme al formato del Anexo VI.</li>
+    <li>Presentar a la autoridad ambiental competente regional o urbana dentro de los 15 días calendario posteriores a la finalización de cada semestre del año, el reporte del periodo inmediatamente anterior indicando la cantidad de residuos recibidos, utilizando el formato del Anexo III de la Resolución 1257 de 2021.</li>
+    <li>Permitir a los funcionarios realizar las visitas de seguimiento y control al PIN RECEPTOR otorgado, sujetas al cobro estipulado en el plan tarifario de la entidad.</li>
+    <li>Dar aviso inmediato y por escrito a EPA Cartagena en caso de presentarse cambios o ajustes de las condiciones bajo las cuales se expide el PIN Receptor.</li>
+    <li>Dar cumplimiento a las obligaciones contenidas en la Resolución 472 de 2017 (MADS), modificada por la Resolución 1257 de 2021 y la Resolución 658 de 2019, modificada parcialmente mediante Resolución 112 de 2020, así como toda normativa que las modifique o sustituya.</li>
+    <li>Garantizar la limpieza de las vías exteriores producto de la entrada y salida de los vehículos transportadores de RCD.</li>
+    <li>Los gestores de RCD de puntos limpios, plantas de aprovechamiento y sitios de disposición final deberán dar cumplimiento al Artículo 6º de la Resolución 1257 de 2021.</li>
+  </ol>
+</div>
+
+          </div>
+
+      
 
           <p class="legal-text">
-            Este PIN se expide el {{ fechaActual}} en la ciudad de {{ pinData.ciudadExpedicion }},
+            Este PIN se expide el {{ fechaActual }} en la ciudad de {{ pinData.ciudadExpedicion }},
             siguiendo los requerimientos establecidos en la resolución 658 de 2019.
           </p>
 
           <div class="signature-section">
             <p>V. B. Subdirección Técnica y Desarrollo Sostenible</p>
           </div>
-
-          <div *ngIf="pinData.tipoPin === 'TRANSPORTADOR'" class="obligaciones-container">
-  <h3>Obligaciones del Transportador</h3>
-  <p>El transportador debe cumplir con lo siguiente:</p>
-
-  <div class="grid-container">
-    <div class="grid-item">
-      <strong>1.</strong> Cubrir la carga durante el transporte, evitando el contacto con la lluvia y el viento.
-    </div>
-    <div class="grid-item">
-      <strong>2.</strong> Contar con las herramientas, equipos necesarios o kit de limpieza.
-    </div>
-    <div class="grid-item">
-      <strong>3.</strong> Entregar los RCD recolectados y transportados en los sitios autorizados y registrados ante EPA Cartagena y/o autoridad ambiental competente, como sitio de aprovechamiento o disposición final de RCD.
-    </div>
-    <div class="grid-item">
-      <strong>4.</strong> Cumplir las obligaciones contenidas en la Resolución 472 de 2017 (MADS) modificada por la Resolución 1257 de 2021 y la Resolución 658 de 2019, modificada parcialmente mediante Resolución 112 de 2020.
-    </div>
-    <div class="grid-item">
-      <strong>5.</strong> Utilizar vehículos que cumplan con las normas vigentes de tránsito, transporte y emisiones atmosféricas.
-    </div>
-    <div class="grid-item">
-      <strong>6.</strong> Aceptar el control y seguimiento ambiental que realizará el EPA Cartagena sobre las actividades registradas relacionadas con el manejo o gestión integral de RCD.
-    </div>
-    <div class="grid-item">
-      <strong>7.</strong> Está prohibido el almacenamiento temporal o permanente de RCD en zonas verdes, áreas arborizadas, reservas forestales, áreas de recreación y parques, ríos, quebradas, playas, canales, caños, páramos, humedales, manglares y zonas ribereñas.
-    </div>
-  </div>
-</div>
 
           <div class="verification-notice">
             <p>

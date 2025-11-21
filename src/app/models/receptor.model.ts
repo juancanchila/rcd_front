@@ -21,6 +21,8 @@ export class Receptor {
     public nombreRL: string,
     public emailRL: string,
     public pin: string,
+    public tipo: string,
+    public cantidad_autorizada: string,
     public resoluciones: Resolucion[] | null // <-- agregado
   ) {}
 
@@ -46,6 +48,8 @@ export class Receptor {
       response.nombreRL,
       response.emailRL,
       response.pin,
+      response.tipo,
+      response.cantidad_autorizada,
       response.resoluciones
     );
   }
