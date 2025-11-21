@@ -40,11 +40,7 @@
     <ng-container *ngIf="contacto.get('tipo_de_solicitante')?.value === 'Persona Jurídica'">
       <mat-form-field appearance="outline">
         <mat-label>Razón social</mat-label>
-        <input
-          matInput
-          formControlName="razon_social"
-          placeholder="Ej: Comercializadora ABC S.A.S"
-        />
+        <input matInput formControlName="razon_social" placeholder="Ej: Comercializadora ABC S.A.S" />
         <mat-error *ngIf="isInvalid('razon_social', contacto)">
           Debes ingresar la razón social.
         </mat-error>
@@ -53,29 +49,20 @@
       <mat-form-field appearance="outline">
         <mat-label>NIT</mat-label>
         <input matInput formControlName="nit" placeholder="Ej: 900123456-7" />
-        <mat-error *ngIf="isInvalid('nit', contacto)"> Debes ingresar el NIT. </mat-error>
+        <mat-error *ngIf="isInvalid('nit', contacto)">Debes ingresar el NIT.</mat-error>
       </mat-form-field>
     </ng-container>
 
     <mat-form-field appearance="outline">
       <mat-label>Correo electrónico</mat-label>
-      <input
-        matInput
-        type="email"
-        formControlName="correo_electronico"
-        placeholder="ejemplo@correo.com"
-      />
-      <mat-error *ngIf="isInvalid('correo_electronico', contacto)">
-        Ingresa un correo válido.
-      </mat-error>
+      <input matInput type="email" formControlName="correo_electronico" placeholder="ejemplo@correo.com" />
+      <mat-error *ngIf="isInvalid('correo_electronico', contacto)">Ingresa un correo válido.</mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Teléfono móvil</mat-label>
       <input matInput formControlName="telefono_movil" placeholder="Ej: 3001234567" />
-      <mat-error *ngIf="isInvalid('telefono_movil', contacto)">
-        Debes ingresar el teléfono móvil.
-      </mat-error>
+      <mat-error *ngIf="isInvalid('telefono_movil', contacto)">Debes ingresar el teléfono móvil.</mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
@@ -90,34 +77,21 @@
         <mat-option value="localidad2">Localidad 2</mat-option>
         <mat-option value="localidad3">Localidad 3</mat-option>
       </mat-select>
-      <mat-error *ngIf="isInvalid('localidad', contacto)">
-        Debes seleccionar la localidad.
-      </mat-error>
+      <mat-error *ngIf="isInvalid('localidad', contacto)">Debes seleccionar la localidad.</mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Barrio</mat-label>
-      <input
-        matInput
-        formControlName="barrio"
-        [matAutocomplete]="autoBarrio"
-        placeholder="Empieza a escribir"
-      />
+      <input matInput formControlName="barrio" [matAutocomplete]="autoBarrio" placeholder="Empieza a escribir" />
       <mat-autocomplete #autoBarrio="matAutocomplete">
-        <mat-option *ngFor="let barrio of barriosFiltrados$ | async" [value]="barrio">{{
-          barrio
-        }}</mat-option>
+        <mat-option *ngFor="let barrio of barriosFiltrados$ | async" [value]="barrio">{{ barrio }}</mat-option>
       </mat-autocomplete>
-      <mat-error *ngIf="isInvalid('barrio', contacto)"> Debes seleccionar un barrio. </mat-error>
+      <mat-error *ngIf="isInvalid('barrio', contacto)">Debes seleccionar un barrio.</mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Dirección de correspondencia</mat-label>
-      <input
-        matInput
-        formControlName="direccion_de_correspondencia_del_solicitante"
-        placeholder="Ej: Calle 45 #12-34"
-      />
+      <input matInput formControlName="direccion_de_correspondencia_del_solicitante" placeholder="Ej: Calle 45 #12-34" />
       <mat-error *ngIf="isInvalid('direccion_de_correspondencia_del_solicitante', contacto)">
         Debes ingresar la dirección de correspondencia.
       </mat-error>
@@ -127,7 +101,6 @@
   <!-- PASO 1: DATOS DEL GESTOR -->
   <div *ngIf="step === 1" [formGroup]="gestor" class="gestor-step">
     <h3>Datos del Gestor</h3>
-
     <mat-form-field appearance="outline">
       <mat-label>Localidad del Gestor</mat-label>
       <mat-select formControlName="localidad_gestor" required>
@@ -135,41 +108,26 @@
         <mat-option value="localidad2">Localidad 2</mat-option>
         <mat-option value="localidad3">Localidad 3</mat-option>
       </mat-select>
-      <mat-error *ngIf="isInvalid('localidad_gestor', gestor)">
-        Debes seleccionar la localidad del gestor.
-      </mat-error>
+      <mat-error *ngIf="isInvalid('localidad_gestor', gestor)">Debes seleccionar la localidad del gestor.</mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Barrio del Gestor</mat-label>
-      <input
-        matInput
-        formControlName="barrio_gestor"
-        [matAutocomplete]="autoBarrioGestor"
-        placeholder="Empieza a escribir"
-      />
+      <input matInput formControlName="barrio_gestor" [matAutocomplete]="autoBarrioGestor" placeholder="Empieza a escribir" />
       <mat-autocomplete #autoBarrioGestor="matAutocomplete">
-        <mat-option *ngFor="let barrio of barriosFiltradosGestor$ | async" [value]="barrio">{{
-          barrio
-        }}</mat-option>
+        <mat-option *ngFor="let barrio of barriosFiltradosGestor$ | async" [value]="barrio">{{ barrio }}</mat-option>
       </mat-autocomplete>
-      <mat-error *ngIf="isInvalid('barrio_gestor', gestor)">
-        Debes seleccionar un barrio.
-      </mat-error>
+      <mat-error *ngIf="isInvalid('barrio_gestor', gestor)">Debes seleccionar un barrio.</mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Dirección del Gestor</mat-label>
       <input matInput formControlName="direccion_gestor" placeholder="Ej: Calle 45 #12-34" />
-      <mat-error *ngIf="isInvalid('direccion_gestor', gestor)">
-        Debes ingresar la dirección del gestor.
-      </mat-error>
+      <mat-error *ngIf="isInvalid('direccion_gestor', gestor)">Debes ingresar la dirección del gestor.</mat-error>
     </mat-form-field>
 
-    <!-- MAPA -->
     <map-picker (coordinates)="onMap($event)"></map-picker>
 
-    <!-- FECHAS -->
     <div class="flexbox">
       <div class="form-field">
         <label>Fecha Inicio</label>
@@ -183,64 +141,50 @@
       </div>
     </div>
 
-
     <div *ngIf="gestor.errors?.['fechaInvalida']" class="error">
-  La fecha inicial no puede ser mayor que la fecha final.
-</div>
+      La fecha inicial no puede ser mayor que la fecha final.
+    </div>
 
-    <!-- TIPO DE RCD -->
     <div class="form-field">
       <label>Tipos de RCD</label>
       <select formControlName="tipo_rcd">
         <option value="">Seleccionar</option>
-        <option value="aprovechable">1. RCD susceptibles de aprovechamiento</option>
-        <option value="no_aprovechable">2. RCD no susceptibles de aprovechamiento</option>
+        <option value="aprovechable">RCD susceptibles de aprovechamiento</option>
+        <option value="no_aprovechable">RCD no susceptibles de aprovechamiento</option>
       </select>
     </div>
 
-    <!-- CHECKBOXES RCD APROVECHABLE -->
     <div class="form-field" *ngIf="gestor.get('tipo_rcd')?.value === 'aprovechable'">
       <label>Tipos de RCD (marque las que apliquen)</label>
-      <p>Seleccione todas las opciones que correspondan</p>
       <div *ngFor="let key of rcdAprovechableKeys">
         <label>
-          <input type="checkbox" [formControlName]="key" />
-          {{ rcdAprovechable[key] }}
+          <input type="checkbox" [formControlName]="key" /> {{ rcdAprovechable[key] }}
         </label>
       </div>
     </div>
 
-    <!-- CHECKBOXES RCD NO APROVECHABLE -->
     <div class="form-field" *ngIf="gestor.get('tipo_rcd')?.value === 'no_aprovechable'">
       <label>Tipos de RCD (marque las que apliquen)</label>
-      <p>Seleccione todas las opciones que correspondan</p>
       <div *ngFor="let key of rcdNoAprovechableKeys">
         <label>
-          <input type="checkbox" [formControlName]="key" />
-          {{ rcdNoAprovechable[key] }}
+          <input type="checkbox" [formControlName]="key" /> {{ rcdNoAprovechable[key] }}
         </label>
       </div>
     </div>
 
-    <!-- ACTIVIDAD EJECUTADA -->
     <div class="form-field">
       <label>Actividad ejecutada <span class="required">*</span></label>
       <select formControlName="actividad_ejecutada">
         <option value="">Seleccionar</option>
         <option value="almacenamiento_punto_limpio">Almacenamiento en Punto Limpio</option>
-        <option value="aprovechamiento_planta">
-          Aprovechamiento a través de planta fija o móvil
-        </option>
-        <option value="receptor_rcd_estructural">
-          Receptor de RCD para actividades estructurales
-        </option>
+        <option value="aprovechamiento_planta">Aprovechamiento a través de planta fija o móvil</option>
+        <option value="receptor_rcd_estructural">Receptor de RCD para actividades estructurales</option>
         <option value="receptor_rcd_materia_prima">Receptor de RCD como materia prima</option>
         <option value="disposicion_final">Disposición Final</option>
       </select>
       <div class="error" *ngIf="isInvalid('actividad_ejecutada', gestor)">Campo obligatorio</div>
     </div>
 
-    <!-- CAPACIDAD -->
     <div class="flexbox">
       <div class="form-field">
         <label>Capacidad (t/mes) <span class="required">*</span></label>
@@ -258,206 +202,136 @@
 
   <!-- PASO 2: DOCUMENTOS -->
   <div *ngIf="step === 2" class="documentos">
-    <h3 class="section-title">Documentos requeridos</h3>
+    <h3>Documentos requeridos</h3>
 
-    <!-- Dependiendo del tipo de solicitante -->
-    <ng-container *ngIf="contacto.get('tipo_de_solicitante')?.value as tipo">
-      <!-- Persona Natural -->
-      <div *ngIf="tipo === 'Persona Natural'" class="file-group">
-        <label [class.required]="isInvalid('identificacion', documentos)">
-          Identificación (PDF) <span *ngIf="isRequired('identificacion')" class="asterisk">*</span>
-        </label>
-        <input type="file" (change)="onFileSelected($event, 'identificacion')" accept=".pdf" />
-        <mat-error *ngIf="isInvalid('identificacion', documentos)">
-          Debes adjuntar la identificación.
-        </mat-error>
-      </div>
+    <!-- PERSONA NATURAL -->
+    <div *ngIf="contacto.value.tipo_de_solicitante === 'Persona Natural'" class="file-group">
+      <label>Identificación (PDF) *</label>
+      <input type="file" (change)="onFileSelected($event, 'identificacion')" accept=".pdf" />
+    </div>
 
-      <!-- Persona Jurídica -->
-      <div *ngIf="tipo === 'Persona Jurídica'" class="file-group">
-        <label [class.required]="isInvalid('cert_ext_rep_legal', documentos)">
-          Certificado de existencia y representación legal (PDF)
-          <span *ngIf="isRequired('cert_ext_rep_legal')" class="asterisk">*</span>
-        </label>
-        <input type="file" (change)="onFileSelected($event, 'cert_ext_rep_legal')" accept=".pdf" />
-        <mat-error *ngIf="isInvalid('cert_ext_rep_legal', documentos)">
-          Debes adjuntar el certificado.
-        </mat-error>
-      </div>
-    </ng-container>
+    <!-- PERSONA JURÍDICA -->
+    <div *ngIf="contacto.value.tipo_de_solicitante === 'Persona Jurídica'" class="file-group">
+      <label>Certificado de existencia y representación legal (PDF) *</label>
+      <input type="file" (change)="onFileSelected($event, 'cert_ext_rep_legal')" accept=".pdf" />
+    </div>
 
-    <!-- Documentos obligatorios comunes -->
+    <!-- DOCUMENTOS COMUNES -->
     <div class="file-group">
-      <label [class.required]="isInvalid('medidas_manejo_ambiental', documentos)">
-        Documento de medidas de manejo ambiental (PDF)
-        <span *ngIf="isRequired('medidas_manejo_ambiental')" class="asterisk">*</span>
-      </label>
-      <input
-        type="file"
-        (change)="onFileSelected($event, 'medidas_manejo_ambiental')"
-        accept=".pdf"
-      />
-      <mat-error *ngIf="isInvalid('medidas_manejo_ambiental', documentos)">
-        Debes adjuntar el documento.
-      </mat-error>
+      <label>Documento de medidas de manejo ambiental (PDF) *</label>
+      <input type="file" (change)="onFileSelected($event, 'medidas_manejo_ambiental')" accept=".pdf" />
     </div>
 
     <div class="file-group">
-      <label [class.required]="isInvalid('permisos_licencias_autorizaciones', documentos)">
-        Permisos, licencias y autorizaciones ambientales (PDF)
-        <span *ngIf="isRequired('permisos_licencias_autorizaciones')" class="asterisk">*</span>
-      </label>
-      <input
-        type="file"
-        (change)="onFileSelected($event, 'permisos_licencias_autorizaciones')"
-        accept=".pdf"
-      />
-      <mat-error *ngIf="isInvalid('permisos_licencias_autorizaciones', documentos)">
-        Debes adjuntar los permisos.
-      </mat-error>
+      <label>Permisos, licencias y autorizaciones ambientales (PDF) *</label>
+      <input type="file" (change)="onFileSelected($event, 'permisos_licencias_autorizaciones')" accept=".pdf" />
     </div>
 
     <div class="file-group">
-      <label [class.required]="isInvalid('certificacion_pot', documentos)">
-        Certificación POT (PDF)
-        <span *ngIf="isRequired('certificacion_pot')" class="asterisk">*</span>
-      </label>
+      <label>Certificación POT (PDF) *</label>
       <input type="file" (change)="onFileSelected($event, 'certificacion_pot')" accept=".pdf" />
-      <mat-error *ngIf="isInvalid('certificacion_pot', documentos)">
-        Debes adjuntar la certificación.
-      </mat-error>
     </div>
 
-    <!-- Sección RCD como materia prima -->
-    <div
-      *ngIf="gestor.get('actividad_ejecutada')?.value === 'receptor_rcd_materia_prima'"
-      class="file-group"
-    >
-      <label [class.required]="isInvalid('planos_rcd_materiaprima', documentos)">
-        Planos DWG y PDF del área de almacenamiento y separación de RCD
-        <span *ngIf="isRequired('planos_rcd_materiaprima')" class="asterisk">*</span>
-      </label>
-      <input
-        type="file"
-        (change)="onFileSelected($event, 'planos_rcd_materiaprima')"
-        accept=".pdf,.dwg"
-      />
+    <!-- DOCUMENTOS ESPECÍFICOS SEGÚN ACTIVIDAD -->
+    <ng-container [ngSwitch]="gestor.value.actividad_ejecutada">
+
+      <ng-container *ngSwitchCase="'receptor_rcd_materia_prima'">
+        <div class="file-group">
+          <label>Planos DWG y PDF del área de almacenamiento</label>
+          <input type="file" (change)="onFileSelected($event, 'planos_rcd_materiaprima')" accept=".pdf,.dwg" />
+        </div>
+        <div class="file-group">
+          <label>Documento técnico RCD como materia prima (PDF)</label>
+          <input type="file" (change)="onFileSelected($event, 'documento_tecnico_rcd_materiaprima')" accept=".pdf" />
+        </div>
+        <div class="file-group">
+          <label>Permisos y autorizaciones ambientales (RCD como materia prima)</label>
+          <input type="file" (change)="onFileSelected($event, 'permisos_rcd_materiaprima')" accept=".pdf" />
+        </div>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'receptor_rcd_estructural'">
+        <div class="file-group">
+          <label>Documento técnico RCD estructural (PDF)</label>
+          <input type="file" (change)="onFileSelected($event, 'documento_tecnico_rcd_estructural')" accept=".pdf" />
+        </div>
+        <div class="file-group">
+          <label>Planos topográficos en DWG y PDF</label>
+          <input type="file" (change)="onFileSelected($event, 'planos_topograficos_rcd')" accept=".pdf,.dwg" />
+        </div>
+        <div class="file-group">
+          <label>Viabilidad ambiental (PDF)</label>
+          <input type="file" (change)="onFileSelected($event, 'viabilidad_ambiental_rcd')" accept=".pdf" />
+        </div>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'disposicion_final'">
+        <div class="file-group">
+          <label>Medidas de manejo ambiental disposición final (PDF)</label>
+          <input type="file" (change)="onFileSelected($event, 'medidas_manejo_disp_final')" accept=".pdf" />
+        </div>
+        <div class="file-group">
+          <label>Permisos y autorizaciones ambientales disposición final (PDF)</label>
+          <input type="file" (change)="onFileSelected($event, 'permisos_disp_final')" accept=".pdf" />
+        </div>
+        <div class="file-group">
+          <label>Certificación POT disposición final (PDF)</label>
+          <input type="file" (change)="onFileSelected($event, 'certificacion_pot_disp_final')" accept=".pdf" />
+        </div>
+      </ng-container>
+
+    </ng-container>
+  </div>
+
+  <!-- PASO 3: RESUMEN FINAL -->
+  <div *ngIf="step === 3" class="summary">
+    <h3>Resumen final del trámite</h3>
+    <p>Revisa que toda la información sea correcta antes de enviar.</p>
+
+    <div class="summary-block">
+      <h4>Datos de Contacto</h4>
+      <p><strong>Tipo solicitante:</strong> {{ contacto.value.tipo_de_solicitante }}</p>
+      <ng-container *ngIf="contacto.value.tipo_de_solicitante === 'Persona Natural'">
+        <p><strong>Nombres:</strong> {{ contacto.value.nombres_y_apellidos }}</p>
+        <p><strong>Documento:</strong> {{ contacto.value.documento_de_identidad }}</p>
+      </ng-container>
+      <ng-container *ngIf="contacto.value.tipo_de_solicitante === 'Persona Jurídica'">
+        <p><strong>Razón social:</strong> {{ contacto.value.razon_social }}</p>
+        <p><strong>NIT:</strong> {{ contacto.value.nit }}</p>
+      </ng-container>
+      <p><strong>Correo:</strong> {{ contacto.value.correo_electronico }}</p>
+      <p><strong>Teléfono móvil:</strong> {{ contacto.value.telefono_movil }}</p>
+      <p><strong>Localidad:</strong> {{ contacto.value.localidad }}</p>
+      <p><strong>Barrio:</strong> {{ contacto.value.barrio }}</p>
+      <p><strong>Dirección:</strong> {{ contacto.value.direccion_de_correspondencia_del_solicitante }}</p>
     </div>
 
-    <div
-      *ngIf="gestor.get('actividad_ejecutada')?.value === 'receptor_rcd_materia_prima'"
-      class="file-group"
-    >
-      <label [class.required]="isInvalid('documento_tecnico_rcd_materiaprima', documentos)">
-        Documento técnico RCD como materia prima (PDF)
-        <span *ngIf="isRequired('documento_tecnico_rcd_materiaprima')" class="asterisk">*</span>
-      </label>
-      <input
-        type="file"
-        (change)="onFileSelected($event, 'documento_tecnico_rcd_materiaprima')"
-        accept=".pdf"
-      />
+    <div class="summary-block">
+      <h4>Datos del Gestor</h4>
+      <p><strong>Localidad:</strong> {{ gestor.value.localidad_gestor }}</p>
+      <p><strong>Barrio:</strong> {{ gestor.value.barrio_gestor }}</p>
+      <p><strong>Dirección:</strong> {{ gestor.value.direccion_gestor }}</p>
+      <p><strong>Fecha inicio:</strong> {{ gestor.value.fecha_inicio }}</p>
+      <p><strong>Fecha final:</strong> {{ gestor.value.fecha_final }}</p>
+      <p><strong>Actividad:</strong> {{ gestor.value.actividad_ejecutada }}</p>
+      <p><strong>Capacidad (t/mes):</strong> {{ gestor.value.capacidad_t_mes }}</p>
+      <p><strong>Capacidad total (t):</strong> {{ gestor.value.capacidad_total_t }}</p>
     </div>
 
-    <div
-      *ngIf="gestor.get('actividad_ejecutada')?.value === 'receptor_rcd_materia_prima'"
-      class="file-group"
-    >
-      <label [class.required]="isInvalid('permisos_rcd_materiaprima', documentos)">
-        Permisos y autorizaciones ambientales (RCD como materia prima)
-        <span *ngIf="isRequired('permisos_rcd_materiaprima')" class="asterisk">*</span>
-      </label>
-      <input
-        type="file"
-        (change)="onFileSelected($event, 'permisos_rcd_materiaprima')"
-        accept=".pdf"
-      />
-    </div>
-
-    <!-- Sección RCD estructural -->
-    <div *ngIf="gestor.get('actividad_ejecutada')?.value === 'receptor_rcd_estructural'">
-      <div class="file-group">
-        <label [class.required]="isInvalid('licencia_urbanistica_rcd', documentos)">
-          Licencia urbanística vigente (PDF)
-        </label>
-        <input
-          type="file"
-          (change)="onFileSelected($event, 'licencia_urbanistica_rcd')"
-          accept=".pdf"
-        />
-      </div>
-
-      <div class="file-group">
-        <label [class.required]="isInvalid('viabilidad_ambiental_rcd', documentos)">
-          Viabilidad Ambiental para adecuación de terreno (PDF)
-        </label>
-        <input
-          type="file"
-          (change)="onFileSelected($event, 'viabilidad_ambiental_rcd')"
-          accept=".pdf"
-        />
-      </div>
-
-      <div class="file-group">
-        <label [class.required]="isInvalid('documento_tecnico_rcd_estructural', documentos)">
-          Documento técnico RCD estructural (PDF)
-        </label>
-        <input
-          type="file"
-          (change)="onFileSelected($event, 'documento_tecnico_rcd_estructural')"
-          accept=".pdf"
-        />
-      </div>
-
-      <div class="file-group">
-        <label [class.required]="isInvalid('planos_topograficos_rcd', documentos)">
-          Planos topográficos en DWG y PDF
-        </label>
-        <input
-          type="file"
-          (change)="onFileSelected($event, 'planos_topograficos_rcd')"
-          accept=".pdf,.dwg"
-        />
-      </div>
-    </div>
-
-    <!-- Sección disposición final -->
-    <div *ngIf="gestor.get('actividad_ejecutada')?.value === 'disposicion_final'">
-      <div class="file-group">
-        <label [class.required]="isInvalid('medidas_manejo_disp_final', documentos)">
-          Medidas de manejo ambiental disposición final (PDF)
-        </label>
-        <input
-          type="file"
-          (change)="onFileSelected($event, 'medidas_manejo_disp_final')"
-          accept=".pdf"
-        />
-      </div>
-
-      <div class="file-group">
-        <label [class.required]="isInvalid('permisos_disp_final', documentos)">
-          Permisos y autorizaciones ambientales disposición final (PDF)
-        </label>
-        <input type="file" (change)="onFileSelected($event, 'permisos_disp_final')" accept=".pdf" />
-      </div>
-
-      <div class="file-group">
-        <label [class.required]="isInvalid('certificacion_pot_disp_final', documentos)">
-          Certificación POT disposición final (PDF)
-        </label>
-        <input
-          type="file"
-          (change)="onFileSelected($event, 'certificacion_pot_disp_final')"
-          accept=".pdf"
-        />
-      </div>
+    <div class="summary-block">
+      <h4>Documentos cargados</h4>
+      <ul>
+        <li *ngFor="let doc of uploadedDocs">{{ doc.name }}</li>
+      </ul>
     </div>
   </div>
 
-  <!-- BOTONES DE NAVEGACIÓN -->
-  <div class="navigation-buttons">
-    <button type="button" (click)="prevStep()" [disabled]="step === 0">Anterior</button>
-    <button type="button" (click)="nextStep()" *ngIf="step < totalSteps - 1">Siguiente</button>
-    <button type="submit" *ngIf="step === totalSteps - 1">Enviar</button>
+  <!-- BOTONES -->
+  <div class="button-group">
+    <button mat-button type="button" (click)="prevStep()" [disabled]="step === 0">Anterior</button>
+    <button mat-raised-button color="primary" type="button" (click)="nextStep()" *ngIf="step < totalSteps - 1">
+      Siguiente
+    </button>
+    <button mat-raised-button color="accent" type="submit" *ngIf="step === totalSteps - 1">Enviar</button>
   </div>
 </form>
