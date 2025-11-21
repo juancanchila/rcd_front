@@ -81,7 +81,7 @@ export class VehicleFormComponent {
       foto_trasera: ['', Validators.required],
       foto_lateral_derecha: ['', Validators.required],
       foto_lateral_izquierda: ['', Validators.required],
-      registro_herramientas: ['', Validators.required],
+      registro_herramientas: [''],
       certificado_leasing: [''],
       certificado_tecnicomecanica: ['', Validators.required],
       registro_defuncion: [''],
