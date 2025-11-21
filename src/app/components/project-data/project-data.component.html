@@ -117,7 +117,9 @@
 
   <!-- TIPO LICENCIA (si aplica) -->
   <div *ngIf="group.get('tipo_de_generador')?.value !== 'PEQUEÑO GENERADOR QUE NO REQUIERE LICENCIA O PERMISO.'">
+    
     <fieldset formGroupName="tipo_licencia_0100">
+      
       <legend>TIPO LICENCIA</legend>
 
       <!-- Urbanización -->
@@ -185,5 +187,6 @@
         <input matInput formControlName="resolucion_numero_0100" />
       </mat-form-field>
     </fieldset>
+    
   </div>
 </div>
