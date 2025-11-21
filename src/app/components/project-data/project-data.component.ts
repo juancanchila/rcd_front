@@ -15,7 +15,7 @@ import { map, startWith, switchMap, catchError } from 'rxjs/operators';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { GeneratorGeneralDocumentsComponent } from "../generator-general-documents/generator-general-documents.component";
+
 
 @Component({
   selector: 'project-data',
@@ -34,7 +34,7 @@ import { GeneratorGeneralDocumentsComponent } from "../generator-general-documen
     MatRadioModule,
     MatButtonModule,
     MatExpansionModule,
-    GeneratorGeneralDocumentsComponent
+  
 ],
   templateUrl: './project-data.component.html',
 })
@@ -114,4 +114,6 @@ export class ProjectDataComponent implements OnInit {
   eliminarPredio(index: number): void {
     this.datosPredios.removeAt(index);
   }
+
+  
 }

@@ -22,14 +22,379 @@
  <!-- PASO 1: DOCUMENTOS -->
 <div *ngIf="step === 1" [formGroup]="vehicleDocumentsForm" class="vehicle-documents">
 <div *ngIf="proyecto.get('tipo_de_generador')?.value === 'PEQUEÑO GENERADOR QUE NO REQUIERE LICENCIA O PERMISO.'">
-
-<generator-general-documents></generator-general-documents>
+  <h3 class="section-title">Documentos Del Proyecto</h3>
+    <div class="file-group">
+    <label>Carta de Solicitud(PDF) *</label>
+    <input 
+        type="file" 
+        (change)="onFileSelected($event, 'carta_solicitud')" 
+        accept=".pdf" 
+    />
+    
+    <div class="error" *ngIf="isInvalid('carta_solicitud', vehicleDocumentsForm)">
+        Debes adjuntar la Carta de Solicitud para continuar.
+    </div>
 </div>
+<!---->
+<div class="file-group">
+  <label>
+        Descripción técnica del proyecto
+        <span *ngIf="isRequired('descripcion_tecnica_proyecto')" class="asterisk">*</span>
+    </label>
+<input
+        id="descripcion_tecnica_proyecto"
+        type="file"
+        (change)="onFileSelected($event, 'descripcion_tecnica_proyecto')"
+        accept=".pdf"
+    />
+    <p class="help-text">Debe incluir planos, ubicación, área intervenida y objetivo del proyecto.</p>
+    <div class="error" >
+        Debes adjuntar la Descripción Técnica del Proyecto.
+    </div>
+</div>
+<div class="file-group">
+    <label [class.required]="isRequired('certificado_tradicion_libertad')">
+        Certificado de Tradición y Libertad del inmueble
+        <span *ngIf="isRequired('certificado_tradicion_libertad')" class="asterisk">*</span>
+    </label>
+    <input
+        id="certificado_tradicion_libertad"
+        type="file"
+        (change)="onFileSelected($event, 'certificado_tradicion_libertad')"
+        accept=".pdf"
+    />
+    <p class="help-text">Fecha de expedición no mayor a 3 meses.</p>
+    <div class="error" >
+        Debes adjuntar el Certificado de Tradición y Libertad.
+    </div>
+</div>
+<div class="file-group">
+    <label [class.required]="isRequired('autorizacion_bic')">
+        Copia de la autorización de intervención de Bienes de Interés Cultural (BIC) <em>(si aplica)</em>
+        <span *ngIf="isRequired('autorizacion_bic')" class="asterisk">*</span>
+    </label>
+    <input
+        id="autorizacion_bic"
+        type="file"
+        (change)="onFileSelected($event, 'autorizacion_bic')"
+        accept=".pdf"
+    />
+    <p class="help-text">Solo en caso de que el inmueble esté catalogado como BIC.</p>
+    <div class="error" >
+        Debes adjuntar la autorización de intervención de BIC si aplica.
+    </div>
+</div>
+<div class="file-group" >
+    
+    <label >
+        Registro de defunción del propietario del bien inmueble <em>(si aplica)</em>
+        <span *ngIf="isRequired('registro_defuncion')" class="asterisk">*</span>
+    </label>
+    
+    <input
+        id="registro_defuncion"
+        type="file"
+        (change)="onFileSelected($event, 'registro_defuncion')" 
+        accept=".pdf"
+    />
+    
+    <p class="help-text">
+        En caso de fallecimiento del propietario, se debe anexar este documento junto con los siguientes:
+    </p>
+
+    <ul class="help-text">
+        <li>
+            Radicación ante juzgado o notaría del proceso de sucesión, o documento privado notariado suscrito por los posibles herederos donde se manifieste que no hay herederos con mayor derecho y se comprometan a realizar los trámites de sucesión.
+        </li>
+        <li>Copia del documento de identificación del o los herederos.</li>
+        <li>Copia del registro civil de nacimiento de los hijos o registro de matrimonio del cónyuge (según el caso).</li>
+    </ul>
+
+    <div class="error">
+        Debes adjuntar el registro de defunción del propietario si aplica.
+    </div>
+</div>
+</div>
+
 <div *ngIf="proyecto.get('tipo_de_generador')?.value === 'PEQUEÑO GENERADOR DE RCD' ||
   proyecto.get('tipo_de_generador')?.value === 'GRAN GENERADOR DE RCD'">
-<generator-general-documents></generator-general-documents>
+ <h3 class="section-title">Documentos Del Proyecto</h3>
+    <div class="file-group">
+    <label>Carta de Solicitud(PDF) *</label>
+    <input 
+        type="file" 
+        (change)="onFileSelected($event, 'carta_solicitud')" 
+        accept=".pdf" 
+    />
+    
+    <div class="error" *ngIf="isInvalid('carta_solicitud', vehicleDocumentsForm)">
+        Debes adjuntar la Carta de Solicitud para continuar.
+    </div>
+</div>
+<!---->
+<div class="file-group">
+  <label>
+        Descripción técnica del proyecto
+        <span *ngIf="isRequired('descripcion_tecnica_proyecto')" class="asterisk">*</span>
+    </label>
+<input
+        id="descripcion_tecnica_proyecto"
+        type="file"
+        (change)="onFileSelected($event, 'descripcion_tecnica_proyecto')"
+        accept=".pdf"
+    />
+    <p class="help-text">Debe incluir planos, ubicación, área intervenida y objetivo del proyecto.</p>
+    <div class="error" >
+        Debes adjuntar la Descripción Técnica del Proyecto.
+    </div>
+</div>
+<div class="file-group">
+    <label [class.required]="isRequired('certificado_tradicion_libertad')">
+        Certificado de Tradición y Libertad del inmueble
+        <span *ngIf="isRequired('certificado_tradicion_libertad')" class="asterisk">*</span>
+    </label>
+    <input
+        id="certificado_tradicion_libertad"
+        type="file"
+        (change)="onFileSelected($event, 'certificado_tradicion_libertad')"
+        accept=".pdf"
+    />
+    <p class="help-text">Fecha de expedición no mayor a 3 meses.</p>
+    <div class="error" >
+        Debes adjuntar el Certificado de Tradición y Libertad.
+    </div>
+</div>
+<div class="file-group">
+    <label [class.required]="isRequired('autorizacion_bic')">
+        Copia de la autorización de intervención de Bienes de Interés Cultural (BIC) <em>(si aplica)</em>
+        <span *ngIf="isRequired('autorizacion_bic')" class="asterisk">*</span>
+    </label>
+    <input
+        id="autorizacion_bic"
+        type="file"
+        (change)="onFileSelected($event, 'autorizacion_bic')"
+        accept=".pdf"
+    />
+    <p class="help-text">Solo en caso de que el inmueble esté catalogado como BIC.</p>
+    <div class="error" >
+        Debes adjuntar la autorización de intervención de BIC si aplica.
+    </div>
+</div>
+<div class="file-group" >
+    
+    <label >
+        Registro de defunción del propietario del bien inmueble <em>(si aplica)</em>
+        <span *ngIf="isRequired('registro_defuncion')" class="asterisk">*</span>
+    </label>
+    
+    <input
+        id="registro_defuncion"
+        type="file"
+        (change)="onFileSelected($event, 'registro_defuncion')" 
+        accept=".pdf"
+    />
+    
+    <p class="help-text">
+        En caso de fallecimiento del propietario, se debe anexar este documento junto con los siguientes:
+    </p>
 
-<bigorsmall-documents></bigorsmall-documents>
+    <ul class="help-text">
+        <li>
+            Radicación ante juzgado o notaría del proceso de sucesión, o documento privado notariado suscrito por los posibles herederos donde se manifieste que no hay herederos con mayor derecho y se comprometan a realizar los trámites de sucesión.
+        </li>
+        <li>Copia del documento de identificación del o los herederos.</li>
+        <li>Copia del registro civil de nacimiento de los hijos o registro de matrimonio del cónyuge (según el caso).</li>
+    </ul>
+
+    <div class="error">
+        Debes adjuntar el registro de defunción del propietario si aplica.
+    </div>
+</div>
+
+<h3 class="section-title">Documentos Para Pequeños y Grandes Generadores</h3>
+<br>
+<div class="file-group">
+    <label >
+        Cuadro de cantidades de RCD a generar, discriminados por tipo de RCD
+        <span *ngIf="isRequired('cuadro_cantidades_rcd')" class="asterisk">*</span>
+    </label>
+    <input 
+        id="cuadro_cantidades_rcd" 
+        type="file" 
+        (change)="onFileSelected($event, 'cuadro_cantidades_rcd')"
+        accept=".pdf" 
+    />
+    <p class="help-text">
+        Debe seguir la clasificación establecida en el Artículo 2 de la Resolución 0472 de 2017.
+    </p>
+    <div class="error" >
+        Debes adjuntar el Cuadro de Cantidades de RCD.
+    </div>
+</div>
+
+
+
+<div class="file-group">
+    <label >
+        Soporte de pago del PIN
+        <span *ngIf="isRequired('soporte_pago_pin')" class="asterisk">*</span>
+    </label>
+    <input 
+        id="soporte_pago_pin" 
+        type="file" 
+        (change)="onFileSelected($event, 'soporte_pago_pin')"
+        accept=".pdf" 
+    />
+    <p class="help-text">Comprobante de pago asociado al trámite ambiental.</p>
+    <div class="error" >
+        Debes adjuntar el soporte de pago del PIN.
+    </div>
+</div>
+<div class="file-group">
+    <label class="required">
+        Cronograma de actividades del proyecto
+        <span class="asterisk">*</span>
+    </label>
+    <input 
+        id="cronograma_actividades" 
+        type="file" 
+        (change)="onFileSelected($event, 'cronograma_actividades')" 
+        accept=".pdf" 
+    />
+    <p class="help-text">Debe incluir las fechas estimadas y responsables de cada actividad.</p>
+    
+    <div class="error" *ngIf="false"> 
+        Debes adjuntar el Cronograma de Actividades.
+    </div>
+</div>
+<div class="file-group">
+    <label class="required">
+        Copia de los planos arquitectónicos aprobados por curaduría urbana
+        <span class="asterisk">*</span>
+    </label>
+    <input 
+        id="planos_aprobados_curaduria" 
+        type="file" 
+        (change)="onFileSelected($event, 'planos_aprobados_curaduria')" 
+        accept=".pdf" 
+    />
+    <p class="help-text">Planos oficiales debidamente aprobados por la curaduría urbana.</p>
+    
+    <div class="error" *ngIf="false"> 
+        Debes adjuntar los planos aprobados por curaduría.
+    </div>
+</div>
+<div class="file-group">
+    <label class="required">
+        Contrato de Obra y OTROSÍ, debidamente firmados por las partes
+        <span class="asterisk">*</span>
+    </label>
+    <input 
+        id="contrato_obra_otros" 
+        type="file" 
+        (change)="onFileSelected($event, 'contrato_obra_otros')" 
+        accept=".pdf" 
+    />
+    <p class="help-text">
+        Aplica si la solicitud del PIN la realiza el contratista de obra.
+    </p>
+    <div class="error" *ngIf="false"> 
+        Debes adjuntar el Contrato de Obra y sus otrosí.
+    </div>
+</div>
+<div class="file-group">
+    <label class="required">
+        Copia de la resolución o licencia correspondiente
+        <span class="asterisk">*</span>
+    </label>
+    <input 
+        id="resolucion_curaduria_o_licencia" 
+        type="file" 
+        (change)="onFileSelected($event, 'resolucion_curaduria_o_licencia')" 
+        accept=".pdf" 
+    />
+    <p class="help-text">
+        Puede ser licencia urbanística, de intervención u ocupación del espacio público, o licencia ambiental (según aplique).
+    </p>
+    <div class="error" *ngIf="false"> 
+        Debes adjuntar la licencia o resolución correspondiente.
+    </div>
+</div>
+<div class="file-group">
+    <label class="required">
+        Programa de manejo ambiental de Residuos de Construcción y Demolición (RCD)
+        <span class="asterisk">*</span>
+    </label>
+    <input 
+        id="programa_manejo_rcd_pdf" 
+        type="file" 
+        (change)="onFileSelected($event, 'programa_manejo_rcd_pdf')"
+        accept=".pdf" 
+    />
+    <p class="help-text">
+        Formulado según los requisitos mínimos de la Resolución 1257 de 2021 y los establecidos por la autoridad ambiental.
+    </p>
+    <div class="error" *ngIf="false"> 
+        Debes adjuntar el Programa de Manejo Ambiental de RCD.
+    </div>
+</div>
+<div class="file-group">
+    <label>
+        Copia de la autorización de intervención de Bienes de Interés Cultural (BIC)
+        <em>(si aplica)</em>
+    </label>
+    <input 
+        id="autorizacion_bicBigOrSmall" 
+        type="file" 
+        (change)="onFileSelected($event, 'autorizacion_bicBigOrSmall')" 
+        accept=".pdf" 
+    />
+    <p class="help-text">
+        Expedido por la Alcaldía Mayor de Cartagena (artículos 9 al 12 del Decreto 0404 de 2024).
+    </p>
+    <div class="error" *ngIf="false"> 
+        Debes adjuntar la autorización BIC.
+    </div>
+</div>
+<div class="file-group">
+    <label>
+        Certificado de Planeación (si no se requiere licencia)
+    </label>
+    <input 
+        id="certificado_no_requiere_licencia" 
+        type="file" 
+        (change)="onFileSelected($event, 'certificado_no_requiere_licencia')"
+        accept=".pdf" 
+    />
+    <p class="help-text">
+        Certificado expedido por la Secretaría de Planeación donde conste que no se requiere licencia de intervención y ocupación de espacio público.
+    </p>
+    <div class="error" *ngIf="false"> 
+        Debes adjuntar el Certificado de Planeación.
+    </div>
+</div>
+<div class="file-group">
+    <label>
+        Permiso de ocupación de cauce <em>(si aplica)</em>
+    </label>
+    <input 
+        id="permiso_ocupacion_cauce" 
+        type="file" 
+        (change)="onFileSelected($event, 'permiso_ocupacion_cauce')"
+        accept=".pdf" 
+    />
+    <p class="help-text">
+        Copia del acto administrativo a través del cual se otorga el permiso de ocupación de cauce.
+    </p>
+    <div class="error" *ngIf="false">
+        Debes adjuntar el Permiso de ocupación de cauce.
+    </div>
+</div>
+
+  <!-- 📝 Nota general -->
+  <p class="help-text final-note">
+    Todos los documentos deben presentarse en formato PDF, con nombre del proyecto y fecha de emisión visibles.
+  </p>
 </div>
   
 
@@ -76,20 +441,162 @@
   </div>
 
   <!-- PASO 3 — RESUMEN FINAL -->
-  <div *ngIf="step === 3">
-    <h2>Resumen del Vehículo</h2>
+  <div *ngIf="step === 3 " >
+<div *ngIf="proyecto.get('tipo_de_generador')?.value === 'PEQUEÑO GENERADOR QUE NO REQUIERE LICENCIA O PERMISO.' ">
+    <h2>Resumen del Proyecto</h2>
+
+    <div class="summary-box" >
+
+      <p><strong>Tipo de Generador:</strong> {{ proyecto.get('tipo_de_generador')?.value }}</p>
+      <p><strong>Localidad:</strong> {{ proyecto.get('localidad_proyecto')?.value }}</p>
+    <p><strong>Barrio:</strong> {{ proyecto.get('barrio_proyecto')?.value }}</p>
+
+<p><strong>Dirección del Proyecto:</strong> {{ proyecto.get('direccion_del_proyecto')?.value }}</p>
+
+<p><strong>Fecha Inicio:</strong> {{ proyecto.get('fecha_inicio')?.value | date:'dd/MM/yyyy' }}</p>
+
+<p><strong>Fecha Final:</strong> {{ proyecto.get('fecha_final')?.value | date:'dd/MM/yyyy' }}</p>
+
+<p><strong>Nombre del Proyecto:</strong> {{ proyecto.get('nombre_del_proyecto')?.value }}</p>
+
+    <div *ngFor="let predio of proyecto.get('datos_predios')?.value; let i = index">
+  <p><strong>Predio {{ i + 1 }}</strong></p>
+
+  <p><strong>Referencia Catastral:</strong> {{ predio.referencia_catastral }}</p>
+  <p><strong>Matrícula Inmobiliaria:</strong> {{ predio.matricula_inmobiliaria }}</p>
+<p>
+  <strong>Descripción del proyecto o actividad:</strong><br />
+  {{ proyecto.get('descripcion_del_proyecto_o_actividad_a_ejecutar')?.value }}
+</p>
+<p>
+  <strong>Área a Intervenir (m²):</strong>
+  {{ proyecto.get('area_a_intervenir_m2')?.value }}
+</p>
+
+<p>
+  <strong>Cantidad de RCD a generar (Toneladas):</strong>
+  {{ proyecto.get('cantidad_de_rcd_a_generar_toneladas')?.value }}
+</p>
+<p>
+
+
+      <h3>Documentos cargados</h3>
+      <ul>
+        <li *ngFor="let doc of getUploadedDocuments()">{{ doc }}</li>
+      </ul>
+
+      <h3>Información adicional</h3>
+      <p><strong>Fecha PIN:</strong> {{ infoextra.get('fecha_expedicion_pin')?.value }}</p>
+      <p><strong>Consecutivo SIGOB:</strong> {{ infoextra.get('consecutivo_sigob')?.value }}</p>
+
+    </div>
+    </div>
+     <div class="form-actions">
+      <button mat-stroked-button (click)="prevStep()">Anterior</button>
+      <button mat-flat-button color="accent" (click)="onSubmit()">Guardar</button>
+    </div>
+</div>
+<!-- este resumen es para pequeños o grandes-->
+
+<div *ngIf="proyecto.get('tipo_de_generador')?.value === 'PEQUEÑO GENERADOR DE RCD' ||
+  proyecto.get('tipo_de_generador')?.value === 'GRAN GENERADOR DE RCD'">
+    <h2>Resumen del Proyecto</h2>
 
     <div class="summary-box">
 
-      <p><strong>Clase:</strong> {{ vehicleForm.get('clase_vehiculo')?.value }}</p>
-      <p><strong>Placa:</strong> {{ vehicleForm.get('placa_vehiculo')?.value }}</p>
-      <p><strong>Marca:</strong> {{ vehicleForm.get('marca')?.value }}</p>
-      <p><strong>Modelo:</strong> {{ vehicleForm.get('modelo')?.value }}</p>
+      <p><strong>Tipo de Generador:</strong> {{ proyecto.get('tipo_de_generador')?.value }}</p>
+      <p><strong>Localidad:</strong> {{ proyecto.get('localidad_proyecto')?.value }}</p>
+    <p><strong>Barrio:</strong> {{ proyecto.get('barrio_proyecto')?.value }}</p>
 
-      <p><strong>Capacidad:</strong>
-        {{ vehicleForm.get('capacidad_vehiculo')?.value }}
-        {{ vehicleForm.get('unidad_capacidad')?.value }}
-      </p>
+<p><strong>Dirección del Proyecto:</strong> {{ proyecto.get('direccion_del_proyecto')?.value }}</p>
+
+<p><strong>Fecha Inicio:</strong> {{ proyecto.get('fecha_inicio')?.value | date:'dd/MM/yyyy' }}</p>
+
+<p><strong>Fecha Final:</strong> {{ proyecto.get('fecha_final')?.value | date:'dd/MM/yyyy' }}</p>
+
+<p><strong>Nombre del Proyecto:</strong> {{ proyecto.get('nombre_del_proyecto')?.value }}</p>
+
+    <div *ngFor="let predio of proyecto.get('datos_predios')?.value; let i = index">
+  <p><strong>Predio {{ i + 1 }}</strong></p>
+
+  <p><strong>Referencia Catastral:</strong> {{ predio.referencia_catastral }}</p>
+  <p><strong>Matrícula Inmobiliaria:</strong> {{ predio.matricula_inmobiliaria }}</p>
+<p>
+  <strong>Descripción del proyecto o actividad:</strong><br />
+  {{ proyecto.get('descripcion_del_proyecto_o_actividad_a_ejecutar')?.value }}
+</p>
+<p>
+  <strong>Área a Intervenir (m²):</strong>
+  {{ proyecto.get('area_a_intervenir_m2')?.value }}
+</p>
+
+<p>
+  <strong>Cantidad de RCD a generar (Toneladas):</strong>
+  {{ proyecto.get('cantidad_de_rcd_a_generar_toneladas')?.value }}
+</p>
+<h2>Tipo de Licencia</h2>
+
+<div class="summary-section">
+  <h3>1. Urbanización</h3>
+  <ul *ngIf="getLicenciaOptions('urbanizacion_block_0100').length > 0; else noUrbanizacion">
+    <li *ngFor="let opcion of getLicenciaOptions('urbanizacion_block_0100')">
+      {{ opcion }}
+    </li>
+  </ul>
+  <ng-template #noUrbanizacion><p>— No aplica.</p></ng-template>
+</div>
+
+<hr>
+
+<div class="summary-section">
+  <h3>2. Construcción</h3>
+  <ul *ngIf="getLicenciaOptions('construccion_block_0100').length > 0; else noConstruccion">
+    <li *ngFor="let opcion of getLicenciaOptions('construccion_block_0100')">
+      {{ opcion }}
+    </li>
+  </ul>
+  <ng-template #noConstruccion><p>— No aplica.</p></ng-template>
+</div>
+
+<hr>
+
+<div class="summary-section">
+  <h3>3. Permiso de Intervención BIC</h3>
+  <ul *ngIf="getLicenciaOptions('bic_block_0100').length > 0; else noBic">
+    <li *ngFor="let opcion of getLicenciaOptions('bic_block_0100')">
+      {{ opcion }}
+    </li>
+  </ul>
+  <ng-template #noBic><p>— No aplica.</p></ng-template>
+</div>
+
+<hr>
+
+<div class="summary-section">
+  <h3>4. Intervención / Ocupación del Espacio Público</h3>
+  <ul *ngIf="getLicenciaOptions('espacio_publico_block_0100').length > 0; else noEspacio">
+    <li *ngFor="let opcion of getLicenciaOptions('espacio_publico_block_0100')">
+      {{ opcion }}
+    </li>
+  </ul>
+  <ng-template #noEspacio><p>— No aplica.</p></ng-template>
+</div>
+
+<hr>
+
+<div class="summary-section">
+  <h3>5. Demolición por Declaración de Estado de Ruina</h3>
+  <p>Respuesta: <strong>{{ getDemolicionRespuesta() || 'NO' }}</strong></p>
+</div>
+
+<hr>
+
+<div class="summary-section">
+  <h3>No. Resolución Licencia / Autorización BIC</h3>
+  <p>Número: <strong>{{ getResolucionNumero() || 'N/A' }}</strong></p>
+</div>
+<p>
+
 
       <h3>Documentos cargados</h3>
       <ul>
@@ -102,10 +609,11 @@
 
     </div>
 
-    <div class="form-actions">
+</div>
+ 
+
+   <div class="form-actions">
       <button mat-stroked-button (click)="prevStep()">Anterior</button>
       <button mat-flat-button color="accent" (click)="onSubmit()">Guardar</button>
     </div>
-  </div>
-
 </div>

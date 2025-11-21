@@ -16,6 +16,7 @@ import { ProjectDataComponent } from '../project-data/project-data.component';
 import { MapPickerComponent } from '../map-picker/map-picker.component';
 import { GeneratorGeneralDocumentsComponent } from '../generator-general-documents/generator-general-documents.component';
 import { BigOrSmallGeneratorDocuments } from '../bigorsmall-generator-documents/bigorsmal-documents.component';
+import { MatExpansionModule } from "@angular/material/expansion";
 
 @Component({
   selector: 'project-form',
@@ -29,10 +30,9 @@ import { BigOrSmallGeneratorDocuments } from '../bigorsmall-generator-documents/
     MatButtonModule,
     MatProgressBarModule,
     ProjectDataComponent,
-     MapPickerComponent,
-     GeneratorGeneralDocumentsComponent,
-     BigOrSmallGeneratorDocuments
-  ],
+    MapPickerComponent,
+    MatExpansionModule
+],
   templateUrl: './project-form.component.html',
   styleUrls: ['./project-form.component.css'],
 })
@@ -46,6 +46,7 @@ export class ProjectFormComponent {
   proyecto!: FormGroup;
   vehicleDocumentsForm!: FormGroup;
   infoextra!: FormGroup;
+   documentos!: FormGroup;
 
   transportadorId!: string | null;
   form: any;
@@ -145,17 +146,27 @@ export class ProjectFormComponent {
     // 🟩 DOCUMENTOS
     // -------------------------------
     this.vehicleDocumentsForm = this.fb.group({
-      identificacion: [''],
-      cert_ext_legal: [''],
-      licencia_transito: [''],
-      foto_frontal: [''],
-      foto_trasera: [''],
+      carta_solicitud: [''],
+      descripcion_tecnica_proyecto: [''],
+      certificado_tradicion_libertad: [''],
+      autorizacion_bic: [''],
+      registro_defuncion: [''],
+      cuadro_cantidades_rcd:[''],
+      soporte_pago_pin:[''],
+      cronograma_actividades:[''],
+      contrato_obra_otros:[''],
+      programa_manejo_rcd_pdf:[''],
+      autorizacion_bicBigOrSmall:[''],
+      certificado_no_requiere_licencia:[''],
+      permiso_ocupacion_cauce:[''],
+      resolucion_curaduria_o_licencia:[''],
+      planos_aprobados_curaduria:[''],
       foto_lateral_derecha: [''],
       foto_lateral_izquierda: [''],
       registro_herramientas: [''],
       certificado_leasing: [''],
       certificado_tecnicomecanica: [''],
-      registro_defuncion: [''],
+ 
       autoriza_propietario: [''],
     });
 
@@ -187,14 +198,63 @@ export class ProjectFormComponent {
   // -------------------------------
   // VALIDACIONES
   // -------------------------------
-  isInvalid(name: string, group: FormGroup) {
-    const c = group.get(name);
-    return !!(c && c.invalid && (c.dirty || c.touched));
-  }
+// project-form.component.ts
+isInvalid(name: string, group: FormGroup) {
+    const c = group.get(name);
+    return !!(c && c.invalid && (c.dirty || c.touched));
+}
 
   isRequired(_: string) {
     return true;
   }
+
+  // ts: project-form.component.ts (Dentro de ProjectFormComponent)
+
+/**
+ * Obtiene las opciones marcadas (true) de un bloque específico de licencia.
+ * @param blockName El nombre del FormGroup anidado (ej: 'urbanizacion_block_0100').
+ * @returns Array de strings con los nombres de las opciones marcadas.
+ */
+getLicenciaOptions(blockName: string): string[] {
+  // Asegúrate de usar 'this.proyecto' o el FormGroup principal que contiene 'tipo_licencia_0100'
+  const block = this.proyecto.get('tipo_licencia_0100')?.get(blockName);
+
+  if (!block || !block.value) return [];
+  
+  const values = block.value;
+
+  // Filtra las claves donde el valor sea true
+  const selectedOptions = Object.keys(values).filter(key => values[key] === true);
+
+  // Formatea el texto (ej: "obra_nueva" -> "Obra Nueva")
+  return selectedOptions.map(key => {
+    const formatted = key.replace(/_/g, ' ');
+    // Si tienes otra_construccion, usa el valor de 'otra_cual_construccion_0100' si existe.
+    if (key === 'otra_construccion') {
+        const otraCual = this.proyecto.get('tipo_licencia_0100.construccion_block_0100.otra_cual_construccion_0100')?.value;
+        return otraCual ? `Otra: ${otraCual}` : 'Otra (sin especificar)';
+    }
+    if (key === 'otra_espacio_publico') {
+        const otraCual = this.proyecto.get('tipo_licencia_0100.espacio_publico_block_0100.otra_cual_espacio_publico_0100')?.value;
+        return otraCual ? `OTRA: ${otraCual}` : 'OTRA (sin especificar)';
+    }
+    return formatted.charAt(0).toUpperCase() + formatted.slice(1);
+  });
+}
+
+/**
+ * Obtiene el valor de la pregunta de demolición (SI/NO).
+ */
+getDemolicionRespuesta(): string | null {
+  return this.proyecto.get('tipo_licencia_0100.demolicion_ruina_block_0100.demolicion_respuesta_0100')?.value || null;
+}
+
+/**
+ * Obtiene el número de resolución.
+ */
+getResolucionNumero(): string | null {
+  return this.proyecto.get('tipo_licencia_0100.resolucion_numero_0100')?.value || null;
+}
 
     // ============================================================
   // 🔹 MANEJO DE MAPA
@@ -241,6 +301,7 @@ export class ProjectFormComponent {
     }
     this.vehicleDocumentsForm.get(controlName)?.setValue(input.files[0]);
   }
+// project-form.component.ts
 
   getUploadedDocuments(): string[] {
     const docs = this.vehicleDocumentsForm.value;
