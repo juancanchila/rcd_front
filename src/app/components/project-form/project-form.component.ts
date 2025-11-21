@@ -14,6 +14,8 @@ import { VehiculoService } from '../../services/vehiculo.service';
 import { ArchivoService } from '../../services/archivo.service';
 import { ProjectDataComponent } from '../project-data/project-data.component';
 import { MapPickerComponent } from '../map-picker/map-picker.component';
+import { GeneratorGeneralDocumentsComponent } from '../generator-general-documents/generator-general-documents.component';
+import { BigOrSmallGeneratorDocuments } from '../bigorsmall-generator-documents/bigorsmal-documents.component';
 
 @Component({
   selector: 'project-form',
@@ -28,6 +30,8 @@ import { MapPickerComponent } from '../map-picker/map-picker.component';
     MatProgressBarModule,
     ProjectDataComponent,
      MapPickerComponent,
+     GeneratorGeneralDocumentsComponent,
+     BigOrSmallGeneratorDocuments
   ],
   templateUrl: './project-form.component.html',
   styleUrls: ['./project-form.component.css'],
@@ -59,17 +63,17 @@ export class ProjectFormComponent {
     // 🟩 PROYECTO
     // -------------------------------
     this.proyecto = this.fb.group({
-      tipo_de_generador: ['', Validators.required],
-      localidad_proyecto: ['', Validators.required],
+      tipo_de_generador: [''],
+      localidad_proyecto: [''],
       barrio_proyecto: [''],
-      direccion_del_proyecto: ['', [Validators.required, Validators.minLength(10)]],
-      latitud: ['', Validators.required],
-      longitud: ['', Validators.required],
+      direccion_del_proyecto: [''],
+      latitud: [''],
+      longitud: [''],
       fecha_inicio: [''],
-      fecha_final: ['', Validators.required],
+      fecha_final: ['', ],
       nombre_del_proyecto: [''],
       datos_predios: this.fb.array([]),
-      descripcion_del_proyecto_o_actividad_a_ejecutar: ['', Validators.required],
+      descripcion_del_proyecto_o_actividad_a_ejecutar: [''],
       area_a_intervenir_m2: [''],
       cantidad_de_rcd_a_generar_toneladas: [''],
 
@@ -103,11 +107,11 @@ export class ProjectFormComponent {
           otra_espacio_publico: [false],
           otra_cual_espacio_publico_0100: [''],
         }),
-        planes_pot_0100: ['', Validators.required],
+        planes_pot_0100: [''],
         demolicion_ruina_block_0100: this.fb.group({
-          demolicion_respuesta_0100: ['', Validators.required],
+          demolicion_respuesta_0100: [''],
         }),
-        resolucion_numero_0100: ['', Validators.required],
+        resolucion_numero_0100: [''],
       }),
     });
 
@@ -115,16 +119,15 @@ export class ProjectFormComponent {
     // 🟩 VEHÍCULO
     // -------------------------------
     this.vehicleForm = this.fb.group({
-      tipo_solicitante: ['Persona Natural', Validators.required],
-      unidad_capacidad: ['kg', Validators.required],
-      capacidad_vehiculo: ['', [Validators.required, Validators.min(1)]],
-      clase_vehiculo: ['', Validators.required],
+      tipo_solicitante: ['Persona Natural'],
+      unidad_capacidad: ['kg'],
+      capacidad_vehiculo: [''],
+      clase_vehiculo: [''],
       placa_vehiculo: [
         '',
-        [Validators.required, Validators.pattern(/^[A-Z]{3}\d{3}$|^[A-Z]{2}\d{4}$/)],
       ],
-      marca: ['', Validators.required],
-      modelo: ['', Validators.required],
+      marca: [''],
+      modelo: [''],
       color: [''],
       numero_chasis: [''],
       numero_motor: [''],
@@ -134,8 +137,8 @@ export class ProjectFormComponent {
     // 🟩 INFO EXTRA
     // -------------------------------
     this.infoextra = this.fb.group({
-      fecha_expedicion_pin: ['', Validators.required],
-      consecutivo_sigob: ['', Validators.required],
+      fecha_expedicion_pin: [''],
+      consecutivo_sigob: [''],
     });
 
     // -------------------------------
@@ -144,14 +147,14 @@ export class ProjectFormComponent {
     this.vehicleDocumentsForm = this.fb.group({
       identificacion: [''],
       cert_ext_legal: [''],
-      licencia_transito: ['', Validators.required],
-      foto_frontal: ['', Validators.required],
-      foto_trasera: ['', Validators.required],
-      foto_lateral_derecha: ['', Validators.required],
-      foto_lateral_izquierda: ['', Validators.required],
-      registro_herramientas: ['', Validators.required],
+      licencia_transito: [''],
+      foto_frontal: [''],
+      foto_trasera: [''],
+      foto_lateral_derecha: [''],
+      foto_lateral_izquierda: [''],
+      registro_herramientas: [''],
       certificado_leasing: [''],
-      certificado_tecnicomecanica: ['', Validators.required],
+      certificado_tecnicomecanica: [''],
       registro_defuncion: [''],
       autoriza_propietario: [''],
     });

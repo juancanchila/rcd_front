@@ -15,6 +15,7 @@ import { map, startWith, switchMap, catchError } from 'rxjs/operators';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { GeneratorGeneralDocumentsComponent } from "../generator-general-documents/generator-general-documents.component";
 
 @Component({
   selector: 'project-data',
@@ -22,10 +23,10 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
    imports: [
     CommonModule,
     ReactiveFormsModule,
-    MatFormFieldModule,  // <-- obligatorio
-    MatInputModule,      // <-- obligatorio si hay matInput
-    MatSelectModule,     // <-- si hay mat-select
-    MatOptionModule,     // <-- si hay mat-option
+    MatFormFieldModule, // <-- obligatorio
+    MatInputModule, // <-- obligatorio si hay matInput
+    MatSelectModule, // <-- si hay mat-select
+    MatOptionModule, // <-- si hay mat-option
     MatAutocompleteModule, // <-- si hay mat-autocomplete
     MatDatepickerModule, // <-- si hay mat-datepicker
     MatNativeDateModule, // <-- adaptador de fechas
@@ -33,7 +34,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatRadioModule,
     MatButtonModule,
     MatExpansionModule,
-  ],
+    GeneratorGeneralDocumentsComponent
+],
   templateUrl: './project-data.component.html',
 })
 export class ProjectDataComponent implements OnInit {
@@ -102,8 +104,8 @@ export class ProjectDataComponent implements OnInit {
   agregarPredio(): void {
     this.datosPredios.push(
       this.fb.group({
-        referencia_catastral: ['', Validators.required],
-        matricula_inmobiliaria: ['', Validators.required],
+        referencia_catastral: [''],
+        matricula_inmobiliaria: [''],
       })
     );
   }
