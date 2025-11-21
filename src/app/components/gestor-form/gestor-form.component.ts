@@ -270,27 +270,40 @@ export class GestorFormComponent implements OnInit {
   private setupDocumentosValidation() {
     const actividadControl = this.gestor.get('actividad_ejecutada')!;
     actividadControl.valueChanges.pipe(startWith(actividadControl.value)).subscribe((actividad) => {
-      Object.keys(this.documentos.controls).forEach((ctrl) => this.documentos.get(ctrl)!.clearValidators());
-
-      ['medidas_manejo_ambiental', 'permisos_licencias_autorizaciones', 'certificacion_pot'].forEach((ctrl) =>
-        this.documentos.get(ctrl)!.setValidators([Validators.required])
+      Object.keys(this.documentos.controls).forEach((ctrl) =>
+        this.documentos.get(ctrl)!.clearValidators()
       );
 
+      [
+        'medidas_manejo_ambiental',
+        'permisos_licencias_autorizaciones',
+        'certificacion_pot',
+      ].forEach((ctrl) => this.documentos.get(ctrl)!.setValidators([Validators.required]));
+
       if (actividad === 'receptor_rcd_materia_prima') {
-        ['planos_rcd_materiaprima', 'documento_tecnico_rcd_materiaprima', 'permisos_rcd_materiaprima'].forEach((ctrl) =>
-          this.documentos.get(ctrl)!.setValidators([Validators.required])
-        );
+        [
+          'planos_rcd_materiaprima',
+          'documento_tecnico_rcd_materiaprima',
+          'permisos_rcd_materiaprima',
+        ].forEach((ctrl) => this.documentos.get(ctrl)!.setValidators([Validators.required]));
       } else if (actividad === 'receptor_rcd_estructural') {
-        ['licencia_urbanistica_rcd', 'viabilidad_ambiental_rcd', 'documento_tecnico_rcd_estructural', 'planos_topograficos_rcd'].forEach(
-          (ctrl) => this.documentos.get(ctrl)!.setValidators([Validators.required])
-        );
+        [
+          'licencia_urbanistica_rcd',
+          'viabilidad_ambiental_rcd',
+          'documento_tecnico_rcd_estructural',
+          'planos_topograficos_rcd',
+        ].forEach((ctrl) => this.documentos.get(ctrl)!.setValidators([Validators.required]));
       } else if (actividad === 'disposicion_final') {
-        ['medidas_manejo_disp_final', 'permisos_disp_final', 'certificacion_pot_disp_final'].forEach((ctrl) =>
-          this.documentos.get(ctrl)!.setValidators([Validators.required])
-        );
+        [
+          'medidas_manejo_disp_final',
+          'permisos_disp_final',
+          'certificacion_pot_disp_final',
+        ].forEach((ctrl) => this.documentos.get(ctrl)!.setValidators([Validators.required]));
       }
 
-      Object.keys(this.documentos.controls).forEach((ctrl) => this.documentos.get(ctrl)!.updateValueAndValidity());
+      Object.keys(this.documentos.controls).forEach((ctrl) =>
+        this.documentos.get(ctrl)!.updateValueAndValidity()
+      );
     });
   }
 
@@ -366,6 +379,18 @@ export class GestorFormComponent implements OnInit {
       documentos: this.documentos.value,
       infoextra: this.infoextra.value,
     };
+  }
+
+  validarFechas(form: FormGroup) {
+    const inicio = form.get('fecha_inicio')?.value;
+    const final = form.get('fecha_final')?.value;
+
+    if (!inicio || !final) return null;
+
+    const fechaInicio = new Date(inicio);
+    const fechaFinal = new Date(final);
+
+    return fechaInicio <= fechaFinal ? null : { fechaInvalida: true };
   }
 
   async onSubmit(): Promise<void> {
