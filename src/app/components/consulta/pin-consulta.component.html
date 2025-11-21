@@ -88,8 +88,8 @@
           <tr *ngFor="let vehiculo of vehiculos">
             <td>{{ vehiculo.placaVehiculo }}</td>
             <td>{{ vehiculo.modelo }}</td>
-            <td>{{ vehiculo.capacidad ?? 'N/A' }} kg</td>
-            <td>{{ vehiculo.pin }}</td>
+         <td>{{ vehiculo.capacidad }} kg</td>
+<td>{{ vehiculo.pin }}</td>
             <td>
               <button mat-icon-button (click)="goToPinVehiculo(vehiculo.id)">
                 <mat-icon>picture_as_pdf</mat-icon>
@@ -125,9 +125,9 @@
 
             <td>{{ vehiculo.placaVehiculo }}</td>
   
-            <td>{{ vehiculo.capacidad ?? 'N/A' }} kg</td>
+            <td>{{ vehiculo.capacidad  }} kg</td>
 
-            <td>{{ vehiculo.pin ?? 'N/A' }}</td>
+            <td>{{ vehiculo.pin  }}</td>
             <td>
               <button mat-icon-button (click)="goToPinVehiculo(vehiculo.idvehiculo)">
                 <mat-icon>picture_as_pdf</mat-icon>

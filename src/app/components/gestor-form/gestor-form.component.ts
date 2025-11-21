@@ -77,24 +77,39 @@ export class GestorFormComponent implements OnInit {
       direccion_de_correspondencia_del_solicitante: ['', Validators.required],
     });
 
-    this.gestor = this.fb.group({
-      localidad_gestor: ['', Validators.required],
-      barrio_gestor: ['', Validators.required],
-      direccion_gestor: ['', Validators.required],
-      fecha_inicio: [''],
-      fecha_final: ['', Validators.required],
-      tipo_rcd: [''],
-      actividad_ejecutada: ['', Validators.required],
-      capacidad_t_mes: [0, [Validators.required, Validators.min(0)]],
-      capacidad_total_t: [0, [Validators.required, Validators.min(0)]],
-      '1_1': [false],
-      '1_2': [false],
-      '1_3': [false],
-      '1_4': [false],
-      '2_1': [false],
-      '2_2': [false],
-      '2_3': [false],
-    });
+this.gestor = this.fb.group(
+  {
+    localidad_gestor: ['', Validators.required],
+    barrio_gestor: ['', Validators.required],
+    direccion_gestor: ['', Validators.required],
+    fecha_inicio: [''],
+    fecha_final: ['', Validators.required],
+    tipo_rcd: [''],
+    actividad_ejecutada: ['', Validators.required],
+    capacidad_t_mes: [0, [Validators.required, Validators.min(0)]],
+    capacidad_total_t: [0, [Validators.required, Validators.min(0)]],
+    '1_1': [false],
+    '1_2': [false],
+    '1_3': [false],
+    '1_4': [false],
+    '2_1': [false],
+    '2_2': [false],
+    '2_3': [false],
+  },
+  {
+    validators: (form) => {
+      const inicio = form.get('fecha_inicio')?.value;
+      const final = form.get('fecha_final')?.value;
+
+      if (!inicio || !final) return null;
+
+      const fechaInicio = new Date(inicio);
+      const fechaFinal = new Date(final);
+
+      return fechaInicio <= fechaFinal ? null : { fechaInvalida: true };
+    },
+  }
+);
 
     this.gestor.addControl('latitud', this.fb.control(null));
     this.gestor.addControl('longitud', this.fb.control(null));
@@ -247,7 +262,23 @@ export class GestorFormComponent implements OnInit {
   // ==========================
   // PAGINACIÓN
   // ==========================
-  nextStep() { if (this.step < this.totalSteps - 1) this.step++; }
+nextStep() {
+  const g = this.step === 0
+    ? this.contacto
+    : this.step === 1
+    ? this.gestor
+    : this.step === 2
+    ? this.documentos
+    : this.infoextra;
+
+  if (g.invalid) {
+    g.markAllAsTouched();
+    this.toast.showError('Completa todos los campos obligatorios antes de continuar.');
+    return;
+  }
+
+  if (this.step < this.totalSteps - 1) this.step++;
+}
   prevStep() { if (this.step > 0) this.step--; }
 
   // ==========================
@@ -294,59 +325,62 @@ export class GestorFormComponent implements OnInit {
   // ==========================
   // FILTRO DE BARRIOS
   // ==========================
-  private setupBarrios() {
-    const localidadControl = this.contacto.get('localidad')!;
-    const barrioControl = this.contacto.get('barrio')!;
 
-    const localidad$ = localidadControl.valueChanges.pipe(startWith(localidadControl.value || ''));
-    const barrioInput$ = barrioControl.valueChanges.pipe(startWith(barrioControl.value || ''));
+private setupBarrios() {
+  const localidadControl = this.contacto.get('localidad')!;
+  const barrioControl = this.contacto.get('barrio')!;
 
-    const barriosActuales$ = localidad$.pipe(
-      switchMap((loc: string) =>
-        loc
-          ? this.http.get<any[]>(`assets/barrios/${loc}.json`).pipe(
-              map((data) => data.map((item) => item.name)),
-              catchError(() => of([]))
-            )
-          : of([])
-      )
-    );
+  const localidad$ = localidadControl.valueChanges.pipe(startWith(localidadControl.value || ''));
+  const barrioInput$ = barrioControl.valueChanges.pipe(startWith(barrioControl.value || ''));
 
-    this.barriosFiltrados$ = combineLatest([barriosActuales$, barrioInput$]).pipe(
-      map(([barrios, texto]) => {
-        if (!texto) return barrios;
-        return barrios.filter((b: string) => b.toLowerCase().includes(texto.toLowerCase()));
-      })
-    );
+  const barriosActuales$ = localidad$.pipe(
+    switchMap((loc: string) =>
+      loc
+        ? this.http.get<any[]>(`assets/${loc}.json`).pipe(
+            map(data => data.map(item => item.name)),
+            catchError(() => of([]))
+          )
+        : of([])
+    )
+  );
 
-    localidad$.subscribe(() => barrioControl.setValue(''));
-  }
+  this.barriosFiltrados$ = combineLatest([barriosActuales$, barrioInput$]).pipe(
+    map(([barrios, texto]) => {
+      if (!texto) return barrios;
+      return barrios.filter(b => b.toLowerCase().includes(texto.toLowerCase()));
+    })
+  );
+}
 
-  private setupBarriosGestor() {
-    const localidadControl = this.gestor.get('localidad_gestor')!;
-    const barrioControl = this.gestor.get('barrio_gestor')!;
+private setupBarriosGestor() {
+  const localidadControl = this.gestor.get('localidad_gestor')!;
+  const barrioControl = this.gestor.get('barrio_gestor')!;
 
-    const localidad$ = localidadControl.valueChanges.pipe(startWith(localidadControl.value || ''));
-    const barrioInput$ = barrioControl.valueChanges.pipe(startWith(barrioControl.value || ''));
+  const localidad$ = localidadControl.valueChanges.pipe(startWith(localidadControl.value || ''));
+  const barrioInput$ = barrioControl.valueChanges.pipe(startWith(barrioControl.value || ''));
 
-    const barriosActualesGestor$ = localidad$.pipe(
-      switchMap((loc: string) =>
-        loc
-          ? this.http.get<any[]>(`assets/barrios/${loc}.json`).pipe(
-              map((data) => data.map((item) => item.name)),
-              catchError(() => of([]))
-            )
-          : of([])
-      )
-    );
+  const barriosActualesGestor$ = localidad$.pipe(
+    switchMap((loc: string) =>
+      loc
+        ? this.http.get<any[]>(`assets/${loc}.json`).pipe(
+            map(data => data.map(item => item.name)),
+            catchError(() => of([]))
+          )
+        : of([])
+    )
+  );
 
-    this.barriosFiltradosGestor$ = combineLatest([barriosActualesGestor$, barrioInput$]).pipe(
-      map(([barrios, texto]) => {
-        if (!texto) return barrios;
-        return barrios.filter((b: string) => b.toLowerCase().includes(texto.toLowerCase()));
-      })
-    );
+  this.barriosFiltradosGestor$ = combineLatest([barriosActualesGestor$, barrioInput$]).pipe(
+    map(([barrios, texto]) => {
+      if (!texto) return barrios;
+      return barrios.filter(b => b.toLowerCase().includes(texto.toLowerCase()));
+    })
+  );
 
-    localidad$.subscribe(() => barrioControl.setValue(''));
-  }
+  // RESETEAR BARRIO SOLO SI CAMBIA LOCALIDAD
+  localidad$.subscribe(() => {
+    barrioControl.setValue(''); // limpia solo cuando cambia la localidad
+  });
+}
+
 }
