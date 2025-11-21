@@ -163,7 +163,12 @@
       >
     </mat-form-field>
 
+    
     <map-picker (coordinates)="onMap($event)"></map-picker>
+
+<div class="error" *ngIf="gestor.get('latitud')?.invalid && (gestor.get('latitud')?.touched || gestor.get('longitud')?.touched)">
+  Debes seleccionar una ubicación en el mapa.
+</div>
 
     <div class="flexbox">
       <div class="form-field">
@@ -227,18 +232,23 @@
     </div>
 
     <div class="flexbox">
-      <div class="form-field">
-        <label>Capacidad (t/mes) <span class="required">*</span></label>
-        <input type="number" formControlName="capacidad_t_mes" min="0" step="0.01" />
-        <div class="error" *ngIf="isInvalid('capacidad_t_mes', gestor)">Campo obligatorio</div>
-      </div>
-
-      <div class="form-field">
-        <label>Capacidad total (t) <span class="required">*</span></label>
-        <input type="number" formControlName="capacidad_total_t" min="0" step="0.01" />
-        <div class="error" *ngIf="isInvalid('capacidad_total_t', gestor)">Campo obligatorio</div>
-      </div>
+  <div class="form-field">
+    <label>Capacidad (t/mes) <span class="required">*</span></label>
+    <input type="number" formControlName="capacidad_t_mes" min="1" step="0.01" />
+    <div class="error" *ngIf="isInvalid('capacidad_t_mes', gestor)">
+      Campo obligatorio y debe ser mayor que 0
     </div>
+  </div>
+
+  <div class="form-field">
+    <label>Capacidad total (t) <span class="required">*</span></label>
+    <input type="number" formControlName="capacidad_total_t" min="1" step="0.01" />
+    <div class="error" *ngIf="isInvalid('capacidad_total_t', gestor)">
+      Campo obligatorio y debe ser mayor que 0
+    </div>
+  </div>
+</div>
+
   </div>
 
   <!-- PASO 2: DOCUMENTOS -->
@@ -383,8 +393,29 @@ Certificado de Tradición y Libertad del inmueble
     </ng-container>
   </div>
 
-  <!-- PASO 3: RESUMEN FINAL -->
-  <div *ngIf="step === 3" class="summary">
+  <!-- PASO 3: INFORMACIÓN EXTRA -->
+<div *ngIf="step === 3" [formGroup]="infoextra" class="infoextra-step">
+  <h3>Información adicional</h3>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Fecha de expedición del PIN</mat-label>
+    <input matInput type="date" formControlName="fecha_expedicion_pin" />
+    <mat-error *ngIf="isInvalid('fecha_expedicion_pin', infoextra)">
+      Debes ingresar la fecha de expedición del PIN.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Consecutivo SIGOB</mat-label>
+    <input matInput formControlName="consecutivo_sigob" placeholder="Ej: 2025-000123" />
+    <mat-error *ngIf="isInvalid('consecutivo_sigob', infoextra)">
+      Debes ingresar el consecutivo SIGOB.
+    </mat-error>
+  </mat-form-field>
+</div>
+
+  <!-- PASO 4: RESUMEN FINAL -->
+  <div *ngIf="step === 4" class="summary">
     <h3>Resumen final del trámite</h3>
     <p>Revisa que toda la información sea correcta antes de enviar.</p>
 
@@ -423,6 +454,11 @@ Certificado de Tradición y Libertad del inmueble
       <p><strong>Capacidad total (t):</strong> {{ gestor.value.capacidad_total_t }}</p>
     </div>
 
+      <div class="summary-block">
+    <h4>Información Extra</h4>
+    <p><strong>Fecha de expedición del PIN:</strong> {{ infoextra.value.fecha_expedicion_pin }}</p>
+    <p><strong>Consecutivo SIGOB:</strong> {{ infoextra.value.consecutivo_sigob }}</p>
+  </div>
     <div class="summary-block">
       <h4>Documentos cargados</h4>
       <ul>

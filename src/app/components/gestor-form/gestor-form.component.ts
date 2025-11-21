@@ -42,7 +42,7 @@ export class GestorFormComponent implements OnInit {
   @Output() saved = new EventEmitter<any>();
 
   step = 0;
-  totalSteps = 4;
+  totalSteps = 5;
 
   form!: FormGroup;
   contacto!: FormGroup;
@@ -111,8 +111,8 @@ this.gestor = this.fb.group(
   }
 );
 
-    this.gestor.addControl('latitud', this.fb.control(null));
-    this.gestor.addControl('longitud', this.fb.control(null));
+this.gestor.addControl('latitud', this.fb.control(null, Validators.required));
+this.gestor.addControl('longitud', this.fb.control(null, Validators.required));
 
     this.rcdAprovechable = {
       '1_1': 'Productos de excavación y sobrantes de la adecuación de terreno',
@@ -147,7 +147,6 @@ this.gestor = this.fb.group(
 
     this.infoextra = this.fb.group({
       fecha_expedicion_pin: ['', Validators.required],
-      fecha_vencimiento_pin: ['', Validators.required],
       consecutivo_sigob: ['', Validators.required],
     });
 
