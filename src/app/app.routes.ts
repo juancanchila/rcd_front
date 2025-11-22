@@ -33,9 +33,10 @@ import { VehicleFormComponent } from './components/vehicle-form/vehicle-form.com
 import { TransportadorFormComponent } from './components/transportador-form/transportador-form.component';
 import { Receptor } from './models/receptor.model';
 import { GestorFormComponent } from './components/gestor-form/gestor-form.component';
-import { ResolutionForm } from './components/resolution-form/resolution-form';
+import { ResolutionFormComponent } from './components/resolution-form/resolution-form.component';
 import { GeneradorForm } from './components/generator-form/generador-form.component';
 import { ProjectFormComponent } from './components/project-form/project-form.component';
+import { TvisitForm } from './components/tvisit-form/tvisit-form';
 
 export const routes: Routes = [
   // 🔹 Rutas públicas
@@ -106,12 +107,12 @@ export const routes: Routes = [
       },
       {
         path: 'receptor/:id/resolucion-create',
-        component: ResolutionForm,
+        component: ResolutionFormComponent,
         canActivate: [AuthGuard],
       },
         {
         path: 'proyecto/:id/visita-create',
-        component: ResolutionForm,
+        component: TvisitForm,
         canActivate: [AuthGuard],
       },
       {

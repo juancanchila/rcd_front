@@ -1,0 +1,166 @@
+.form-host {
+  display: block;
+  padding: 32px 24px;
+  max-width: 720px;
+  margin: 48px auto;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+mat-progress-bar {
+  margin-bottom: 32px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+mat-form-field {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+/* ------------------------------ */
+/* 📁 ESTILO PROFESIONAL ARCHIVOS */
+/* ------------------------------ */
+.file-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px;
+  border: 1px solid #dcdcdc;
+  border-radius: 12px;
+  background: #fafafa;
+  transition: all 0.2s ease;
+}
+
+.file-group:hover {
+  background: #f2f2f2;
+  border-color: #c7c7c7;
+}
+
+.file-group label {
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+/* Input file custom */
+.file-group input[type="file"] {
+  padding: 10px;
+  border-radius: 10px;
+  background: #fff;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.file-group input[type="file"]::file-selector-button {
+  background: #1976d2;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s ease;
+}
+
+.file-group input[type="file"]::file-selector-button:hover {
+  background: #105a9c;
+}
+
+.file-group small {
+  font-size: 12px;
+  color: #555;
+}
+
+.file-group .error,
+.error {
+  color: #d32f2f;
+  font-size: 13px;
+  margin-top: 3px;
+}
+
+/* ------------------------------ */
+
+
+.form-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-top: 32px;
+  flex-wrap: wrap;
+}
+
+button {
+  min-width: 140px;
+  font-weight: 600;
+  border-radius: 12px;
+  padding: 8px 16px;
+  transition: all 0.2s ease-in-out;
+}
+
+button:hover:not([disabled]) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+button[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+button[color="primary"] {
+  font-weight: 700;
+}
+
+mat-radio-group {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+pre {
+  background: #f5f5f5;
+  padding: 16px;
+  border-radius: 12px;
+  overflow-x: auto;
+}
+
+@media (max-width: 600px) {
+  .form-host { padding: 24px 16px; }
+  button { min-width: 100px; }
+  mat-radio-group { flex-direction: column; }
+}
+
+.documents { display: grid; gap: 18px; padding: 12px; }
+.section-title { font-weight: 600; color: #1f1f1f; }
+
+.flexbox {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.form-field {
+  flex: 1 1 300px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-field label {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.form-field input,
+.form-field select {
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+
+.form-field small {
+  font-size: 0.8rem;
+  color: #666;
+}

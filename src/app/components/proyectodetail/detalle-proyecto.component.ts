@@ -32,6 +32,7 @@ export class DetalleProyectoComponent implements OnInit {
   proyecto: Proyecto | null = null;
   visitas: VisitaTecnica[] = [];
   loading = false;
+  id: number | null = 0;
 
   constructor(
     private proyectoService: ProyectoService,
@@ -42,9 +43,9 @@ export class DetalleProyectoComponent implements OnInit {
 
   async ngOnInit() {
     const idParam = this.route.snapshot.paramMap.get('id');
-    const id = idParam ? Number(idParam) : null;
-    if (id) {
-      await this.cargarProyecto(id);
+    this.id = idParam ? Number(idParam) : null;
+    if (this.id) {
+      await this.cargarProyecto(this.id);
     }
   }
 
@@ -73,6 +74,8 @@ export class DetalleProyectoComponent implements OnInit {
   }
 
   agregarVisita() {
+    //agregar redireccion a la ruta de crear visita tecnica
+    this.router.navigate(['/proyecto', this.id, 'visita-create']);
   console.log('Navegando a agregar visita técnica para el proyecto:');
 
   }
