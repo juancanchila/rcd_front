@@ -64,19 +64,24 @@ export class ProjectFormComponent {
     // 🟩 PROYECTO
     // -------------------------------
     this.proyecto = this.fb.group({
-      tipo_de_generador: [''],
-      localidad_proyecto: [''],
-      barrio_proyecto: [''],
-      direccion_del_proyecto: [''],
-      latitud: [''],
-      longitud: [''],
-      fecha_inicio: [''],
-      fecha_final: ['', ],
-      nombre_del_proyecto: [''],
-      datos_predios: this.fb.array([]),
-      descripcion_del_proyecto_o_actividad_a_ejecutar: [''],
-      area_a_intervenir_m2: [''],
-      cantidad_de_rcd_a_generar_toneladas: [''],
+ tipo_de_generador: ['', Validators.required],
+    localidad_proyecto: ['', Validators.required],
+    barrio_proyecto: ['', Validators.required],
+    direccion_del_proyecto: ['', Validators.required],
+
+    latitud: ['', Validators.required],
+    longitud: ['', Validators.required],
+
+    fecha_inicio: [''],
+    fecha_final: ['', Validators.required],
+
+    nombre_del_proyecto: ['', Validators.required],
+
+    datos_predios: this.fb.array([]),
+
+    descripcion_del_proyecto_o_actividad_a_ejecutar: ['', Validators.required],
+
+
 
       tipo_licencia_0100: this.fb.group({
         urbanizacion_block_0100: this.fb.group({
@@ -114,6 +119,26 @@ export class ProjectFormComponent {
         }),
         resolucion_numero_0100: [''],
       }),
+    },
+   {
+    validators: (form) => {
+      const inicio = form.get('fecha_inicio')?.value;
+      const final = form.get('fecha_final')?.value;
+
+      if (!inicio || !final) return null;
+
+      const fechaInicio = new Date(inicio);
+      const fechaFinal = new Date(final);
+
+      return fechaInicio <= fechaFinal ? null : { fechaInvalida: true };
+    },
+  });
+
+   this.form = this.fb.group({
+      vehicleForm: this.vehicleForm,
+      vehicleDocumentsForm:this.vehicleDocumentsForm,
+      proyecto: this.proyecto,
+      infoextra: this.infoextra,
     });
 
     // -------------------------------
@@ -138,25 +163,30 @@ export class ProjectFormComponent {
     // 🟩 INFO EXTRA
     // -------------------------------
     this.infoextra = this.fb.group({
-      fecha_expedicion_pin: [''],
-      consecutivo_sigob: [''],
+      fecha_expedicion_pin: ['',Validators.required],
+      consecutivo_sigob: ['',Validators.required],
     });
+
+ this.proyecto.addControl('latitud', this.fb.control(null));
+    this.proyecto.addControl('longitud', this.fb.control(null));
+
+    
 
     // -------------------------------
     // 🟩 DOCUMENTOS
     // -------------------------------
     this.vehicleDocumentsForm = this.fb.group({
-      carta_solicitud: [''],
-      descripcion_tecnica_proyecto: [''],
-      certificado_tradicion_libertad: [''],
-      autorizacion_bic: [''],
-      registro_defuncion: [''],
-      cuadro_cantidades_rcd:[''],
-      soporte_pago_pin:[''],
-      cronograma_actividades:[''],
-      contrato_obra_otros:[''],
-      programa_manejo_rcd_pdf:[''],
-      autorizacion_bicBigOrSmall:[''],
+carta_solicitud: ['', Validators.required],
+  descripcion_tecnica_proyecto: ['', Validators.required],
+  certificado_tradicion_libertad: ['', Validators.required],
+  autorizacion_bic: ['', Validators.required],
+  registro_defuncion: ['', Validators.required],
+  cuadro_cantidades_rcd: [''],
+  soporte_pago_pin: [''],
+  cronograma_actividades: [''],
+  contrato_obra_otros: [''],
+  programa_manejo_rcd_pdf: [''],
+  autorizacion_bicBigOrSmall: [''],
       certificado_no_requiere_licencia:[''],
       permiso_ocupacion_cauce:[''],
       resolucion_curaduria_o_licencia:[''],
@@ -260,11 +290,12 @@ getResolucionNumero(): string | null {
   // 🔹 MANEJO DE MAPA
   // ============================================================
   onMap(coords: { latitude: number; longitude: number }): void {
-    this.form.patchValue({
+    this.proyecto.patchValue({
       latitud: coords.latitude,
       longitud: coords.longitude,
     });
   }
+  
   
   // -------------------------------
   // WIZARD
@@ -272,7 +303,7 @@ getResolucionNumero(): string | null {
   nextStep() {
     let g =
       this.step === 0
-        ? this.vehicleForm
+        ? this.proyecto
         : this.step === 1
         ? this.vehicleDocumentsForm
         : this.infoextra;

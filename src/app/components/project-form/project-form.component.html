@@ -7,12 +7,13 @@
   </mat-progress-bar>
 
   <!-- PASO 0 — DATOS DEL VEHÍCULO -->
-  <div *ngIf="step === 0">
+  <div *ngIf="step === 0" [formGroup]="proyecto">
 
 
    
  <project-data  [group]="proyecto!"></project-data>
 <map-picker (coordinates)="onMap($event)"></map-picker>
+
     <div class="form-actions">
       <button mat-flat-button color="primary" (click)="nextStep()">Siguiente</button>
     </div>
@@ -478,6 +479,12 @@
   {{ proyecto.get('cantidad_de_rcd_a_generar_toneladas')?.value }}
 </p>
 <p>
+  <strong>Latitud:</strong>
+  {{ proyecto.get('latitud')?.value }}</p>
+      <p >
+        <strong>Longitud:</strong>
+       {{ proyecto.get('longitud')?.value }}</p>
+<p>
 
 
       <h3>Documentos cargados</h3>
@@ -534,6 +541,13 @@
   <strong>Cantidad de RCD a generar (Toneladas):</strong>
   {{ proyecto.get('cantidad_de_rcd_a_generar_toneladas')?.value }}
 </p>
+<p>
+  <strong>Latitud:</strong>
+  {{ proyecto.get('latitud')?.value }}</p>
+      <p >
+        <strong>Longitud:</strong>
+       {{ proyecto.get('longitud')?.value }}</p>
+<p>
 <h2>Tipo de Licencia</h2>
 
 <div class="summary-section">
@@ -543,7 +557,7 @@
       {{ opcion }}
     </li>
   </ul>
-  <ng-template #noUrbanizacion><p>— No aplica.</p></ng-template>
+  <ng-template #noUrbanizacion><p>No aplica.</p></ng-template>
 </div>
 
 <hr>
@@ -555,7 +569,7 @@
       {{ opcion }}
     </li>
   </ul>
-  <ng-template #noConstruccion><p>— No aplica.</p></ng-template>
+  <ng-template #noConstruccion><p>No aplica.</p></ng-template>
 </div>
 
 <hr>
@@ -567,7 +581,7 @@
       {{ opcion }}
     </li>
   </ul>
-  <ng-template #noBic><p>— No aplica.</p></ng-template>
+  <ng-template #noBic><p>No aplica.</p></ng-template>
 </div>
 
 <hr>
@@ -579,7 +593,7 @@
       {{ opcion }}
     </li>
   </ul>
-  <ng-template #noEspacio><p>— No aplica.</p></ng-template>
+  <ng-template #noEspacio><p>No aplica.</p></ng-template>
 </div>
 
 <hr>
