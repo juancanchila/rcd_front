@@ -59,7 +59,7 @@ public today: string = '';
    documentos!: FormGroup;
 
   transportadorId!: string | null;
-  form: any;
+  form!: FormGroup;
 minDate: string;
   constructor(
     private fb: FormBuilder,
@@ -149,29 +149,13 @@ cantidad_de_rcd_a_generar_toneladas: [''],
 );
 
    this.form = this.fb.group({
-      vehicleForm: this.vehicleForm,
-      vehicleDocumentsForm:this.vehicleDocumentsForm,
-      proyecto: this.proyecto,
+    proyecto: this.proyecto,
+      vehicleDocumentsForm:this.vehicleDocumentsForm,      
       infoextra: this.infoextra,
     });
 
-    // -------------------------------
-    // 🟩 VEHÍCULO
-    // -------------------------------
-    this.vehicleForm = this.fb.group({
-      tipo_solicitante: ['Persona Natural'],
-      unidad_capacidad: ['kg'],
-      capacidad_vehiculo: [''],
-      clase_vehiculo: [''],
-      placa_vehiculo: [
-        '',
-      ],
-      marca: [''],
-      modelo: [''],
-      color: [''],
-      numero_chasis: [''],
-      numero_motor: [''],
-    });
+   
+
 
     // -------------------------------
     // 🟩 INFO EXTRA
@@ -205,39 +189,13 @@ carta_solicitud: ['', Validators.required],
       certificado_no_requiere_licencia:[''],
       permiso_ocupacion_cauce:[''],
       resolucion_curaduria_o_licencia:[''],
-      planos_aprobados_curaduria:[''],
-      foto_lateral_derecha: [''],
-      foto_lateral_izquierda: [''],
-      registro_herramientas: [''],
-      certificado_leasing: [''],
-      certificado_tecnicomecanica: [''],
- 
-      autoriza_propietario: [''],
+      planos_aprobados_curaduria:[''], 
     });
 
     // -------------------------------
     // 🟩 VALIDACIÓN DINÁMICA
     // -------------------------------
-    this.vehicleForm.get('tipo_solicitante')?.valueChanges.subscribe((tipo) => {
-      const identificacion = this.vehicleDocumentsForm.get('identificacion');
-      const certExtLegal = this.vehicleDocumentsForm.get('cert_ext_legal');
 
-      if (tipo === 'Persona Natural') {
-        identificacion?.setValidators([Validators.required]);
-        certExtLegal?.clearValidators();
-        certExtLegal?.setValue('');
-      } else if (tipo === 'Persona Jurídica') {
-        certExtLegal?.setValidators([Validators.required]);
-        identificacion?.clearValidators();
-        identificacion?.setValue('');
-      } else {
-        identificacion?.clearValidators();
-        certExtLegal?.clearValidators();
-      }
-
-      identificacion?.updateValueAndValidity();
-      certExtLegal?.updateValueAndValidity();
-    });
   }
 
   // -------------------------------
@@ -393,34 +351,12 @@ getTodayDate(): string {
     return value.toString().replace(/^C:\\fakepath\\/, ''); // elimina fakepath
   }
 
-  private buildPayload() {
-    const v = this.vehicleForm.value;
-    const d = this.vehicleDocumentsForm.value;
-    const i = this.infoextra.value;
+   buildPayload() { 
 
     return {
-      idvehiculo: 0,
-      placaVehiculo: v.placa_vehiculo.toUpperCase(),
-      lugarExpedicion: null,
-      modelo: v.modelo,
-      capacidad: `${v.capacidad_vehiculo} ${v.unidad_capacidad}`,
-      fechaUltimaRevTecMec: null,
-      permisoMovilizacion: null,
-      nombreConductor: null,
-      numeroIdentificacion: null,
-
-      fotoFrente: this.extractFilename(d.foto_frontal),
-      fotoLadoDerecho: this.extractFilename(d.foto_lateral_derecha),
-      fotoLadoIzquierdo: this.extractFilename(d.foto_lateral_izquierda),
-      fotoTrasera: this.extractFilename(d.foto_trasera),
-
-      idtransportador: this.transportadorId || 0,
-      licenciaTransito: this.extractFilename(d.licencia_transito),
-      certificadoRevTecMec: this.extractFilename(d.certificado_tecnicomecanica),
-
-      fechaExpedicionPIN: i.fecha_expedicion_pin,
-      fechaVencimientoPIN: this.addOneYear(i.fecha_expedicion_pin),
-      codigoRadicadoSIGOD: i.consecutivo_sigob,
+      proyecto: this.proyecto.value,
+      vehicleDocument:this.vehicleDocumentsForm.value,
+      infoextra:this.infoextra.value
     };
   }
 
@@ -429,50 +365,14 @@ getTodayDate(): string {
   // -------------------------------
   async onSubmit(): Promise<void> {
     console.log(this.proyecto,'proye',this.vehicleDocumentsForm,'doc',this.infoextra,'infoex')
-    if (this.proyecto.invalid || this.vehicleDocumentsForm.invalid || this.infoextra.invalid) {
-      this.proyecto.markAllAsTouched();
-      this.vehicleDocumentsForm.markAllAsTouched();
-      this.infoextra.markAllAsTouched();
-      this.toast.showError('Completa todos los campos obligatorios.');
+    if (this.form.invalid) {
+         this.toast.showError('Completa todos los campos obligatorios.');
       return;
     }
 
     try {
-      const payload = this.buildPayload();
-      const vehiculoBaseResp: any = await this.vehiculoSrv.crearVehiculo(payload);
-      const idVehiculo = vehiculoBaseResp.idvehiculo;
-
-      const docs = this.vehicleDocumentsForm.value;
-      const archivosRenombrados: any = {};
-
-      for (const key of Object.keys(docs)) {
-        const file = docs[key];
-        if (!file || !(file instanceof File)) continue;
-
-        const nuevoNombre = `${idVehiculo}_${key}_${file.name}`;
-        const renamedFile = new File([file], nuevoNombre, { type: file.type });
-        const uploadResp: any = await this.archivoSrv.subirArchivo(renamedFile);
-
-        archivosRenombrados[key] = uploadResp?.filename || nuevoNombre;
-      }
-
-      const vehiculoUpdate = {
-        ...payload,
-        fotoFrente: archivosRenombrados['foto_frontal'] || null,
-        fotoTrasera: archivosRenombrados['foto_trasera'] || null,
-        fotoLadoDerecho: archivosRenombrados['foto_lateral_derecha'] || null,
-        fotoLadoIzquierdo: archivosRenombrados['foto_lateral_izquierda'] || null,
-        licenciaTransito: archivosRenombrados['licencia_transito'] || null,
-        certificadoRevTecMec: archivosRenombrados['certificado_tecnicomecanica'] || null,
-      };
-
-      await this.vehiculoSrv.actualizarVehiculo(idVehiculo, vehiculoUpdate);
-
-      this.saved.emit({ ...vehiculoUpdate });
-      this.toast.showSuccess(
-        'Vehículo creado correctamente',
-        '/transportador-detalle/' + this.transportadorId
-      );
+  this.saved.emit(this.buildPayload());
+      this.toast.showSuccess('Formulario guardado correctamente.');
     } catch (err) {
       console.error(err);
       this.toast.showError('Error al procesar el registro.');
