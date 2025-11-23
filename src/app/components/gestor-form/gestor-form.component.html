@@ -1,5 +1,6 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-host">
-  <mat-progress-bar mode="determinate" [value]="(step + 1) * (100 / totalSteps)"></mat-progress-bar>
+  <mat-progress-bar mode="determinate" [value]="(step + 1) * (100 / totalSteps)">
+  </mat-progress-bar>
 
   <!-- PASO 0: DATOS DE CONTACTO -->
   <div *ngIf="step === 0" [formGroup]="contacto">
@@ -17,7 +18,7 @@
       </mat-error>
     </mat-form-field>
 
-    <!-- Persona Natural -->
+    <!-- PERSONA NATURAL -->
     <ng-container *ngIf="contacto.get('tipo_de_solicitante')?.value === 'Persona Natural'">
       <mat-form-field appearance="outline">
         <mat-label>Nombres y apellidos</mat-label>
@@ -36,15 +37,11 @@
       </mat-form-field>
     </ng-container>
 
-    <!-- Persona Jurídica -->
+    <!-- PERSONA JURÍDICA -->
     <ng-container *ngIf="contacto.get('tipo_de_solicitante')?.value === 'Persona Jurídica'">
       <mat-form-field appearance="outline">
         <mat-label>Razón social</mat-label>
-        <input
-          matInput
-          formControlName="razon_social"
-          placeholder="Ej: Comercializadora ABC S.A.S"
-        />
+        <input matInput formControlName="razon_social" placeholder="Ej: Comercializadora ABC S.A.S" />
         <mat-error *ngIf="isInvalid('razon_social', contacto)">
           Debes ingresar la razón social.
         </mat-error>
@@ -59,23 +56,18 @@
 
     <mat-form-field appearance="outline">
       <mat-label>Correo electrónico</mat-label>
-      <input
-        matInput
-        type="email"
-        formControlName="correo_electronico"
-        placeholder="ejemplo@correo.com"
-      />
-      <mat-error *ngIf="isInvalid('correo_electronico', contacto)"
-        >Ingresa un correo válido.</mat-error
-      >
+      <input matInput type="email" formControlName="correo_electronico" placeholder="ejemplo@correo.com" />
+      <mat-error *ngIf="isInvalid('correo_electronico', contacto)">
+        Ingresa un correo válido.
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Teléfono móvil</mat-label>
       <input matInput formControlName="telefono_movil" placeholder="Ej: 3001234567" />
-      <mat-error *ngIf="isInvalid('telefono_movil', contacto)"
-        >Debes ingresar el teléfono móvil.</mat-error
-      >
+      <mat-error *ngIf="isInvalid('telefono_movil', contacto)">
+        Debes ingresar el teléfono móvil.
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
@@ -90,9 +82,9 @@
         <mat-option value="localidad2">Localidad 2</mat-option>
         <mat-option value="localidad3">Localidad 3</mat-option>
       </mat-select>
-      <mat-error *ngIf="isInvalid('localidad', contacto)"
-        >Debes seleccionar la localidad.</mat-error
-      >
+      <mat-error *ngIf="isInvalid('localidad', contacto)">
+        Debes seleccionar la localidad.
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
@@ -104,11 +96,13 @@
         placeholder="Empieza a escribir"
       />
       <mat-autocomplete #autoBarrio="matAutocomplete">
-        <mat-option *ngFor="let barrio of barriosFiltrados$ | async" [value]="barrio">{{
-          barrio
-        }}</mat-option>
+        <mat-option *ngFor="let barrio of barriosFiltrados$ | async" [value]="barrio">
+          {{ barrio }}
+        </mat-option>
       </mat-autocomplete>
-      <mat-error *ngIf="isInvalid('barrio', contacto)">Debes seleccionar un barrio.</mat-error>
+      <mat-error *ngIf="isInvalid('barrio', contacto)">
+        Debes seleccionar un barrio.
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
@@ -127,6 +121,7 @@
   <!-- PASO 1: DATOS DEL GESTOR -->
   <div *ngIf="step === 1" [formGroup]="gestor" class="gestor-step">
     <h3>Datos del Gestor</h3>
+
     <mat-form-field appearance="outline">
       <mat-label>Localidad del Gestor</mat-label>
       <mat-select formControlName="localidad_gestor" required>
@@ -134,9 +129,9 @@
         <mat-option value="localidad2">Localidad 2</mat-option>
         <mat-option value="localidad3">Localidad 3</mat-option>
       </mat-select>
-      <mat-error *ngIf="isInvalid('localidad_gestor', gestor)"
-        >Debes seleccionar la localidad del gestor.</mat-error
-      >
+      <mat-error *ngIf="isInvalid('localidad_gestor', gestor)">
+        Debes seleccionar la localidad del gestor.
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
@@ -148,27 +143,31 @@
         placeholder="Empieza a escribir"
       />
       <mat-autocomplete #autoBarrioGestor="matAutocomplete">
-        <mat-option *ngFor="let barrio of barriosFiltradosGestor$ | async" [value]="barrio">{{
-          barrio
-        }}</mat-option>
+        <mat-option
+          *ngFor="let barrio of barriosFiltradosGestor$ | async"
+          [value]="barrio"
+        >
+          {{ barrio }}
+        </mat-option>
       </mat-autocomplete>
-      <mat-error *ngIf="isInvalid('barrio_gestor', gestor)">Debes seleccionar un barrio.</mat-error>
+      <mat-error *ngIf="isInvalid('barrio_gestor', gestor)">
+        Debes seleccionar un barrio.
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Dirección del Gestor</mat-label>
       <input matInput formControlName="direccion_gestor" placeholder="Ej: Calle 45 #12-34" />
-      <mat-error *ngIf="isInvalid('direccion_gestor', gestor)"
-        >Debes ingresar la dirección del gestor.</mat-error
-      >
+      <mat-error *ngIf="isInvalid('direccion_gestor', gestor)">
+        Debes ingresar la dirección del gestor.
+      </mat-error>
     </mat-form-field>
 
-    
     <map-picker (coordinates)="onMap($event)"></map-picker>
 
-<div class="error" *ngIf="gestor.get('latitud')?.invalid && (gestor.get('latitud')?.touched || gestor.get('longitud')?.touched)">
-  Debes seleccionar una ubicación en el mapa.
-</div>
+    <div class="error" *ngIf="gestor.get('latitud')?.invalid || gestor.get('longitud')?.invalid">
+      Debes seleccionar una ubicación en el mapa.
+    </div>
 
     <div class="flexbox">
       <div class="form-field">
@@ -183,7 +182,7 @@
       </div>
     </div>
 
-    <div *ngIf="gestor.errors?.['fechaInvalida']" class="error">
+    <div class="error" *ngIf="gestor.errors?.['fechaInvalida']">
       La fecha inicial no puede ser mayor que la fecha final.
     </div>
 
@@ -196,11 +195,13 @@
       </select>
     </div>
 
+    <!-- RCD SEGÚN TIPO SELECCIONADO -->
     <div class="form-field" *ngIf="gestor.get('tipo_rcd')?.value === 'aprovechable'">
       <label>Tipos de RCD (marque las que apliquen)</label>
       <div *ngFor="let key of rcdAprovechableKeys">
         <label>
-          <input type="checkbox" [formControlName]="key" /> {{ rcdAprovechable[key] }}
+          <input type="checkbox" [formControlName]="key" />
+          {{ rcdAprovechable[key] }}
         </label>
       </div>
     </div>
@@ -209,7 +210,8 @@
       <label>Tipos de RCD (marque las que apliquen)</label>
       <div *ngFor="let key of rcdNoAprovechableKeys">
         <label>
-          <input type="checkbox" [formControlName]="key" /> {{ rcdNoAprovechable[key] }}
+          <input type="checkbox" [formControlName]="key" />
+          {{ rcdNoAprovechable[key] }}
         </label>
       </div>
     </div>
@@ -225,30 +227,33 @@
         <option value="receptor_rcd_estructural">
           Receptor de RCD para actividades estructurales
         </option>
-        <option value="receptor_rcd_materia_prima">Receptor de RCD como materia prima</option>
+        <option value="receptor_rcd_materia_prima">
+          Receptor de RCD como materia prima
+        </option>
         <option value="disposicion_final">Disposición Final</option>
       </select>
-      <div class="error" *ngIf="isInvalid('actividad_ejecutada', gestor)">Campo obligatorio</div>
+      <div class="error" *ngIf="isInvalid('actividad_ejecutada', gestor)">
+        Campo obligatorio
+      </div>
     </div>
 
     <div class="flexbox">
-  <div class="form-field">
-    <label>Capacidad (t/mes) <span class="required">*</span></label>
-    <input type="number" formControlName="capacidad_t_mes" min="1" step="0.01" />
-    <div class="error" *ngIf="isInvalid('capacidad_t_mes', gestor)">
-      Campo obligatorio y debe ser mayor que 0
-    </div>
-  </div>
+      <div class="form-field">
+        <label>Capacidad (t/mes) <span class="required">*</span></label>
+        <input type="number" formControlName="capacidad_t_mes" min="1" step="0.01" />
+        <div class="error" *ngIf="isInvalid('capacidad_t_mes', gestor)">
+          Campo obligatorio y debe ser mayor que 0
+        </div>
+      </div>
 
-  <div class="form-field">
-    <label>Capacidad total (t) <span class="required">*</span></label>
-    <input type="number" formControlName="capacidad_total_t" min="1" step="0.01" />
-    <div class="error" *ngIf="isInvalid('capacidad_total_t', gestor)">
-      Campo obligatorio y debe ser mayor que 0
+      <div class="form-field">
+        <label>Capacidad total (t) <span class="required">*</span></label>
+        <input type="number" formControlName="capacidad_total_t" min="1" step="0.01" />
+        <div class="error" *ngIf="isInvalid('capacidad_total_t', gestor)">
+          Campo obligatorio y debe ser mayor que 0
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-
   </div>
 
   <!-- PASO 2: DOCUMENTOS -->
@@ -267,42 +272,30 @@
       <input type="file" (change)="onFileSelected($event, 'cert_ext_rep_legal')" accept=".pdf" />
     </div>
 
-
     <!-- DOCUMENTOS COMUNES -->
     <div class="file-group">
-
-
-      <label>Documento de medidas de manejo ambiental (PDF) *</label>
-      <input
-        type="file"
-        (change)="onFileSelected($event, 'medidas_manejo_ambiental')"
-        accept=".pdf"
-      />
-
-      <label>Carta de Solicitud (PDF) *</label>
-      <input type="file" (change)="onFileSelected($event, 'carta_solicitud')" accept=".pdf" />
-
-
-      <label>Carta de Solicitud (PDF) *</label>
-      <input type="file" (change)="onFileSelected($event, 'carta_solicitud')" accept=".pdf" />
-
+      <label>Documento medidas de manejo ambiental (PDF) *</label>
+      <input type="file" (change)="onFileSelected($event, 'medidas_manejo_ambiental')" accept=".pdf" />
     </div>
 
-<!-- DOCUMENTOS COMUNES -->
-<div class="file-group">
-  <label>Documento viabilidad ambiental para adecuacion de terreno (PDF) *</label>
-  <input
-    type="file"
-    (change)="onFileSelected($event, 'medidas_manejo_ambiental')"
-    accept=".pdf"
-  />
-  <small class="file-description">
-  Incluir:
-Cédula de ciudadanía o extranjería del RL
-Certificado de Tradición y Libertad del inmueble
-  </small>
-</div>
+    <div class="file-group">
+      <label>Carta de Solicitud (PDF) *</label>
+      <input type="file" (change)="onFileSelected($event, 'carta_solicitud')" accept=".pdf" />
+    </div>
 
+    <div class="file-group">
+      <label>Documento viabilidad ambiental para adecuación del terreno (PDF) *</label>
+      <input
+        type="file"
+        (change)="onFileSelected($event, 'viabilidad_ambiental_adecuacion')"
+        accept=".pdf"
+      />
+      <small class="file-description">
+        Incluir:<br />
+        • Cédula del representante legal <br />
+        • Certificado de Tradición del inmueble
+      </small>
+    </div>
 
     <div class="file-group">
       <label>Permisos, licencias y autorizaciones ambientales (PDF) *</label>
@@ -318,113 +311,86 @@ Certificado de Tradición y Libertad del inmueble
       <input type="file" (change)="onFileSelected($event, 'certificacion_pot')" accept=".pdf" />
     </div>
 
-    <!-- DOCUMENTOS ESPECÍFICOS SEGÚN ACTIVIDAD -->
+    <!-- DOCUMENTOS SEGÚN ACTIVIDAD -->
     <ng-container [ngSwitch]="gestor.value.actividad_ejecutada">
+      <!-- materia prima -->
       <ng-container *ngSwitchCase="'receptor_rcd_materia_prima'">
         <div class="file-group">
-          <label>Planos DWG y PDF del área de almacenamiento</label>
-          <input
-            type="file"
-            (change)="onFileSelected($event, 'planos_rcd_materiaprima')"
-            accept=".pdf,.dwg"
-          />
+          <label>Planos DWG / PDF</label>
+          <input type="file" (change)="onFileSelected($event, 'planos_rcd_materiaprima')" accept=".pdf,.dwg" />
         </div>
+
         <div class="file-group">
           <label>Documento técnico RCD como materia prima (PDF)</label>
-          <input
-            type="file"
-            (change)="onFileSelected($event, 'documento_tecnico_rcd_materiaprima')"
-            accept=".pdf"
-          />
+          <input type="file" (change)="onFileSelected($event, 'documento_tecnico_rcd_materiaprima')" accept=".pdf" />
         </div>
+
         <div class="file-group">
-          <label>Permisos y autorizaciones ambientales (RCD como materia prima)</label>
-          <input
-            type="file"
-            (change)="onFileSelected($event, 'permisos_rcd_materiaprima')"
-            accept=".pdf"
-          />
+          <label>Permisos ambientales RCD materia prima (PDF)</label>
+          <input type="file" (change)="onFileSelected($event, 'permisos_rcd_materiaprima')" accept=".pdf" />
         </div>
       </ng-container>
 
+      <!-- estructural -->
       <ng-container *ngSwitchCase="'receptor_rcd_estructural'">
         <div class="file-group">
           <label>Documento técnico RCD estructural (PDF)</label>
-          <input
-            type="file"
-            (change)="onFileSelected($event, 'documento_tecnico_rcd_estructural')"
-            accept=".pdf"
-          />
+          <input type="file" (change)="onFileSelected($event, 'documento_tecnico_rcd_estructural')" accept=".pdf" />
         </div>
+
         <div class="file-group">
-          <label>Planos topográficos en DWG y PDF</label>
-          <input
-            type="file"
-            (change)="onFileSelected($event, 'planos_topograficos_rcd')"
-            accept=".pdf,.dwg"
-          />
+          <label>Planos topográficos DWG / PDF</label>
+          <input type="file" (change)="onFileSelected($event, 'planos_topograficos_rcd')" accept=".pdf,.dwg" />
         </div>
+
         <div class="file-group">
-          <label>Complementar viabilidad ambiental para adecuacion de terreno (PDF)</label>
-          <input
-            type="file"
-            (change)="onFileSelected($event, 'viabilidad_ambiental_rcd')"
-            accept=".pdf"
-          />
+          <label>Viabilidad ambiental para adecuación del terreno (PDF)</label>
+          <input type="file" (change)="onFileSelected($event, 'viabilidad_ambiental_rcd')" accept=".pdf" />
         </div>
       </ng-container>
 
+      <!-- disposición final -->
       <ng-container *ngSwitchCase="'disposicion_final'">
         <div class="file-group">
-          <label>Medidas de manejo ambiental disposición final (PDF)</label>
-          <input
-            type="file"
-            (change)="onFileSelected($event, 'medidas_manejo_disp_final')"
-            accept=".pdf"
-          />
+          <label>Medidas manejo ambiental (PDF)</label>
+          <input type="file" (change)="onFileSelected($event, 'medidas_manejo_disp_final')" accept=".pdf" />
         </div>
+
         <div class="file-group">
-          <label>Permisos y autorizaciones ambientales disposición final (PDF)</label>
-          <input
-            type="file"
-            (change)="onFileSelected($event, 'permisos_disp_final')"
-            accept=".pdf"
-          />
+          <label>Permisos ambientales (PDF)</label>
+          <input type="file" (change)="onFileSelected($event, 'permisos_disp_final')" accept=".pdf" />
         </div>
+
         <div class="file-group">
           <label>Certificación POT disposición final (PDF)</label>
-          <input
-            type="file"
-            (change)="onFileSelected($event, 'certificacion_pot_disp_final')"
-            accept=".pdf"
-          />
+          <input type="file" (change)="onFileSelected($event, 'certificacion_pot_disp_final')" accept=".pdf" />
         </div>
       </ng-container>
     </ng-container>
   </div>
 
-  <!-- PASO 3: INFORMACIÓN EXTRA -->
-<div *ngIf="step === 3" [formGroup]="infoextra" class="infoextra-step">
-  <h3>Información adicional</h3>
+  <!-- PASO 3: INFO EXTRA -->
+  <div *ngIf="step === 3" [formGroup]="infoextra" class="infoextra-step">
+    <h3>Información adicional</h3>
 
-  <mat-form-field appearance="outline">
-    <mat-label>Fecha de expedición del PIN</mat-label>
-    <input matInput type="date" formControlName="fecha_expedicion_pin" />
-    <mat-error *ngIf="isInvalid('fecha_expedicion_pin', infoextra)">
-      Debes ingresar la fecha de expedición del PIN.
-    </mat-error>
-  </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Fecha de expedición del PIN</mat-label>
+      <input matInput type="date" formControlName="fecha_expedicion_pin" />
+      <mat-error *ngIf="isInvalid('fecha_expedicion_pin', infoextra)">
+        Debes ingresar la fecha de expedición del PIN.
+      </mat-error>
+    </mat-form-field>
 
-  <mat-form-field appearance="outline">
-    <mat-label>Consecutivo SIGOB</mat-label>
-    <input matInput formControlName="consecutivo_sigob" placeholder="Ej: 2025-000123" />
-    <mat-error *ngIf="isInvalid('consecutivo_sigob', infoextra)">
-      Debes ingresar el consecutivo SIGOB.
-    </mat-error>
-  </mat-form-field>
-</div>
+    <mat-form-field appearance="outline">
+      <mat-label>Consecutivo SIGOB</mat-label>
+      <input matInput formControlName="consecutivo_sigob" placeholder="Ej: 2025-000123" />
+      <mat-error *ngIf="isInvalid('consecutivo_sigob', infoextra)">
+        Debes ingresar el consecutivo SIGOB.
+      </mat-error>
+    </mat-form-field>
+  </div>
 
-  <!-- PASO 4: RESUMEN FINAL -->
+  <!-- PASO 4: RESUMEN -->
   <div *ngIf="step === 4" class="summary">
     <h3>Resumen final del trámite</h3>
     <p>Revisa que toda la información sea correcta antes de enviar.</p>
@@ -432,14 +398,17 @@ Certificado de Tradición y Libertad del inmueble
     <div class="summary-block">
       <h4>Datos de Contacto</h4>
       <p><strong>Tipo solicitante:</strong> {{ contacto.value.tipo_de_solicitante }}</p>
+
       <ng-container *ngIf="contacto.value.tipo_de_solicitante === 'Persona Natural'">
         <p><strong>Nombres:</strong> {{ contacto.value.nombres_y_apellidos }}</p>
         <p><strong>Documento:</strong> {{ contacto.value.documento_de_identidad }}</p>
       </ng-container>
+
       <ng-container *ngIf="contacto.value.tipo_de_solicitante === 'Persona Jurídica'">
         <p><strong>Razón social:</strong> {{ contacto.value.razon_social }}</p>
         <p><strong>NIT:</strong> {{ contacto.value.nit }}</p>
       </ng-container>
+
       <p><strong>Correo:</strong> {{ contacto.value.correo_electronico }}</p>
       <p><strong>Teléfono móvil:</strong> {{ contacto.value.telefono_movil }}</p>
       <p><strong>Localidad:</strong> {{ contacto.value.localidad }}</p>
@@ -448,8 +417,8 @@ Certificado de Tradición y Libertad del inmueble
         <strong>Dirección:</strong>
         {{ contacto.value.direccion_de_correspondencia_del_solicitante }}
       </p>
-      <p>Latitud: {{ gestor.get('latitud')?.value }}</p>
-      <p>Longitud: {{ gestor.get('longitud')?.value }}</p>
+      <p><strong>Latitud:</strong> {{ gestor.get('latitud')?.value }}</p>
+      <p><strong>Longitud:</strong> {{ gestor.get('longitud')?.value }}</p>
     </div>
 
     <div class="summary-block">
@@ -464,11 +433,15 @@ Certificado de Tradición y Libertad del inmueble
       <p><strong>Capacidad total (t):</strong> {{ gestor.value.capacidad_total_t }}</p>
     </div>
 
-      <div class="summary-block">
-    <h4>Información Extra</h4>
-    <p><strong>Fecha de expedición del PIN:</strong> {{ infoextra.value.fecha_expedicion_pin }}</p>
-    <p><strong>Consecutivo SIGOB:</strong> {{ infoextra.value.consecutivo_sigob }}</p>
-  </div>
+    <div class="summary-block">
+      <h4>Información Extra</h4>
+      <p>
+        <strong>Fecha de expedición del PIN:</strong>
+        {{ infoextra.value.fecha_expedicion_pin }}
+      </p>
+      <p><strong>Consecutivo SIGOB:</strong> {{ infoextra.value.consecutivo_sigob }}</p>
+    </div>
+
     <div class="summary-block">
       <h4>Documentos cargados</h4>
       <ul>
@@ -479,7 +452,10 @@ Certificado de Tradición y Libertad del inmueble
 
   <!-- BOTONES -->
   <div class="button-group">
-    <button mat-button type="button" (click)="prevStep()" [disabled]="step === 0">Anterior</button>
+    <button mat-button type="button" (click)="prevStep()" [disabled]="step === 0">
+      Anterior
+    </button>
+
     <button
       mat-raised-button
       color="primary"
@@ -489,6 +465,7 @@ Certificado de Tradición y Libertad del inmueble
     >
       Siguiente
     </button>
+
     <button mat-raised-button color="accent" type="submit" *ngIf="step === totalSteps - 1">
       Enviar
     </button>
