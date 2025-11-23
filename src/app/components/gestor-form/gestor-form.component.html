@@ -270,12 +270,22 @@
 
     <!-- DOCUMENTOS COMUNES -->
     <div class="file-group">
+
+
       <label>Documento de medidas de manejo ambiental (PDF) *</label>
       <input
         type="file"
         (change)="onFileSelected($event, 'medidas_manejo_ambiental')"
         accept=".pdf"
       />
+
+      <label>Carta de Solicitud (PDF) *</label>
+      <input type="file" (change)="onFileSelected($event, 'carta_solicitud')" accept=".pdf" />
+
+
+      <label>Carta de Solicitud (PDF) *</label>
+      <input type="file" (change)="onFileSelected($event, 'carta_solicitud')" accept=".pdf" />
+
     </div>
 
 <!-- DOCUMENTOS COMUNES -->

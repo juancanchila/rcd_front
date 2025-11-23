@@ -10,9 +10,32 @@
   <div *ngIf="step === 0" [formGroup]="proyecto">
 
 
-   
  <project-data  [group]="proyecto!"></project-data>
+ <!-- Fechas -->
+  
+    <div class="flexbox">
+      <div class="form-field">
+        <label>Fecha Inicio</label>
+        <input type="date" formControlName="fecha_inicio" [min]="minDate" max="2026-12-31" />
+      </div>
+
+      <div class="form-field">
+        <label>Fecha Final <span class="required">*</span></label>
+        <input type="date" formControlName="fecha_final" [min]="minDate" max="2026-12-31" />
+        <div class="error" *ngIf="isInvalid('fecha_final', proyecto)">Seleccionar fecha</div>
+      </div>
+    </div>
+
+    <div *ngIf="proyecto.errors?.['fechaInvalida']" class="error">
+      La fecha inicial no puede ser mayor que la fecha final.
+    </div>
+
+
+ 
 <map-picker (coordinates)="onMap($event)"></map-picker>
+<div class="error" *ngIf="proyecto.get('latitud')?.invalid && (proyecto.get('latitud')?.touched || proyecto.get('longitud')?.touched)">
+  Debes seleccionar una ubicación en el mapa.
+</div>
 
     <div class="form-actions">
       <button mat-flat-button color="primary" (click)="nextStep()">Siguiente</button>
@@ -479,12 +502,17 @@
   {{ proyecto.get('cantidad_de_rcd_a_generar_toneladas')?.value }}
 </p>
 <p>
+
+
   <strong>Latitud:</strong>
   {{ proyecto.get('latitud')?.value }}</p>
       <p >
         <strong>Longitud:</strong>
        {{ proyecto.get('longitud')?.value }}</p>
 <p>
+
+
+
 
 
       <h3>Documentos cargados</h3>
@@ -541,6 +569,8 @@
   <strong>Cantidad de RCD a generar (Toneladas):</strong>
   {{ proyecto.get('cantidad_de_rcd_a_generar_toneladas')?.value }}
 </p>
+
+
 <p>
   <strong>Latitud:</strong>
   {{ proyecto.get('latitud')?.value }}</p>
@@ -548,6 +578,9 @@
         <strong>Longitud:</strong>
        {{ proyecto.get('longitud')?.value }}</p>
 <p>
+
+
+
 <h2>Tipo de Licencia</h2>
 
 <div class="summary-section">
@@ -557,7 +590,15 @@
       {{ opcion }}
     </li>
   </ul>
+
+
   <ng-template #noUrbanizacion><p>No aplica.</p></ng-template>
+
+  <ng-template #noUrbanizacion><p>— No aplica.</p></ng-template>
+
+
+  <ng-template #noUrbanizacion><p>— No aplica.</p></ng-template>
+
 </div>
 
 <hr>
@@ -569,7 +610,15 @@
       {{ opcion }}
     </li>
   </ul>
+
+
   <ng-template #noConstruccion><p>No aplica.</p></ng-template>
+
+  <ng-template #noConstruccion><p>— No aplica.</p></ng-template>
+
+
+  <ng-template #noConstruccion><p>— No aplica.</p></ng-template>
+
 </div>
 
 <hr>
@@ -581,7 +630,15 @@
       {{ opcion }}
     </li>
   </ul>
+
+
   <ng-template #noBic><p>No aplica.</p></ng-template>
+
+  <ng-template #noBic><p>— No aplica.</p></ng-template>
+
+
+  <ng-template #noBic><p>— No aplica.</p></ng-template>
+
 </div>
 
 <hr>
@@ -593,7 +650,15 @@
       {{ opcion }}
     </li>
   </ul>
+
+
   <ng-template #noEspacio><p>No aplica.</p></ng-template>
+
+  <ng-template #noEspacio><p>— No aplica.</p></ng-template>
+
+
+  <ng-template #noEspacio><p>— No aplica.</p></ng-template>
+
 </div>
 
 <hr>

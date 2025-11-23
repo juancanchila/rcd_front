@@ -53,21 +53,7 @@
   </mat-form-field>
 
   <!-- Fechas -->
-  <div style="display: flex; gap: 12px;">
-    <mat-form-field appearance="outline" style="flex:1;">
-      <mat-label>Fecha Inicio</mat-label>
-      <input matInput [matDatepicker]="inicio" formControlName="fecha_inicio" />
-      <mat-datepicker-toggle matSuffix [for]="inicio"></mat-datepicker-toggle>
-      <mat-datepicker #inicio></mat-datepicker>
-    </mat-form-field>
-
-    <mat-form-field appearance="outline" style="flex:1;">
-      <mat-label>Fecha Final</mat-label>
-      <input matInput [matDatepicker]="final" formControlName="fecha_final" />
-      <mat-datepicker-toggle matSuffix [for]="final"></mat-datepicker-toggle>
-      <mat-datepicker #final></mat-datepicker>
-    </mat-form-field>
-  </div>
+  
 
   <!-- Nombre del Proyecto -->
   <mat-form-field appearance="outline">

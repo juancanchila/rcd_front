@@ -1,6 +1,6 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormArray } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormArray, AbstractControl, ValidationErrors } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -18,12 +18,17 @@ import { GeneratorGeneralDocumentsComponent } from '../generator-general-documen
 import { BigOrSmallGeneratorDocuments } from '../bigorsmall-generator-documents/bigorsmal-documents.component';
 import { MatExpansionModule } from "@angular/material/expansion";
 
+import { MatDatepicker, MatDatepickerModule } from "@angular/material/datepicker";
+
+
+
 @Component({
   selector: 'project-form',
   standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,
+      MatDatepickerModule,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
@@ -31,14 +36,19 @@ import { MatExpansionModule } from "@angular/material/expansion";
     MatProgressBarModule,
     ProjectDataComponent,
     MapPickerComponent,
+
+    MatExpansionModule,
+   
+
     MatExpansionModule
+
 ],
   templateUrl: './project-form.component.html',
   styleUrls: ['./project-form.component.css'],
 })
 export class ProjectFormComponent {
   @Output() saved = new EventEmitter<any>();
-
+public today: string = '';
   step = 0;
   totalSteps = 4;
 
@@ -50,7 +60,7 @@ export class ProjectFormComponent {
 
   transportadorId!: string | null;
   form: any;
-
+minDate: string;
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -58,6 +68,8 @@ export class ProjectFormComponent {
     private vehiculoSrv: VehiculoService,
     private archivoSrv: ArchivoService
   ) {
+     this.minDate = new Date().toISOString().split('T')[0];
+  
     this.transportadorId = this.route.snapshot.paramMap.get('id');
 
     // -------------------------------
@@ -72,7 +84,7 @@ export class ProjectFormComponent {
     latitud: ['', Validators.required],
     longitud: ['', Validators.required],
 
-    fecha_inicio: [''],
+    fecha_inicio: ['',Validators.required],
     fecha_final: ['', Validators.required],
 
     nombre_del_proyecto: ['', Validators.required],
@@ -80,7 +92,8 @@ export class ProjectFormComponent {
     datos_predios: this.fb.array([]),
 
     descripcion_del_proyecto_o_actividad_a_ejecutar: ['', Validators.required],
-
+area_a_intervenir_m2: [''],
+cantidad_de_rcd_a_generar_toneladas: [''],
 
 
       tipo_licencia_0100: this.fb.group({
@@ -132,7 +145,8 @@ export class ProjectFormComponent {
 
       return fechaInicio <= fechaFinal ? null : { fechaInvalida: true };
     },
-  });
+  }
+);
 
    this.form = this.fb.group({
       vehicleForm: this.vehicleForm,
@@ -176,6 +190,7 @@ export class ProjectFormComponent {
     // 🟩 DOCUMENTOS
     // -------------------------------
     this.vehicleDocumentsForm = this.fb.group({
+
 carta_solicitud: ['', Validators.required],
   descripcion_tecnica_proyecto: ['', Validators.required],
   certificado_tradicion_libertad: ['', Validators.required],
@@ -286,6 +301,30 @@ getResolucionNumero(): string | null {
   return this.proyecto.get('tipo_licencia_0100.resolucion_numero_0100')?.value || null;
 }
 
+
+//fecha
+// ts: project-form.component.ts (Dentro de ProjectFormComponent)
+
+getTodayDate(): string {
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const day = date.getDate().toString().padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
+// ts: project-form.component.ts (Dentro de ProjectFormComponent)
+
+/**
+ * Validador personalizado para asegurar que Fecha Final <= Fecha Inicial.
+ */
+// ts: ProjectFormComponent.ts (Dentro de la clase)
+
+// ts: ProjectFormComponent.component.ts (Dentro de la clase)
+
+// ts: ProjectFormComponent.ts (Dentro de la clase)
+
+
     // ============================================================
   // 🔹 MANEJO DE MAPA
   // ============================================================
@@ -389,8 +428,9 @@ getResolucionNumero(): string | null {
   // ENVÍO DEL FORMULARIO
   // -------------------------------
   async onSubmit(): Promise<void> {
-    if (this.vehicleForm.invalid || this.vehicleDocumentsForm.invalid || this.infoextra.invalid) {
-      this.vehicleForm.markAllAsTouched();
+    console.log(this.proyecto,'proye',this.vehicleDocumentsForm,'doc',this.infoextra,'infoex')
+    if (this.proyecto.invalid || this.vehicleDocumentsForm.invalid || this.infoextra.invalid) {
+      this.proyecto.markAllAsTouched();
       this.vehicleDocumentsForm.markAllAsTouched();
       this.infoextra.markAllAsTouched();
       this.toast.showError('Completa todos los campos obligatorios.');

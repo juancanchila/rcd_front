@@ -55,22 +55,88 @@ mat-radio-group {
   gap: 16px;
   margin-bottom: 16px;
 }
+.form-host {
+  display: block;
+  padding: 32px 24px;
+  max-width: 720px;
+  margin: 48px auto;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
 
+mat-progress-bar {
+  margin-bottom: 32px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+mat-form-field {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+/* ------------------------------ */
+/* 📁 ESTILO PROFESIONAL ARCHIVOS */
+/* ------------------------------ */
 .file-group {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
+  padding: 14px;
+  border: 1px solid #dcdcdc;
+  border-radius: 12px;
+  background: #fafafa;
+  transition: all 0.2s ease;
+}
+
+.file-group:hover {
+  background: #f2f2f2;
+  border-color: #c7c7c7;
 }
 
 .file-group label {
-  font-weight: 500;
-  color: #333;
+  font-weight: 600;
+  color: #1a1a1a;
 }
 
-.file-group .error {
+/* Input file custom */
+.file-group input[type="file"] {
+  padding: 10px;
+  border-radius: 10px;
+  background: #fff;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.file-group input[type="file"]::file-selector-button {
+  background: #1976d2;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s ease;
+}
+
+.file-group input[type="file"]::file-selector-button:hover {
+  background: #105a9c;
+}
+
+.file-group small {
+  font-size: 12px;
+  color: #555;
+}
+
+.file-group .error,
+.error {
   color: #d32f2f;
   font-size: 13px;
+  margin-top: 3px;
 }
+
 
 .file-group small {
   font-size: 12px;
@@ -92,3 +158,38 @@ pre {
 
 .vehicle-documents { display: grid; gap: 18px; padding: 12px; }
 .section-title { font-weight: 600; color: #1f1f1f; }
+/* Separación entre los panels */
+mat-expansion-panel {
+  margin-bottom: 16px; /* Ajusta la separación entre cada panel */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Opcional: sombra suave */
+  border-radius: 8px; /* Bordes redondeados */
+}
+
+/* Quitar la animación de colapso y mantenerlos abiertos visualmente */
+mat-expansion-panel .mat-expansion-panel-body {
+  display: block !important;
+  transition: none !important;
+  overflow: visible !important;
+}
+
+/* Cambiar color de fondo si quieres distinguir cada panel */
+mat-expansion-panel-header {
+  background-color: #f5f5f5; 
+  border-bottom: 1px solid #ddd;
+}
+.error {
+  color: #d32f2f;
+  font-size: 13px;
+  margin-top: 3px;
+}
+.form-field {
+  flex: 1 1 300px;
+  display: flex;
+  flex-direction: column;
+}
+.flexbox {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}

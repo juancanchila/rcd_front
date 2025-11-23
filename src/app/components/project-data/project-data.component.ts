@@ -1,6 +1,6 @@
-﻿import { Component, Input, OnInit } from '@angular/core';
+﻿import { Component, inject, Input, OnInit, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, FormArray, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, Validators, ReactiveFormsModule, ControlContainer, FormGroupDirective } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -37,17 +37,29 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
   
 ],
   templateUrl: './project-data.component.html',
+  viewProviders: [
+    {
+      provide: ControlContainer,
+      useFactory: () => inject(ControlContainer, { optional: true, skipSelf: true }),
+    },
+  ],
+  
 })
 export class ProjectDataComponent implements OnInit {
+
+  
   @Input() group!: FormGroup;
 
   barriosActuales$: Observable<string[]> = of([]);
   barriosFiltrados$: Observable<string[]> = of([]);
 
-  constructor(private http: HttpClient, private fb: FormBuilder) {}
+  constructor(private http: HttpClient, private fb: FormBuilder) {
+   
+  }
 
   ngOnInit(): void {
     // Inicializar FormArray vacío
+  
     if (!this.group.get('datos_predios')) {
       this.group.addControl('datos_predios', this.fb.array([]));
     }
