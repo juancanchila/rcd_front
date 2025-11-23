@@ -36,7 +36,7 @@ import { GestorFormComponent } from './components/gestor-form/gestor-form.compon
 import { ResolutionFormComponent } from './components/resolution-form/resolution-form.component';
 import { GeneradorForm } from './components/generator-form/generador-form.component';
 import { ProjectFormComponent } from './components/project-form/project-form.component';
-import { TvisitForm } from './components/tvisit-form/tvisit-form';
+import { VisitaTecnicaFormComponent } from './components/tvisit-form/visita-tecnica-form.component';
 
 export const routes: Routes = [
   // 🔹 Rutas públicas
@@ -112,7 +112,7 @@ export const routes: Routes = [
       },
         {
         path: 'proyecto/:id/visita-create',
-        component: TvisitForm,
+        component: VisitaTecnicaFormComponent,
         canActivate: [AuthGuard],
       },
       {

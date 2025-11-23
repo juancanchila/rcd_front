@@ -1,0 +1,80 @@
+<div class="form-host">
+
+  <mat-progress-bar mode="determinate" [value]="(step+1) * (100/totalSteps)"></mat-progress-bar>
+
+  <!-- PASO 0: DATOS DE LA VISITA -->
+  <div *ngIf="step === 0" [formGroup]="visitaForm">
+    <h3>Datos de la visita</h3>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Fecha de creación</mat-label>
+      <input matInput type="date" formControlName="fechaCreacion" />
+      <mat-error *ngIf="isInvalid('fechaCreacion', visitaForm)">Requerido</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Fecha de visita</mat-label>
+      <input matInput type="date" formControlName="fechaVisita" />
+      <mat-error *ngIf="isInvalid('fechaVisita', visitaForm)">Requerido</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Estado</mat-label>
+      <input matInput formControlName="estado" />
+      <mat-error *ngIf="isInvalid('estado', visitaForm)">Requerido</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Estado del proyecto</mat-label>
+      <input matInput formControlName="estadoProyecto" />
+      <mat-error *ngIf="isInvalid('estadoProyecto', visitaForm)">Requerido</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Observaciones</mat-label>
+      <textarea matInput formControlName="observaciones"></textarea>
+    </mat-form-field>
+
+    <div class="form-actions">
+      <button mat-flat-button color="primary" (click)="nextStep()">Siguiente</button>
+    </div>
+  </div>
+
+  <!-- PASO 1: DOCUMENTOS -->
+  <div *ngIf="step === 1" [formGroup]="documentosForm">
+    <h3>Documentos</h3>
+
+    <div class="file-group">
+      <label>Acta *</label>
+      <input type="file" (change)="onFileSelected($event, 'actaFile')" />
+      <mat-error *ngIf="isInvalid('actaFile', documentosForm)">Requerido</mat-error>
+    </div>
+
+    <div class="form-actions">
+      <button mat-stroked-button type="button" (click)="prevStep()">Anterior</button>
+      <button mat-flat-button color="primary" type="button" (click)="nextStep()">Siguiente</button>
+    </div>
+  </div>
+
+  <!-- PASO 2: RESUMEN -->
+  <div *ngIf="step === 2">
+    <h3>Resumen</h3>
+
+    <p><strong>Fecha creación:</strong> {{ visitaForm.get('fechaCreacion')?.value }}</p>
+    <p><strong>Fecha visita:</strong> {{ visitaForm.get('fechaVisita')?.value }}</p>
+    <p><strong>Estado:</strong> {{ visitaForm.get('estado')?.value }}</p>
+    <p><strong>Estado proyecto:</strong> {{ visitaForm.get('estadoProyecto')?.value }}</p>
+    <p><strong>Observaciones:</strong> {{ visitaForm.get('observaciones')?.value }}</p>
+
+    <h4>Documentos cargados</h4>
+    <ul>
+      <li *ngFor="let doc of getUploadedDocuments()">{{ doc }}</li>
+    </ul>
+
+    <div class="form-actions">
+      <button mat-stroked-button (click)="prevStep()">Anterior</button>
+      <button mat-flat-button color="accent" (click)="onSubmit()">Guardar</button>
+    </div>
+  </div>
+
+</div>
