@@ -381,105 +381,110 @@ export class GestorFormComponent implements OnInit {
     if (this.step > 0) this.step--;
   }
 
-  // ==========================
-  // BUILD PAYLOAD
-  // ==========================
-  private buildPayload() {
-    const c = this.contacto.value;
-    const g = this.gestor.value;
-    const d = this.documentos.value;
-    const i = this.infoextra.value;
+// ==========================
+// BUILD PAYLOAD
+// ==========================
+private buildPayload(idReceptor?: number) {
+  const c = this.contacto.value;
+  const g = this.gestor.value;
+  const i = this.infoextra.value;
 
-    const nombres = c.nombres_y_apellidos?.trim().split(' ') || [];
- const tipoDocumento = c.tipo_de_solicitante === 'Persona Natural' ? 'cedula' : 'NIT';
-const numeroDocumento = c.tipo_de_solicitante === 'Persona Natural'
-  ? (c.documento_de_identidad?.trim() || null)
-  : (c.nit?.trim() || null);
-
-  console.log('Tipo Documento:', numeroDocumento);
+  const nombres = c.nombres_y_apellidos?.trim().split(' ') || [];
+  const tipoDocumento = c.tipo_de_solicitante === 'Persona Natural' ? 'cedula' : 'NIT';
+  const numeroDocumento = tipoDocumento === 'cedula'
+    ? c.documento_de_identidad?.trim() || null
+    : c.nit?.trim() || null;
 
   const receptor = {
-  tipoDocumento,
-  numeroDocumento,
-  primerNombre: tipoDocumento === 'cedula' ? nombres[0] || null : null,
-  segundoNombre: tipoDocumento === 'cedula' ? nombres[1] || null : null,
-  primerApellidos: tipoDocumento === 'cedula' ? nombres[2] || null : null,
-  segundoApellido: tipoDocumento === 'cedula' ? nombres[3] || null : null,
-  razonSocial: tipoDocumento === 'NIT' ? c.razon_social || null : null,
-  direccion: `${c.direccion_de_correspondencia_del_solicitante || ''}, ${c.localidad || ''}, ${c.barrio || ''}`.trim() || null,
-  correoElectronico: c.correo_electronico || null,
-  celular: c.telefono_movil || null,
-  clave: i.clave || null,
-};
+    tipoDocumento,
+    numeroDocumento,
+    primerNombre: tipoDocumento === 'cedula' ? nombres[0] || null : null,
+    segundoNombre: tipoDocumento === 'cedula' ? nombres[1] || null : null,
+    primerApellidos: tipoDocumento === 'cedula' ? nombres[2] || null : null,
+    segundoApellido: tipoDocumento === 'cedula' ? nombres[3] || null : null,
+    razonSocial: tipoDocumento === 'NIT' ? c.razon_social || null : null,
+    direccion: `${c.direccion_de_correspondencia_del_solicitante || ''}, ${c.localidad || ''}, ${c.barrio || ''}`.trim() || null,
+    correoElectronico: c.correo_electronico || null,
+    celular: c.telefono_movil || null,
+    clave: i.clave || null,
+  };
 
-    const resolucion = {
-      fechaInicio: g.fecha_inicio,
-      fechaFin: g.fecha_final,
-      tipo: g.actividad_ejecutada,
-      tipoAprovechamiento: g.tipo_rcd,
-      capacidadTotal: g.capacidad_total_t,
-      coordenadaX: g.latitud,
-      coordenadaY: g.longitud,
-      cantidad_autorizada: i.cantidad_autorizada != null ? `${i.cantidad_autorizada} toneladas` : '0 toneladas',
-      fechaExpedicionPIN: i.fecha_expedicion_pin,
-      codigoRadicadoSIGOD: i.consecutivo_sigob,
-      archivos: { ...this.archivos },
-    };
+  const resolucion = {
+    numeroResolucion: g.numero_resolucion || null,
+    ubicacion: g.ubicacion || null,
+    localidad: g.localidad || null,
+    naturalezaActividad: g.naturaleza_actividad || null,
+    tipoAprovechamiento: g.tipo_aprovechamiento || null,
+    fechaInicio: g.fecha_inicio || null,
+    fechaFin: g.fecha_final || null,
+    cantidadRCD: g.cantidad_rcd || null,
+    CoordenadaX: g.latitud || null,
+    CoordenadaY: g.longitud || null,
+    fechaExpedicionPIN: i.fecha_expedicion_pin || null,
+    codigoRadicadoSIGOD: i.consecutivo_sigob || null,
+    idReceptor: idReceptor || null, // ahora se puede pasar después de crear el receptor
+    tipo: g.actividad_ejecutada || null,
+    cantidad_autorizada: i.cantidad_autorizada != null ? `${i.cantidad_autorizada} toneladas` : '0 toneladas',
+  };
 
-    return { receptor, resolucion };
+  return { receptor, resolucion };
+}
+
+// ==========================
+// SUBMIT
+// ==========================
+async onSubmit() {
+  if (this.form.invalid) {
+    this.form.markAllAsTouched();
+    this.snack.open('Completa todos los campos antes de guardar.', 'Cerrar', { duration: 3000 });
+    return;
   }
 
-  // ==========================
-  // SUBMIT
-  // ==========================
-  async onSubmit() {
-    if (this.form.invalid) {
-      this.form.markAllAsTouched();
-      this.snack.open('Completa todos los campos antes de guardar.', 'Cerrar', { duration: 3000 });
-      return;
-    }
+  try {
+    // 1. Crear receptor
+    const { receptor } = this.buildPayload();
+    const respReceptor: any = await this.receptorSrv.crearReceptor(receptor);
+    const idReceptor = respReceptor?.idreceptor ?? respReceptor?.data?.idreceptor;
+    if (!idReceptor) throw new Error('No se obtuvo ID del receptor');
 
-    try {
-      const { receptor, resolucion } = this.buildPayload();
-      // 1. Crear receptor
-      const respReceptor: any = await this.receptorSrv.crearReceptor(receptor);
-      const idReceptor = respReceptor?.idreceptor ?? respReceptor?.data?.idreceptor;
-      if (!idReceptor) throw new Error('No se obtuvo ID del receptor');
+    // 2. Crear payload de resolución con el ID del receptor ya disponible
+    const { resolucion } = this.buildPayload(idReceptor);
 
-      // 2. Subir archivos
-      const archivosRenombrados: any = {};
-      for (const key of Object.keys(this.archivos)) {
-        const file = this.archivos[key];
-        if (file instanceof File) {
-          const nuevoNombre = `${idReceptor}_${key}_${file.name}`;
-          const renamedFile = new File([file], nuevoNombre, { type: file.type });
+    // 3. Subir archivos renombrados con el ID del receptor
+    const archivosRenombrados: any = {};
+    for (const key of Object.keys(this.archivos)) {
+      const file = this.archivos[key];
+      if (file instanceof File) {
+        const nuevoNombre = `${idReceptor}_${key}_${file.name}`;
+        const renamedFile = new File([file], nuevoNombre, { type: file.type });
 
-          const resp: any = await this.archivoSrv.subirArchivo(renamedFile);
-          archivosRenombrados[key] = resp?.filename ?? nuevoNombre;
-        }
+        const resp: any = await this.archivoSrv.subirArchivo(renamedFile);
+        archivosRenombrados[key] = resp?.filename ?? nuevoNombre;
       }
-
-      // 3. Crear resolución
-      const respResolucion: any = await this.resolucionSrv.crearResolucion({
-        ...resolucion,
-        receptorId: idReceptor,
-      });
-
-      // 4. Actualizar receptor con archivos y resolución
-      await this.receptorSrv.actualizarReceptor(idReceptor, {
-        resoluciones: [respResolucion?.idresolucion],
-        archivos: archivosRenombrados,
-      });
-
-      this.saved.emit({
-        receptor: respReceptor,
-        resolucion: respResolucion,
-        archivos: archivosRenombrados,
-      });
-      this.toast.showSuccess('Formulario guardado correctamente.');
-    } catch (error) {
-      console.error(error);
-      this.toast.showError('Error al guardar el formulario.');
     }
+
+    // 4. Crear resolución
+    const respResolucion: any = await this.resolucionSrv.crearResolucion({
+      ...resolucion,
+      receptorId: idReceptor,
+    });
+
+    // 5. Actualizar receptor con resolución y archivos
+    await this.receptorSrv.actualizarReceptor(idReceptor, {
+      resoluciones: [respResolucion?.idresolucion],
+      archivos: archivosRenombrados,
+    });
+
+    this.saved.emit({
+      receptor: respReceptor,
+      resolucion: respResolucion,
+      archivos: archivosRenombrados,
+    });
+
+    this.toast.showSuccess('Formulario guardado correctamente.');
+  } catch (error) {
+    console.error(error);
+    this.toast.showError('Error al guardar el formulario.');
   }
+}
 }
