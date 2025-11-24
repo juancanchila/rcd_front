@@ -18,6 +18,7 @@ import { ToastService } from '../../services/toast.service';
 import { ReceptorService } from '../../services/receptor.service';
 import { ArchivoService } from '../../services/archivo.service';
 import { ResolucionService } from '../../services/resolucion.service';
+import { MapPickerComponent } from '../map-picker/map-picker.component';
 
 @Component({
   selector: 'gestor-form',
@@ -35,6 +36,7 @@ import { ResolucionService } from '../../services/resolucion.service';
     MatButtonModule,
     MatAutocompleteModule,
     MatIconModule,
+      MapPickerComponent
   ],
   templateUrl: './gestor-form.component.html',
   styleUrls: ['./gestor-form.component.css'],
@@ -54,11 +56,14 @@ export class GestorFormComponent implements OnInit {
   barriosFiltrados$: Observable<string[]> = of([]);
   barriosFiltradosGestor$: Observable<string[]> = of([]);
 
-  archivos: { [key: string]: File | null } = {};
-  rcdNoAprovechable: { [key: string]: any } = {};
-  uploadedDocs: File[] = [];
+ 
   minDate: string;
-  rcdAprovechable: { [key: string]: any } = {};
+  rcdAprovechable: { [key: string]: string };
+  rcdNoAprovechable: { [key: string]: string };
+
+  archivos: { [key: string]: File | null } = {};
+  uploadedDocs: File[] = [];
+ 
 
 
   constructor(
@@ -167,7 +172,29 @@ export class GestorFormComponent implements OnInit {
     this.setupBarriosGestor();
     this.setupTipoSolicitanteValidation();
     this.setupDocumentosValidation();
+    this.setupTipoRcd();
   }
+
+
+  private setupTipoRcd() {
+  this.gestor.get('tipo_rcd')!.valueChanges
+    .pipe(startWith(this.gestor.get('tipo_rcd')!.value))
+    .subscribe(tipo => {
+      const keysA = Object.keys(this.rcdAprovechable);
+      const keysNA = Object.keys(this.rcdNoAprovechable);
+
+      if (tipo === 'aprovechable') {
+        // Limpiar no aprovechable
+        keysNA.forEach(k => this.gestor.get(k)?.setValue(false));
+      } else if (tipo === 'no_aprovechable') {
+        // Limpiar aprovechable
+        keysA.forEach(k => this.gestor.get(k)?.setValue(false));
+      } else {
+        // Limpiar todos
+        [...keysA, ...keysNA].forEach(k => this.gestor.get(k)?.setValue(false));
+      }
+    });
+}
 
   // ==========================
   // VALIDACIONES DINÁMICAS
@@ -217,6 +244,7 @@ export class GestorFormComponent implements OnInit {
       });
   }
 
+  
   // ==========================
   // BARRIOS
   // ==========================
@@ -234,6 +262,15 @@ export class GestorFormComponent implements OnInit {
     loc$.subscribe(() => brrCtrl.setValue(''));
   }
 
+    // ============================================================
+  // 🔹 MANEJO DE MAPA
+  // ============================================================
+  onMap(coords: { latitude: number; longitude: number }): void {
+    this.form.patchValue({
+      latitud: coords.latitude,
+      longitud: coords.longitude,
+    });
+  }
   private setupBarriosGestor() {
     const locCtrl = this.gestor.get('localidad_gestor')!;
     const brrCtrl = this.gestor.get('barrio_gestor')!;
@@ -248,6 +285,13 @@ export class GestorFormComponent implements OnInit {
     loc$.subscribe(() => brrCtrl.setValue(''));
   }
 
+  get rcdAprovechableKeys(): string[] {
+  return Object.keys(this.rcdAprovechable);
+}
+
+get rcdNoAprovechableKeys(): string[] {
+  return Object.keys(this.rcdNoAprovechable);
+}
   // ==========================
   // VALIDACIONES GENERALES
   // ==========================
@@ -343,9 +387,12 @@ export class GestorFormComponent implements OnInit {
       return;
     }
 
+
+
     try {
       const { receptor, resolucion } = this.buildPayload();
 
+      console.log('Archivos renombrados:', resolucion.archivos) ;
       // 1. Crear receptor
       const respReceptor: any = await this.receptorSrv.crearReceptor(receptor);
       const idReceptor = respReceptor?.idreceptor ?? respReceptor?.data?.idreceptor;
@@ -363,6 +410,7 @@ for (const key of Object.keys(this.archivos)) {
     archivosRenombrados[key] = resp?.filename ?? nuevoNombre;
   }
 }
+
 
 
       // 3. Crear resolución
