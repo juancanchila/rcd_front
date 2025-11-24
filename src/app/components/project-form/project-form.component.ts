@@ -55,7 +55,7 @@ public today: string = '';
 
   vehicleForm!: FormGroup;
   proyecto!: FormGroup;
-  vehicleDocumentsForm!: FormGroup;
+  DocumentsForm!: FormGroup;
   infoextra!: FormGroup;
    documentos!: FormGroup;
 
@@ -152,7 +152,7 @@ cantidad_de_rcd_a_generar_toneladas: [''],
 
    this.form = this.fb.group({
     proyecto: this.proyecto,
-      vehicleDocumentsForm:this.vehicleDocumentsForm,      
+      DocumentsForm:this.DocumentsForm,      
       infoextra: this.infoextra,
     });
 
@@ -165,6 +165,7 @@ cantidad_de_rcd_a_generar_toneladas: [''],
     this.infoextra = this.fb.group({
       fecha_expedicion_pin: ['',Validators.required],
       consecutivo_sigob: ['',Validators.required],
+      valor:[0,Validators.required]
     });
 
  this.proyecto.addControl('latitud', this.fb.control(null));
@@ -175,7 +176,7 @@ cantidad_de_rcd_a_generar_toneladas: [''],
     // -------------------------------
     // 🟩 DOCUMENTOS
     // -------------------------------
-    this.vehicleDocumentsForm = this.fb.group({
+    this.DocumentsForm = this.fb.group({
 
 carta_solicitud: ['', Validators.required],
   descripcion_tecnica_proyecto: ['', Validators.required],
@@ -304,7 +305,7 @@ getTodayDate(): string {
       this.step === 0
         ? this.proyecto
         : this.step === 1
-        ? this.vehicleDocumentsForm
+        ? this.DocumentsForm
         : this.infoextra;
 
     if (g.invalid) {
@@ -326,15 +327,15 @@ getTodayDate(): string {
   onFileSelected(event: Event, controlName: string) {
     const input = event.target as HTMLInputElement;
     if (!input.files || input.files.length === 0) {
-      this.vehicleDocumentsForm.get(controlName)?.setValue('');
+      this.DocumentsForm.get(controlName)?.setValue('');
       return;
     }
-    this.vehicleDocumentsForm.get(controlName)?.setValue(input.files[0]);
+    this.DocumentsForm.get(controlName)?.setValue(input.files[0]);
   }
 // project-form.component.ts
 
   getUploadedDocuments(): string[] {
-    const docs = this.vehicleDocumentsForm.value;
+    const docs = this.DocumentsForm.value;
     return Object.keys(docs)
       .filter((key) => docs[key])
       .map((key) => key.replace(/_/g, ' '));
@@ -355,104 +356,66 @@ getTodayDate(): string {
 
    buildPayload() { 
         const v = this.proyecto.value;
-    const d = this.vehicleDocumentsForm.value;
+    const d = this.DocumentsForm.value;
     const i = this.infoextra.value;
 
     return {
      // -----------------------------
     // 📌 Información general del proyecto
     // -----------------------------
-    idgenerador: this.generadorId,
-    tipo_de_generador: v.tipo_de_generador,
-    localidad_proyecto: v.localidad_proyecto,
-    barrio_proyecto: v.barrio_proyecto,
-    direccion_del_proyecto: v.direccion_del_proyecto,
 
-    latitud: v.latitud,
-    longitud: v.longitud,
-
-    fecha_inicio: v.fecha_inicio,
-    fecha_final: v.fecha_final,
-
-    nombre_del_proyecto: v.nombre_del_proyecto,
-
-    descripcion_del_proyecto_o_actividad_a_ejecutar:
-      v.descripcion_del_proyecto_o_actividad_a_ejecutar,
-
-    area_a_intervenir_m2: v.area_a_intervenir_m2,
-    cantidad_de_rcd_a_generar_toneladas:
-      v.cantidad_de_rcd_a_generar_toneladas,
-
-    // -----------------------------
-    // 📌 Datos de predios (array)
-    // -----------------------------
-    datos_predios: v.datos_predios?.map((predio: any) => ({
+    idProyecto: null, // AUTO_INCREMENT
+  nombre: v.nombre_del_proyecto,
+  ubicacion: v.direccion_del_proyecto,
+  tipoUsoPredio: v.datos_predios?.map((predio: any) => ({
       ...predio,
     })),
+  localidad: v.localidad_proyecto,
+  barrio: v.barrio_proyecto,
+  matriculaInmobiliaria: "123456",
+  referenciaCatastral: v.referencia_catastral,
+  fechaInicio: v.fecha_inicio,
+  fechaFin: v.fecha_final,
+  estadoProyecto: "No reportado",
+  numLicenciaUrbanismo: null,
+  fechaExpLicUrb: null,
+  titularLicUrb: null,
+  tipoIdentLicUrb: null,
+  identificacionLicUrb: null,
+  curaduria: d.planos_aprobados_curaduria,
+  areaVerdes: null,
+  areaConstruccionAprobada: null,
+  valor: null,
+  volumenEstimGenrEscombros: null,
+  volumenEstimEscavaciones: null,
+  idgenerador: this.generadorId,
+  fechaExpedicionPIN: v.fecha_expedicion_pin,
+  codigoRadicadoSIGOD: v.consecutivo_sigob,
+  CoordenadaX: v.latitud != null ? String(v.latitud) : null,
+  CoordenadaY: v.longitud != null ? String(v.longitud) : null,
 
+  tipo: v.tipo_de_generador,
+
+    //-------------------------
+   
     // -----------------------------
-    // 📌 Tipo de licencia 0100
+    // 📌 Documentos proyecto
     // -----------------------------
-    tipo_licencia_0100: {
-      urbanizacion_block_0100: {
-        desarrollo: v.tipo_licencia_0100.urbanizacion_block_0100.desarrollo,
-        saneamiento: v.tipo_licencia_0100.urbanizacion_block_0100.saneamiento,
-        reurbanizacion: v.tipo_licencia_0100.urbanizacion_block_0100.reurbanizacion,
-      },
-
-      construccion_block_0100: {
-        obra_nueva: v.tipo_licencia_0100.construccion_block_0100.obra_nueva,
-        ampliacion: v.tipo_licencia_0100.construccion_block_0100.ampliacion,
-        adecuacion: v.tipo_licencia_0100.construccion_block_0100.adecuacion,
-        modificacion: v.tipo_licencia_0100.construccion_block_0100.modificacion,
-        restauracion: v.tipo_licencia_0100.construccion_block_0100.restauracion,
-        reforzamiento_estructural:
-          v.tipo_licencia_0100.construccion_block_0100.reforzamiento_estructural,
-        demolicion: v.tipo_licencia_0100.construccion_block_0100.demolicion,
-        reconstruccion: v.tipo_licencia_0100.construccion_block_0100.reconstruccion,
-        cerramiento: v.tipo_licencia_0100.construccion_block_0100.cerramiento,
-        otra_construccion: v.tipo_licencia_0100.construccion_block_0100.otra_construccion,
-        otra_cual_construccion_0100:
-          v.tipo_licencia_0100.construccion_block_0100.otra_cual_construccion_0100,
-      },
-
-      bic_block_0100: {
-        intervenciones_minimas:
-          v.tipo_licencia_0100.bic_block_0100.intervenciones_minimas,
-        primeros_auxilios:
-          v.tipo_licencia_0100.bic_block_0100.primeros_auxilios,
-        reparaciones_locativas:
-          v.tipo_licencia_0100.bic_block_0100.reparaciones_locativas,
-      },
-
-      espacio_publico_block_0100: {
-        instalaciones_redes:
-          v.tipo_licencia_0100.espacio_publico_block_0100.instalaciones_redes,
-        andenes_parques:
-          v.tipo_licencia_0100.espacio_publico_block_0100.andenes_parques,
-        otra_espacio_publico:
-          v.tipo_licencia_0100.espacio_publico_block_0100.otra_espacio_publico,
-        otra_cual_espacio_publico_0100:
-          v.tipo_licencia_0100.espacio_publico_block_0100
-            .otra_cual_espacio_publico_0100,
-      },
-
-      planes_pot_0100: v.tipo_licencia_0100.planes_pot_0100,
-
-      demolicion_ruina_block_0100: {
-        demolicion_respuesta_0100:
-          v.tipo_licencia_0100.demolicion_ruina_block_0100
-            .demolicion_respuesta_0100,
-      },
-
-      resolucion_numero_0100:
-        v.tipo_licencia_0100.resolucion_numero_0100,
-    },
-
-    // -----------------------------
-    // 📌 Documentos vehiculares
-    // -----------------------------
-
+  carta_solicitud: d.carta_solicitud,
+  descripcion_tecnica_proyecto: d.descripcion_tecnica_proyecto,
+  certificado_tradicion_libertad: d.certificado_tradicion_libertad,
+  autorizacion_bic: d.autorizacion_bic,
+  registro_defuncion: d.registro_defuncion,
+  cuadro_cantidades_rcd: d.cuadro_cantidades_rcd,
+  soporte_pago_pin: d.soporte_pago_pin,
+  cronograma_actividades: d.cronograma_actividades,
+  planos_aprobados_curaduria: d.planos_aprobados_curaduria,
+  contrato_obra_otros: d.contrato_obra_otros,
+  resolucion_curaduria_o_licencia: d.resolucion_curaduria_o_licencia,
+  programa_manejo_rcd_pdf: d.programa_manejo_rcd_pdf,
+  autorizacion_bicBigOrSmall: d.autorizacion_bicBigOrSmall,
+  certificado_no_requiere_licencia: d.certificado_no_requiere_licencia,
+  permiso_ocupacion_cauce: d.permiso_ocupacion_cauce,
     
 
     // -----------------------------
@@ -462,6 +425,7 @@ getTodayDate(): string {
     fecha_expedicion_pin: i.fecha_expedicion_pin,
     fecha_vencimiento_pin: this.addOneYear(i.fecha_expedicion_pin),
     consecutivo_sigob: i.consecutivo_sigob,
+    
     };
   }
 
@@ -469,10 +433,10 @@ getTodayDate(): string {
   // ENVÍO DEL FORMULARIO
   // -------------------------------
   async onSubmit(): Promise<void> {
-    console.log(this.proyecto,'proye',this.vehicleDocumentsForm,'doc',this.infoextra,'infoex')
-    if (this.proyecto.invalid || this.vehicleDocumentsForm.invalid || this.infoextra.invalid) {
+    console.log(this.proyecto,'proye',this.DocumentsForm,'doc',this.infoextra,'infoex')
+    if (this.proyecto.invalid || this.DocumentsForm.invalid || this.infoextra.invalid) {
       this.proyecto.markAllAsTouched();
-      this.vehicleDocumentsForm.markAllAsTouched();
+      this.DocumentsForm.markAllAsTouched();
       this.infoextra.markAllAsTouched();
       this.toast.showError('Completa todos los campos obligatorios.');
       return;
@@ -485,7 +449,7 @@ getTodayDate(): string {
       const idProyecto = ProyecroBaseResp.idProyecto;
 
       // 2️⃣ SUBIR DOCUMENTOS CON NOMBRE RENOMBRADO
-      const docs = this.vehicleDocumentsForm.value;
+      const docs = this.DocumentsForm.value;
       const archivosRenombrados: any = {};
 
       for (const key of Object.keys(docs)) {
@@ -505,12 +469,21 @@ getTodayDate(): string {
 
       // 3️⃣ ACTUALIZAR VEHÍCULO CON NOMBRES FINALES
       const proyectoUpdate = {
-        ...payload,
-        carta_solicitud: archivosRenombrados['carta_solicitud'] || null,
-        descripcion_tecnica_proyecto: archivosRenombrados['descripcion_tecnica_proyecto'] || null,
-        certificado_tradicion_libertad: archivosRenombrados['certificado_tradicion_libertad'] || null,
-        autorizacion_bic: archivosRenombrados['autorizacion_bic'] || null,
-        licenciaTransito: archivosRenombrados['registro_defuncion'] || null,
+      carta_solicitud: archivosRenombrados['carta_solicitud'] || null,
+  descripcion_tecnica_proyecto: archivosRenombrados['descripcion_tecnica_proyecto'] || null,
+  certificado_tradicion_libertad: archivosRenombrados['certificado_tradicion_libertad'] || null,
+  autorizacion_bic: archivosRenombrados['autorizacion_bic'] || null,
+  registro_defuncion: archivosRenombrados['registro_defuncion'] || null,
+  cuadro_cantidades_rcd: archivosRenombrados['cuadro_cantidades_rcd'] || null,
+  soporte_pago_pin: archivosRenombrados['soporte_pago_pin'] || null,
+  cronograma_actividades: archivosRenombrados['cronograma_actividades'] || null,
+  planos_aprobados_curaduria: archivosRenombrados['planos_aprobados_curaduria'] || null,
+  contrato_obra_otros: archivosRenombrados['contrato_obra_otros'] || null,
+  resolucion_curaduria_o_licencia: archivosRenombrados['resolucion_curaduria_o_licencia'] || null,
+  programa_manejo_rcd_pdf: archivosRenombrados['programa_manejo_rcd_pdf'] || null,
+  autorizacion_bicBigOrSmall: archivosRenombrados['autorizacion_bicBigOrSmall'] || null,
+  certificado_no_requiere_licencia: archivosRenombrados['certificado_no_requiere_licencia'] || null,
+  permiso_ocupacion_cauce: archivosRenombrados['permiso_ocupacion_cauce'] || null,
         
       };
 
