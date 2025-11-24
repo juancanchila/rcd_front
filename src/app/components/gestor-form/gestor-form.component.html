@@ -428,6 +428,14 @@
       </mat-error>
     </mat-form-field>
 
+    <mat-form-field appearance="outline">
+      <mat-label>Numero de Resolución</mat-label>
+      <input matInput formControlName="numeroResolucion" placeholder="Ej: 2025-000123" />
+      <mat-error *ngIf="isInvalid('numeroResolucion', infoextra)">
+        Debes ingresar el Numero de Resolución
+      </mat-error>
+    </mat-form-field>
+
     <!-- NUEVO CAMPO: Clave -->
     <mat-form-field appearance="outline">
       <mat-label>Clave</mat-label>
@@ -502,6 +510,8 @@
       </p>
       <p><strong>Consecutivo SIGOB:</strong> {{ infoextra.value.consecutivo_sigob }}</p>
       <p><strong>Clave:</strong> {{ infoextra.value.clave }}</p>
+  <p><strong>Numero de Resolución:</strong> {{ infoextra.value.numeroResolucion }}</p>
+      
       <p>
         <strong>Capacidad Total Autorizada :</strong> Toneladas :
         {{ infoextra.value.cantidad_autorizada }}
