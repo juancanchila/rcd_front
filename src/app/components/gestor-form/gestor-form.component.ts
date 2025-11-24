@@ -36,7 +36,7 @@ import { MapPickerComponent } from '../map-picker/map-picker.component';
     MatButtonModule,
     MatAutocompleteModule,
     MatIconModule,
-      MapPickerComponent
+    MapPickerComponent,
   ],
   templateUrl: './gestor-form.component.html',
   styleUrls: ['./gestor-form.component.css'],
@@ -56,15 +56,12 @@ export class GestorFormComponent implements OnInit {
   barriosFiltrados$: Observable<string[]> = of([]);
   barriosFiltradosGestor$: Observable<string[]> = of([]);
 
- 
   minDate: string;
   rcdAprovechable: { [key: string]: string };
   rcdNoAprovechable: { [key: string]: string };
 
   archivos: { [key: string]: File | null } = {};
   uploadedDocs: File[] = [];
- 
-
 
   constructor(
     private fb: FormBuilder,
@@ -75,8 +72,7 @@ export class GestorFormComponent implements OnInit {
     private resolucionSrv: ResolucionService,
     private snack: MatSnackBar
   ) {
-
-      this.rcdAprovechable = {
+    this.rcdAprovechable = {
       '1_1': 'Productos de excavación y sobrantes de la adecuación de terreno',
       '1_2': 'Productos de cimentaciones y pilotajes',
       '1_3': 'Pétreos: hormigón, arenas, gravas...',
@@ -88,7 +84,7 @@ export class GestorFormComponent implements OnInit {
       '2_2': 'Estado no aprovechable',
       '2_3': 'Características de peligrosidad',
     };
-     this.minDate = new Date().toISOString().split('T')[0];
+    this.minDate = new Date().toISOString().split('T')[0];
     // ==========================
     // FORMULARIOS
     // ==========================
@@ -106,33 +102,36 @@ export class GestorFormComponent implements OnInit {
       direccion_de_correspondencia_del_solicitante: ['', Validators.required],
     });
 
-    this.gestor = this.fb.group({
-      localidad_gestor: ['', Validators.required],
-      barrio_gestor: ['', Validators.required],
-      direccion_gestor: ['', Validators.required],
-      fecha_inicio: [''],
-      fecha_final: ['', Validators.required],
-      tipo_rcd: [''],
-      actividad_ejecutada: ['', Validators.required],
-      capacidad_t_mes: [0, [Validators.required, Validators.min(0)]],
-      capacidad_total_t: [0, [Validators.required, Validators.min(0)]],
-      '1_1': [false],
-      '1_2': [false],
-      '1_3': [false],
-      '1_4': [false],
-      '2_1': [false],
-      '2_2': [false],
-      '2_3': [false],
-      latitud: [null, Validators.required],
-      longitud: [null, Validators.required],
-    }, {
-      validators: (form) => {
-        const inicio = form.get('fecha_inicio')?.value;
-        const fin = form.get('fecha_final')?.value;
-        if (!inicio || !fin) return null;
-        return new Date(inicio) <= new Date(fin) ? null : { fechaInvalida: true };
+    this.gestor = this.fb.group(
+      {
+        localidad_gestor: ['', Validators.required],
+        barrio_gestor: ['', Validators.required],
+        direccion_gestor: ['', Validators.required],
+        fecha_inicio: [''],
+        fecha_final: ['', Validators.required],
+        tipo_rcd: [''],
+        actividad_ejecutada: ['', Validators.required],
+        capacidad_t_mes: [0, [Validators.required, Validators.min(0)]],
+        capacidad_total_t: [0, [Validators.required, Validators.min(0)]],
+        '1_1': [false],
+        '1_2': [false],
+        '1_3': [false],
+        '1_4': [false],
+        '2_1': [false],
+        '2_2': [false],
+        '2_3': [false],
+        latitud: [null, Validators.required],
+        longitud: [null, Validators.required],
       },
-    });
+      {
+        validators: (form) => {
+          const inicio = form.get('fecha_inicio')?.value;
+          const fin = form.get('fecha_final')?.value;
+          if (!inicio || !fin) return null;
+          return new Date(inicio) <= new Date(fin) ? null : { fechaInvalida: true };
+        },
+      }
+    );
 
     this.documentos = this.fb.group({
       identificacion: [''],
@@ -155,6 +154,8 @@ export class GestorFormComponent implements OnInit {
     this.infoextra = this.fb.group({
       fecha_expedicion_pin: ['', Validators.required],
       consecutivo_sigob: ['', Validators.required],
+      cantidad_autorizada: ['', Validators.required],
+      clave: ['', Validators.required],
     });
 
     this.form = this.fb.group({
@@ -165,8 +166,6 @@ export class GestorFormComponent implements OnInit {
     });
   }
 
-
-
   ngOnInit(): void {
     this.setupBarrios();
     this.setupBarriosGestor();
@@ -175,34 +174,35 @@ export class GestorFormComponent implements OnInit {
     this.setupTipoRcd();
   }
 
-
   private setupTipoRcd() {
-  this.gestor.get('tipo_rcd')!.valueChanges
-    .pipe(startWith(this.gestor.get('tipo_rcd')!.value))
-    .subscribe(tipo => {
-      const keysA = Object.keys(this.rcdAprovechable);
-      const keysNA = Object.keys(this.rcdNoAprovechable);
+    this.gestor
+      .get('tipo_rcd')!
+      .valueChanges.pipe(startWith(this.gestor.get('tipo_rcd')!.value))
+      .subscribe((tipo) => {
+        const keysA = Object.keys(this.rcdAprovechable);
+        const keysNA = Object.keys(this.rcdNoAprovechable);
 
-      if (tipo === 'aprovechable') {
-        // Limpiar no aprovechable
-        keysNA.forEach(k => this.gestor.get(k)?.setValue(false));
-      } else if (tipo === 'no_aprovechable') {
-        // Limpiar aprovechable
-        keysA.forEach(k => this.gestor.get(k)?.setValue(false));
-      } else {
-        // Limpiar todos
-        [...keysA, ...keysNA].forEach(k => this.gestor.get(k)?.setValue(false));
-      }
-    });
-}
+        if (tipo === 'aprovechable') {
+          // Limpiar no aprovechable
+          keysNA.forEach((k) => this.gestor.get(k)?.setValue(false));
+        } else if (tipo === 'no_aprovechable') {
+          // Limpiar aprovechable
+          keysA.forEach((k) => this.gestor.get(k)?.setValue(false));
+        } else {
+          // Limpiar todos
+          [...keysA, ...keysNA].forEach((k) => this.gestor.get(k)?.setValue(false));
+        }
+      });
+  }
 
   // ==========================
   // VALIDACIONES DINÁMICAS
   // ==========================
   private setupTipoSolicitanteValidation() {
-    this.contacto.get('tipo_de_solicitante')!.valueChanges
-      .pipe(startWith(this.contacto.get('tipo_de_solicitante')!.value))
-      .subscribe(tipo => {
+    this.contacto
+      .get('tipo_de_solicitante')!
+      .valueChanges.pipe(startWith(this.contacto.get('tipo_de_solicitante')!.value))
+      .subscribe((tipo) => {
         const identificacion = this.documentos.get('identificacion')!;
         const certExt = this.documentos.get('cert_ext_rep_legal')!;
 
@@ -224,27 +224,44 @@ export class GestorFormComponent implements OnInit {
   }
 
   private setupDocumentosValidation() {
-    this.gestor.get('actividad_ejecutada')!.valueChanges
-      .pipe(startWith(this.gestor.get('actividad_ejecutada')!.value))
-      .subscribe(act => {
-        Object.keys(this.documentos.controls).forEach(ctrl => this.documentos.get(ctrl)!.clearValidators());
-        ['medidas_manejo_ambiental', 'permisos_licencias_autorizaciones', 'certificacion_pot']
-          .forEach(ctrl => this.documentos.get(ctrl)!.setValidators([Validators.required]));
+    this.gestor
+      .get('actividad_ejecutada')!
+      .valueChanges.pipe(startWith(this.gestor.get('actividad_ejecutada')!.value))
+      .subscribe((act) => {
+        Object.keys(this.documentos.controls).forEach((ctrl) =>
+          this.documentos.get(ctrl)!.clearValidators()
+        );
+        [
+          'medidas_manejo_ambiental',
+          'permisos_licencias_autorizaciones',
+          'certificacion_pot',
+        ].forEach((ctrl) => this.documentos.get(ctrl)!.setValidators([Validators.required]));
         if (act === 'receptor_rcd_materia_prima') {
-          ['planos_rcd_materiaprima', 'documento_tecnico_rcd_materiaprima', 'permisos_rcd_materiaprima']
-            .forEach(ctrl => this.documentos.get(ctrl)!.setValidators([Validators.required]));
+          [
+            'planos_rcd_materiaprima',
+            'documento_tecnico_rcd_materiaprima',
+            'permisos_rcd_materiaprima',
+          ].forEach((ctrl) => this.documentos.get(ctrl)!.setValidators([Validators.required]));
         } else if (act === 'receptor_rcd_estructural') {
-          ['licencia_urbanistica_rcd', 'viabilidad_ambiental_rcd', 'documento_tecnico_rcd_estructural', 'planos_topograficos_rcd']
-            .forEach(ctrl => this.documentos.get(ctrl)!.setValidators([Validators.required]));
+          [
+            'licencia_urbanistica_rcd',
+            'viabilidad_ambiental_rcd',
+            'documento_tecnico_rcd_estructural',
+            'planos_topograficos_rcd',
+          ].forEach((ctrl) => this.documentos.get(ctrl)!.setValidators([Validators.required]));
         } else if (act === 'disposicion_final') {
-          ['medidas_manejo_disp_final', 'permisos_disp_final', 'certificacion_pot_disp_final']
-            .forEach(ctrl => this.documentos.get(ctrl)!.setValidators([Validators.required]));
+          [
+            'medidas_manejo_disp_final',
+            'permisos_disp_final',
+            'certificacion_pot_disp_final',
+          ].forEach((ctrl) => this.documentos.get(ctrl)!.setValidators([Validators.required]));
         }
-        Object.keys(this.documentos.controls).forEach(ctrl => this.documentos.get(ctrl)!.updateValueAndValidity());
+        Object.keys(this.documentos.controls).forEach((ctrl) =>
+          this.documentos.get(ctrl)!.updateValueAndValidity()
+        );
       });
   }
 
-  
   // ==========================
   // BARRIOS
   // ==========================
@@ -254,19 +271,28 @@ export class GestorFormComponent implements OnInit {
     const loc$ = locCtrl.valueChanges.pipe(startWith(locCtrl.value));
     const brr$ = brrCtrl.valueChanges.pipe(startWith(brrCtrl.value));
     const barrios$ = loc$.pipe(
-      switchMap(loc => loc ? this.http.get<any[]>(`assets/${loc}.json`).pipe(map(d => d.map(i => i.name)), catchError(() => of([]))) : of([]))
+      switchMap((loc) =>
+        loc
+          ? this.http.get<any[]>(`assets/${loc}.json`).pipe(
+              map((d) => d.map((i) => i.name)),
+              catchError(() => of([]))
+            )
+          : of([])
+      )
     );
     this.barriosFiltrados$ = combineLatest([barrios$, brr$]).pipe(
-      map(([barrios, txt]) => !txt ? barrios : barrios.filter(b => b.toLowerCase().includes((''+txt).toLowerCase())))
+      map(([barrios, txt]) =>
+        !txt ? barrios : barrios.filter((b) => b.toLowerCase().includes(('' + txt).toLowerCase()))
+      )
     );
     loc$.subscribe(() => brrCtrl.setValue(''));
   }
 
-    // ============================================================
+  // ============================================================
   // 🔹 MANEJO DE MAPA
   // ============================================================
   onMap(coords: { latitude: number; longitude: number }): void {
-    this.form.patchValue({
+    this.gestor.patchValue({
       latitud: coords.latitude,
       longitud: coords.longitude,
     });
@@ -277,21 +303,30 @@ export class GestorFormComponent implements OnInit {
     const loc$ = locCtrl.valueChanges.pipe(startWith(locCtrl.value));
     const brr$ = brrCtrl.valueChanges.pipe(startWith(brrCtrl.value));
     const barrios$ = loc$.pipe(
-      switchMap(loc => loc ? this.http.get<any[]>(`assets/${loc}.json`).pipe(map(d => d.map(i => i.name)), catchError(() => of([]))) : of([]))
+      switchMap((loc) =>
+        loc
+          ? this.http.get<any[]>(`assets/${loc}.json`).pipe(
+              map((d) => d.map((i) => i.name)),
+              catchError(() => of([]))
+            )
+          : of([])
+      )
     );
     this.barriosFiltradosGestor$ = combineLatest([barrios$, brr$]).pipe(
-      map(([barrios, txt]) => !txt ? barrios : barrios.filter(b => b.toLowerCase().includes((''+txt).toLowerCase())))
+      map(([barrios, txt]) =>
+        !txt ? barrios : barrios.filter((b) => b.toLowerCase().includes(('' + txt).toLowerCase()))
+      )
     );
     loc$.subscribe(() => brrCtrl.setValue(''));
   }
 
   get rcdAprovechableKeys(): string[] {
-  return Object.keys(this.rcdAprovechable);
-}
+    return Object.keys(this.rcdAprovechable);
+  }
 
-get rcdNoAprovechableKeys(): string[] {
-  return Object.keys(this.rcdNoAprovechable);
-}
+  get rcdNoAprovechableKeys(): string[] {
+    return Object.keys(this.rcdNoAprovechable);
+  }
   // ==========================
   // VALIDACIONES GENERALES
   // ==========================
@@ -326,7 +361,14 @@ get rcdNoAprovechableKeys(): string[] {
   // MULTISTEP
   // ==========================
   nextStep() {
-    const grp = this.step === 0 ? this.contacto : this.step === 1 ? this.gestor : this.step === 2 ? this.documentos : this.infoextra;
+    const grp =
+      this.step === 0
+        ? this.contacto
+        : this.step === 1
+        ? this.gestor
+        : this.step === 2
+        ? this.documentos
+        : this.infoextra;
     if (grp.invalid) {
       grp.markAllAsTouched();
       this.snack.open('Completa todos los campos obligatorios.', 'Cerrar', { duration: 3000 });
@@ -335,7 +377,9 @@ get rcdNoAprovechableKeys(): string[] {
     if (this.step < this.totalSteps - 1) this.step++;
   }
 
-  prevStep() { if (this.step > 0) this.step--; }
+  prevStep() {
+    if (this.step > 0) this.step--;
+  }
 
   // ==========================
   // BUILD PAYLOAD
@@ -347,30 +391,38 @@ get rcdNoAprovechableKeys(): string[] {
     const i = this.infoextra.value;
 
     const nombres = c.nombres_y_apellidos?.trim().split(' ') || [];
-    const tipoDocumento = c.tipo_de_solicitante === 'Persona Natural' ? 'cedula' : 'NIT';
-    const numeroDocumento = tipoDocumento === 'cedula' ? c.documento_de_identidad : c.nit;
+ const tipoDocumento = c.tipo_de_solicitante === 'Persona Natural' ? 'cedula' : 'NIT';
+const numeroDocumento = c.tipo_de_solicitante === 'Persona Natural'
+  ? (c.documento_de_identidad?.trim() || null)
+  : (c.nit?.trim() || null);
 
-    const receptor = {
-      tipoDocumento,
-      numeroDocumento,
-      primerNombre: tipoDocumento === 'cedula' ? nombres[0] || '' : '',
-      segundoNombre: tipoDocumento === 'cedula' ? nombres[1] || '' : '',
-      primerApellido: tipoDocumento === 'cedula' ? nombres[2] || '' : '',
-      segundoApellido: tipoDocumento === 'cedula' ? nombres[3] || '' : '',
-      razonSocial: tipoDocumento === 'NIT' ? c.razon_social || null : null,
-      direccion: c.direccion_de_correspondencia_del_solicitante,
-      correoElectronico: c.correo_electronico,
-      telefono: c.telefono_movil,
-    };
+  console.log('Tipo Documento:', numeroDocumento);
+
+  const receptor = {
+  tipoDocumento,
+  numeroDocumento,
+  primerNombre: tipoDocumento === 'cedula' ? nombres[0] || null : null,
+  segundoNombre: tipoDocumento === 'cedula' ? nombres[1] || null : null,
+  primerApellidos: tipoDocumento === 'cedula' ? nombres[2] || null : null,
+  segundoApellido: tipoDocumento === 'cedula' ? nombres[3] || null : null,
+  razonSocial: tipoDocumento === 'NIT' ? c.razon_social || null : null,
+  direccion: `${c.direccion_de_correspondencia_del_solicitante || ''}, ${c.localidad || ''}, ${c.barrio || ''}`.trim() || null,
+  correoElectronico: c.correo_electronico || null,
+  celular: c.telefono_movil || null,
+  clave: i.clave || null,
+};
 
     const resolucion = {
       fechaInicio: g.fecha_inicio,
       fechaFin: g.fecha_final,
-      actividad: g.actividad_ejecutada,
+      tipo: g.actividad_ejecutada,
       tipoAprovechamiento: g.tipo_rcd,
       capacidadTotal: g.capacidad_total_t,
       coordenadaX: g.latitud,
       coordenadaY: g.longitud,
+      cantidad_autorizada: i.cantidad_autorizada != null ? `${i.cantidad_autorizada} toneladas` : '0 toneladas',
+      fechaExpedicionPIN: i.fecha_expedicion_pin,
+      codigoRadicadoSIGOD: i.consecutivo_sigob,
       archivos: { ...this.archivos },
     };
 
@@ -387,31 +439,25 @@ get rcdNoAprovechableKeys(): string[] {
       return;
     }
 
-
-
     try {
       const { receptor, resolucion } = this.buildPayload();
-
-      console.log('Archivos renombrados:', resolucion.archivos) ;
       // 1. Crear receptor
       const respReceptor: any = await this.receptorSrv.crearReceptor(receptor);
       const idReceptor = respReceptor?.idreceptor ?? respReceptor?.data?.idreceptor;
       if (!idReceptor) throw new Error('No se obtuvo ID del receptor');
 
       // 2. Subir archivos
-   const archivosRenombrados: any = {};
-for (const key of Object.keys(this.archivos)) {
-  const file = this.archivos[key];
-  if (file instanceof File) {
-    const nuevoNombre = `${idReceptor}_${key}_${file.name}`;
-    const renamedFile = new File([file], nuevoNombre, { type: file.type });
+      const archivosRenombrados: any = {};
+      for (const key of Object.keys(this.archivos)) {
+        const file = this.archivos[key];
+        if (file instanceof File) {
+          const nuevoNombre = `${idReceptor}_${key}_${file.name}`;
+          const renamedFile = new File([file], nuevoNombre, { type: file.type });
 
-    const resp: any = await this.archivoSrv.subirArchivo(renamedFile);
-    archivosRenombrados[key] = resp?.filename ?? nuevoNombre;
-  }
-}
-
-
+          const resp: any = await this.archivoSrv.subirArchivo(renamedFile);
+          archivosRenombrados[key] = resp?.filename ?? nuevoNombre;
+        }
+      }
 
       // 3. Crear resolución
       const respResolucion: any = await this.resolucionSrv.crearResolucion({
@@ -422,10 +468,14 @@ for (const key of Object.keys(this.archivos)) {
       // 4. Actualizar receptor con archivos y resolución
       await this.receptorSrv.actualizarReceptor(idReceptor, {
         resoluciones: [respResolucion?.idresolucion],
-        archivos: archivosRenombrados
+        archivos: archivosRenombrados,
       });
 
-      this.saved.emit({ receptor: respReceptor, resolucion: respResolucion, archivos: archivosRenombrados });
+      this.saved.emit({
+        receptor: respReceptor,
+        resolucion: respResolucion,
+        archivos: archivosRenombrados,
+      });
       this.toast.showSuccess('Formulario guardado correctamente.');
     } catch (error) {
       console.error(error);
