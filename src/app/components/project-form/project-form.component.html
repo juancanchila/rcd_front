@@ -55,9 +55,7 @@
         accept=".pdf" 
     />
     
-    <div class="error" *ngIf="isInvalid('carta_solicitud', DocumentsForm)">
-        Debes adjuntar la Carta de Solicitud para continuar.
-    </div>
+   
 </div>
 <!---->
 <div class="file-group">
@@ -72,9 +70,7 @@
         accept=".pdf"
     />
     <p class="help-text">Debe incluir planos, ubicación, área intervenida y objetivo del proyecto.</p>
-    <div class="error" >
-        Debes adjuntar la Descripción Técnica del Proyecto.
-    </div>
+    
 </div>
 <div class="file-group">
     <label [class.required]="isRequired('certificado_tradicion_libertad')">
@@ -88,9 +84,7 @@
         accept=".pdf"
     />
     <p class="help-text">Fecha de expedición no mayor a 3 meses.</p>
-    <div class="error" >
-        Debes adjuntar el Certificado de Tradición y Libertad.
-    </div>
+ 
 </div>
 <div class="file-group">
     <label [class.required]="isRequired('autorizacion_bic')">
@@ -104,9 +98,7 @@
         accept=".pdf"
     />
     <p class="help-text">Solo en caso de que el inmueble esté catalogado como BIC.</p>
-    <div class="error" >
-        Debes adjuntar la autorización de intervención de BIC si aplica.
-    </div>
+  
 </div>
 <div class="file-group" >
     
@@ -134,9 +126,7 @@
         <li>Copia del registro civil de nacimiento de los hijos o registro de matrimonio del cónyuge (según el caso).</li>
     </ul>
 
-    <div class="error">
-        Debes adjuntar el registro de defunción del propietario si aplica.
-    </div>
+   
 </div>
 </div>
 
@@ -151,9 +141,7 @@
         accept=".pdf" 
     />
     
-    <div class="error" *ngIf="isInvalid('carta_solicitud', DocumentsForm)">
-        Debes adjuntar la Carta de Solicitud para continuar.
-    </div>
+    
 </div>
 <!---->
 <div class="file-group">
@@ -168,9 +156,7 @@
         accept=".pdf"
     />
     <p class="help-text">Debe incluir planos, ubicación, área intervenida y objetivo del proyecto.</p>
-    <div class="error" >
-        Debes adjuntar la Descripción Técnica del Proyecto.
-    </div>
+  
 </div>
 <div class="file-group">
     <label [class.required]="isRequired('certificado_tradicion_libertad')">
@@ -184,9 +170,7 @@
         accept=".pdf"
     />
     <p class="help-text">Fecha de expedición no mayor a 3 meses.</p>
-    <div class="error" >
-        Debes adjuntar el Certificado de Tradición y Libertad.
-    </div>
+   
 </div>
 <div class="file-group">
     <label [class.required]="isRequired('autorizacion_bic')">
@@ -200,9 +184,7 @@
         accept=".pdf"
     />
     <p class="help-text">Solo en caso de que el inmueble esté catalogado como BIC.</p>
-    <div class="error" >
-        Debes adjuntar la autorización de intervención de BIC si aplica.
-    </div>
+    
 </div>
 <div class="file-group" >
     
@@ -230,9 +212,7 @@
         <li>Copia del registro civil de nacimiento de los hijos o registro de matrimonio del cónyuge (según el caso).</li>
     </ul>
 
-    <div class="error">
-        Debes adjuntar el registro de defunción del propietario si aplica.
-    </div>
+   
 </div>
 
 <h3 class="section-title">Documentos Para Pequeños y Grandes Generadores</h3>
@@ -270,9 +250,7 @@
         accept=".pdf" 
     />
     <p class="help-text">Comprobante de pago asociado al trámite ambiental.</p>
-    <div class="error" >
-        Debes adjuntar el soporte de pago del PIN.
-    </div>
+  
 </div>
 <div class="file-group">
     <label class="required">
@@ -287,9 +265,7 @@
     />
     <p class="help-text">Debe incluir las fechas estimadas y responsables de cada actividad.</p>
     
-    <div class="error" *ngIf="false"> 
-        Debes adjuntar el Cronograma de Actividades.
-    </div>
+
 </div>
 <div class="file-group">
     <label class="required">
@@ -304,9 +280,7 @@
     />
     <p class="help-text">Planos oficiales debidamente aprobados por la curaduría urbana.</p>
     
-    <div class="error" *ngIf="false"> 
-        Debes adjuntar los planos aprobados por curaduría.
-    </div>
+ 
 </div>
 <div class="file-group">
     <label class="required">
@@ -322,9 +296,7 @@
     <p class="help-text">
         Aplica si la solicitud del PIN la realiza el contratista de obra.
     </p>
-    <div class="error" *ngIf="false"> 
-        Debes adjuntar el Contrato de Obra y sus otrosí.
-    </div>
+   
 </div>
 <div class="file-group">
     <label class="required">
@@ -340,9 +312,7 @@
     <p class="help-text">
         Puede ser licencia urbanística, de intervención u ocupación del espacio público, o licencia ambiental (según aplique).
     </p>
-    <div class="error" *ngIf="false"> 
-        Debes adjuntar la licencia o resolución correspondiente.
-    </div>
+    
 </div>
 <div class="file-group">
     <label class="required">
@@ -358,9 +328,7 @@
     <p class="help-text">
         Formulado según los requisitos mínimos de la Resolución 1257 de 2021 y los establecidos por la autoridad ambiental.
     </p>
-    <div class="error" *ngIf="false"> 
-        Debes adjuntar el Programa de Manejo Ambiental de RCD.
-    </div>
+   
 </div>
 <div class="file-group">
     <label>
@@ -376,9 +344,7 @@
     <p class="help-text">
         Expedido por la Alcaldía Mayor de Cartagena (artículos 9 al 12 del Decreto 0404 de 2024).
     </p>
-    <div class="error" *ngIf="false"> 
-        Debes adjuntar la autorización BIC.
-    </div>
+  
 </div>
 <div class="file-group">
     <label>
@@ -393,9 +359,7 @@
     <p class="help-text">
         Certificado expedido por la Secretaría de Planeación donde conste que no se requiere licencia de intervención y ocupación de espacio público.
     </p>
-    <div class="error" *ngIf="false"> 
-        Debes adjuntar el Certificado de Planeación.
-    </div>
+  
 </div>
 <div class="file-group">
     <label>
@@ -410,9 +374,7 @@
     <p class="help-text">
         Copia del acto administrativo a través del cual se otorga el permiso de ocupación de cauce.
     </p>
-    <div class="error" *ngIf="false">
-        Debes adjuntar el Permiso de ocupación de cauce.
-    </div>
+   
 </div>
 
   <!-- 📝 Nota general -->

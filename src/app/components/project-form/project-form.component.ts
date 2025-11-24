@@ -367,9 +367,9 @@ getTodayDate(): string {
     idProyecto: null, // AUTO_INCREMENT
   nombre: v.nombre_del_proyecto,
   ubicacion: v.direccion_del_proyecto,
-  tipoUsoPredio: v.datos_predios?.map((predio: any) => ({
-      ...predio,
-    })),
+ // Corrección:
+tipoUsoPredio: v.datos_predios && v.datos_predios.length > 0
+    ? v.datos_predios[0].referencia_catastral: null, // Envía una cadena vacía si no hay datos.
   localidad: v.localidad_proyecto,
   barrio: v.barrio_proyecto,
   matriculaInmobiliaria: "123456",
@@ -385,7 +385,7 @@ getTodayDate(): string {
   curaduria: d.planos_aprobados_curaduria,
   areaVerdes: null,
   areaConstruccionAprobada: null,
-  valor: null,
+  valor:i.valor ,
   volumenEstimGenrEscombros: null,
   volumenEstimEscavaciones: null,
   idgenerador: this.generadorId,
@@ -401,21 +401,21 @@ getTodayDate(): string {
     // -----------------------------
     // 📌 Documentos proyecto
     // -----------------------------
-  carta_solicitud: d.carta_solicitud,
-  descripcion_tecnica_proyecto: d.descripcion_tecnica_proyecto,
-  certificado_tradicion_libertad: d.certificado_tradicion_libertad,
-  autorizacion_bic: d.autorizacion_bic,
-  registro_defuncion: d.registro_defuncion,
-  cuadro_cantidades_rcd: d.cuadro_cantidades_rcd,
-  soporte_pago_pin: d.soporte_pago_pin,
-  cronograma_actividades: d.cronograma_actividades,
-  planos_aprobados_curaduria: d.planos_aprobados_curaduria,
-  contrato_obra_otros: d.contrato_obra_otros,
-  resolucion_curaduria_o_licencia: d.resolucion_curaduria_o_licencia,
-  programa_manejo_rcd_pdf: d.programa_manejo_rcd_pdf,
-  autorizacion_bicBigOrSmall: d.autorizacion_bicBigOrSmall,
-  certificado_no_requiere_licencia: d.certificado_no_requiere_licencia,
-  permiso_ocupacion_cauce: d.permiso_ocupacion_cauce,
+  carta_solicitud: this.extractFilename(d.carta_solicitud),
+  descripcion_tecnica_proyecto: this.extractFilename(d.descripcion_tecnica_proyecto),
+  certificado_tradicion_libertad: this.extractFilename(d.certificado_tradicion_libertad),
+  autorizacion_bic: this.extractFilename(d.autorizacion_bic),
+  registro_defuncion: this.extractFilename(d.registro_defuncion),
+  cuadro_cantidades_rcd: this.extractFilename(d.cuadro_cantidades_rcd),
+  soporte_pago_pin: this.extractFilename(d.soporte_pago_pin),
+  cronograma_actividades: this.extractFilename(d.cronograma_actividades),
+  planos_aprobados_curaduria: this.extractFilename(d.planos_aprobados_curaduria),
+  contrato_obra_otros: this.extractFilename(d.contrato_obra_otros),
+  resolucion_curaduria_o_licencia: this.extractFilename(d.resolucion_curaduria_o_licencia),
+  programa_manejo_rcd_pdf: this.extractFilename(d.programa_manejo_rcd_pdf),
+  autorizacion_bicBigOrSmall: this.extractFilename(d.autorizacion_bicBigOrSmall),
+  certificado_no_requiere_licencia: this.extractFilename(d.certificado_no_requiere_licencia),
+  permiso_ocupacion_cauce: this.extractFilename(d.permiso_ocupacion_cauce),
     
 
     // -----------------------------
