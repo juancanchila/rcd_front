@@ -3,13 +3,16 @@
 </mat-toolbar>
 
 <div class="content-wrapper" *ngIf="!loading; else loadingTpl">
-  <!-- Formulario -->
+
+  <!-- FORMULARIO -->
   <mat-card>
     <mat-card-header>
       <mat-card-title>Consultar PIN</mat-card-title>
     </mat-card-header>
+
     <mat-card-content>
       <form [formGroup]="consultaForm" (ngSubmit)="consultar()">
+
         <mat-form-field appearance="fill" class="full-width">
           <mat-label>Tipo de PIN</mat-label>
           <mat-select formControlName="tipo" required>
@@ -28,15 +31,21 @@
         <button mat-raised-button color="primary" type="submit" [disabled]="consultaForm.invalid">
           Consultar
         </button>
+
       </form>
     </mat-card-content>
   </mat-card>
 
-  <!-- Generador -->
+
+
+  <!-- ========================== -->
+  <!--      GENERADOR             -->
+  <!-- ========================== -->
   <mat-card *ngIf="generador">
     <mat-card-header>
       <mat-card-title>📂 Proyectos del Generador</mat-card-title>
     </mat-card-header>
+
     <mat-card-content>
       <table *ngIf="proyectos.length > 0" class="tabla-proyectos">
         <thead>
@@ -48,6 +57,7 @@
             <th>Ver PIN</th>
           </tr>
         </thead>
+
         <tbody>
           <tr *ngFor="let proyecto of proyectos">
             <td>{{ proyecto.nombre }}</td>
@@ -62,17 +72,23 @@
           </tr>
         </tbody>
       </table>
+
       <p *ngIf="proyectos.length === 0" class="sin-datos">
-        No hay proyectos registrados para este generador.
+        No hay proyectos registrados.
       </p>
     </mat-card-content>
   </mat-card>
 
-  <!-- Transportador -->
+
+
+  <!-- ========================== -->
+  <!--      TRANSPORTADOR         -->
+  <!-- ========================== -->
   <mat-card *ngIf="transportador">
     <mat-card-header>
       <mat-card-title>🚚 Vehículos del Transportador</mat-card-title>
     </mat-card-header>
+
     <mat-card-content>
       <table *ngIf="vehiculos.length > 0" class="tabla-vehiculos">
         <thead>
@@ -84,12 +100,13 @@
             <th>Ver PIN</th>
           </tr>
         </thead>
+
         <tbody>
           <tr *ngFor="let vehiculo of vehiculos">
             <td>{{ vehiculo.placaVehiculo }}</td>
             <td>{{ vehiculo.modelo }}</td>
-         <td>{{ vehiculo.capacidad }} kg</td>
-<td>{{ vehiculo.pin }}</td>
+            <td>{{ vehiculo.capacidad }}</td>
+            <td>{{ vehiculo.pin }}</td>
             <td>
               <button mat-icon-button (click)="goToPinVehiculo(vehiculo.id)">
                 <mat-icon>picture_as_pdf</mat-icon>
@@ -98,86 +115,109 @@
           </tr>
         </tbody>
       </table>
+
       <p *ngIf="vehiculos.length === 0" class="sin-datos">
         No hay vehículos registrados para este transportador.
       </p>
     </mat-card-content>
   </mat-card>
 
-  <!-- Vehículo por placa -->
-  <mat-card *ngIf="vehiculo">
+
+
+
+  <!-- ========================== -->
+  <!--    🚗 MÚLTIPLES VEHÍCULOS  -->
+  <!-- ========================== -->
+  <mat-card *ngIf="vehiculosConsulta.length > 0">
     <mat-card-header>
-      <mat-card-title>🚗 Vehículo Consultado</mat-card-title>
+      <mat-card-title>🚗 Vehículos Encontrados</mat-card-title>
     </mat-card-header>
+
     <mat-card-content>
+
       <table class="tabla-vehiculos">
         <thead>
           <tr>
-
-            <th>Placa Vehículo</th>
+            <th>Placa</th>
+            <th>Modelo</th>
             <th>Capacidad</th>
             <th>PIN</th>
             <th>Ver PIN</th>
           </tr>
         </thead>
+
         <tbody>
-          <tr>
+          <tr *ngFor="let v of vehiculosConsulta">
+            <td>{{ v.placaVehiculo }}</td>
+            <td>{{ v.modelo }}</td>
+            <td>{{ v.capacidad }}</td>
+            <td>{{ v.pin }}</td>
 
-            <td>{{ vehiculo.placaVehiculo }}</td>
-  
-            <td>{{ vehiculo.capacidad  }} kg</td>
-
-            <td>{{ vehiculo.pin  }}</td>
             <td>
-              <button mat-icon-button (click)="goToPinVehiculo(vehiculo.idvehiculo)">
+              <button mat-icon-button (click)="goToPinVehiculo(v.idvehiculo)">
                 <mat-icon>picture_as_pdf</mat-icon>
               </button>
             </td>
           </tr>
         </tbody>
+
       </table>
+
     </mat-card-content>
   </mat-card>
 
-  <!-- Receptor -->
+
+
+  <!-- ========================== -->
+  <!--          RECEPTOR          -->
+  <!-- ========================== -->
   <mat-card *ngIf="receptor">
     <mat-card-header>
       <mat-card-title>📂 Resoluciones del Receptor</mat-card-title>
     </mat-card-header>
+
     <mat-card-content>
+
       <table *ngIf="resoluciones.length > 0" class="tabla-resoluciones">
         <thead>
           <tr>
-            <th>Número Resolución</th>
+            <th>Número</th>
             <th>Ubicación</th>
             <th>Actividad</th>
-            <th>Tipo Aprovechamiento</th>
+            <th>Tipo</th>
             <th>PIN</th>
             <th>Ver PIN</th>
           </tr>
         </thead>
+
         <tbody>
-          <tr *ngFor="let resolucion of resoluciones">
-            <td>{{ resolucion.numeroResolucion }}</td>
-            <td>{{ resolucion.ubicacion }}</td>
-            <td>{{ resolucion.naturalezaActividad }}</td>
-            <td>{{ resolucion.tipoAprovechamiento }}</td>
-            <td>{{ resolucion.pin }}</td>
+          <tr *ngFor="let r of resoluciones">
+            <td>{{ r.numeroResolucion }}</td>
+            <td>{{ r.ubicacion }}</td>
+            <td>{{ r.naturalezaActividad }}</td>
+            <td>{{ r.tipoAprovechamiento }}</td>
+            <td>{{ r.pin }}</td>
+
             <td>
-              <button mat-icon-button (click)="goToPinResolucion(resolucion.id)">
+              <button mat-icon-button (click)="goToPinResolucion(r.id)">
                 <mat-icon>picture_as_pdf</mat-icon>
               </button>
             </td>
           </tr>
         </tbody>
       </table>
+
       <p *ngIf="resoluciones.length === 0" class="sin-datos">
-        No hay resoluciones registradas para este receptor.
+        No hay resoluciones registradas.
       </p>
+
     </mat-card-content>
   </mat-card>
+
 </div>
 
+
+<!-- LOADING -->
 <ng-template #loadingTpl>
   <div class="spinner-wrapper">
     <mat-spinner></mat-spinner>

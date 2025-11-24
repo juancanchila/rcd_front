@@ -240,7 +240,6 @@
   <div class="file-group">
     <label [class.required]="isInvalid('registro_herramientas', vehiculodocuments)">
       Registro fotográfico de herramientas o kit de limpieza (PDF/JPG/PNG)
-      <span *ngIf="isRequired('registro_herramientas')" class="asterisk">*</span>
     </label>
     <input type="file" (change)="onFileSelected($event, 'registro_herramientas')" accept=".pdf,.jpg,.jpeg,.png" />
     <mat-error *ngIf="isInvalid('registro_herramientas', vehiculodocuments)">

@@ -39,6 +39,7 @@ import { environment } from '../../../environments/environment.prod';
   styleUrls: ['./pin-consulta.component.css']
 })
 export class PinConsultaComponent {
+
   private baseUrl = environment.API_URL;
   consultaForm: FormGroup;
 
@@ -46,82 +47,91 @@ export class PinConsultaComponent {
   proyectos: Proyecto[] = [];
 
   transportador: Transportador | null = null;
-  vehiculos: Vehiculo[] = [];
+  vehiculos: any[] = [];
 
   receptor: Receptor | null = null;
   resoluciones: Resolucion[] = [];
 
-  // Vehículo por placa
-  vehiculo: VehiculoConsulta | null = null;
+  // AHORA ALMACENA TODOS LOS VEHÍCULOS CONSULTADOS
+  vehiculosConsulta: VehiculoConsulta[] = [];
 
   loading = false;
 
-  constructor(private fb: FormBuilder, private httpService: HttpService, private router: Router) {
+  constructor(
+    private fb: FormBuilder,
+    private httpService: HttpService,
+    private router: Router
+  ) {
+
     this.consultaForm = this.fb.group({
       tipo: ['', Validators.required],
       valor: ['', Validators.required]
     });
   }
 
-async consultar() {
-  if (!this.consultaForm.valid) return;
+  async consultar() {
+    if (!this.consultaForm.valid) return;
 
-  this.loading = true;
-  this.resetDatos();
+    this.loading = true;
+    this.resetDatos();
 
-  const { tipo, valor } = this.consultaForm.value;
-  const url = `${this.baseUrl}/pin?tipo=${tipo}&valor=${valor}`;
+    const { tipo, valor } = this.consultaForm.value;
+    const url = `${this.baseUrl}/pin?tipo=${tipo}&valor=${valor}`;
 
-  try {
-    const res: any = await this.httpService.get<any>(url).toPromise();
-    console.log('✅ Respuesta de la consulta:', res);
+    try {
+      const res: any = await this.httpService.get<any>(url).toPromise();
+      console.log('✅ Respuesta de la consulta:', res);
 
-    switch (tipo) {
-      case 'generador':
-        if (res?.idgenerador) {
-          this.generador = Generador.fromResponse(res);
-          this.proyectos = Array.isArray(res.proyectos)
-            ? res.proyectos.map((p: any) => Proyecto.fromResponse(p))
-            : [];
-        }
-        break;
+      switch (tipo) {
 
-      case 'transportador':
-        if (res?.idtransportador) {
-          this.transportador = Transportador.fromResponse(res);
-          this.vehiculos = Array.isArray(res.vehiculos)
-            ? res.vehiculos.map((v: any) => Vehiculo.fromResponse(v))
-            : [];
-        }
-        break;
+        case 'generador':
+          if (res?.idgenerador) {
+            this.generador = Generador.fromResponse(res);
+            this.proyectos = Array.isArray(res.proyectos)
+              ? res.proyectos.map((p: any) => Proyecto.fromResponse(p))
+              : [];
+          }
+          break;
 
-      case 'receptor':
-        if (res?.idreceptor) {
-          this.receptor = Receptor.fromResponse(res);
-          this.resoluciones = Array.isArray(res.resoluciones)
-            ? res.resoluciones.map((r: any) => Resolucion.fromResponse(r))
-            : [];
-        }
-        break;
+        case 'transportador':
+          if (res?.idtransportador) {
+            this.transportador = Transportador.fromResponse(res);
+            this.vehiculos = Array.isArray(res.vehiculos)
+              ? res.vehiculos.map((v: any) => Vehiculo.fromResponse(v))
+              : [];
+          }
+          break;
 
-      case 'vehiculo':
-        if (res?.idvehiculo) {
-          this.vehiculo = VehiculoConsulta.fromResponse(res);
-          console.log('✅ Vehículo encontrado:', this.vehiculo);
-        }
-        break;
+        case 'receptor':
+          if (res?.idreceptor) {
+            this.receptor = Receptor.fromResponse(res);
+            this.resoluciones = Array.isArray(res.resoluciones)
+              ? res.resoluciones.map((r: any) => Resolucion.fromResponse(r))
+              : [];
+          }
+          break;
 
-      default:
-        console.warn('⚠️ Tipo de consulta desconocido o sin datos.');
+        case 'vehiculo':
+          // 🔥 SI VIENEN 1, 2 O N VEHÍCULOS → SE GUARDAN TODOS
+          if (Array.isArray(res)) {
+            this.vehiculosConsulta = res.map((v: any) =>
+              VehiculoConsulta.fromResponse(v)
+            );
+          } else if (res?.idvehiculo) {
+            this.vehiculosConsulta = [VehiculoConsulta.fromResponse(res)];
+          }
+          break;
+
+        default:
+          console.warn('⚠️ Tipo no reconocido.');
+      }
+
+    } catch (error) {
+      console.error('❌ Error en consulta:', error);
+    } finally {
+      this.loading = false;
     }
-
-  } catch (error) {
-    console.error('❌ Error en consulta:', error);
-  } finally {
-    this.loading = false;
   }
-}
-
 
   private resetDatos() {
     this.generador = null;
@@ -130,10 +140,11 @@ async consultar() {
     this.vehiculos = [];
     this.receptor = null;
     this.resoluciones = [];
-    this.vehiculo = null;
+    this.vehiculosConsulta = [];
   }
-  
+
   goToPinResolucion(id: number) { this.router.navigate(['/pin/resolucion/', id]); }
   goToPinProyecto(id: number) { this.router.navigate(['/pin/proyecto/', id]); }
   goToPinVehiculo(id: number) { this.router.navigate(['/pin/vehiculo/', id]); }
+
 }
