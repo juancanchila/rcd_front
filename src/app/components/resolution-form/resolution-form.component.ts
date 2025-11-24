@@ -19,6 +19,7 @@ import { ReceptorService } from '../../services/receptor.service';
 import { ArchivoService } from '../../services/archivo.service';
 import { ResolucionService } from '../../services/resolucion.service';
 import { MapPickerComponent } from '../map-picker/map-picker.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'gestor-form',
@@ -38,10 +39,10 @@ import { MapPickerComponent } from '../map-picker/map-picker.component';
     MatIconModule,
     MapPickerComponent,
   ],
-  templateUrl: './gestor-form.component.html',
-  styleUrls: ['./gestor-form.component.css'],
+  templateUrl: './resolution-form.component.html',
+  styleUrls: ['./resolution-form.component.css'],
 })
-export class GestorFormComponent implements OnInit {
+export class ResolutionFormComponent implements OnInit {
   @Output() saved = new EventEmitter<any>();
 
   step = 0;
@@ -61,19 +62,19 @@ export class GestorFormComponent implements OnInit {
   archivos: { [key: string]: File | null } = {};
   uploadedDocs: File[] = [];
 
-  generadorId: any;
+  gestorId: any;
 
   constructor(
     private fb: FormBuilder,
     private http: HttpClient,
     private toast: ToastService,
-    private receptorSrv: ReceptorService,
     private archivoSrv: ArchivoService,
     private resolucionSrv: ResolucionService,
-    private snack: MatSnackBar
+    private snack: MatSnackBar,
+        private route: ActivatedRoute,
   ) {
     this.minDate = new Date().toISOString().split('T')[0];
-    this.generadorId = '123'; // reemplaza por la lógica real si viene de ruta
+    this.gestorId= this.route.snapshot.paramMap.get('id');
 
     this.rcdAprovechable = {
       '1_1': 'Productos de excavación y sobrantes de la adecuación de terreno',
@@ -159,6 +160,13 @@ export class GestorFormComponent implements OnInit {
     this.setupBarriosGestor();
     this.setupDocumentosValidation();
     this.setupTipoRcd();
+  }
+
+ 
+  isInvalid(ctrlName: string, group?: FormGroup) {
+    const g = group || this.form;
+    const c = g.get(ctrlName);
+    return !!(c && c.invalid && (c.touched || c.dirty));
   }
 
   private setupTipoRcd() {
@@ -302,7 +310,7 @@ export class GestorFormComponent implements OnInit {
       const { resolucion } = this.buildPayload();
       const respResolucion: any = await this.resolucionSrv.crearResolucion({
         ...resolucion,
-        receptorId: this.generadorId,
+        idReceptor: this.gestorId,
       });
       const idResolucion = respResolucion?.idresolucion;
       if (!idResolucion) throw new Error('No se obtuvo ID de la resolución');
@@ -328,6 +336,12 @@ export class GestorFormComponent implements OnInit {
       });
 
       this.toast.showSuccess('Resolución guardada correctamente.');
+
+  this.toast.showSuccess(
+        'Resolución guardada correctamente.',
+        '/receptor-detalle/' + this.gestorId
+      );
+
     } catch (error) {
       console.error(error);
       this.toast.showError('Error al guardar la resolución.');
