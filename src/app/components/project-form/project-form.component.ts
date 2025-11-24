@@ -19,6 +19,7 @@ import { BigOrSmallGeneratorDocuments } from '../bigorsmall-generator-documents/
 import { MatExpansionModule } from "@angular/material/expansion";
 
 import { MatDatepicker, MatDatepickerModule } from "@angular/material/datepicker";
+import { ProyectoService } from '../../services/proyecto.service';
 
 
 
@@ -58,19 +59,20 @@ public today: string = '';
   infoextra!: FormGroup;
    documentos!: FormGroup;
 
-  transportadorId!: string | null;
+  generadorId!: string | null;
   form!: FormGroup;
 minDate: string;
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private toast: ToastService,
-    private vehiculoSrv: VehiculoService,
+    private ProyectoServ: ProyectoService,
     private archivoSrv: ArchivoService
   ) {
      this.minDate = new Date().toISOString().split('T')[0];
   
-    this.transportadorId = this.route.snapshot.paramMap.get('id');
+    this.generadorId = this.route.snapshot.paramMap.get('id');
+    console.log(this.generadorId,'transport');
 
     // -------------------------------
     // 🟩 PROYECTO
@@ -352,11 +354,114 @@ getTodayDate(): string {
   }
 
    buildPayload() { 
+        const v = this.proyecto.value;
+    const d = this.vehicleDocumentsForm.value;
+    const i = this.infoextra.value;
 
     return {
-      proyecto: this.proyecto.value,
-      vehicleDocument:this.vehicleDocumentsForm.value,
-      infoextra:this.infoextra.value
+     // -----------------------------
+    // 📌 Información general del proyecto
+    // -----------------------------
+    idgenerador: this.generadorId,
+    tipo_de_generador: v.tipo_de_generador,
+    localidad_proyecto: v.localidad_proyecto,
+    barrio_proyecto: v.barrio_proyecto,
+    direccion_del_proyecto: v.direccion_del_proyecto,
+
+    latitud: v.latitud,
+    longitud: v.longitud,
+
+    fecha_inicio: v.fecha_inicio,
+    fecha_final: v.fecha_final,
+
+    nombre_del_proyecto: v.nombre_del_proyecto,
+
+    descripcion_del_proyecto_o_actividad_a_ejecutar:
+      v.descripcion_del_proyecto_o_actividad_a_ejecutar,
+
+    area_a_intervenir_m2: v.area_a_intervenir_m2,
+    cantidad_de_rcd_a_generar_toneladas:
+      v.cantidad_de_rcd_a_generar_toneladas,
+
+    // -----------------------------
+    // 📌 Datos de predios (array)
+    // -----------------------------
+    datos_predios: v.datos_predios?.map((predio: any) => ({
+      ...predio,
+    })),
+
+    // -----------------------------
+    // 📌 Tipo de licencia 0100
+    // -----------------------------
+    tipo_licencia_0100: {
+      urbanizacion_block_0100: {
+        desarrollo: v.tipo_licencia_0100.urbanizacion_block_0100.desarrollo,
+        saneamiento: v.tipo_licencia_0100.urbanizacion_block_0100.saneamiento,
+        reurbanizacion: v.tipo_licencia_0100.urbanizacion_block_0100.reurbanizacion,
+      },
+
+      construccion_block_0100: {
+        obra_nueva: v.tipo_licencia_0100.construccion_block_0100.obra_nueva,
+        ampliacion: v.tipo_licencia_0100.construccion_block_0100.ampliacion,
+        adecuacion: v.tipo_licencia_0100.construccion_block_0100.adecuacion,
+        modificacion: v.tipo_licencia_0100.construccion_block_0100.modificacion,
+        restauracion: v.tipo_licencia_0100.construccion_block_0100.restauracion,
+        reforzamiento_estructural:
+          v.tipo_licencia_0100.construccion_block_0100.reforzamiento_estructural,
+        demolicion: v.tipo_licencia_0100.construccion_block_0100.demolicion,
+        reconstruccion: v.tipo_licencia_0100.construccion_block_0100.reconstruccion,
+        cerramiento: v.tipo_licencia_0100.construccion_block_0100.cerramiento,
+        otra_construccion: v.tipo_licencia_0100.construccion_block_0100.otra_construccion,
+        otra_cual_construccion_0100:
+          v.tipo_licencia_0100.construccion_block_0100.otra_cual_construccion_0100,
+      },
+
+      bic_block_0100: {
+        intervenciones_minimas:
+          v.tipo_licencia_0100.bic_block_0100.intervenciones_minimas,
+        primeros_auxilios:
+          v.tipo_licencia_0100.bic_block_0100.primeros_auxilios,
+        reparaciones_locativas:
+          v.tipo_licencia_0100.bic_block_0100.reparaciones_locativas,
+      },
+
+      espacio_publico_block_0100: {
+        instalaciones_redes:
+          v.tipo_licencia_0100.espacio_publico_block_0100.instalaciones_redes,
+        andenes_parques:
+          v.tipo_licencia_0100.espacio_publico_block_0100.andenes_parques,
+        otra_espacio_publico:
+          v.tipo_licencia_0100.espacio_publico_block_0100.otra_espacio_publico,
+        otra_cual_espacio_publico_0100:
+          v.tipo_licencia_0100.espacio_publico_block_0100
+            .otra_cual_espacio_publico_0100,
+      },
+
+      planes_pot_0100: v.tipo_licencia_0100.planes_pot_0100,
+
+      demolicion_ruina_block_0100: {
+        demolicion_respuesta_0100:
+          v.tipo_licencia_0100.demolicion_ruina_block_0100
+            .demolicion_respuesta_0100,
+      },
+
+      resolucion_numero_0100:
+        v.tipo_licencia_0100.resolucion_numero_0100,
+    },
+
+    // -----------------------------
+    // 📌 Documentos vehiculares
+    // -----------------------------
+
+    
+
+    // -----------------------------
+    // 📌 Información extra
+    // -----------------------------
+
+    fecha_expedicion_pin: i.fecha_expedicion_pin,
+    fecha_vencimiento_pin: this.addOneYear(i.fecha_expedicion_pin),
+    consecutivo_sigob: i.consecutivo_sigob,
     };
   }
 
@@ -365,14 +470,58 @@ getTodayDate(): string {
   // -------------------------------
   async onSubmit(): Promise<void> {
     console.log(this.proyecto,'proye',this.vehicleDocumentsForm,'doc',this.infoextra,'infoex')
-    if (this.form.invalid) {
-         this.toast.showError('Completa todos los campos obligatorios.');
+    if (this.proyecto.invalid || this.vehicleDocumentsForm.invalid || this.infoextra.invalid) {
+      this.proyecto.markAllAsTouched();
+      this.vehicleDocumentsForm.markAllAsTouched();
+      this.infoextra.markAllAsTouched();
+      this.toast.showError('Completa todos los campos obligatorios.');
       return;
     }
 
     try {
-  this.saved.emit(this.buildPayload());
-      this.toast.showSuccess('Formulario guardado correctamente.');
+     // 1️⃣ CREAR VEHÍCULO BASE
+      const payload = this.buildPayload();
+      const ProyecroBaseResp: any = await this.ProyectoServ.crearProyecto(payload);
+      const idProyecto = ProyecroBaseResp.idProyecto;
+
+      // 2️⃣ SUBIR DOCUMENTOS CON NOMBRE RENOMBRADO
+      const docs = this.vehicleDocumentsForm.value;
+      const archivosRenombrados: any = {};
+
+      for (const key of Object.keys(docs)) {
+        const file = docs[key];
+        if (!file || !(file instanceof File)) continue;
+
+        // RENOMBRAR ARCHIVO
+        const nuevoNombre = `${idProyecto}_${key}_${file.name}`;
+        const renamedFile = new File([file], nuevoNombre, { type: file.type });
+
+        // SUBIR ARCHIVO
+        const uploadResp: any = await this.archivoSrv.subirArchivo(renamedFile);
+
+        // GUARDAR NOMBRE FINAL
+        archivosRenombrados[key] = uploadResp?.filename || nuevoNombre;
+      }
+
+      // 3️⃣ ACTUALIZAR VEHÍCULO CON NOMBRES FINALES
+      const proyectoUpdate = {
+        ...payload,
+        carta_solicitud: archivosRenombrados['carta_solicitud'] || null,
+        descripcion_tecnica_proyecto: archivosRenombrados['descripcion_tecnica_proyecto'] || null,
+        certificado_tradicion_libertad: archivosRenombrados['certificado_tradicion_libertad'] || null,
+        autorizacion_bic: archivosRenombrados['autorizacion_bic'] || null,
+        licenciaTransito: archivosRenombrados['registro_defuncion'] || null,
+        
+      };
+
+      await this.ProyectoServ.actualizarProyecto(idProyecto, proyectoUpdate);
+
+      // 4️⃣ EMITIR EVENTO Y MENSAJE
+      this.saved.emit({ ...proyectoUpdate });
+      this.toast.showSuccess(
+        'Vehículo creado correctamente',
+        '/proyecto-detalle/' + this.generadorId
+      );
     } catch (err) {
       console.error(err);
       this.toast.showError('Error al procesar el registro.');
