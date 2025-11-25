@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormArray, AbstractControl, ValidationErrors } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -23,6 +23,8 @@ import { ProyectoService } from '../../services/proyecto.service';
 import { Generador } from '../../models/generador.model';
 import { GeneradorService } from '../../services/generador.service';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { catchError, combineLatest, map, Observable, of, startWith, switchMap } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 
 
@@ -50,7 +52,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
   templateUrl: './generador-form.component.html',
   styleUrls: ['./generador-form.component.css'],
 })
-export class GeneradorForm {
+export class GeneradorForm implements OnInit {
   @Output() saved = new EventEmitter<any>();
 public today: string = '';
   step = 0;
@@ -66,13 +68,18 @@ public today: string = '';
   generadorId!: string | null;
   form!: FormGroup;
 minDate: string;
+
+  barriosActuales$: Observable<string[]> = of([]);
+  barriosFiltrados$: Observable<string[]> = of([]);
+  
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private toast: ToastService,
     private ProyectoServ: ProyectoService,
     private archivoSrv: ArchivoService,
-    private generadorServ: GeneradorService
+    private generadorServ: GeneradorService,
+      private http: HttpClient,
   ) {
      this.minDate = new Date().toISOString().split('T')[0];
   
@@ -226,6 +233,60 @@ carta_solicitud: ['', Validators.required],
   // -------------------------------
   // VALIDACIONES
   // -------------------------------
+
+ngOnInit(): void {
+    const localidadControl = this.contacto.get('localidad');
+    const barrioControl = this.contacto.get('barrio');
+    if (!localidadControl || !barrioControl) return;
+
+    const localidad$ = localidadControl.valueChanges.pipe(startWith(localidadControl.value));
+    const barrioInput$ = barrioControl.valueChanges.pipe(startWith(barrioControl.value));
+
+    this.barriosActuales$ = localidad$.pipe(
+      switchMap((loc: string) =>
+        loc ? this.http.get<any[]>(`assets/${loc}.json`).pipe(
+          map(data => data.map(item => item.name)),
+          catchError(() => of([]))
+        ) : of([])
+      )
+    );
+
+    this.barriosFiltrados$ = combineLatest([this.barriosActuales$, barrioInput$]).pipe(
+      map(([barrios, texto]) => {
+        if (!texto) return barrios;
+        const t = ('' + texto).toLowerCase();
+        return barrios.filter(b => b.toLowerCase().includes(t));
+      })
+    );
+
+    localidad$.subscribe(() => barrioControl.setValue(''));
+
+    // VALIDACIÓN DINÁMICA
+    const tipoControl = this.contacto.get('tipo_de_solicitante')!;
+    tipoControl.valueChanges.pipe(startWith(tipoControl.value)).subscribe((tipo: string) => {
+      const identificacion = this.contacto.get('identificacion')!;
+      const certExt = this.contacto.get('cert_ext_legal')!;
+
+      if (tipo === 'Persona Natural') {
+        identificacion.setValidators([Validators.required]);
+        certExt.clearValidators();
+        certExt.setValue('');
+      } else if (tipo === 'Persona Jurídica') {
+        certExt.setValidators([Validators.required]);
+        identificacion.clearValidators();
+        identificacion.setValue('');
+      } else {
+        identificacion.clearValidators();
+        certExt.clearValidators();
+      }
+
+      identificacion.updateValueAndValidity();
+      certExt.updateValueAndValidity();
+    });
+  }
+
+
+  
 // project-form.component.ts
 isInvalid(name: string, group: FormGroup) {
     const c = group.get(name);
