@@ -613,6 +613,10 @@ nextStep() {
     }
 
     try {
+// 0 crear geneador obteniendo el id
+
+
+
      // 1️⃣ Crear un Proyecto
       const payload = this.buildPayload();
       const ProyecroBaseResp: any = await this.ProyectoServ.crearProyecto(payload);
