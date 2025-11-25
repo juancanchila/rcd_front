@@ -382,7 +382,7 @@ tipoUsoPredio: v.datos_predios && v.datos_predios.length > 0
   titularLicUrb: null,
   tipoIdentLicUrb: null,
   identificacionLicUrb: null,
-  curaduria: d.planos_aprobados_curaduria,
+  curaduria: null,
   areaVerdes: null,
   areaConstruccionAprobada: null,
   valor:i.valor ,
