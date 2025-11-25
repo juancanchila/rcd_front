@@ -82,9 +82,6 @@ minDate: string;
       private http: HttpClient,
   ) {
      this.minDate = new Date().toISOString().split('T')[0];
-  
-    this.generadorId = this.route.snapshot.paramMap.get('id');
-    console.log(this.generadorId,'transport');
 
 
       // FORMULARIO CONTACTO
@@ -507,8 +504,6 @@ nextStep() {
   // 📌 DATOS PARA PROYECTO
   // -----------------------------
   const Proyecto = {
-    idProyecto: null, // AUTO_INCREMENT
-
     nombre: v.nombre_del_proyecto,
     ubicacion: v.direccion_del_proyecto,
 
@@ -542,7 +537,7 @@ nextStep() {
     volumenEstimGenrEscombros: null,
     volumenEstimEscavaciones: null,
 
-    idgenerador: this.generadorId,
+    idgenerador: 0,
 
     fechaExpedicionPIN: v.fecha_expedicion_pin,
     codigoRadicadoSIGOD: v.consecutivo_sigob,
