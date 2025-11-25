@@ -149,21 +149,21 @@ this.fechaActual = hoy.toLocaleDateString('es-ES', {
         return;
       }
       
-      this.pinData = {
-        ...this.pinData,
-        tipoPin: 'GENERADOR',
-       tipoIdentificacion: proyecto.tipoIdentLicUrb === 'Cedula' ? 'Cédula' : proyecto.tipoIdentLicUrb || 'N/A',
-        numeroIdentificacion: proyecto.identificacionLicUrb || 'N/A',
-        razonSocial: proyecto.titularLicUrb || 'N/A',
-        numeroPin: proyecto.pin || 'N/A',
-        fechaInicio: proyecto.fechaInicio,
-        fechaFinalizacion: proyecto.fechaFin,
-        nombreProyecto: proyecto.nombre || 'N/A',
-        Direccion: proyecto.ubicacion || 'N/A',
-        matriculaInmobiliaria: proyecto.matriculaInmobiliaria || 'N/A',
-        fechaExpedicion: proyecto.fechaExpedicionPIN ? this.formatDate(proyecto.fechaExpedicionPIN) : 'N/A',
-        fechaVencimiento: this.calculateExpirationDateFromDate(1, proyecto.fechaExpedicionPIN)
-      };
+   this.pinData = {
+  ...this.pinData,
+  tipoPin: 'GENERADOR',
+  tipoIdentificacion: proyecto.generador.tipoDocumento === 'cedula' ? 'Cédula' : proyecto.generador.tipoDocumento || 'N/A',
+  numeroIdentificacion: proyecto.generador.numeroDocumento || 'N/A',
+  razonSocial: proyecto.generador.razonSocial || `${proyecto.generador.primerNombre || ''} ${proyecto.generador.segundoNombre || ''} ${proyecto.generador.primerApellidos || ''} ${proyecto.generador.segundoApellido || ''}`.trim() || 'N/A',
+  numeroPin: proyecto.pin || 'N/A',
+  fechaInicio: proyecto.fechaInicio,
+  fechaFinalizacion: proyecto.fechaFin,
+  nombreProyecto: proyecto.nombre || 'N/A',
+  Direccion: proyecto.ubicacion || 'N/A',
+  matriculaInmobiliaria: proyecto.matriculaInmobiliaria || 'N/A',
+  fechaExpedicion: proyecto.fechaExpedicionPIN ? this.formatDate(proyecto.fechaExpedicionPIN) : 'N/A',
+  fechaVencimiento: this.calculateExpirationDateFromDate(1, proyecto.fechaExpedicionPIN)
+};
 
       console.log('Datos del proyecto cargados:', this.pinData);
     } catch (error) {
