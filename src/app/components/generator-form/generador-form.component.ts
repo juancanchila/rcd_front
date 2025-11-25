@@ -383,7 +383,7 @@ getTodayDate(): string {
   // -------------------------------
   //nextsetep con validacion
    // -------------------------------
-   /*
+
 nextStep() {
   console.log("Proyecto group:", this.proyecto);
 
@@ -406,31 +406,10 @@ nextStep() {
     this.step++;
   }
 }
- */
-  // -------------------------------
 
-//nextstep sin validaicion
-nextStep() {
-  try {
-    console.log("Step:", this.step);
 
-    let g =
-      this.step === 0
-        ? this.contacto
-        : this.step === 1
-        ? this.proyecto
-        : this.step === 2
-        ? this.DocumentsForm
-        : this.infoextra;
 
-    console.log("Grupo actual:", g?.value);
 
-  } catch(e) {
-    console.warn("Error mostrando group:", e);
-  }
-
-  this.step = Math.min(this.step + 1, this.totalSteps - 1);
-}
 
   prevStep() {
     if (this.step > 0) this.step--;
