@@ -381,6 +381,8 @@ getTodayDate(): string {
   // WIZARD
   // -------------------------------
 nextStep() {
+  console.log("Proyecto group:", this.proyecto);
+
   let g =
     this.step === 0
       ? this.contacto
@@ -539,8 +541,8 @@ nextStep() {
 
     idgenerador: 0,
 
-    fechaExpedicionPIN: v.fecha_expedicion_pin,
-    codigoRadicadoSIGOD: v.consecutivo_sigob,
+    fechaExpedicionPIN: i.fecha_expedicion_pin,
+    codigoRadicadoSIGOD: i.consecutivo_sigob,
 
     CoordenadaX: v.latitud != null ? String(v.latitud) : null,
     CoordenadaY: v.longitud != null ? String(v.longitud) : null,
@@ -609,12 +611,19 @@ nextStep() {
 
     try {
 // 0 crear geneador obteniendo el id
+//Crear generador + id
+const { Generador, Proyecto } = this.buildPayload();
+      const creado = await this.generadorServ.crearGenerador(
+        Generador
+      );
 
+      const idGenerador = creado.data.idgenerador;
 
 
      // 1️⃣ Crear un Proyecto
-      const payload = this.buildPayload();
-      const ProyecroBaseResp: any = await this.ProyectoServ.crearProyecto(payload);
+  //modificar el atributo de proyecto
+  Proyecto.idgenerador = idGenerador;
+      const ProyecroBaseResp: any = await this.ProyectoServ.crearProyecto(Proyecto);
       const idProyecto = ProyecroBaseResp.idProyecto;
 
       // 2️⃣ SUBIR DOCUMENTOS CON NOMBRE RENOMBRADO

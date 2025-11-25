@@ -92,3 +92,15 @@ pre {
 
 .vehicle-documents { display: grid; gap: 18px; padding: 12px; }
 .section-title { font-weight: 600; color: #1f1f1f; }
+
+.form-field {
+  flex: 1 1 300px;
+  display: flex;
+  flex-direction: column;
+}
+.flexbox {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
