@@ -71,6 +71,7 @@ minDate: string;
 
   barriosActuales$: Observable<string[]> = of([]);
   barriosFiltrados$: Observable<string[]> = of([]);
+  idGenerador: any;
   
   constructor(
     private fb: FormBuilder,
@@ -380,6 +381,9 @@ getTodayDate(): string {
   // -------------------------------
   // WIZARD
   // -------------------------------
+  //nextsetep con validacion
+   // -------------------------------
+   /*
 nextStep() {
   console.log("Proyecto group:", this.proyecto);
 
@@ -402,8 +406,31 @@ nextStep() {
     this.step++;
   }
 }
+ */
+  // -------------------------------
 
+//nextstep sin validaicion
+nextStep() {
+  try {
+    console.log("Step:", this.step);
 
+    let g =
+      this.step === 0
+        ? this.contacto
+        : this.step === 1
+        ? this.proyecto
+        : this.step === 2
+        ? this.DocumentsForm
+        : this.infoextra;
+
+    console.log("Grupo actual:", g?.value);
+
+  } catch(e) {
+    console.warn("Error mostrando group:", e);
+  }
+
+  this.step = Math.min(this.step + 1, this.totalSteps - 1);
+}
 
   prevStep() {
     if (this.step > 0) this.step--;
@@ -616,13 +643,13 @@ const { Generador, Proyecto } = this.buildPayload();
       const creado = await this.generadorServ.crearGenerador(
         Generador
       );
-
-      const idGenerador = creado.data.idgenerador;
+console.log(creado.idgenerador)
+      this.idGenerador = creado.idgenerador;
 
 
      // 1️⃣ Crear un Proyecto
   //modificar el atributo de proyecto
-  Proyecto.idgenerador = idGenerador;
+  Proyecto.idgenerador = this.idGenerador;
       const ProyecroBaseResp: any = await this.ProyectoServ.crearProyecto(Proyecto);
       const idProyecto = ProyecroBaseResp.idProyecto;
 
@@ -670,8 +697,8 @@ const { Generador, Proyecto } = this.buildPayload();
       // 4️⃣ EMITIR EVENTO Y MENSAJE
       this.saved.emit({ ...proyectoUpdate });
       this.toast.showSuccess(
-        'Vehículo creado correctamente',
-        '/proyecto-detalle/' + this.generadorId
+        'Generador creado correctamente',
+        '/generador-detalle/' + this.idGenerador
       );
     } catch (err) {
       console.error(err);
