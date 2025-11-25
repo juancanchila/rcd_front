@@ -1,5 +1,11 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-host">
-  <mat-progress-bar mode="determinate" [value]="(step + 1) * (100 / totalSteps)"></mat-progress-bar>
+<div class="form-host">
+
+  <!-- Barra de progreso -->
+  <mat-progress-bar
+    mode="determinate"
+    [value]="(step + 1) * (100 / totalSteps)">
+  </mat-progress-bar>
+
 
   <!-- PASO 0: DATOS DE CONTACTO -->
   <div *ngIf="step === 0" [formGroup]="contacto">
@@ -108,330 +114,693 @@
     </mat-form-field>
   </div>
 
-<!-- PASO 1: DATOS DEL PROYECTO -->
-<div *ngIf="step === 1" [formGroup]="vehiculo">
-  <h3>Datos del Proyecto</h3>
-  <p>Ingresar la información general y técnica del proyecto.</p>
+  <!-- PASO 1 — DATOS DEL VEHÍCULO -->
+  <div *ngIf="step === 1" [formGroup]="proyecto">
 
-  <!-- Tipo de Generador -->
-  <mat-form-field appearance="outline">
-    <mat-label>Tipo de Generador</mat-label>
-    <mat-select formControlName="tipo_de_generador" required>
-      <mat-option value="PEQUEÑO GENERADOR QUE NO REQUIERE LICENCIA O PERMISO.">
-        PEQUEÑO GENERADOR QUE NO REQUIERE LICENCIA O PERMISO.
-      </mat-option>
-      <mat-option value="PEQUEÑO GENERADOR DE RCD">PEQUEÑO GENERADOR DE RCD</mat-option>
-      <mat-option value="GRAN GENERADOR DE RCD">GRAN GENERADOR DE RCD</mat-option>
-    </mat-select>
-    <mat-error *ngIf="isInvalid('tipo_de_generador', vehiculo)">
-      Debes seleccionar el tipo de generador.
-    </mat-error>
-  </mat-form-field>
 
-  <!-- Localidad -->
-  <mat-form-field appearance="outline">
-    <mat-label>Localidad</mat-label>
-    <mat-select formControlName="localidad_proyecto" required>
-      <mat-option value="localidad1">Localidad 1</mat-option>
-      <mat-option value="localidad2">Localidad 2</mat-option>
-      <mat-option value="localidad3">Localidad 3</mat-option>
-    </mat-select>
-    <mat-error *ngIf="isInvalid('localidad_proyecto', vehiculo)">
-      Debes seleccionar la localidad.
-    </mat-error>
-  </mat-form-field>
+ <project-data  [group]="proyecto!"></project-data>
+ <!-- Fechas -->
+  
+    <div class="flexbox">
+      <div class="form-field">
+        <label>Fecha Inicio</label>
+        <input type="date" formControlName="fecha_inicio" [min]="minDate" max="2026-12-31" />
+      </div>
 
-  <!-- Barrio -->
-  <mat-form-field appearance="outline">
-    <mat-label>Barrio</mat-label>
-    <input matInput formControlName="barrio_proyecto" [matAutocomplete]="autoBarrio" placeholder="Empieza a escribir para filtrar barrios" />
-    <mat-autocomplete #autoBarrio="matAutocomplete">
-      <mat-option *ngFor="let barrio of barriosFiltrados$ | async" [value]="barrio">{{ barrio }}</mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
+      <div class="form-field">
+        <label>Fecha Final <span class="required">*</span></label>
+        <input type="date" formControlName="fecha_final" [min]="minDate" max="2026-12-31" />
+        <div class="error" *ngIf="isInvalid('fecha_final', proyecto)">Seleccionar fecha</div>
+      </div>
+    </div>
 
-  <!-- Dirección del Proyecto -->
-  <mat-form-field appearance="outline">
-    <mat-label>Dirección del Proyecto</mat-label>
-    <input matInput formControlName="direccion_del_proyecto" placeholder="Ej: Calle 45 #12-34" />
-  </mat-form-field>
+    <div *ngIf="proyecto.errors?.['fechaInvalida']" class="error">
+      La fecha inicial no puede ser mayor que la fecha final.
+    </div>
 
-  <!-- Fechas -->
-  <div style="display:flex; gap:12px;">
-    <mat-form-field appearance="outline" style="flex:1;">
-      <mat-label>Fecha de Inicio</mat-label>
-      <input matInput [matDatepicker]="inicio" formControlName="fecha_inicio" />
-      <mat-datepicker-toggle matSuffix [for]="inicio"></mat-datepicker-toggle>
-      <mat-datepicker #inicio></mat-datepicker>
-    </mat-form-field>
 
-    <mat-form-field appearance="outline" style="flex:1;">
-      <mat-label>Fecha Final</mat-label>
-      <input matInput [matDatepicker]="final" formControlName="fecha_final" />
-      <mat-datepicker-toggle matSuffix [for]="final"></mat-datepicker-toggle>
-      <mat-datepicker #final></mat-datepicker>
-    </mat-form-field>
+ 
+<map-picker (coordinates)="onMap($event)"></map-picker>
+<div class="error" *ngIf="proyecto.get('latitud')?.invalid && (proyecto.get('latitud')?.touched || proyecto.get('longitud')?.touched)">
+  Debes seleccionar una ubicación en el mapa.
+</div>
+
+    <div class="form-actions">
+      <button mat-flat-button color="primary" (click)="nextStep()">Siguiente</button>
+    </div>
+    
   </div>
 
-  <!-- Nombre del Proyecto -->
-  <mat-form-field appearance="outline">
-    <mat-label>Nombre del Proyecto</mat-label>
-    <input matInput formControlName="nombre_del_proyecto" placeholder="Ej: Edificio Los Robles" />
-  </mat-form-field>
+ <!-- PASO 2: DOCUMENTOS -->
+<div *ngIf="step === 2" [formGroup]="DocumentsForm" class="vehicle-documents">
+<div *ngIf="proyecto.get('tipo_de_generador')?.value === 'PEQUEÑO GENERADOR QUE NO REQUIERE LICENCIA O PERMISO.'">
+  <h3 class="section-title">Documentos Del Proyecto</h3>
+    <div class="file-group">
+    <label>Carta de Solicitud(PDF) *</label>
+    <input 
+        type="file" 
+        (change)="onFileSelected($event, 'carta_solicitud')" 
+        accept=".pdf" 
+    />
+    
+   
+</div>
+<!---->
+<div class="file-group">
+  <label>
+        Descripción técnica del proyecto
+        <span *ngIf="isRequired('descripcion_tecnica_proyecto')" class="asterisk">*</span>
+    </label>
+<input
+        id="descripcion_tecnica_proyecto"
+        type="file"
+        (change)="onFileSelected($event, 'descripcion_tecnica_proyecto')"
+        accept=".pdf"
+    />
+    <p class="help-text">Debe incluir planos, ubicación, área intervenida y objetivo del proyecto.</p>
+    
+</div>
+<div class="file-group">
+    <label [class.required]="isRequired('certificado_tradicion_libertad')">
+        Certificado de Tradición y Libertad del inmueble
+        <span *ngIf="isRequired('certificado_tradicion_libertad')" class="asterisk">*</span>
+    </label>
+    <input
+        id="certificado_tradicion_libertad"
+        type="file"
+        (change)="onFileSelected($event, 'certificado_tradicion_libertad')"
+        accept=".pdf"
+    />
+    <p class="help-text">Fecha de expedición no mayor a 3 meses.</p>
+ 
+</div>
+<div class="file-group">
+    <label [class.required]="isRequired('autorizacion_bic')">
+        Copia de la autorización de intervención de Bienes de Interés Cultural (BIC) <em>(si aplica)</em>
+        <span *ngIf="isRequired('autorizacion_bic')" class="asterisk">*</span>
+    </label>
+    <input
+        id="autorizacion_bic"
+        type="file"
+        (change)="onFileSelected($event, 'autorizacion_bic')"
+        accept=".pdf"
+    />
+    <p class="help-text">Solo en caso de que el inmueble esté catalogado como BIC.</p>
+  
+</div>
+<div class="file-group" >
+    
+    <label >
+        Registro de defunción del propietario del bien inmueble <em>(si aplica)</em>
+        <span *ngIf="isRequired('registro_defuncion')" class="asterisk">*</span>
+    </label>
+    
+    <input
+        id="registro_defuncion"
+        type="file"
+        (change)="onFileSelected($event, 'registro_defuncion')" 
+        accept=".pdf"
+    />
+    
+    <p class="help-text">
+        En caso de fallecimiento del propietario, se debe anexar este documento junto con los siguientes:
+    </p>
 
-  <!-- Área y Toneladas -->
-  <div style="display:flex; gap:12px;">
-    <mat-form-field appearance="outline" style="flex:1;">
-      <mat-label>Área a intervenir (m²)</mat-label>
-      <input matInput type="number" formControlName="area_a_intervenir_m2" />
-    </mat-form-field>
+    <ul class="help-text">
+        <li>
+            Radicación ante juzgado o notaría del proceso de sucesión, o documento privado notariado suscrito por los posibles herederos donde se manifieste que no hay herederos con mayor derecho y se comprometan a realizar los trámites de sucesión.
+        </li>
+        <li>Copia del documento de identificación del o los herederos.</li>
+        <li>Copia del registro civil de nacimiento de los hijos o registro de matrimonio del cónyuge (según el caso).</li>
+    </ul>
 
-    <mat-form-field appearance="outline" style="flex:1;">
-      <mat-label>Cantidad de RCD a generar (Toneladas)</mat-label>
-      <input matInput type="number" formControlName="cantidad_de_rcd_a_generar_toneladas" />
-    </mat-form-field>
-  </div>
+   
+</div>
+</div>
 
-  <!-- Descripción del proyecto -->
-  <mat-form-field appearance="outline">
-    <mat-label>Descripción del proyecto o actividad</mat-label>
-    <textarea matInput rows="4" formControlName="descripcion_del_proyecto_o_actividad_a_ejecutar" placeholder="Describe brevemente el alcance del proyecto"></textarea>
-  </mat-form-field>
+<div *ngIf="proyecto.get('tipo_de_generador')?.value === 'PEQUEÑO GENERADOR DE RCD' ||
+  proyecto.get('tipo_de_generador')?.value === 'GRAN GENERADOR DE RCD'">
+ <h3 class="section-title">Documentos Del Proyecto</h3>
+    <div class="file-group">
+    <label>Carta de Solicitud(PDF) *</label>
+    <input 
+        type="file" 
+        (change)="onFileSelected($event, 'carta_solicitud')" 
+        accept=".pdf" 
+    />
+    
+    
+</div>
+<!---->
+<div class="file-group">
+  <label>
+        Descripción técnica del proyecto
+        <span *ngIf="isRequired('descripcion_tecnica_proyecto')" class="asterisk">*</span>
+    </label>
+<input
+        id="descripcion_tecnica_proyecto"
+        type="file"
+        (change)="onFileSelected($event, 'descripcion_tecnica_proyecto')"
+        accept=".pdf"
+    />
+    <p class="help-text">Debe incluir planos, ubicación, área intervenida y objetivo del proyecto.</p>
+  
+</div>
+<div class="file-group">
+    <label [class.required]="isRequired('certificado_tradicion_libertad')">
+        Certificado de Tradición y Libertad del inmueble
+        <span *ngIf="isRequired('certificado_tradicion_libertad')" class="asterisk">*</span>
+    </label>
+    <input
+        id="certificado_tradicion_libertad"
+        type="file"
+        (change)="onFileSelected($event, 'certificado_tradicion_libertad')"
+        accept=".pdf"
+    />
+    <p class="help-text">Fecha de expedición no mayor a 3 meses.</p>
+   
+</div>
+<div class="file-group">
+    <label [class.required]="isRequired('autorizacion_bic')">
+        Copia de la autorización de intervención de Bienes de Interés Cultural (BIC) <em>(si aplica)</em>
+        <span *ngIf="isRequired('autorizacion_bic')" class="asterisk">*</span>
+    </label>
+    <input
+        id="autorizacion_bic"
+        type="file"
+        (change)="onFileSelected($event, 'autorizacion_bic')"
+        accept=".pdf"
+    />
+    <p class="help-text">Solo en caso de que el inmueble esté catalogado como BIC.</p>
+    
+</div>
+<div class="file-group" >
+    
+    <label >
+        Registro de defunción del propietario del bien inmueble <em>(si aplica)</em>
+        <span *ngIf="isRequired('registro_defuncion')" class="asterisk">*</span>
+    </label>
+    
+    <input
+        id="registro_defuncion"
+        type="file"
+        (change)="onFileSelected($event, 'registro_defuncion')" 
+        accept=".pdf"
+    />
+    
+    <p class="help-text">
+        En caso de fallecimiento del propietario, se debe anexar este documento junto con los siguientes:
+    </p>
 
+    <ul class="help-text">
+        <li>
+            Radicación ante juzgado o notaría del proceso de sucesión, o documento privado notariado suscrito por los posibles herederos donde se manifieste que no hay herederos con mayor derecho y se comprometan a realizar los trámites de sucesión.
+        </li>
+        <li>Copia del documento de identificación del o los herederos.</li>
+        <li>Copia del registro civil de nacimiento de los hijos o registro de matrimonio del cónyuge (según el caso).</li>
+    </ul>
+
+   
+</div>
+
+<h3 class="section-title">Documentos Para Pequeños y Grandes Generadores</h3>
+<br>
+<div class="file-group">
+    <label >
+        Cuadro de cantidades de RCD a generar, discriminados por tipo de RCD
+        <span *ngIf="isRequired('cuadro_cantidades_rcd')" class="asterisk">*</span>
+    </label>
+    <input 
+        id="cuadro_cantidades_rcd" 
+        type="file" 
+        (change)="onFileSelected($event, 'cuadro_cantidades_rcd')"
+        accept=".pdf" 
+    />
+    <p class="help-text">
+        Debe seguir la clasificación establecida en el Artículo 2 de la Resolución 0472 de 2017.
+    </p>
+    <div class="error" >
+        Debes adjuntar el Cuadro de Cantidades de RCD.
+    </div>
 </div>
 
 
-<!-- PASO 2: DOCUMENTOS -->
-<div *ngIf="step === 2" [formGroup]="vehiculodocuments" class="vehicle-documents">
 
-  <!-- ===================== Documentos Generales ===================== -->
-  <h3 class="section-title">Documentos Generales (Todos los proyectos)</h3>
-
-  <!-- Cuadro de Cantidades de RCD -->
-  <div class="file-group">
-    <label [class.required]="isInvalid('cuadro_cantidades_rcd')">
-      Cuadro de cantidades de RCD a generar
-      <span *ngIf="isRequired('cuadro_cantidades_rcd')" class="asterisk">*</span>
+<div class="file-group">
+    <label >
+        Soporte de pago del PIN
+        <span *ngIf="isRequired('soporte_pago_pin')" class="asterisk">*</span>
     </label>
-    <input
-      type="file"
-      formControlName="cuadro_cantidades_rcd"
-      accept=".pdf"
-      (change)="onFileSelected($event, 'cuadro_cantidades_rcd')"
-    />
-    <p class="help-text">
-      Debe seguir la clasificación establecida en el Artículo 2 de la Resolución 0472 de 2017.
-    </p>
-  </div>
-
-  <!-- Soporte de pago del PIN -->
-  <div class="file-group">
-    <label [class.required]="isInvalid('soporte_pago_pin')">
-      Soporte de pago del PIN
-      <span *ngIf="isRequired('soporte_pago_pin')" class="asterisk">*</span>
-    </label>
-    <input
-      type="file"
-      formControlName="soporte_pago_pin"
-      accept=".pdf"
-      (change)="onFileSelected($event, 'soporte_pago_pin')"
+    <input 
+        id="soporte_pago_pin" 
+        type="file" 
+        (change)="onFileSelected($event, 'soporte_pago_pin')"
+        accept=".pdf" 
     />
     <p class="help-text">Comprobante de pago asociado al trámite ambiental.</p>
-  </div>
-
-  <!-- Cronograma de actividades -->
-  <div class="file-group">
-    <label [class.required]="isInvalid('cronograma_actividades')">
-      Cronograma de actividades del proyecto
-      <span *ngIf="isRequired('cronograma_actividades')" class="asterisk">*</span>
+  
+</div>
+<div class="file-group">
+    <label class="required">
+        Cronograma de actividades del proyecto
+        <span class="asterisk">*</span>
     </label>
-    <input
-      type="file"
-      formControlName="cronograma_actividades"
-      accept=".pdf"
-      (change)="onFileSelected($event, 'cronograma_actividades')"
+    <input 
+        id="cronograma_actividades" 
+        type="file" 
+        (change)="onFileSelected($event, 'cronograma_actividades')" 
+        accept=".pdf" 
     />
-    <p class="help-text">Debe incluir fechas estimadas y responsables de cada actividad.</p>
-  </div>
+    <p class="help-text">Debe incluir las fechas estimadas y responsables de cada actividad.</p>
+    
 
-  <!-- Planos arquitectónicos -->
-  <div class="file-group">
-    <label [class.required]="isInvalid('planos_aprobados_curaduria')">
-      Copia de los planos arquitectónicos aprobados por curaduría urbana
-      <span *ngIf="isRequired('planos_aprobados_curaduria')" class="asterisk">*</span>
+</div>
+<div class="file-group">
+    <label class="required">
+        Copia de los planos arquitectónicos aprobados por curaduría urbana
+        <span class="asterisk">*</span>
     </label>
-    <input
-      type="file"
-      formControlName="planos_aprobados_curaduria"
-      accept=".pdf"
-      (change)="onFileSelected($event, 'planos_aprobados_curaduria')"
+    <input 
+        id="planos_aprobados_curaduria" 
+        type="file" 
+        (change)="onFileSelected($event, 'planos_aprobados_curaduria')" 
+        accept=".pdf" 
     />
-  </div>
-
-  <!-- Contrato de Obra y OTROSÍ -->
-  <div class="file-group">
-    <label [class.required]="isInvalid('contrato_obra_otros')">
-      Contrato de Obra y OTROSÍ
-      <span *ngIf="isRequired('contrato_obra_otros')" class="asterisk">*</span>
+    <p class="help-text">Planos oficiales debidamente aprobados por la curaduría urbana.</p>
+    
+ 
+</div>
+<div class="file-group">
+    <label class="required">
+        Contrato de Obra y OTROSÍ, debidamente firmados por las partes
+        <span class="asterisk">*</span>
     </label>
-    <input
-      type="file"
-      formControlName="contrato_obra_otros"
-      accept=".pdf"
-      (change)="onFileSelected($event, 'contrato_obra_otros')"
+    <input 
+        id="contrato_obra_otros" 
+        type="file" 
+        (change)="onFileSelected($event, 'contrato_obra_otros')" 
+        accept=".pdf" 
     />
-  </div>
-
-  <!-- Resolución o Licencia -->
-  <div class="file-group">
-    <label [class.required]="isInvalid('resolucion_curaduria_o_licencia')">
-      Copia de la resolución o licencia correspondiente
-      <span *ngIf="isRequired('resolucion_curaduria_o_licencia')" class="asterisk">*</span>
+    <p class="help-text">
+        Aplica si la solicitud del PIN la realiza el contratista de obra.
+    </p>
+   
+</div>
+<div class="file-group">
+    <label class="required">
+        Copia de la resolución o licencia correspondiente
+        <span class="asterisk">*</span>
     </label>
-    <input
-      type="file"
-      formControlName="resolucion_curaduria_o_licencia"
-      accept=".pdf"
-      (change)="onFileSelected($event, 'resolucion_curaduria_o_licencia')"
+    <input 
+        id="resolucion_curaduria_o_licencia" 
+        type="file" 
+        (change)="onFileSelected($event, 'resolucion_curaduria_o_licencia')" 
+        accept=".pdf" 
     />
-  </div>
-
-  <!-- Programa de manejo ambiental de RCD -->
-  <div class="file-group">
-    <label [class.required]="isInvalid('programa_manejo_rcd_pdf')">
-      Programa de manejo ambiental de RCD
-      <span *ngIf="isRequired('programa_manejo_rcd_pdf')" class="asterisk">*</span>
+    <p class="help-text">
+        Puede ser licencia urbanística, de intervención u ocupación del espacio público, o licencia ambiental (según aplique).
+    </p>
+    
+</div>
+<div class="file-group">
+    <label class="required">
+        Programa de manejo ambiental de Residuos de Construcción y Demolición (RCD)
+        <span class="asterisk">*</span>
     </label>
-    <input
-      type="file"
-      formControlName="programa_manejo_rcd_pdf"
-      accept=".pdf"
-      (change)="onFileSelected($event, 'programa_manejo_rcd_pdf')"
+    <input 
+        id="programa_manejo_rcd_pdf" 
+        type="file" 
+        (change)="onFileSelected($event, 'programa_manejo_rcd_pdf')"
+        accept=".pdf" 
     />
-  </div>
-
-  <!-- ===================== Documentos del Proyecto ===================== -->
-  <h3 class="section-title">Documentos del Proyecto</h3>
-
-  <!-- Carta de Solicitud -->
-  <div class="file-group">
-    <label [class.required]="isInvalid('carta_solicitud')">
-      Carta de Solicitud
-      <span *ngIf="isRequired('carta_solicitud')" class="asterisk">*</span>
+    <p class="help-text">
+        Formulado según los requisitos mínimos de la Resolución 1257 de 2021 y los establecidos por la autoridad ambiental.
+    </p>
+   
+</div>
+<div class="file-group">
+    <label>
+        Copia de la autorización de intervención de Bienes de Interés Cultural (BIC)
+        <em>(si aplica)</em>
     </label>
-    <input
-      id="carta_solicitud"
-      type="file"
-      formControlName="carta_solicitud"
-      accept=".pdf"
-      (change)="onFileSelected($event, 'carta_solicitud')"
+    <input 
+        id="autorizacion_bicBigOrSmall" 
+        type="file" 
+        (change)="onFileSelected($event, 'autorizacion_bicBigOrSmall')" 
+        accept=".pdf" 
     />
-  </div>
-
-  <!-- Descripción técnica del proyecto -->
-  <div class="file-group">
-    <label [class.required]="isInvalid('descripcion_tecnica_proyecto')">
-      Descripción técnica del proyecto
-      <span *ngIf="isRequired('descripcion_tecnica_proyecto')" class="asterisk">*</span>
+    <p class="help-text">
+        Expedido por la Alcaldía Mayor de Cartagena (artículos 9 al 12 del Decreto 0404 de 2024).
+    </p>
+  
+</div>
+<div class="file-group">
+    <label>
+        Certificado de Planeación (si no se requiere licencia)
     </label>
-    <input
-      id="descripcion_tecnica_proyecto"
-      type="file"
-      formControlName="descripcion_tecnica_proyecto"
-      accept=".pdf"
-      (change)="onFileSelected($event, 'descripcion_tecnica_proyecto')"
+    <input 
+        id="certificado_no_requiere_licencia" 
+        type="file" 
+        (change)="onFileSelected($event, 'certificado_no_requiere_licencia')"
+        accept=".pdf" 
     />
-  </div>
-
-  <!-- Certificado de Tradición y Libertad -->
-  <div class="file-group">
-    <label [class.required]="isInvalid('certificado_tradicion_libertad')">
-      Certificado de Tradición y Libertad del inmueble
-      <span *ngIf="isRequired('certificado_tradicion_libertad')" class="asterisk">*</span>
+    <p class="help-text">
+        Certificado expedido por la Secretaría de Planeación donde conste que no se requiere licencia de intervención y ocupación de espacio público.
+    </p>
+  
+</div>
+<div class="file-group">
+    <label>
+        Permiso de ocupación de cauce <em>(si aplica)</em>
     </label>
-    <input
-      id="certificado_tradicion_libertad"
-      type="file"
-      formControlName="certificado_tradicion_libertad"
-      accept=".pdf"
-      (change)="onFileSelected($event, 'certificado_tradicion_libertad')"
+    <input 
+        id="permiso_ocupacion_cauce" 
+        type="file" 
+        (change)="onFileSelected($event, 'permiso_ocupacion_cauce')"
+        accept=".pdf" 
     />
-  </div>
+    <p class="help-text">
+        Copia del acto administrativo a través del cual se otorga el permiso de ocupación de cauce.
+    </p>
+   
+</div>
 
-  <!-- Registro de defunción del propietario (Persona Natural) -->
-  <div class="file-group" *ngIf="contacto.get('tipo_de_solicitante')?.value === 'Persona Natural'">
-    <label [class.required]="isInvalid('registro_defuncion')">
-      Registro de defunción del propietario <em>(si aplica)</em>
-    </label>
-    <input
-      id="registro_defuncion"
-      type="file"
-      formControlName="registro_defuncion"
-      accept=".pdf"
-      (change)="onFileSelected($event, 'registro_defuncion')"
-    />
-  </div>
-
-  <!-- Autorización de intervención BIC -->
-  <div class="file-group">
-    <label [class.required]="isInvalid('autorizacion_bic')">
-      Autorización de intervención de BIC <em>(si aplica)</em>
-    </label>
-    <input
-      id="autorizacion_bic"
-      type="file"
-      formControlName="autorizacion_bic"
-      accept=".pdf"
-      (change)="onFileSelected($event, 'autorizacion_bic')"
-    />
-  </div>
-
-  <!-- Nota general -->
+  <!-- 📝 Nota general -->
   <p class="help-text final-note">
-    Todos los archivos deben estar en formato PDF e incluir el nombre del proyecto y la fecha en cada documento.
+    Todos los documentos deben presentarse en formato PDF, con nombre del proyecto y fecha de emisión visibles.
+  </p>
+</div>
+  
+
+
+
+  <!-- Mensaje general de validación -->
+  <div class="form-errors" *ngIf="DocumentsForm.invalid && DocumentsForm.touched">
+    <p class="error">Revisa los campos marcados en rojo y adjunta los documentos obligatorios.</p>
+  </div>
+
+  <!-- Botones -->
+  <div class="form-actions">
+    <button mat-stroked-button type="button" (click)="prevStep()">Anterior</button>
+    <button mat-flat-button color="primary" type="button" (click)="nextStep()">Siguiente</button>
+  </div>
+</div>
+
+
+  <!-- PASO 3 — INFORMACIÓN ADICIONAL -->
+  <div *ngIf="step === 3" [formGroup]="infoextra">
+    
+    <h3>Información adicional</h3>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Fecha de expedición del PIN</mat-label>
+      <input matInput type="date" formControlName="fecha_expedicion_pin" />
+      <mat-error *ngIf="isInvalid('fecha_expedicion_pin', infoextra)">
+        Debes ingresar la fecha de expedición del PIN.
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Consecutivo SIGOB</mat-label>
+      <input matInput formControlName="consecutivo_sigob" placeholder="Ej: 2025-000123" />
+      <mat-error *ngIf="isInvalid('consecutivo_sigob', infoextra)">
+        Debes ingresar el consecutivo SIGOB.
+      </mat-error>
+    </mat-form-field>
+     <mat-form-field appearance="outline">
+      <mat-label>Valor</mat-label>
+      <input matInput formControlName="valor" placeholder="" />
+      <mat-error *ngIf="isInvalid('valor', infoextra)">
+        Debes ingresar el valor.
+      </mat-error>
+    </mat-form-field>
+
+    <div class="form-actions">
+      <button mat-stroked-button (click)="prevStep()">Anterior</button>
+      <button mat-flat-button color="primary" (click)="nextStep()">Siguiente</button>
+    </div>
+  </div>
+
+  <!-- PASO 4 — RESUMEN FINAL -->
+  <div *ngIf="step === 4 " >
+<div *ngIf="proyecto.get('tipo_de_generador')?.value === 'PEQUEÑO GENERADOR QUE NO REQUIERE LICENCIA O PERMISO.' ">
+   <div class="summary-box">
+  <h3>Resumen — Datos de Contacto</h3>
+
+  <p><strong>Tipo de solicitante:</strong> {{ contacto.get('tipo_de_solicitante')?.value }}</p>
+
+  <ng-container *ngIf="contacto.get('tipo_de_solicitante')?.value === 'Persona Natural'">
+    <p><strong>Nombres y apellidos:</strong> {{ contacto.get('nombres_y_apellidos')?.value }}</p>
+    <p><strong>Documento de identidad:</strong> {{ contacto.get('documento_de_identidad')?.value }}</p>
+  </ng-container>
+
+  <ng-container *ngIf="contacto.get('tipo_de_solicitante')?.value === 'Persona Jurídica'">
+    <p><strong>Razón social:</strong> {{ contacto.get('razon_social')?.value }}</p>
+    <p><strong>NIT:</strong> {{ contacto.get('nit')?.value }}</p>
+  </ng-container>
+
+  <p><strong>Correo electrónico:</strong> {{ contacto.get('correo_electronico')?.value }}</p>
+  <p><strong>Teléfono móvil:</strong> {{ contacto.get('telefono_movil')?.value }}</p>
+  <p><strong>Teléfono fijo:</strong> {{ contacto.get('telefono_fijo')?.value }}</p>
+
+  <p><strong>Localidad:</strong> {{ contacto.get('localidad')?.value }}</p>
+  <p><strong>Barrio:</strong> {{ contacto.get('barrio')?.value }}</p>
+
+  <p><strong>Dirección de correspondencia:</strong>
+    {{ contacto.get('direccion_de_correspondencia_del_solicitante')?.value }}
   </p>
 </div>
 
- <!-- PASO 3: RESUMEN -->
-  <div *ngIf="step === 3" class="summary-container">
-    <h3>Resumen del Transportador</h3>
-    <p>Verifica los datos antes de guardar.</p>
+  
+  
+  
+  <h2>Resumen del Proyecto</h2>
 
-    <div class="summary-section">
-      <h4>Datos de Contacto</h4>
-      <table>
-        <tr><td><strong>Nombres:</strong></td><td>{{ contacto.get('nombres_y_apellidos')?.value }}</td></tr>
-        <tr><td><strong>Correo:</strong></td><td>{{ contacto.get('correo_electronico')?.value }}</td></tr>
-        <tr><td><strong>Teléfono:</strong></td><td>{{ contacto.get('telefono_movil')?.value }}</td></tr>
-      </table>
-    </div>
+    <div class="summary-box" >
 
-    <div class="summary-section">
-      <h4>Datos del Vehículo</h4>
-      <table>
-        <tr><td><strong>Clase:</strong></td><td>{{ vehiculo.get('clase_vehiculo')?.value }}</td></tr>
-        <tr><td><strong>Placa:</strong></td><td>{{ vehiculo.get('placa_vehiculo')?.value }}</td></tr>
-        <tr><td><strong>Marca:</strong></td><td>{{ vehiculo.get('marca')?.value }}</td></tr>
-        <tr><td><strong>Modelo:</strong></td><td>{{ vehiculo.get('modelo')?.value }}</td></tr>
-        <tr><td><strong>Capacidad:</strong></td>
-          <td>{{ vehiculo.get('capacidad_vehiculo')?.value }} {{ vehiculo.get('unidad_capacidad')?.value }}</td>
-        </tr>
-      </table>
-    </div>
+      <p><strong>Tipo de Generador:</strong> {{ proyecto.get('tipo_de_generador')?.value }}</p>
+      <p><strong>Localidad:</strong> {{ proyecto.get('localidad_proyecto')?.value }}</p>
+    <p><strong>Barrio:</strong> {{ proyecto.get('barrio_proyecto')?.value }}</p>
 
-    <div class="summary-section">
-      <h4>Documentos Cargados</h4>
+<p><strong>Dirección del Proyecto:</strong> {{ proyecto.get('direccion_del_proyecto')?.value }}</p>
+
+<p><strong>Fecha Inicio:</strong> {{ proyecto.get('fecha_inicio')?.value | date:'dd/MM/yyyy' }}</p>
+
+<p><strong>Fecha Final:</strong> {{ proyecto.get('fecha_final')?.value | date:'dd/MM/yyyy' }}</p>
+
+<p><strong>Nombre del Proyecto:</strong> {{ proyecto.get('nombre_del_proyecto')?.value }}</p>
+
+    <div *ngFor="let predio of proyecto.get('datos_predios')?.value; let i = index">
+  <p><strong>Predio {{ i + 1 }}</strong></p>
+
+  <p><strong>Referencia Catastral:</strong> {{ predio.referencia_catastral }}</p>
+  <p><strong>Matrícula Inmobiliaria:</strong> {{ predio.matricula_inmobiliaria }}</p>
+<p>
+  <strong>Descripción del proyecto o actividad:</strong><br />
+  {{ proyecto.get('descripcion_del_proyecto_o_actividad_a_ejecutar')?.value }}
+</p>
+<p>
+  <strong>Área a Intervenir (m²):</strong>
+  {{ proyecto.get('area_a_intervenir_m2')?.value }}
+</p>
+
+<p>
+  <strong>Cantidad de RCD a generar (Toneladas):</strong>
+  {{ proyecto.get('cantidad_de_rcd_a_generar_toneladas')?.value }}
+</p>
+<p>
+
+
+  <strong>Latitud:</strong>
+  {{ proyecto.get('latitud')?.value }}</p>
+      <p >
+        <strong>Longitud:</strong>
+       {{ proyecto.get('longitud')?.value }}</p>
+<p>
+
+
+
+
+
+      <h3>Documentos cargados</h3>
       <ul>
         <li *ngFor="let doc of getUploadedDocuments()">{{ doc }}</li>
       </ul>
+
+      <h3>Información adicional</h3>
+      <p><strong>Fecha PIN:</strong> {{ infoextra.get('fecha_expedicion_pin')?.value }}</p>
+      <p><strong>Consecutivo SIGOB:</strong> {{ infoextra.get('consecutivo_sigob')?.value }}</p>
+         <p><strong>Valor:</strong> {{ infoextra.get('valor')?.value }}</p>
+
     </div>
-  </div>
+    </div>
+     <div class="form-actions">
+      <button mat-stroked-button (click)="prevStep()">Anterior</button>
+      <button mat-flat-button color="accent" (click)="onSubmit()">Guardar</button>
+    </div>
+</div>
+<!-- este resumen es para pequeños o grandes-->
+
+<div *ngIf="proyecto.get('tipo_de_generador')?.value === 'PEQUEÑO GENERADOR DE RCD' ||
+  proyecto.get('tipo_de_generador')?.value === 'GRAN GENERADOR DE RCD'">
+    <h2>Resumen del Proyecto</h2>
+
+    <div class="summary-box">
+
+      <p><strong>Tipo de Generador:</strong> {{ proyecto.get('tipo_de_generador')?.value }}</p>
+      <p><strong>Localidad:</strong> {{ proyecto.get('localidad_proyecto')?.value }}</p>
+    <p><strong>Barrio:</strong> {{ proyecto.get('barrio_proyecto')?.value }}</p>
+
+<p><strong>Dirección del Proyecto:</strong> {{ proyecto.get('direccion_del_proyecto')?.value }}</p>
+
+<p><strong>Fecha Inicio:</strong> {{ proyecto.get('fecha_inicio')?.value | date:'dd/MM/yyyy' }}</p>
+
+<p><strong>Fecha Final:</strong> {{ proyecto.get('fecha_final')?.value | date:'dd/MM/yyyy' }}</p>
+
+<p><strong>Nombre del Proyecto:</strong> {{ proyecto.get('nombre_del_proyecto')?.value }}</p>
+
+    <div *ngFor="let predio of proyecto.get('datos_predios')?.value; let i = index">
+  <p><strong>Predio {{ i + 1 }}</strong></p>
+
+  <p><strong>Referencia Catastral:</strong> {{ predio.referencia_catastral }}</p>
+  <p><strong>Matrícula Inmobiliaria:</strong> {{ predio.matricula_inmobiliaria }}</p>
+<p>
+  <strong>Descripción del proyecto o actividad:</strong><br />
+  {{ proyecto.get('descripcion_del_proyecto_o_actividad_a_ejecutar')?.value }}
+</p>
+<p>
+  <strong>Área a Intervenir (m²):</strong>
+  {{ proyecto.get('area_a_intervenir_m2')?.value }}
+</p>
+
+<p>
+  <strong>Cantidad de RCD a generar (Toneladas):</strong>
+  {{ proyecto.get('cantidad_de_rcd_a_generar_toneladas')?.value }}
+</p>
 
 
-  <!-- BOTONES -->
-  <div class="form-actions">
-    <button mat-stroked-button type="button" (click)="prevStep()" [disabled]="step === 0">Anterior</button>
-    <button mat-stroked-button type="button" (click)="nextStep()" *ngIf="step < totalSteps - 1">Siguiente</button>
-    <button mat-flat-button color="primary" type="submit" *ngIf="step === totalSteps - 1">Guardar</button>
-  </div>
-</form>
+<p>
+  <strong>Latitud:</strong>
+  {{ proyecto.get('latitud')?.value }}</p>
+      <p >
+        <strong>Longitud:</strong>
+       {{ proyecto.get('longitud')?.value }}</p>
+<p>
+
+
+
+<h2>Tipo de Licencia</h2>
+
+<div class="summary-section">
+  <h3>1. Urbanización</h3>
+  <ul *ngIf="getLicenciaOptions('urbanizacion_block_0100').length > 0; else noUrbanizacion">
+    <li *ngFor="let opcion of getLicenciaOptions('urbanizacion_block_0100')">
+      {{ opcion }}
+    </li>
+  </ul>
+
+
+  <ng-template #noUrbanizacion><p>No aplica.</p></ng-template>
+
+  <ng-template #noUrbanizacion><p>— No aplica.</p></ng-template>
+
+
+  <ng-template #noUrbanizacion><p>— No aplica.</p></ng-template>
+
+</div>
+
+<hr>
+
+<div class="summary-section">
+  <h3>2. Construcción</h3>
+  <ul *ngIf="getLicenciaOptions('construccion_block_0100').length > 0; else noConstruccion">
+    <li *ngFor="let opcion of getLicenciaOptions('construccion_block_0100')">
+      {{ opcion }}
+    </li>
+  </ul>
+
+
+  <ng-template #noConstruccion><p>No aplica.</p></ng-template>
+
+  <ng-template #noConstruccion><p>— No aplica.</p></ng-template>
+
+
+  <ng-template #noConstruccion><p>— No aplica.</p></ng-template>
+
+</div>
+
+<hr>
+
+<div class="summary-section">
+  <h3>3. Permiso de Intervención BIC</h3>
+  <ul *ngIf="getLicenciaOptions('bic_block_0100').length > 0; else noBic">
+    <li *ngFor="let opcion of getLicenciaOptions('bic_block_0100')">
+      {{ opcion }}
+    </li>
+  </ul>
+
+
+  <ng-template #noBic><p>No aplica.</p></ng-template>
+
+  <ng-template #noBic><p>— No aplica.</p></ng-template>
+
+
+  <ng-template #noBic><p>— No aplica.</p></ng-template>
+
+</div>
+
+<hr>
+
+<div class="summary-section">
+  <h3>4. Intervención / Ocupación del Espacio Público</h3>
+  <ul *ngIf="getLicenciaOptions('espacio_publico_block_0100').length > 0; else noEspacio">
+    <li *ngFor="let opcion of getLicenciaOptions('espacio_publico_block_0100')">
+      {{ opcion }}
+    </li>
+  </ul>
+
+
+  <ng-template #noEspacio><p>No aplica.</p></ng-template>
+
+  <ng-template #noEspacio><p>— No aplica.</p></ng-template>
+
+
+  <ng-template #noEspacio><p>— No aplica.</p></ng-template>
+
+</div>
+
+<hr>
+
+<div class="summary-section">
+  <h3>5. Demolición por Declaración de Estado de Ruina</h3>
+  <p>Respuesta: <strong>{{ getDemolicionRespuesta() || 'NO' }}</strong></p>
+</div>
+
+<hr>
+
+<div class="summary-section">
+  <h3>No. Resolución Licencia / Autorización BIC</h3>
+  <p>Número: <strong>{{ getResolucionNumero() || 'N/A' }}</strong></p>
+</div>
+<p>
+
+
+      <h3>Documentos cargados</h3>
+      <ul>
+        <li *ngFor="let doc of getUploadedDocuments()">{{ doc }}</li>
+      </ul>
+
+      <h3>Información adicional</h3>
+      <p><strong>Fecha PIN:</strong> {{ infoextra.get('fecha_expedicion_pin')?.value }}</p>
+      <p><strong>Consecutivo SIGOB:</strong> {{ infoextra.get('consecutivo_sigob')?.value }}</p>
+
+    </div>
+
+</div>
+ 
+
+   <div class="form-actions">
+      <button mat-stroked-button (click)="prevStep()">Anterior</button>
+      <button mat-flat-button color="accent" (click)="onSubmit()">Guardar</button>
+    </div>
+</div>
