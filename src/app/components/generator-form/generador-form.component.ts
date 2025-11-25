@@ -176,16 +176,6 @@ cantidad_de_rcd_a_generar_toneladas: [''],
   }
 );
 
-   this.form = this.fb.group({
-    proyecto: this.proyecto,
-      DocumentsForm:this.DocumentsForm,      
-      infoextra: this.infoextra,
-      contacto : this.contacto
-    });
-
-   
-
-
     // -------------------------------
     // 🟩 INFO EXTRA
     // -------------------------------
@@ -194,6 +184,18 @@ cantidad_de_rcd_a_generar_toneladas: [''],
       consecutivo_sigob: ['',Validators.required],
       valor:[0,Validators.required]
     });
+
+    
+   this.form = this.fb.group({
+      contacto : this.contacto,
+      proyecto: this.proyecto,
+      DocumentsForm:this.DocumentsForm,      
+      infoextra: this.infoextra,
+      
+    });
+
+   
+
 
  this.proyecto.addControl('latitud', this.fb.control(null));
     this.proyecto.addControl('longitud', this.fb.control(null));
@@ -387,16 +389,19 @@ getTodayDate(): string {
 nextStep() {
   console.log("Proyecto group:", this.proyecto);
 
-  let g =
-    this.step === 0
-      ? this.contacto
-      : this.step === 1
-      ? this.proyecto
-      : this.step === 2
-      ? this.DocumentsForm
-      : this.infoextra;
+  if (this.step === 4) {
+    this.onSubmit();
+    return;
+  }
 
-  if (g.invalid) {
+  let g =
+    this.step === 0 ? this.contacto
+    : this.step === 1 ? this.proyecto
+    : this.step === 2 ? this.DocumentsForm
+    : this.step === 3 ? this.infoextra
+    : null;
+
+  if (g && g.invalid) {
     g.markAllAsTouched();
     this.toast.showError('Completa todos los campos obligatorios antes de continuar.');
     return;
