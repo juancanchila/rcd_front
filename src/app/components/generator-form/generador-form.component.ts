@@ -541,6 +541,8 @@ nextStep() {
     tipoIdentLicUrb: null,
     identificacionLicUrb: null,
 
+    curaduria: null,
+
     areaVerdes: null,
     areaConstruccionAprobada: null,
 
