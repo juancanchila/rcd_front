@@ -528,7 +528,7 @@ nextStep() {
     localidad: v.localidad_proyecto,
     barrio: v.barrio_proyecto,
 
-    matriculaInmobiliaria: "123456",
+    matriculaInmobiliaria: v.matricula_inmobiliaria,
     referenciaCatastral: v.referencia_catastral,
 
     fechaInicio: v.fecha_inicio,

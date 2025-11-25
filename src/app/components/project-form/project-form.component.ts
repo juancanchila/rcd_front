@@ -372,7 +372,7 @@ tipoUsoPredio: v.datos_predios && v.datos_predios.length > 0
     ? v.datos_predios[0].referencia_catastral: null, // Envía una cadena vacía si no hay datos.
   localidad: v.localidad_proyecto,
   barrio: v.barrio_proyecto,
-  matriculaInmobiliaria: "123456",
+  matriculaInmobiliaria: v.matricula_inmobiliaria,
   referenciaCatastral: v.referencia_catastral,
   fechaInicio: v.fecha_inicio,
   fechaFin: v.fecha_final,
