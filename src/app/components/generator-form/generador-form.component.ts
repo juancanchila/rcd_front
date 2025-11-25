@@ -22,6 +22,7 @@ import { MatDatepicker, MatDatepickerModule } from "@angular/material/datepicker
 import { ProyectoService } from '../../services/proyecto.service';
 import { Generador } from '../../models/generador.model';
 import { GeneradorService } from '../../services/generador.service';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 
 
@@ -39,7 +40,7 @@ import { GeneradorService } from '../../services/generador.service';
     MatProgressBarModule,
     ProjectDataComponent,
     MapPickerComponent,
-
+  MatAutocompleteModule,
     MatExpansionModule,
    
 
