@@ -34,9 +34,9 @@
 
   <div class="file-group">
     <label [class.required]="isInvalid('foto_frontal', vehicleDocumentsForm)">
-      Foto frontal (JPG/PNG) <span *ngIf="isRequired('foto_frontal')" class="asterisk">*</span>
+      Foto frontal (JPG/PNG/PDF) <span *ngIf="isRequired('foto_frontal')" class="asterisk">*</span>
     </label>
-    <input type="file" (change)="onFileSelected($event, 'foto_frontal')" accept=".jpg,.jpeg,.png" />
+    <input type="file" (change)="onFileSelected($event, 'foto_frontal')" accept=".jpg,.jpeg,.png,.pdf" />
     <mat-error *ngIf="isInvalid('foto_frontal', vehicleDocumentsForm)">
       Debes adjuntar la foto frontal.
     </mat-error>
@@ -44,9 +44,9 @@
 
   <div class="file-group">
     <label [class.required]="isInvalid('foto_trasera', vehicleDocumentsForm)">
-      Foto trasera (JPG/PNG) <span *ngIf="isRequired('foto_trasera')" class="asterisk">*</span>
+      Foto trasera (JPG/PNG/PDF) <span *ngIf="isRequired('foto_trasera')" class="asterisk">*</span>
     </label>
-    <input type="file" (change)="onFileSelected($event, 'foto_trasera')" accept=".jpg,.jpeg,.png" />
+    <input type="file" (change)="onFileSelected($event, 'foto_trasera')" accept=".jpg,.jpeg,.png,.pdf" />
     <mat-error *ngIf="isInvalid('foto_trasera', vehicleDocumentsForm)">
       Debes adjuntar la foto trasera.
     </mat-error>
@@ -54,9 +54,9 @@
 
   <div class="file-group">
     <label [class.required]="isInvalid('foto_lateral_derecha', vehicleDocumentsForm)">
-      Foto lateral derecha (JPG/PNG) <span *ngIf="isRequired('foto_lateral_derecha')" class="asterisk">*</span>
+      Foto lateral derecha (JPG/PNG/PDF) <span *ngIf="isRequired('foto_lateral_derecha')" class="asterisk">*</span>
     </label>
-    <input type="file" (change)="onFileSelected($event, 'foto_lateral_derecha')" accept=".jpg,.jpeg,.png" />
+    <input type="file" (change)="onFileSelected($event, 'foto_lateral_derecha')" accept=".jpg,.jpeg,.png,.pdf" />
     <mat-error *ngIf="isInvalid('foto_lateral_derecha', vehicleDocumentsForm)">
       Debes adjuntar la foto lateral derecha.
     </mat-error>
@@ -64,9 +64,9 @@
 
   <div class="file-group">
     <label [class.required]="isInvalid('foto_lateral_izquierda', vehicleDocumentsForm)">
-      Foto lateral izquierda (JPG/PNG) <span *ngIf="isRequired('foto_lateral_izquierda')" class="asterisk">*</span>
+      Foto lateral izquierda (JPG/PNG/PDF) <span *ngIf="isRequired('foto_lateral_izquierda')" class="asterisk">*</span>
     </label>
-    <input type="file" (change)="onFileSelected($event, 'foto_lateral_izquierda')" accept=".jpg,.jpeg,.png" />
+    <input type="file" (change)="onFileSelected($event, 'foto_lateral_izquierda')" accept=".jpg,.jpeg,.png,.pdf" />
     <mat-error *ngIf="isInvalid('foto_lateral_izquierda', vehicleDocumentsForm)">
       Debes adjuntar la foto lateral izquierda.
     </mat-error>
@@ -74,9 +74,9 @@
 
   <div class="file-group">
     <label [class.required]="isInvalid('registro_herramientas', vehicleDocumentsForm)">
-      Registro de herramientas / kit de limpieza (PDF/JPG/PNG)
+      Registro de herramientas / kit de limpieza (PDF/JPG/PNG/PDF)
     </label>
-    <input type="file" (change)="onFileSelected($event, 'registro_herramientas')" accept=".pdf,.jpg,.jpeg,.png" />
+    <input type="file" (change)="onFileSelected($event, 'registro_herramientas')" accept=".pdf,.jpg,.jpeg,.png,.pdf" />
     <mat-error *ngIf="isInvalid('registro_herramientas', vehicleDocumentsForm)">
       Debes adjuntar el registro.
     </mat-error>

@@ -33,39 +33,27 @@ import { environment } from '../../../environments/environment.prod';
     MatSelectModule,
     MatIconModule,
     MatToolbarModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
   ],
   templateUrl: './pin-consulta.component.html',
-  styleUrls: ['./pin-consulta.component.css']
+  styleUrls: ['./pin-consulta.component.css'],
 })
 export class PinConsultaComponent {
-
   private baseUrl = environment.API_URL;
   consultaForm: FormGroup;
 
-  generador: Generador | null = null;
-  proyectos: Proyecto[] = [];
-
-  transportador: Transportador | null = null;
-  vehiculos: any[] = [];
-
-  receptor: Receptor | null = null;
-  resoluciones: Resolucion[] = [];
-
-  // AHORA ALMACENA TODOS LOS VEHÍCULOS CONSULTADOS
+  // 👀 ahora TODOS son arrays para soportar múltiples resultados
+  generadores: Generador[] = [];
+  transportadores: Transportador[] = [];
+  receptores: Receptor[] = [];
   vehiculosConsulta: VehiculoConsulta[] = [];
 
   loading = false;
 
-  constructor(
-    private fb: FormBuilder,
-    private httpService: HttpService,
-    private router: Router
-  ) {
-
+  constructor(private fb: FormBuilder, private httpService: HttpService, private router: Router) {
     this.consultaForm = this.fb.group({
       tipo: ['', Validators.required],
-      valor: ['', Validators.required]
+      valor: ['', Validators.required],
     });
   }
 
@@ -83,40 +71,31 @@ export class PinConsultaComponent {
       console.log('✅ Respuesta de la consulta:', res);
 
       switch (tipo) {
-
         case 'generador':
-          if (res?.idgenerador) {
-            this.generador = Generador.fromResponse(res);
-            this.proyectos = Array.isArray(res.proyectos)
-              ? res.proyectos.map((p: any) => Proyecto.fromResponse(p))
-              : [];
+          if (Array.isArray(res)) {
+            this.generadores = res.map((g: any) => Generador.fromResponse(g));
+          } else if (res?.idgenerador) {
+            this.generadores = [Generador.fromResponse(res)];
           }
           break;
 
         case 'transportador':
-          if (res?.idtransportador) {
-            this.transportador = Transportador.fromResponse(res);
-            this.vehiculos = Array.isArray(res.vehiculos)
-              ? res.vehiculos.map((v: any) => Vehiculo.fromResponse(v))
-              : [];
+          if (Array.isArray(res)) {
+            this.transportadores = res.map((t: any) => Transportador.fromResponse(t));
           }
           break;
 
         case 'receptor':
-          if (res?.idreceptor) {
-            this.receptor = Receptor.fromResponse(res);
-            this.resoluciones = Array.isArray(res.resoluciones)
-              ? res.resoluciones.map((r: any) => Resolucion.fromResponse(r))
-              : [];
+          if (Array.isArray(res)) {
+            this.receptores = res.map((r: any) => Receptor.fromResponse(r));
+          } else if (res?.idreceptor) {
+            this.receptores = [Receptor.fromResponse(res)];
           }
           break;
 
         case 'vehiculo':
-          // 🔥 SI VIENEN 1, 2 O N VEHÍCULOS → SE GUARDAN TODOS
           if (Array.isArray(res)) {
-            this.vehiculosConsulta = res.map((v: any) =>
-              VehiculoConsulta.fromResponse(v)
-            );
+            this.vehiculosConsulta = res.map((v: any) => VehiculoConsulta.fromResponse(v));
           } else if (res?.idvehiculo) {
             this.vehiculosConsulta = [VehiculoConsulta.fromResponse(res)];
           }
@@ -125,7 +104,6 @@ export class PinConsultaComponent {
         default:
           console.warn('⚠️ Tipo no reconocido.');
       }
-
     } catch (error) {
       console.error('❌ Error en consulta:', error);
     } finally {
@@ -134,17 +112,19 @@ export class PinConsultaComponent {
   }
 
   private resetDatos() {
-    this.generador = null;
-    this.proyectos = [];
-    this.transportador = null;
-    this.vehiculos = [];
-    this.receptor = null;
-    this.resoluciones = [];
+    this.generadores = [];
+    this.transportadores = [];
+    this.receptores = [];
     this.vehiculosConsulta = [];
   }
 
-  goToPinResolucion(id: number) { this.router.navigate(['/pin/resolucion/', id]); }
-  goToPinProyecto(id: number) { this.router.navigate(['/pin/proyecto/', id]); }
-  goToPinVehiculo(id: number) { this.router.navigate(['/pin/vehiculo/', id]); }
-
+  goToPinResolucion(id: number) {
+    this.router.navigate(['/pin/resolucion/', id]);
+  }
+  goToPinProyecto(id: number) {
+    this.router.navigate(['/pin/proyecto/', id]);
+  }
+  goToPinVehiculo(id: number) {
+    this.router.navigate(['/pin/vehiculo/', id]);
+  }
 }

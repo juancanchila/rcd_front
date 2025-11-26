@@ -4,14 +4,24 @@
   <div #mapContainer class="map-container"></div>
 
   <div class="coords">
+
     <div class="coord-field">
       <label>Latitud</label>
-      <input matInput [value]="lat" readonly />
+      <input
+        matInput
+        [value]="lat"
+        (input)="onLatChange($event)"
+      />
     </div>
 
     <div class="coord-field">
       <label>Longitud</label>
-      <input matInput [value]="lng" readonly />
+      <input
+        matInput
+        [value]="lng"
+        (input)="onLngChange($event)"
+      />
     </div>
+
   </div>
 </div>

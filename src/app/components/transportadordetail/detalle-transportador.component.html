@@ -25,7 +25,29 @@
         <tr><th>Primer Apellido:</th><td>{{ transportador.primerApellidos || "—" }}</td></tr>
         <tr><th>Segundo Apellido:</th><td>{{ transportador.segundoApellido || "—" }}</td></tr>
         <tr><th>Razón Social:</th><td>{{ transportador.razonSocial || "—" }}</td></tr>
-        <tr><th>Documento Identificación:</th><td>{{ transportador.documentoIdentificacion }}</td></tr>
+
+        
+      <tr >
+  <th>Documento Identificación:</th>
+  <td>
+    <a *ngIf="transportador.documentoIdentificacion" [href]="encodeUrl(transportador.documentoIdentificacion)" target="_blank">
+      {{ transportador.documentoIdentificacion || "—" }}
+    </a>
+  </td>
+</tr>
+  <!-- 
+     <tr >
+  <th>Cert Ex Legal:</th>
+  <td>
+    <a *ngIf="transportador.cert_ext_legal" [href]="encodeUrl(transportador.cert_ext_legal)" target="_blank">
+      {{ transportador.documentoIdentificacion || "—" }}
+    </a>
+  </td>
+</tr>
+Corregir-->
+
+
+
         <tr><th>Documento RUT:</th><td>{{ transportador.documentoRUT }}</td></tr>
         <tr><th>Dirección:</th><td>{{ transportador.direccion }}</td></tr>
         <tr><th>Correo:</th><td>{{ transportador.correoElectronico }}</td></tr>

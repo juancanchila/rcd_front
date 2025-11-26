@@ -332,8 +332,7 @@ export class TransportadorFormComponent implements OnInit {
       fotoTrasera: this.extractFilename(d.foto_trasera),
 
       idtransportador: 0,
-      pin: '',
-
+    
       licenciaTransito: this.extractFilename(d.licencia_transito),
       certificadoRevTecMec: this.extractFilename(d.certificado_tecnicomecanica),
 
@@ -394,6 +393,9 @@ export class TransportadorFormComponent implements OnInit {
         }
       }
 
+
+
+       // Pendiente Actualizar los arcivos del Transportador
       // 3. Actualizar vehículo
       const vehiculoUpdate: any = {
         ...vehiculo,

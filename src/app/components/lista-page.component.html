@@ -1,21 +1,23 @@
 <!-- Contenido principal -->
 <main class="lista-page-wrapper">
   <!-- Botón para crear nuevo -->
-<div style="text-align:right; margin-bottom:12px"
-     *ngIf="!['resolucion', 'visitatecnica', 'reporte','proyecto', 'vehiculo'].includes(tipo)">
-  <button mat-raised-button color="primary"   [routerLink]="['/', tipo, 'create']">
-    <mat-icon>add</mat-icon>
-    Crear nuevo {{ tipo | titlecase }}
-  </button>
-</div>
+  <div style="text-align:right; margin-bottom:12px"
+       *ngIf="!['resolucion', 'visitatecnica', 'reporte','proyecto', 'vehiculo'].includes(tipo)">
+    <button mat-raised-button color="primary" [routerLink]="['/', tipo, 'create']">
+      <mat-icon>add</mat-icon>
+      Crear nuevo {{ tipo === 'receptor' ? 'Gestor' : (tipo | titlecase) }}
+    </button>
+  </div>
 
   <!-- Título dinámico -->
-  <h2 class="lista-page-title">Lista de {{ tipo | titlecase }}</h2>
+  <h2 class="lista-page-title">
+    Lista de {{ tipo === 'receptor' ? 'Gestor' : (tipo | titlecase) }}
+  </h2>
 
   <!-- Tabla -->
   <app-tabla
     [tipo]="tipo"
-    [title]="'Lista de ' + (tipo | titlecase)">
+    [title]="'Lista de ' + (tipo === 'receptor' ? 'Gestor' : (tipo | titlecase))">
   </app-tabla>
 
   <!-- Footer compartido -->

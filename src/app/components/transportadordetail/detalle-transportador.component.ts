@@ -85,4 +85,22 @@ export class DetalleTransportadorComponent implements OnInit {
   volver() {
     this.router.navigate(['/transportadores']);
   }
+   // Detecta si el archivo es imagen
+  isImage(file: string | null): boolean {
+    if (!file) return false;
+    const ext = file.split('.').pop()?.toLowerCase();
+    return ['jpg','jpeg','png','gif'].includes(ext || '');
+  }
+
+  // URL para mostrar imagen
+  encodeImage(file: string | null): string {
+    if (!file) return '';
+    return `https://rcdenlinea.epacartagena.gov.co/api/files/${encodeURIComponent(file)}`;
+  }
+
+  // URL para abrir documentos en nueva pestaña
+  encodeUrl(file: string | null): string {
+    if (!file) return '#';
+    return `https://rcdenlinea.epacartagena.gov.co/api/files/${encodeURIComponent(file)}`;
+  }
 }

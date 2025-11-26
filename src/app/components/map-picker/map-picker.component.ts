@@ -51,27 +51,69 @@ export class MapPickerComponent implements AfterViewInit {
 
     this.marker = L.marker([this.lat, this.lng], { draggable: true, icon: defaultIcon }).addTo(this.map);
 
+    // Eventos del mapa y marcador
     this.marker.on('dragend', () => this.emitMarkerPosition());
     this.map.on('click', (e: L.LeafletMouseEvent) => this.updateMarker(e.latlng));
 
-    this.map.invalidateSize(); // ✅ sin setTimeout
+    this.map.invalidateSize();
   }
 
   private emitMarkerPosition(): void {
     const pos = this.marker.getLatLng();
     this.lat = +pos.lat.toFixed(6);
     this.lng = +pos.lng.toFixed(6);
-    this.coordinates.emit({ latitude: this.lat, longitude: this.lng });
+
+    this.coordinates.emit({
+      latitude: this.lat,
+      longitude: this.lng
+    });
   }
 
   private updateMarker(latlng: L.LatLng): void {
     this.marker.setLatLng(latlng);
     this.lat = +latlng.lat.toFixed(6);
     this.lng = +latlng.lng.toFixed(6);
-    this.coordinates.emit({ latitude: this.lat, longitude: this.lng });
+
+    this.coordinates.emit({
+      latitude: this.lat,
+      longitude: this.lng
+    });
   }
 
-  // Espera a que el contenedor esté en el DOM y visible
+  // Cuando el usuario escribe latitud
+  onLatChange(event: any): void {
+    const newLat = parseFloat(event.target.value);
+    if (isFinite(newLat)) {
+      this.lat = newLat;
+      this.updateMapFromInputs();
+    }
+  }
+
+  // Cuando el usuario escribe longitud
+  onLngChange(event: any): void {
+    const newLng = parseFloat(event.target.value);
+    if (isFinite(newLng)) {
+      this.lng = newLng;
+      this.updateMapFromInputs();
+    }
+  }
+
+  // Actualizar marcador desde los inputs
+  private updateMapFromInputs(): void {
+    if (!this.map || !this.marker) return;
+
+    const newLatLng = L.latLng(this.lat, this.lng);
+
+    this.marker.setLatLng(newLatLng);
+    this.map.setView(newLatLng, this.map.getZoom());
+
+    this.coordinates.emit({
+      latitude: this.lat,
+      longitude: this.lng
+    });
+  }
+
+  // Espera a que el contenedor esté visible
   private waitForContainer(): Promise<void> {
     return new Promise((resolve) => {
       const interval = setInterval(() => {

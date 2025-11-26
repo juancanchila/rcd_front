@@ -222,7 +222,7 @@ this.fechaActual = hoy.toLocaleDateString('es-ES', {
 
       this.pinData = {
         ...this.pinData,
-        tipoPin: 'RECEPTOR',
+        tipoPin: 'GESTOR',
         numeroPin: resolucion.pin || 'N/A',
         numeroResolucion: resolucion.numeroResolucion || 'N/A',
        tipoAprovechamiento: resolucion.tipoAprovechamiento ? this.fixEncoding(resolucion.tipoAprovechamiento) : 'N/A',

@@ -37,17 +37,18 @@
   </mat-card>
 
 
-
   <!-- ========================== -->
-  <!--      GENERADOR             -->
+  <!--      GENERADORES           -->
   <!-- ========================== -->
-  <mat-card *ngIf="generador">
+  <mat-card *ngIf="generadores.length > 0">
     <mat-card-header>
-      <mat-card-title>📂 Proyectos del Generador</mat-card-title>
+      <mat-card-title>📂 Proyectos de Generadores</mat-card-title>
     </mat-card-header>
 
-    <mat-card-content>
-      <table *ngIf="proyectos.length > 0" class="tabla-proyectos">
+    <mat-card-content *ngFor="let generador of generadores">
+      <h4>{{ generador.primerNombre }} {{ generador.primerApellidos }} {{ generador.razonSocial }}</h4>
+
+      <table *ngIf="generador.proyectos && generador.proyectos.length > 0" class="tabla-proyectos">
         <thead>
           <tr>
             <th>Nombre</th>
@@ -59,7 +60,7 @@
         </thead>
 
         <tbody>
-          <tr *ngFor="let proyecto of proyectos">
+          <tr *ngFor="let proyecto of generador.proyectos">
             <td>{{ proyecto.nombre }}</td>
             <td>{{ proyecto.ubicacion }}</td>
             <td>{{ proyecto.estadoProyecto }}</td>
@@ -73,24 +74,26 @@
         </tbody>
       </table>
 
-      <p *ngIf="proyectos.length === 0" class="sin-datos">
+      <p *ngIf="!generador.proyectos || generador.proyectos.length === 0" class="sin-datos">
         No hay proyectos registrados.
       </p>
+
     </mat-card-content>
   </mat-card>
 
 
-
   <!-- ========================== -->
-  <!--      TRANSPORTADOR         -->
+  <!--      TRANSPORTADORES       -->
   <!-- ========================== -->
-  <mat-card *ngIf="transportador">
+  <mat-card *ngIf="transportadores.length > 0">
     <mat-card-header>
-      <mat-card-title>🚚 Vehículos del Transportador</mat-card-title>
+      <mat-card-title>🚚 Vehículos de Transportadores</mat-card-title>
     </mat-card-header>
 
-    <mat-card-content>
-      <table *ngIf="vehiculos.length > 0" class="tabla-vehiculos">
+    <mat-card-content *ngFor="let transportador of transportadores">
+      <h4>{{ transportador.primerNombre }} {{ transportador.primerApellidos }} {{ transportador.razonSocial }}</h4>
+
+      <table *ngIf="transportador.Vehiculos && transportador.Vehiculos.length > 0" class="tabla-vehiculos">
         <thead>
           <tr>
             <th>Placa</th>
@@ -102,7 +105,7 @@
         </thead>
 
         <tbody>
-          <tr *ngFor="let vehiculo of vehiculos">
+          <tr *ngFor="let vehiculo of transportador.Vehiculos">
             <td>{{ vehiculo.placaVehiculo }}</td>
             <td>{{ vehiculo.modelo }}</td>
             <td>{{ vehiculo.capacidad }}</td>
@@ -116,17 +119,64 @@
         </tbody>
       </table>
 
-      <p *ngIf="vehiculos.length === 0" class="sin-datos">
+      <p *ngIf="!transportador.Vehiculos || transportador.Vehiculos.length === 0" class="sin-datos">
         No hay vehículos registrados para este transportador.
       </p>
+
     </mat-card-content>
   </mat-card>
 
 
+  <!-- ========================== -->
+  <!--      RECEPTORES            -->
+  <!-- ========================== -->
+  <mat-card *ngIf="receptores.length > 0">
+    <mat-card-header>
+      <mat-card-title>📂 Resoluciones de Receptores</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content *ngFor="let receptor of receptores">
+      <h4>{{ receptor.primerNombre }} {{ receptor.primerApellidos }} {{ receptor.razonSocial }}</h4>
+
+      <table *ngIf="receptor.resoluciones && receptor.resoluciones.length > 0" class="tabla-resoluciones">
+        <thead>
+          <tr>
+            <th>Número</th>
+            <th>Ubicación</th>
+            <th>Actividad</th>
+            <th>Tipo</th>
+            <th>PIN</th>
+            <th>Ver PIN</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let r of receptor.resoluciones">
+            <td>{{ r.numeroResolucion }}</td>
+            <td>{{ r.ubicacion }}</td>
+            <td>{{ r.naturalezaActividad }}</td>
+            <td>{{ r.tipoAprovechamiento }}</td>
+            <td>{{ r.pin }}</td>
+
+            <td>
+              <button mat-icon-button (click)="goToPinResolucion(r.id)">
+                <mat-icon>picture_as_pdf</mat-icon>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p *ngIf="!receptor.resoluciones || receptor.resoluciones.length === 0" class="sin-datos">
+        No hay resoluciones registradas.
+      </p>
+
+    </mat-card-content>
+  </mat-card>
 
 
   <!-- ========================== -->
-  <!--    🚗 MÚLTIPLES VEHÍCULOS  -->
+  <!--      VEHÍCULOS             -->
   <!-- ========================== -->
   <mat-card *ngIf="vehiculosConsulta.length > 0">
     <mat-card-header>
@@ -134,7 +184,6 @@
     </mat-card-header>
 
     <mat-card-content>
-
       <table class="tabla-vehiculos">
         <thead>
           <tr>
@@ -152,7 +201,6 @@
             <td>{{ v.modelo }}</td>
             <td>{{ v.capacidad }}</td>
             <td>{{ v.pin }}</td>
-
             <td>
               <button mat-icon-button (click)="goToPinVehiculo(v.idvehiculo)">
                 <mat-icon>picture_as_pdf</mat-icon>
@@ -160,57 +208,7 @@
             </td>
           </tr>
         </tbody>
-
       </table>
-
-    </mat-card-content>
-  </mat-card>
-
-
-
-  <!-- ========================== -->
-  <!--          RECEPTOR          -->
-  <!-- ========================== -->
-  <mat-card *ngIf="receptor">
-    <mat-card-header>
-      <mat-card-title>📂 Resoluciones del Receptor</mat-card-title>
-    </mat-card-header>
-
-    <mat-card-content>
-
-      <table *ngIf="resoluciones.length > 0" class="tabla-resoluciones">
-        <thead>
-          <tr>
-            <th>Número</th>
-            <th>Ubicación</th>
-            <th>Actividad</th>
-            <th>Tipo</th>
-            <th>PIN</th>
-            <th>Ver PIN</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <tr *ngFor="let r of resoluciones">
-            <td>{{ r.numeroResolucion }}</td>
-            <td>{{ r.ubicacion }}</td>
-            <td>{{ r.naturalezaActividad }}</td>
-            <td>{{ r.tipoAprovechamiento }}</td>
-            <td>{{ r.pin }}</td>
-
-            <td>
-              <button mat-icon-button (click)="goToPinResolucion(r.id)">
-                <mat-icon>picture_as_pdf</mat-icon>
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-      <p *ngIf="resoluciones.length === 0" class="sin-datos">
-        No hay resoluciones registradas.
-      </p>
-
     </mat-card-content>
   </mat-card>
 

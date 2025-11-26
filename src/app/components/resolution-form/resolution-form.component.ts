@@ -139,6 +139,8 @@ export class ResolutionFormComponent implements OnInit {
       medidas_manejo_disp_final: [''],
       permisos_disp_final: [''],
       certificacion_pot_disp_final: [''],
+      planos_del_puntolimio: [''],// falta agregae solo cunado sea punto limpio
+      libertad_tradicion_inmueble: [''],// todos los casos
     });
 
     this.infoextra = this.fb.group({

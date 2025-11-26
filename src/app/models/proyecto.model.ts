@@ -1,4 +1,5 @@
 import { VisitaTecnica } from './visitatecnica.model';
+
 export class Proyecto {
   constructor(
     public id: number,
@@ -24,12 +25,13 @@ export class Proyecto {
     public volumenEstimGenrEscombros: string,
     public volumenEstimEscavaciones: string,
     public idgenerador: number,
+    public generador: string,
     public pin: string,
     public fechaExpedicionPIN: string,
     public codigoRadicadoSIGOD: string,
     public CoordenadaX: string,
     public CoordenadaY: string,
-     public visitas: VisitaTecnica[] | null // <-- agregado
+    public visitas: VisitaTecnica[] | null
   ) {}
 
   static fromResponse(response: any): Proyecto {
@@ -56,13 +58,14 @@ export class Proyecto {
       response.valor,
       response.volumenEstimGenrEscombros,
       response.volumenEstimEscavaciones,
-      response.idgenerador,
-      response.pin,
-      response.fechaExpedicionPIN,
-      response.codigoRadicadoSIGOD,
-      response.CoordenadaX,
-      response.CoordenadaY,
-      response.visitas
+      response.idgenerador,         // ✔ idgenerador
+      response.generador,           // ✔ generador
+      response.pin,                 // ✔ pin
+      response.fechaExpedicionPIN,  // ✔ fechaExpedicionPIN
+      response.codigoRadicadoSIGOD, // ✔ codigoRadicadoSIGOD
+      response.CoordenadaX,         // ✔ CoordenadaX
+      response.CoordenadaY,         // ✔ CoordenadaY
+      response.visitas || null      // ✔ visitas
     );
   }
 }

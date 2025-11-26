@@ -37,10 +37,13 @@ export class ListaPageComponent implements OnDestroy {
     // ⚡ Suscribirse a cambios de parámetros
     this.routeSub = this.route.paramMap.subscribe((params: ParamMap) => {
       const param = params.get('tipo') as TipoEntidad | null;
+    
       if (param && ['usuarios','generador', 'transportador', 'receptor', 'vehiculo', 'resolucion', 'proyecto', 'visitatecnica', 'reporte'].includes(param)) {
         this.tipo = param;
       }
     });
+
+   
   }
 
   ngOnDestroy() {
