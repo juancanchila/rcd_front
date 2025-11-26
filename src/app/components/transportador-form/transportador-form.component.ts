@@ -36,18 +36,17 @@ import { VehiculoService } from '../../services/vehiculo.service';
     MatRadioModule,
     MatButtonModule,
     MatAutocompleteModule,
-    MatIconModule
+    MatIconModule,
   ],
   templateUrl: './transportador-form.component.html',
-  styleUrls: ['./transportador-form.component.css']
+  styleUrls: ['./transportador-form.component.css'],
 })
 export class TransportadorFormComponent implements OnInit {
-
   @Output() saved = new EventEmitter<any>();
 
   step = 0;
   totalSteps = 5;
-
+  isSubmitting = false;
   form!: FormGroup;
   contacto!: FormGroup;
   vehiculo!: FormGroup;
@@ -66,7 +65,6 @@ export class TransportadorFormComponent implements OnInit {
     private archivoSrv: ArchivoService,
     private vehiculoSrv: VehiculoService
   ) {
-
     // FORMULARIO CONTACTO
     this.contacto = this.fb.group({
       tipo_de_solicitante: ['', Validators.required],
@@ -87,17 +85,20 @@ export class TransportadorFormComponent implements OnInit {
       unidad_capacidad: ['kg', Validators.required],
       capacidad_vehiculo: ['', [Validators.required, Validators.min(1)]],
       clase_vehiculo: ['', Validators.required],
-      placa_vehiculo: ['', [Validators.required, Validators.pattern(/^[A-Z]{3}\d{3}$|^[A-Z]{2}\d{4}$/)]],
+      placa_vehiculo: [
+        '',
+        [Validators.required, Validators.pattern(/^[A-Z]{3}\d{3}$|^[A-Z]{2}\d{4}$/)],
+      ],
       marca: ['', Validators.required],
       modelo: ['', Validators.required],
     });
 
     // FORMULARIO INFO EXTRA
-this.infoextra = this.fb.group({
-  fecha_expedicion_pin: ['', Validators.required],
-  fecha_vencimiento_pin: ['', Validators.required],
-  consecutivo_sigob: ['', Validators.required]
-});
+    this.infoextra = this.fb.group({
+      fecha_expedicion_pin: ['', Validators.required],
+      fecha_vencimiento_pin: ['', Validators.required],
+      consecutivo_sigob: ['', Validators.required],
+    });
 
     // FORMULARIO DOCUMENTOS
     this.vehiculodocuments = this.fb.group({
@@ -118,7 +119,7 @@ this.infoextra = this.fb.group({
     this.form = this.fb.group({
       contacto: this.contacto,
       vehiculo: this.vehiculo,
-      vehiculodocuments: this.vehiculodocuments
+      vehiculodocuments: this.vehiculodocuments,
     });
   }
 
@@ -136,10 +137,12 @@ this.infoextra = this.fb.group({
 
     this.barriosActuales$ = localidad$.pipe(
       switchMap((loc: string) =>
-        loc ? this.http.get<any[]>(`assets/${loc}.json`).pipe(
-          map(data => data.map(item => item.name)),
-          catchError(() => of([]))
-        ) : of([])
+        loc
+          ? this.http.get<any[]>(`assets/${loc}.json`).pipe(
+              map((data) => data.map((item) => item.name)),
+              catchError(() => of([]))
+            )
+          : of([])
       )
     );
 
@@ -147,7 +150,7 @@ this.infoextra = this.fb.group({
       map(([barrios, texto]) => {
         if (!texto) return barrios;
         const t = ('' + texto).toLowerCase();
-        return barrios.filter(b => b.toLowerCase().includes(t));
+        return barrios.filter((b) => b.toLowerCase().includes(t));
       })
     );
 
@@ -207,9 +210,12 @@ this.infoextra = this.fb.group({
   }
 
   getCurrentGroup(): FormGroup {
-    return this.step === 0 ? this.contacto
-      : this.step === 1 ? this.vehiculo
-      : this.step === 2 ? this.vehiculodocuments
+    return this.step === 0
+      ? this.contacto
+      : this.step === 1
+      ? this.vehiculo
+      : this.step === 2
+      ? this.vehiculodocuments
       : this.form;
   }
 
@@ -245,11 +251,11 @@ this.infoextra = this.fb.group({
   getUploadedDocuments(): string[] {
     const docs = this.vehiculodocuments.value;
     return Object.keys(docs)
-      .filter(key => {
+      .filter((key) => {
         const v = docs[key];
         return v !== null && v !== undefined && v !== '';
       })
-      .map(key => key.replace(/_/g, ' '));
+      .map((key) => key.replace(/_/g, ' '));
   }
 
   // Extraer nombre correcto
@@ -263,107 +269,97 @@ this.infoextra = this.fb.group({
   //           ARMAR PAYLOAD COMPLETO
   // ===========================================
 
- private buildPayload() {
-  const c = this.contacto.value;
-  const v = this.vehiculo.value;
-  const d = this.vehiculodocuments.value;
-  const i = this.infoextra.value;
-  const tipoDocumento =
-    c.tipo_de_solicitante === 'Persona Natural' ? 'cedula' : 'NIT';
+  private buildPayload() {
+    const c = this.contacto.value;
+    const v = this.vehiculo.value;
+    const d = this.vehiculodocuments.value;
+    const i = this.infoextra.value;
+    const tipoDocumento = c.tipo_de_solicitante === 'Persona Natural' ? 'cedula' : 'NIT';
 
-  const numeroDocumento =
-    c.tipo_de_solicitante === 'Persona Natural'
-      ? c.documento_de_identidad
-      : c.nit;
+    const numeroDocumento =
+      c.tipo_de_solicitante === 'Persona Natural' ? c.documento_de_identidad : c.nit;
 
-  const nombres = c.nombres_y_apellidos?.trim().split(' ') || [];
+    const nombres = c.nombres_y_apellidos?.trim().split(' ') || [];
 
-  const transportador = {
-    idtransportador: 0,
+    const transportador = {
+      idtransportador: 0,
 
-    tipoDocumento: tipoDocumento,
-    numeroDocumento: numeroDocumento,
+      tipoDocumento: tipoDocumento,
+      numeroDocumento: numeroDocumento,
 
-    primerNombre: tipoDocumento === 'cedula' ? nombres[0] || '' : '',
-    segundoNombre: tipoDocumento === 'cedula' ? nombres[1] || '' : '',
-    primerApellidos: tipoDocumento === 'cedula' ? nombres[2] || '' : '',
-    segundoApellido: tipoDocumento === 'cedula' ? nombres[3] || '' : '',
+      primerNombre: tipoDocumento === 'cedula' ? nombres[0] || '' : '',
+      segundoNombre: tipoDocumento === 'cedula' ? nombres[1] || '' : '',
+      primerApellidos: tipoDocumento === 'cedula' ? nombres[2] || '' : '',
+      segundoApellido: tipoDocumento === 'cedula' ? nombres[3] || '' : '',
 
-    razonSocial: tipoDocumento === 'NIT' ? c.razon_social || null : null,
+      razonSocial: tipoDocumento === 'NIT' ? c.razon_social || null : null,
 
-    documentoIdentificacion: d.identificacion
-      ? this.extractFilename(d.identificacion)
-      : '',
+      documentoIdentificacion: d.identificacion ? this.extractFilename(d.identificacion) : '',
 
-    documentoRUT: d.cert_ext_legal
-      ? this.extractFilename(d.cert_ext_legal)
-      : '',
+      documentoRUT: d.cert_ext_legal ? this.extractFilename(d.cert_ext_legal) : '',
 
-    direccion: c.direccion_de_correspondencia_del_solicitante,
-    correoElectronico: c.correo_electronico,
+      direccion: c.direccion_de_correspondencia_del_solicitante,
+      correoElectronico: c.correo_electronico,
 
-    telefono:
-      c.telefono_fijo?.toString().trim() !== ''
-        ? parseInt(c.telefono_fijo)
-        : null,
+      telefono: c.telefono_fijo?.toString().trim() !== '' ? parseInt(c.telefono_fijo) : null,
 
-    fax: '',
-    celular: c.telefono_movil || null,
+      fax: '',
+      celular: c.telefono_movil || null,
 
-    clave: numeroDocumento,
+      clave: numeroDocumento,
 
-    ciiu: null,
-    tipoDocumentoRL: null,
-    numeroDocumentoRL: null,
-    nombreRL: null,
-    emailRL: null
-  };
-
+      ciiu: null,
+      tipoDocumentoRL: null,
+      numeroDocumentoRL: null,
+      nombreRL: null,
+      emailRL: null,
+    };
 
     const vehiculo = {
-  idvehiculo: 0,
-  placaVehiculo: v.placa_vehiculo.toUpperCase(),
-  lugarExpedicion: c.localidad,
-  modelo: v.modelo,
-  capacidad: `${v.capacidad_vehiculo} ${v.unidad_capacidad}`,
-  fechaUltimaRevTecMec: null, // ✔️ AHORA EN NULL
-  permisoMovilizacion: null,
-  nombreConductor: null,
-  numeroIdentificacion: null,
+      idvehiculo: 0,
+      placaVehiculo: v.placa_vehiculo.toUpperCase(),
+      lugarExpedicion: c.localidad,
+      modelo: v.modelo,
+      capacidad: `${v.capacidad_vehiculo} ${v.unidad_capacidad}`,
+      fechaUltimaRevTecMec: null, // ✔️ AHORA EN NULL
+      permisoMovilizacion: null,
+      nombreConductor: null,
+      numeroIdentificacion: null,
 
-  fotoFrente: this.extractFilename(d.foto_frontal),
-  fotoLadoDerecho: this.extractFilename(d.foto_lateral_derecha),
-  fotoLadoIzquierdo: this.extractFilename(d.foto_lateral_izquierda),
-  fotoTrasera: this.extractFilename(d.foto_trasera),
+      fotoFrente: this.extractFilename(d.foto_frontal),
+      fotoLadoDerecho: this.extractFilename(d.foto_lateral_derecha),
+      fotoLadoIzquierdo: this.extractFilename(d.foto_lateral_izquierda),
+      fotoTrasera: this.extractFilename(d.foto_trasera),
 
-  idtransportador: 0,
-  pin: '',
+      idtransportador: 0,
+      pin: '',
 
-  licenciaTransito: this.extractFilename(d.licencia_transito),
-  certificadoRevTecMec: this.extractFilename(d.certificado_tecnicomecanica),
+      licenciaTransito: this.extractFilename(d.licencia_transito),
+      certificadoRevTecMec: this.extractFilename(d.certificado_tecnicomecanica),
 
-  // 🔥 CAMPOS NUEVOS 🔥
-  fechaExpedicionPIN: i.fecha_expedicion_pin,
-  fechaVencimientoPIN: this.addOneYear(i.fecha_expedicion_pin), // ✔️ UN AÑO DESPUÉS
-  codigoRadicadoSIGOD: i.consecutivo_sigob
-};
-
+      // 🔥 CAMPOS NUEVOS 🔥
+      fechaExpedicionPIN: i.fecha_expedicion_pin,
+      fechaVencimientoPIN: this.addOneYear(i.fecha_expedicion_pin), // ✔️ UN AÑO DESPUÉS
+      codigoRadicadoSIGOD: i.consecutivo_sigob,
+    };
 
     return { transportador, vehiculo };
   }
 
   addOneYear(dateString: string): string {
-  if (!dateString) return '';
-  const date = new Date(dateString);
-  date.setFullYear(date.getFullYear() + 1);
-  return date.toISOString().split('T')[0]; // formato YYYY-MM-DD
-}
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    date.setFullYear(date.getFullYear() + 1);
+    return date.toISOString().split('T')[0]; // formato YYYY-MM-DD
+  }
 
   // ===========================================
   //                SUBMIT FINAL
   // ===========================================
 
   async onSubmit(): Promise<void> {
+    if (this.isSubmitting) return; // evita doble clic
+    this.isSubmitting = true;
 
     if (this.form.invalid) {
       this.form.markAllAsTouched();
@@ -403,10 +399,12 @@ this.infoextra = this.fb.group({
         ...vehiculo,
         fotoFrente: archivosRenombrados['foto_frontal'] || vehiculo.fotoFrente,
         fotoLadoDerecho: archivosRenombrados['foto_lateral_derecha'] || vehiculo.fotoLadoDerecho,
-        fotoLadoIzquierdo: archivosRenombrados['foto_lateral_izquierda'] || vehiculo.fotoLadoIzquierdo,
+        fotoLadoIzquierdo:
+          archivosRenombrados['foto_lateral_izquierda'] || vehiculo.fotoLadoIzquierdo,
         fotoTrasera: archivosRenombrados['foto_trasera'] || vehiculo.fotoTrasera,
         licenciaTransito: archivosRenombrados['licencia_transito'] || vehiculo.licenciaTransito,
-        certificadoRevTecMec: archivosRenombrados['certificado_tecnicomecanica'] || vehiculo.certificadoRevTecMec,
+        certificadoRevTecMec:
+          archivosRenombrados['certificado_tecnicomecanica'] || vehiculo.certificadoRevTecMec,
       };
 
       await this.vehiculoSrv.actualizarVehiculo(idVehiculo, vehiculoUpdate);
@@ -414,13 +412,16 @@ this.infoextra = this.fb.group({
       // 4. Emitir y toast
       this.saved.emit({
         transportador: creado.transportador,
-        vehiculo: { idvehiculo: idVehiculo, ...vehiculoUpdate }
+        vehiculo: { idvehiculo: idVehiculo, ...vehiculoUpdate },
       });
 
-      this.toast.showSuccess('Vehículo y transportador creados correctamente', '/lista/transportador/');
-
+      this.toast.showSuccess(
+        'Vehículo y transportador creados correctamente',
+        '/lista/transportador/'
+      );
     } catch (err) {
       console.error(err);
+      this.isSubmitting = false; // sí reactivar si hubo error
       this.toast.showError('Error al procesar el registro');
     }
   }

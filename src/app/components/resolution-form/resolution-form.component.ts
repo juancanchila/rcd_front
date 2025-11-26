@@ -47,7 +47,7 @@ export class ResolutionFormComponent implements OnInit {
 
   step = 0;
   totalSteps = 4; // contacto no lo usamos, step 0 = gestor
-
+  isSubmitting = false;
   form!: FormGroup;
   gestor!: FormGroup;
   documentos!: FormGroup;
@@ -71,10 +71,10 @@ export class ResolutionFormComponent implements OnInit {
     private archivoSrv: ArchivoService,
     private resolucionSrv: ResolucionService,
     private snack: MatSnackBar,
-        private route: ActivatedRoute,
+    private route: ActivatedRoute
   ) {
     this.minDate = new Date().toISOString().split('T')[0];
-    this.gestorId= this.route.snapshot.paramMap.get('id');
+    this.gestorId = this.route.snapshot.paramMap.get('id');
 
     this.rcdAprovechable = {
       '1_1': 'Productos de excavación y sobrantes de la adecuación de terreno',
@@ -162,7 +162,6 @@ export class ResolutionFormComponent implements OnInit {
     this.setupTipoRcd();
   }
 
- 
   isInvalid(ctrlName: string, group?: FormGroup) {
     const g = group || this.form;
     const c = g.get(ctrlName);
@@ -177,7 +176,8 @@ export class ResolutionFormComponent implements OnInit {
         const keysA = Object.keys(this.rcdAprovechable);
         const keysNA = Object.keys(this.rcdNoAprovechable);
         if (tipo === 'aprovechable') keysNA.forEach((k) => this.gestor.get(k)?.setValue(false));
-        else if (tipo === 'no_aprovechable') keysA.forEach((k) => this.gestor.get(k)?.setValue(false));
+        else if (tipo === 'no_aprovechable')
+          keysA.forEach((k) => this.gestor.get(k)?.setValue(false));
         else [...keysA, ...keysNA].forEach((k) => this.gestor.get(k)?.setValue(false));
       });
   }
@@ -187,26 +187,39 @@ export class ResolutionFormComponent implements OnInit {
       .get('actividad_ejecutada')!
       .valueChanges.pipe(startWith(this.gestor.get('actividad_ejecutada')!.value))
       .subscribe((act) => {
-        Object.keys(this.documentos.controls).forEach((ctrl) => this.documentos.get(ctrl)!.clearValidators());
-        ['medidas_manejo_ambiental', 'permisos_licencias_autorizaciones', 'certificacion_pot'].forEach((ctrl) =>
-          this.documentos.get(ctrl)!.setValidators([Validators.required])
+        Object.keys(this.documentos.controls).forEach((ctrl) =>
+          this.documentos.get(ctrl)!.clearValidators()
         );
+        [
+          'medidas_manejo_ambiental',
+          'permisos_licencias_autorizaciones',
+          'certificacion_pot',
+        ].forEach((ctrl) => this.documentos.get(ctrl)!.setValidators([Validators.required]));
 
         if (act === 'receptor_rcd_materia_prima') {
-          ['planos_rcd_materiaprima', 'documento_tecnico_rcd_materiaprima', 'permisos_rcd_materiaprima'].forEach((ctrl) =>
-            this.documentos.get(ctrl)!.setValidators([Validators.required])
-          );
+          [
+            'planos_rcd_materiaprima',
+            'documento_tecnico_rcd_materiaprima',
+            'permisos_rcd_materiaprima',
+          ].forEach((ctrl) => this.documentos.get(ctrl)!.setValidators([Validators.required]));
         } else if (act === 'receptor_rcd_estructural') {
-          ['licencia_urbanistica_rcd', 'viabilidad_ambiental_rcd', 'documento_tecnico_rcd_estructural', 'planos_topograficos_rcd'].forEach((ctrl) =>
-            this.documentos.get(ctrl)!.setValidators([Validators.required])
-          );
+          [
+            'licencia_urbanistica_rcd',
+            'viabilidad_ambiental_rcd',
+            'documento_tecnico_rcd_estructural',
+            'planos_topograficos_rcd',
+          ].forEach((ctrl) => this.documentos.get(ctrl)!.setValidators([Validators.required]));
         } else if (act === 'disposicion_final') {
-          ['medidas_manejo_disp_final', 'permisos_disp_final', 'certificacion_pot_disp_final'].forEach((ctrl) =>
-            this.documentos.get(ctrl)!.setValidators([Validators.required])
-          );
+          [
+            'medidas_manejo_disp_final',
+            'permisos_disp_final',
+            'certificacion_pot_disp_final',
+          ].forEach((ctrl) => this.documentos.get(ctrl)!.setValidators([Validators.required]));
         }
 
-        Object.keys(this.documentos.controls).forEach((ctrl) => this.documentos.get(ctrl)!.updateValueAndValidity());
+        Object.keys(this.documentos.controls).forEach((ctrl) =>
+          this.documentos.get(ctrl)!.updateValueAndValidity()
+        );
       });
   }
 
@@ -226,7 +239,9 @@ export class ResolutionFormComponent implements OnInit {
       )
     );
     this.barriosFiltradosGestor$ = combineLatest([barrios$, brr$]).pipe(
-      map(([barrios, txt]) => (!txt ? barrios : barrios.filter((b) => b.toLowerCase().includes(('' + txt).toLowerCase()))))
+      map(([barrios, txt]) =>
+        !txt ? barrios : barrios.filter((b) => b.toLowerCase().includes(('' + txt).toLowerCase()))
+      )
     );
     loc$.subscribe(() => brrCtrl.setValue(''));
   }
@@ -272,17 +287,33 @@ export class ResolutionFormComponent implements OnInit {
     const g = this.gestor.value;
     const i = this.infoextra.value;
 
-    const ubicacion = [g.direccion_gestor?.trim(), g.barrio_gestor?.trim(), g.localidad_gestor?.trim()]
+    const ubicacion = [
+      g.direccion_gestor?.trim(),
+      g.barrio_gestor?.trim(),
+      g.localidad_gestor?.trim(),
+    ]
       .filter(Boolean)
       .join(', ');
 
     const resolucion = {
-      numeroResolucion: i.numeroResolucion?.trim() || (() => { throw new Error('Falta numeroResolucion'); })(),
-      ubicacion: ubicacion || (() => { throw new Error('Falta ubicacion'); })(),
+      numeroResolucion:
+        i.numeroResolucion?.trim() ||
+        (() => {
+          throw new Error('Falta numeroResolucion');
+        })(),
+      ubicacion:
+        ubicacion ||
+        (() => {
+          throw new Error('Falta ubicacion');
+        })(),
       localidad: g.localidad_gestor?.trim() || null,
       naturalezaActividad: g.actividad_ejecutada?.trim() || null,
       tipoAprovechamiento: g.tipo_rcd?.trim() || null,
-      fechaInicio: g.fecha_inicio?.trim() || (() => { throw new Error('Falta fechaInicio'); })(),
+      fechaInicio:
+        g.fecha_inicio?.trim() ||
+        (() => {
+          throw new Error('Falta fechaInicio');
+        })(),
       fechaFin: g.fecha_final?.trim() || null,
       cantidadRCD: g.cantidad_rcd?.trim() || null,
       CoordenadaX: g.latitud != null ? String(g.latitud) : null,
@@ -290,7 +321,8 @@ export class ResolutionFormComponent implements OnInit {
       fechaExpedicionPIN: i.fecha_expedicion_pin?.trim() || null,
       codigoRadicadoSIGOD: i.consecutivo_sigob?.trim() || null,
       tipo: g.actividad_ejecutada?.trim() || null,
-      cantidad_autorizada: i.cantidad_autorizada != null ? `${i.cantidad_autorizada} toneladas` : '0 toneladas',
+      cantidad_autorizada:
+        i.cantidad_autorizada != null ? `${i.cantidad_autorizada} toneladas` : '0 toneladas',
     };
     return { resolucion };
   }
@@ -299,6 +331,9 @@ export class ResolutionFormComponent implements OnInit {
   // SUBMIT
   // ==========================
   async onSubmit() {
+    if (this.isSubmitting) return; // evita doble clic
+    this.isSubmitting = true;
+
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       this.snack.open('Completa todos los campos antes de guardar.', 'Cerrar', { duration: 3000 });
@@ -328,7 +363,9 @@ export class ResolutionFormComponent implements OnInit {
       }
 
       // 3. Actualizar resolución con archivos
-      await this.resolucionSrv.actualizarResolucion(idResolucion, { archivos: archivosRenombrados });
+      await this.resolucionSrv.actualizarResolucion(idResolucion, {
+        archivos: archivosRenombrados,
+      });
 
       this.saved.emit({
         resolucion: respResolucion,
@@ -337,14 +374,15 @@ export class ResolutionFormComponent implements OnInit {
 
       this.toast.showSuccess('Resolución guardada correctamente.');
 
-  this.toast.showSuccess(
+      this.toast.showSuccess(
         'Resolución guardada correctamente.',
         '/receptor-detalle/' + this.gestorId
       );
-
     } catch (error) {
       console.error(error);
       this.toast.showError('Error al guardar la resolución.');
+
+      this.isSubmitting = false; // sí reactivar si hubo error
     }
   }
 

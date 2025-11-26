@@ -46,7 +46,7 @@ export class GestorFormComponent implements OnInit {
 
   step = 0;
   totalSteps = 5;
-
+  isSubmitting = false;
   form!: FormGroup;
   contacto!: FormGroup;
   gestor!: FormGroup;
@@ -382,125 +382,144 @@ export class GestorFormComponent implements OnInit {
     if (this.step > 0) this.step--;
   }
 
-// ==========================
-// BUILD PAYLOAD
-// ==========================
-private buildPayload(idReceptor?: number) {
-  const c = this.contacto.value;
-  const g = this.gestor.value;
-  const i = this.infoextra.value;
+  // ==========================
+  // BUILD PAYLOAD
+  // ==========================
+  private buildPayload(idReceptor?: number) {
+    const c = this.contacto.value;
+    const g = this.gestor.value;
+    const i = this.infoextra.value;
 
-  const nombres = c.nombres_y_apellidos?.trim().split(' ') || [];
-  const tipoDocumento = c.tipo_de_solicitante === 'Persona Natural' ? 'cedula' : 'NIT';
+    const nombres = c.nombres_y_apellidos?.trim().split(' ') || [];
+    const tipoDocumento = c.tipo_de_solicitante === 'Persona Natural' ? 'cedula' : 'NIT';
 
+    const numeroDocumento =
+      c.tipo_de_solicitante === 'Persona Natural'
+        ? c.documento_de_identidad?.trim() || ''
+        : c.nit?.trim() || '';
 
- const numeroDocumento = c.tipo_de_solicitante === 'Persona Natural'
-  ? c.documento_de_identidad?.trim() || ''
-  : c.nit?.trim() || '';
+    const receptor = {
+      tipoDocumento,
+      numeroDocumento,
+      primerNombre: tipoDocumento === 'cedula' ? nombres[0] || null : null,
+      segundoNombre: tipoDocumento === 'cedula' ? nombres[1] || null : null,
+      primerApellidos: tipoDocumento === 'cedula' ? nombres[2] || null : null,
+      segundoApellido: tipoDocumento === 'cedula' ? nombres[3] || null : null,
+      razonSocial: tipoDocumento === 'NIT' ? c.razon_social || null : null,
+      direccion:
+        `${c.direccion_de_correspondencia_del_solicitante || ''}, ${c.localidad || ''}, ${
+          c.barrio || ''
+        }`.trim() || null,
+      correoElectronico: c.correo_electronico || null,
+      celular: c.telefono_movil || null,
+      clave: i.clave || null,
+    };
 
-  const receptor = {
-    tipoDocumento,
-    numeroDocumento,
-    primerNombre: tipoDocumento === 'cedula' ? nombres[0] || null : null,
-    segundoNombre: tipoDocumento === 'cedula' ? nombres[1] || null : null,
-    primerApellidos: tipoDocumento === 'cedula' ? nombres[2] || null : null,
-    segundoApellido: tipoDocumento === 'cedula' ? nombres[3] || null : null,
-    razonSocial: tipoDocumento === 'NIT' ? c.razon_social || null : null,
-    direccion: `${c.direccion_de_correspondencia_del_solicitante || ''}, ${c.localidad || ''}, ${c.barrio || ''}`.trim() || null,
-    correoElectronico: c.correo_electronico || null,
-    celular: c.telefono_movil || null,
-    clave: i.clave || null,
-  };
+    const ubicacion = [
+      g.direccion_gestor?.trim(), // dirección principal del gestor
+      g.barrio_gestor?.trim(), // barrio del gestor
+      g.localidad_gestor?.trim(), // localidad del gestor
+    ]
+      .filter(Boolean)
+      .join(', ');
 
+    const resolucion = {
+      numeroResolucion:
+        i.numeroResolucion?.trim() ||
+        (() => {
+          throw new Error('Falta numeroResolucion');
+        })(),
+      ubicacion:
+        ubicacion ||
+        (() => {
+          throw new Error('Falta ubicacion');
+        })(),
+      localidad: g.localidad?.trim() || null, // opcional
+      naturalezaActividad: g.actividad_ejecutada?.trim() || null,
+      tipoAprovechamiento: g.tipo_rcd?.trim() || null,
+      fechaInicio:
+        g.fecha_inicio?.trim() ||
+        (() => {
+          throw new Error('Falta fechaInicio');
+        })(),
+      fechaFin: g.fecha_final?.trim() || null,
+      cantidadRCD: g.cantidad_rcd?.trim() || null,
+      CoordenadaX: g.latitud != null ? String(g.latitud) : null,
+      CoordenadaY: g.longitud != null ? String(g.longitud) : null,
+      fechaExpedicionPIN: i.fecha_expedicion_pin?.trim() || null,
+      codigoRadicadoSIGOD: i.consecutivo_sigob?.trim() || null,
+      idReceptor: idReceptor, // obligatorio, ya que lo creamos antes
+      tipo: g.actividad_ejecutada?.trim() || null,
+      cantidad_autorizada:
+        i.cantidad_autorizada != null ? `${i.cantidad_autorizada} toneladas` : '0 toneladas',
+    };
 
-const ubicacion = [
-  g.direccion_gestor?.trim(),    // dirección principal del gestor
-  g.barrio_gestor?.trim(),       // barrio del gestor
-  g.localidad_gestor?.trim()     // localidad del gestor
-].filter(Boolean).join(', ');
-
- const resolucion = {
-  numeroResolucion: i.numeroResolucion?.trim() || (() => { throw new Error('Falta numeroResolucion'); })(),
-  ubicacion: ubicacion || (() => { throw new Error('Falta ubicacion'); })(),
-  localidad: g.localidad?.trim() || null, // opcional
-  naturalezaActividad: g.actividad_ejecutada?.trim() || null,
-  tipoAprovechamiento: g.tipo_rcd?.trim() || null,
-  fechaInicio: g.fecha_inicio?.trim() || (() => { throw new Error('Falta fechaInicio'); })(),
-  fechaFin: g.fecha_final?.trim() || null,
-  cantidadRCD: g.cantidad_rcd?.trim() || null,
-CoordenadaX: g.latitud != null ? String(g.latitud) : null,
-  CoordenadaY: g.longitud != null ? String(g.longitud) : null,
-  fechaExpedicionPIN: i.fecha_expedicion_pin?.trim() || null,
-  codigoRadicadoSIGOD: i.consecutivo_sigob?.trim() || null,
-  idReceptor: idReceptor, // obligatorio, ya que lo creamos antes
-  tipo: g.actividad_ejecutada?.trim() || null,
-  cantidad_autorizada: i.cantidad_autorizada != null ? `${i.cantidad_autorizada} toneladas` : '0 toneladas',
-};
-
-  return { receptor, resolucion };
-}
-
-// ==========================
-// SUBMIT
-// ==========================
-async onSubmit() {
-  if (this.form.invalid) {
-    this.form.markAllAsTouched();
-    this.snack.open('Completa todos los campos antes de guardar.', 'Cerrar', { duration: 3000 });
-    return;
+    return { receptor, resolucion };
   }
 
-  try {
-    // 1. Crear receptor
-    const { receptor } = this.buildPayload();
-    const respReceptor: any = await this.receptorSrv.crearReceptor(receptor);
-    const idReceptor = respReceptor?.idreceptor ?? respReceptor?.data?.idreceptor;
-    if (!idReceptor) throw new Error('No se obtuvo ID del receptor');
+  // ==========================
+  // SUBMIT
+  // ==========================
+  async onSubmit() {
+    if (this.isSubmitting) return; // evita doble clic
+    this.isSubmitting = true;
 
-    // 2. Crear payload de resolución con el ID del receptor
-    const { resolucion } = this.buildPayload(idReceptor);
-
-    // 3. Crear resolución primero para obtener el ID
-    const respResolucion: any = await this.resolucionSrv.crearResolucion({
-      ...resolucion,
-      receptorId: idReceptor,
-    });
-    const idResolucion = respResolucion?.idresolucion;
-    if (!idResolucion) throw new Error('No se obtuvo ID de la resolución');
-
-    // 4. Subir archivos renombrados con el ID de la resolución
-    const archivosRenombrados: any = {};
-    for (const key of Object.keys(this.archivos)) {
-      const file = this.archivos[key];
-      if (file instanceof File) {
-        const nuevoNombre = `${idResolucion}_${key}_${file.name}`;
-        const renamedFile = new File([file], nuevoNombre, { type: file.type });
-
-        const resp: any = await this.archivoSrv.subirArchivo(renamedFile);
-        archivosRenombrados[key] = resp?.filename ?? nuevoNombre;
-      }
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      this.snack.open('Completa todos los campos antes de guardar.', 'Cerrar', { duration: 3000 });
+      return;
     }
 
-    // 5. Actualizar receptor con resolución y archivos
-    await this.receptorSrv.actualizarReceptor(idReceptor, {
-      resoluciones: [idResolucion],
-      archivos: archivosRenombrados,
-    });
+    try {
+      // 1. Crear receptor
+      const { receptor } = this.buildPayload();
+      const respReceptor: any = await this.receptorSrv.crearReceptor(receptor);
+      const idReceptor = respReceptor?.idreceptor ?? respReceptor?.data?.idreceptor;
+      if (!idReceptor) throw new Error('No se obtuvo ID del receptor');
 
-    // 6. Emitir evento y mostrar mensajes
-    this.saved.emit({
-      receptor: respReceptor,
-      resolucion: respResolucion,
-      archivos: archivosRenombrados,
-    });
+      // 2. Crear payload de resolución con el ID del receptor
+      const { resolucion } = this.buildPayload(idReceptor);
 
-    this.toast.showSuccess('Formulario guardado correctamente.');
-    this.toast.showSuccess('Gestor creado correctamente', '/lista/receptor');
+      // 3. Crear resolución primero para obtener el ID
+      const respResolucion: any = await this.resolucionSrv.crearResolucion({
+        ...resolucion,
+        receptorId: idReceptor,
+      });
+      const idResolucion = respResolucion?.idresolucion;
+      if (!idResolucion) throw new Error('No se obtuvo ID de la resolución');
 
-  } catch (error) {
-    console.error(error);
-    this.toast.showError('Error al guardar el formulario.');
+      // 4. Subir archivos renombrados con el ID de la resolución
+      const archivosRenombrados: any = {};
+      for (const key of Object.keys(this.archivos)) {
+        const file = this.archivos[key];
+        if (file instanceof File) {
+          const nuevoNombre = `${idResolucion}_${key}_${file.name}`;
+          const renamedFile = new File([file], nuevoNombre, { type: file.type });
+
+          const resp: any = await this.archivoSrv.subirArchivo(renamedFile);
+          archivosRenombrados[key] = resp?.filename ?? nuevoNombre;
+        }
+      }
+
+      // 5. Actualizar receptor con resolución y archivos
+      await this.receptorSrv.actualizarReceptor(idReceptor, {
+        resoluciones: [idResolucion],
+        archivos: archivosRenombrados,
+      });
+
+      // 6. Emitir evento y mostrar mensajes
+      this.saved.emit({
+        receptor: respReceptor,
+        resolucion: respResolucion,
+        archivos: archivosRenombrados,
+      });
+
+      this.toast.showSuccess('Formulario guardado correctamente.');
+      this.toast.showSuccess('Gestor creado correctamente', '/lista/receptor');
+    } catch (error) {
+      console.error(error);
+      this.toast.showError('Error al guardar el formulario.');
+      this.isSubmitting = false; // sí reactivar si hubo error
+    }
   }
-}
-
 }

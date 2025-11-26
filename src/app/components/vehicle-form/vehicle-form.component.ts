@@ -36,7 +36,7 @@ export class VehicleFormComponent {
 
   step = 0;
   totalSteps = 4;
-
+  isSubmitting = false;
   vehicleForm!: FormGroup;
   vehicleDocumentsForm!: FormGroup;
   infoextra!: FormGroup;
@@ -204,6 +204,9 @@ export class VehicleFormComponent {
   }
   // ENVÍO DEL FORMULARIO
   async onSubmit(): Promise<void> {
+    if (this.isSubmitting) return; // evita doble clic
+    this.isSubmitting = true;
+
     // Validaciones
     if (this.vehicleForm.invalid || this.vehicleDocumentsForm.invalid || this.infoextra.invalid) {
       this.vehicleForm.markAllAsTouched();
@@ -259,6 +262,7 @@ export class VehicleFormComponent {
       );
     } catch (err) {
       console.error(err);
+      this.isSubmitting = false; // sí reactivar si hubo error
       this.toast.showError('Error al procesar el registro.');
     }
   }

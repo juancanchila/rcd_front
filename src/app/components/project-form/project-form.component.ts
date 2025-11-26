@@ -62,6 +62,7 @@ public today: string = '';
   generadorId!: string | null;
   form!: FormGroup;
 minDate: string;
+isSubmitting = false;
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -442,6 +443,9 @@ tipoUsoPredio: v.datos_predios && v.datos_predios.length > 0
   // ENVÍO DEL FORMULARIO
   // -------------------------------
   async onSubmit(): Promise<void> {
+   if (this.isSubmitting) return; // evita doble clic
+       this.isSubmitting = true;
+
     console.log(this.proyecto,'proye',this.DocumentsForm,'doc',this.infoextra,'infoex')
     if (this.proyecto.invalid || this.DocumentsForm.invalid || this.infoextra.invalid) {
       this.proyecto.markAllAsTouched();
@@ -507,6 +511,7 @@ tipoUsoPredio: v.datos_predios && v.datos_predios.length > 0
     } catch (err) {
       console.error(err);
       this.toast.showError('Error al procesar el registro.');
+       this.isSubmitting = false; // sí reactivar si hubo error
     }
   }
 }

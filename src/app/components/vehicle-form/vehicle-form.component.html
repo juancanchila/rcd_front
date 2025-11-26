@@ -178,7 +178,7 @@
 
     <div class="form-actions">
       <button mat-stroked-button (click)="prevStep()">Anterior</button>
-      <button mat-flat-button color="accent" (click)="onSubmit()">Guardar</button>
+      <button mat-flat-button color="accent" [disabled]="isSubmitting" (click)="onSubmit()">Guardar</button>
     </div>
   </div>
 

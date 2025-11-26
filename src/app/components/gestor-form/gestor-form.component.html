@@ -540,7 +540,7 @@
       Siguiente
     </button>
 
-    <button mat-raised-button color="accent" type="submit" *ngIf="step === totalSteps - 1">
+    <button mat-raised-button color="accent" type="submit" *ngIf="step === totalSteps - 1" [disabled]="isSubmitting">
       Enviar
     </button>
   </div>

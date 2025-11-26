@@ -349,6 +349,6 @@
   <div class="form-actions">
     <button mat-stroked-button type="button" (click)="prevStep()" [disabled]="step === 0">Anterior</button>
     <button mat-stroked-button type="button" (click)="nextStep()" *ngIf="step < totalSteps - 1">Siguiente</button>
-    <button mat-flat-button color="primary" type="submit" *ngIf="step === totalSteps - 1">Guardar</button>
+    <button mat-flat-button color="primary" [disabled]="isSubmitting"  type="submit" *ngIf="step === totalSteps - 1">Guardar</button>
   </div>
 </form>
