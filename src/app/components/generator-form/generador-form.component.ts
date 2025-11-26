@@ -459,6 +459,7 @@ nextStep() {
   const d = this.DocumentsForm.value;
   const i = this.infoextra.value;
 
+
   // -----------------------------
   // 📌 DATOS PARA GENERADOR
   // -----------------------------
@@ -473,8 +474,7 @@ nextStep() {
   const nombres = c.nombres_y_apellidos?.trim().split(' ') || [];
 
   const Generador = {
-    idtransportador: 0,
-
+ 
     tipoDocumento: tipoDocumento,
     numeroDocumento: numeroDocumento,
 
@@ -528,8 +528,13 @@ nextStep() {
     localidad: v.localidad_proyecto,
     barrio: v.barrio_proyecto,
 
-    matriculaInmobiliaria: v.matricula_inmobiliaria,
-    referenciaCatastral: v.referencia_catastral,
+    matriculaInmobiliaria: Array.isArray(v.matricula_inmobiliaria)
+    ? v.matricula_inmobiliaria.join(",")
+    : v.matricula_inmobiliaria ?? null,
+
+  referenciaCatastral: Array.isArray(v.referencia_catastral)
+    ? v.referencia_catastral.join(",")
+    : v.referencia_catastral ?? null,
 
     fechaInicio: v.fecha_inicio,
     fechaFin: v.fecha_final,
@@ -624,6 +629,9 @@ nextStep() {
 // 0 crear geneador obteniendo el id
 //Crear generador + id
 const { Generador, Proyecto } = this.buildPayload();
+
+return console.log(Generador, Proyecto);
+
       const creado = await this.generadorServ.crearGenerador(
         Generador
       );

@@ -359,6 +359,15 @@ getTodayDate(): string {
     const d = this.DocumentsForm.value;
     const i = this.infoextra.value;
 
+    
+    const matriculaInmobiliaria= Array.isArray(v.matricula_inmobiliaria)
+    ? v.matricula_inmobiliaria.join(",")
+    : v.matricula_inmobiliaria ?? null;
+
+  const referenciaCatastral = Array.isArray(v.referencia_catastral)
+    ? v.referencia_catastral.join(",")
+    : v.referencia_catastral ?? null;
+
     return {
      // -----------------------------
     // 📌 Información general del proyecto
@@ -372,8 +381,8 @@ tipoUsoPredio: v.datos_predios && v.datos_predios.length > 0
     ? v.datos_predios[0].referencia_catastral: null, // Envía una cadena vacía si no hay datos.
   localidad: v.localidad_proyecto,
   barrio: v.barrio_proyecto,
-  matriculaInmobiliaria: v.matricula_inmobiliaria,
-  referenciaCatastral: v.referencia_catastral,
+  matriculaInmobiliaria: matriculaInmobiliaria,
+  referenciaCatastral: referenciaCatastral,
   fechaInicio: v.fecha_inicio,
   fechaFin: v.fecha_final,
   estadoProyecto: "No reportado",
