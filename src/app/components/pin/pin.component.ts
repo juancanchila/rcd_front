@@ -281,7 +281,7 @@ this.fechaActual = hoy.toLocaleDateString('es-ES', {
         timeZone: 'America/Bogota'
       };
       
-      return d.toLocaleDateString('es-ES', options);
+   return d.toLocaleDateString('es-CO', options);
     } catch (error) {
       console.error('Error formateando fecha:', error);
       return 'N/A';

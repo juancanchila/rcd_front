@@ -62,16 +62,16 @@
 
     <tr>
       <td><strong>Fecha de Expedición</strong></td>
-      <td>{{ pinData.fechaExpedicion }}</td>
+      <td>{{ formatDate(pinData.fechaExpedicion) }}</td>
     </tr>
     <tr>
       <td><strong>Fecha de Vencimiento</strong></td>
-      <td>{{ pinData.fechaVencimiento }}</td>
+      <td>{{ formatDate(pinData.fechaVencimiento) }}</td>
     </tr>
   </table>
 
   <p class="legal-text">
-    Este PIN se expide el {{ pinData.fechaExpedicion }} en la ciudad de {{ pinData.ciudadExpedicion }},
+    Este PIN se expide el {{ formatDate(pinData.fechaExpedicion) }} en la ciudad de {{ pinData.ciudadExpedicion }},
     siguiendo los requerimientos establecidos en la resolución 658 de 2019.
   </p>
 </div>
@@ -266,11 +266,11 @@
     <table class="data-table">
             <tr>
               <td><strong>FECHA DE INICIO</strong></td>
-              <td>{{ pinData.fechaExpedicion }}</td>
+              <td>{{ formatDate(pinData.fechaExpedicion) }}</td>
             </tr>
             <tr>
               <td><strong>FECHA DE VENCIMIENTO</strong></td>
-              <td>{{ pinData.fechaVencimiento }}</td>
+              <td>{{ formatDate(pinData.fechaVencimiento) }}</td>
             </tr>
                   <tr>
         <td><strong>CAPACIDAD AUTORIZADA</strong></td>
