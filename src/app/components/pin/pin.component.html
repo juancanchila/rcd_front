@@ -195,6 +195,14 @@
                 <td><strong>CAPACIDAD</strong></td>
                 <td>{{ pinData.capacidad }}</td>
               </tr>
+                 <tr>
+                <td><strong>FECHA DE INICIO</strong></td>
+                <td>{{ formatDate(pinData.fechaExpedicionPIN) }}</td>
+              </tr>
+              <tr>
+                <td><strong>FECHA DE FINALIZACIÓN</strong></td>
+                <td>{{ formatDate(pinData.fechaVencimiento) }}</td>
+              </tr>
             </table>
 
             <div class="obligaciones-container">

@@ -46,8 +46,6 @@ export class PinComponent implements OnInit {
     tipoIdentificacion: '',
     numeroIdentificacion: '',
     razonSocial: '',
-    fechaExpedicion: '',
-    fechaVencimiento: '',
     ciudadExpedicion: 'Cartagena de Indias',
     tipoPin: '',
     // Campos específicos para proyectos
@@ -61,6 +59,8 @@ export class PinComponent implements OnInit {
     modelo: '',
     capacidad: '',
     lugarExpedicion: '',
+        fechaExpedicionPIN: '',
+        fechaVencimiento: '',
     // Campos específicos para resoluciones
     numeroResolucion: '',
     objetoResolucion: '',
@@ -192,9 +192,8 @@ this.fechaActual = hoy.toLocaleDateString('es-ES', {
         placa: vehiculo.placaVehiculo || 'N/A',
         modelo: vehiculo.modelo || 'N/A',
         capacidad: vehiculo.capacidad ? `${vehiculo.capacidad} Kg` : 'N/A',
-        fechaExpedicion: vehiculo.fechaExpedicionPIN ? this.formatDate(vehiculo.fechaExpedicionPIN) : 'N/A',
-        fechaVencimiento: vehiculo.fechaVencimientoPIN ? this.formatDate(vehiculo.fechaVencimientoPIN) : 'N/A',
-        razonSocial: transportador.razonSocial || transportador.primerNombre + ' ' + transportador.segundoNombre || 'N/A',
+        fechaExpedicionPIN: vehiculo.fechaExpedicionPIN,
+        fechaVencimiento: vehiculo.fechaVencimientoPIN,
         tipoIdentificacion: transportador.tipoDocumento === 'Cedula' ? 'Cédula' : transportador.tipoDocumento || 'N/A',
         numeroIdentificacion: transportador.numeroDocumento || 'N/A',
         lugarExpedicion: vehiculo.lugarExpedicion || 'CARTAGENA'
@@ -222,7 +221,7 @@ this.fechaActual = hoy.toLocaleDateString('es-ES', {
 
       this.pinData = {
         ...this.pinData,
-        tipoPin: 'GESTOR',
+        tipoPin: '',
         numeroPin: resolucion.pin || 'N/A',
         numeroResolucion: resolucion.numeroResolucion || 'N/A',
        tipoAprovechamiento: resolucion.tipoAprovechamiento ? this.fixEncoding(resolucion.tipoAprovechamiento) : 'N/A',
@@ -256,37 +255,41 @@ this.fechaActual = hoy.toLocaleDateString('es-ES', {
   this.router.navigate(['/home']);
   }
 
-  public formatDate(date: Date | string): string {
-    if (!date) return 'N/A';
-    
-    try {
-      let d: Date;
-      
-      if (typeof date === 'string') {
-        if (/^\d{4}-\d{2}-\d{2}$/.test(date)) {
-          d = new Date(date + 'T00:00:00-05:00');
-        } else {
-          d = new Date(date);
-        }
+public formatDate(date: Date | string): string {
+  if (!date) return 'N/A';
+
+  try {
+    let d: Date;
+
+    if (typeof date === 'string') {
+      // Si viene en formato YYYY-MM-DD
+      if (/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+        const [year, month, day] = date.split('-').map(Number);
+        // Crear fecha SIN cambio por zona horaria
+        d = new Date(year, month - 1, day); 
       } else {
         d = new Date(date);
       }
-      
-      if (isNaN(d.getTime())) return 'N/A';
-      
-      const options: Intl.DateTimeFormatOptions = { 
-        year: 'numeric', 
-        month: 'long', 
-        day: 'numeric',
-        timeZone: 'America/Bogota'
-      };
-      
-   return d.toLocaleDateString('es-CO', options);
-    } catch (error) {
-      console.error('Error formateando fecha:', error);
-      return 'N/A';
+    } else {
+      d = new Date(date);
     }
+
+    if (isNaN(d.getTime())) return 'N/A';
+
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      timeZone: 'America/Bogota'
+    };
+
+    return d.toLocaleDateString('es-CO', options);
+  } catch (error) {
+    console.error('Error formateando fecha:', error);
+    return 'N/A';
   }
+}
+
 
   private calculateExpirationDateFromDate(years: number, startDate: Date | string = new Date()): string {
     try {

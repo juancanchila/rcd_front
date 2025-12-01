@@ -457,6 +457,9 @@ export class GeneradorForm implements OnInit {
     const d = this.DocumentsForm.value;
     const i = this.infoextra.value;
 
+
+console.log('Payload construido:', { v });
+
     // -----------------------------
     // 📌 DATOS PARA GENERADOR
     // -----------------------------
@@ -601,6 +604,7 @@ export class GeneradorForm implements OnInit {
       //Crear generador + id
       const { Generador, Proyecto } = this.buildPayload();
 
+      return
       const creado = await this.generadorServ.crearGenerador(Generador);
       console.log(creado.idgenerador);
       this.idGenerador = creado.idgenerador;
