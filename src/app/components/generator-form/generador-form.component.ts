@@ -76,6 +76,7 @@ export class GeneradorForm implements OnInit {
   barriosActuales$: Observable<string[]> = of([]);
   barriosFiltrados$: Observable<string[]> = of([]);
   idGenerador: any;
+  tipoLicencia: any;
 
   constructor(
     private fb: FormBuilder,
@@ -120,6 +121,7 @@ export class GeneradorForm implements OnInit {
         fecha_final: ['', Validators.required],
 
         nombre_del_proyecto: ['', Validators.required],
+        licencia: [''],
 datos_predios: this.fb.array([
   this.createPredio()
 ]),
@@ -204,11 +206,11 @@ datos_predios: this.fb.array([
     // 🟩 DOCUMENTOS
     // -------------------------------
     this.DocumentsForm = this.fb.group({
-      carta_solicitud: [''],
-      descripcion_tecnica_proyecto: [''],
-      certificado_tradicion_libertad: [''],
-      autorizacion_bic: [''],
-      registro_defuncion: [''],
+      carta_solicitud: ['',Validators.required],
+      descripcion_tecnica_proyecto: ['',Validators.required],
+      certificado_tradicion_libertad: ['',Validators.required],
+      autorizacion_bic: ['',Validators.required],
+      registro_defuncion: ['',Validators.required],
       cuadro_cantidades_rcd: [''],
       soporte_pago_pin: [''],
       cronograma_actividades: [''],
@@ -394,6 +396,7 @@ createPredio(): FormGroup {
 
   nextStep() {
   console.log('Proyecto group:', this.proyecto);
+  
 
   if (this.step === 4) {
     this.onSubmit();
@@ -471,138 +474,308 @@ createPredio(): FormGroup {
     return value.toString().replace(/^C:\\fakepath\\/, ''); // elimina fakepath
   }
 
-  buildPayload() {
-    const c = this.contacto.value;
-    const v = this.proyecto.value;
-    const d = this.DocumentsForm.value;
-    const i = this.infoextra.value;
 
+  private serializarTipoLicencia(): string {
+  const lic = this.tipoLicencia.getRawValue();
 
-console.log('Payload construido:', { v });
+  // ----- URBANIZACIÓN -----
+  const urbanizacion = Object.entries(lic.urbanizacion_block_0100)
+    .filter(([k, v]) => v === true)
+    .map(([k]) => k);
 
-    // -----------------------------
-    // 📌 DATOS PARA GENERADOR
-    // -----------------------------
-    const tipoDocumento = c.tipo_de_solicitante === 'Persona Natural' ? 'cedula' : 'NIT';
+  // ----- CONSTRUCCIÓN -----
+  const construccion = Object.entries(lic.construccion_block_0100)
+    .filter(([k, v]) => v === true)
+    .map(([k]) => k);
 
-    const numeroDocumento =
-      c.tipo_de_solicitante === 'Persona Natural' ? c.documento_de_identidad : c.nit;
-
-    const nombres = c.nombres_y_apellidos?.trim().split(' ') || [];
-
-    const Generador = {
-      tipoDocumento: tipoDocumento,
-      numeroDocumento: numeroDocumento,
-
-      primerNombre: tipoDocumento === 'cedula' ? nombres[0] || '' : '',
-      segundoNombre: tipoDocumento === 'cedula' ? nombres[1] || '' : '',
-      primerApellidos: tipoDocumento === 'cedula' ? nombres[2] || '' : '',
-      segundoApellido: tipoDocumento === 'cedula' ? nombres[3] || '' : '',
-
-      razonSocial: tipoDocumento === 'NIT' ? c.razon_social || null : null,
-
-      documentoIdentificacion: d.identificacion ? this.extractFilename(d.identificacion) : '',
-
-      documentoRUT: d.cert_ext_legal ? this.extractFilename(d.cert_ext_legal) : '',
-
-      direccion: c.direccion_de_correspondencia_del_solicitante,
-      correoElectronico: c.correo_electronico,
-
-      telefono: c.telefono_fijo?.toString().trim() !== '' ? parseInt(c.telefono_fijo) : null,
-
-      fax: '',
-      celular: c.telefono_movil || null,
-
-      clave: numeroDocumento,
-
-      ciiu: null,
-      tipoDocumentoRL: null,
-      numeroDocumentoRL: null,
-      nombreRL: null,
-      emailRL: null,
-    };
-
-    // -----------------------------
-    // 📌 DATOS PARA PROYECTO
-    // -----------------------------
-    const Proyecto = {
-      nombre: v.nombre_del_proyecto,
-      ubicacion: v.direccion_del_proyecto,
-
-      tipoUsoPredio:
-        v.datos_predios && v.datos_predios.length > 0
-          ? v.datos_predios[0].referencia_catastral
-          : null,
-
-      localidad: v.localidad_proyecto,
-      barrio: v.barrio_proyecto,
-
-      matriculaInmobiliaria: Array.isArray(v.matricula_inmobiliaria)
-        ? v.matricula_inmobiliaria.join(',')
-        : v.matricula_inmobiliaria ?? null,
-
-      referenciaCatastral: Array.isArray(v.referencia_catastral)
-        ? v.referencia_catastral.join(',')
-        : v.referencia_catastral ?? null,
-
-      fechaInicio: v.fecha_inicio,
-      fechaFin: v.fecha_final,
-
-      estadoProyecto: 'No reportado',
-      numLicenciaUrbanismo: null,
-      fechaExpLicUrb: null,
-      titularLicUrb: null,
-      tipoIdentLicUrb: null,
-      identificacionLicUrb: null,
-
-      curaduria: null,
-
-      areaVerdes: null,
-      areaConstruccionAprobada: null,
-
-      valor: i.valor,
-      volumenEstimGenrEscombros: null,
-      volumenEstimEscavaciones: null,
-
-      idgenerador: 0,
-
-      fechaExpedicionPIN: i.fecha_expedicion_pin,
-      codigoRadicadoSIGOD: i.consecutivo_sigob,
-
-      CoordenadaX: v.latitud != null ? String(v.latitud) : null,
-      CoordenadaY: v.longitud != null ? String(v.longitud) : null,
-
-      tipo: v.tipo_de_generador,
-
-      // -----------------------------
-      // 📌 DOCUMENTOS
-      // -----------------------------
-      carta_solicitud: this.extractFilename(d.carta_solicitud),
-      descripcion_tecnica_proyecto: this.extractFilename(d.descripcion_tecnica_proyecto),
-      certificado_tradicion_libertad: this.extractFilename(d.certificado_tradicion_libertad),
-      autorizacion_bic: this.extractFilename(d.autorizacion_bic),
-      registro_defuncion: this.extractFilename(d.registro_defuncion),
-      cuadro_cantidades_rcd: this.extractFilename(d.cuadro_cantidades_rcd),
-      soporte_pago_pin: this.extractFilename(d.soporte_pago_pin),
-      cronograma_actividades: this.extractFilename(d.cronograma_actividades),
-      planos_aprobados_curaduria: this.extractFilename(d.planos_aprobados_curaduria),
-      contrato_obra_otros: this.extractFilename(d.contrato_obra_otros),
-      resolucion_curaduria_o_licencia: this.extractFilename(d.resolucion_curaduria_o_licencia),
-      programa_manejo_rcd_pdf: this.extractFilename(d.programa_manejo_rcd_pdf),
-      autorizacion_bicBigOrSmall: this.extractFilename(d.autorizacion_bicBigOrSmall),
-      certificado_no_requiere_licencia: this.extractFilename(d.certificado_no_requiere_licencia),
-      permiso_ocupacion_cauce: this.extractFilename(d.permiso_ocupacion_cauce),
-
-      // -----------------------------
-      // 📌 INFORMACIÓN EXTRA
-      // -----------------------------
-      fecha_expedicion_pin: i.fecha_expedicion_pin,
-      fecha_vencimiento_pin: this.addOneYear(i.fecha_expedicion_pin),
-      consecutivo_sigob: i.consecutivo_sigob,
-    };
-
-    return { Generador, Proyecto };
+  if (lic.construccion_block_0100.otra_cual_construccion_0100) {
+    construccion.push(`otra=${lic.construccion_block_0100.otra_cual_construccion_0100}`);
   }
+
+  // ----- BIC -----
+  const bic = Object.entries(lic.bic_block_0100)
+    .filter(([k, v]) => v === true)
+    .map(([k]) => k);
+
+  // ----- ESPACIO PÚBLICO -----
+  const espacioPublico = Object.entries(lic.espacio_publico_block_0100)
+    .filter(([k, v]) => v === true)
+    .map(([k]) => k);
+
+  if (lic.espacio_publico_block_0100.otra_cual_espacio_publico_0100) {
+    espacioPublico.push(`otra=${lic.espacio_publico_block_0100.otra_cual_espacio_publico_0100}`);
+  }
+
+  // ----- PLANES POT -----
+  const planesPOT = lic.planes_pot_0100
+    ? `planes_pot=${lic.planes_pot_0100}`
+    : null;
+
+  // ----- DEMOLICIÓN -----
+  const demolicion = lic.demolicion_ruina_block_0100.demolicion_respuesta_0100
+    ? `demolicion=${lic.demolicion_ruina_block_0100.demolicion_respuesta_0100}`
+    : null;
+
+  // ----- RESOLUCIÓN -----
+  const resolucion = lic.resolucion_numero_0100
+    ? `resolucion=${lic.resolucion_numero_0100}`
+    : null;
+
+  // ----- UNIR TODO A TEXTO PLANO -----
+  const resultado = [
+    ...urbanizacion,
+    ...construccion,
+    ...bic,
+    ...espacioPublico,
+    planesPOT,
+    demolicion,
+    resolucion
+  ].filter(Boolean);
+
+  return resultado.join(",");
+}
+
+
+
+ buildPayload() {
+
+  const c = this.contacto.value;
+  const v = this.proyecto.value;
+  const d = this.DocumentsForm.value;
+  const i = this.infoextra.value;
+
+  // ----------------------------------------------------------
+  //  Extraer predio plano
+  // ----------------------------------------------------------
+  const predio = v.datos_predios?.[0] ?? {};
+
+  const referencia_catastral = predio.referencia_catastral ?? null;
+  const matricula_inmobiliaria = predio.matricula_inmobiliaria ?? null;
+
+  // ----------------------------------------------------------
+  //  GENERADOR
+  // ----------------------------------------------------------
+  const tipoDocumento =
+    c.tipo_de_solicitante === "Persona Natural" ? "cedula" : "NIT";
+
+  const numeroDocumento =
+    c.tipo_de_solicitante === "Persona Natural"
+      ? c.documento_de_identidad
+      : c.nit;
+
+  const nombres = c.nombres_y_apellidos?.trim().split(" ") || [];
+
+  const Generador = {
+    tipoDocumento: tipoDocumento,
+    numeroDocumento: numeroDocumento,
+
+    primerNombre: tipoDocumento === "cedula" ? nombres[0] || "" : "",
+    segundoNombre: tipoDocumento === "cedula" ? nombres[1] || "" : "",
+    primerApellidos: tipoDocumento === "cedula" ? nombres[2] || "" : "",
+    segundoApellido: tipoDocumento === "cedula" ? nombres[3] || "" : "",
+
+    razonSocial: tipoDocumento === "NIT" ? c.razon_social || null : null,
+
+    documentoIdentificacion: d.identificacion
+      ? this.extractFilename(d.identificacion)
+      : "",
+
+    documentoRUT: d.cert_ext_legal
+      ? this.extractFilename(d.cert_ext_legal)
+      : "",
+
+    direccion: c.direccion_de_correspondencia_del_solicitante,
+    correoElectronico: c.correo_electronico,
+
+    telefono:
+      c.telefono_fijo?.toString().trim() !== ""
+        ? parseInt(c.telefono_fijo)
+        : null,
+
+    fax: "",
+    celular: c.telefono_movil || null,
+
+    clave: numeroDocumento,
+
+    ciiu: null,
+    tipoDocumentoRL: null,
+    numeroDocumentoRL: null,
+    nombreRL: null,
+    emailRL: null,
+  };
+
+  // ----------------------------------------------------------
+  //  TIPO LICENCIA → TEXTO PLANO
+  // ----------------------------------------------------------
+  const tl = v.tipo_licencia_0100;
+
+  const licencia = [];
+
+  // Urbanización
+  if (tl?.urbanizacion_block_0100) {
+    if (tl.urbanizacion_block_0100.desarrollo) licencia.push("Desarrollo");
+    if (tl.urbanizacion_block_0100.saneamiento) licencia.push("Saneamiento");
+    if (tl.urbanizacion_block_0100.reurbanizacion)
+      licencia.push("Reurbanización");
+  }
+
+  // Construcción
+  if (tl?.construccion_block_0100) {
+    if (tl.construccion_block_0100.obra_nueva) licencia.push("Obra nueva");
+    if (tl.construccion_block_0100.ampliacion) licencia.push("Ampliación");
+    if (tl.construccion_block_0100.adecuacion) licencia.push("Adecuación");
+    if (tl.construccion_block_0100.modificacion) licencia.push("Modificación");
+    if (tl.construccion_block_0100.restauracion) licencia.push("Restauración");
+    if (tl.construccion_block_0100.reforzamiento_estructural)
+      licencia.push("Reforzamiento estructural");
+    if (tl.construccion_block_0100.demolicion) licencia.push("Demolición");
+    if (tl.construccion_block_0100.reconstruccion)
+      licencia.push("Reconstrucción");
+    if (tl.construccion_block_0100.cerramiento) licencia.push("Cerramiento");
+
+    if (tl.construccion_block_0100.otra_construccion) {
+      const otra = tl.construccion_block_0100.otra_cual_construccion_0100;
+      licencia.push(`Otra construcción: ${otra || ""}`);
+    }
+  }
+
+  // BIC
+  if (tl?.bic_block_0100) {
+    if (tl.bic_block_0100.intervenciones_minimas)
+      licencia.push("Intervenciones mínimas");
+    if (tl.bic_block_0100.primeros_auxilios)
+      licencia.push("Primeros auxilios");
+    if (tl.bic_block_0100.reparaciones_locativas)
+      licencia.push("Reparaciones locativas");
+  }
+
+  // Espacio público
+  if (tl?.espacio_publico_block_0100) {
+    if (tl.espacio_publico_block_0100.instalaciones_redes)
+      licencia.push("Instalaciones y redes");
+    if (tl.espacio_publico_block_0100.andenes_parques)
+      licencia.push("Andenes y parques");
+
+    if (tl.espacio_publico_block_0100.otra_espacio_publico) {
+      const otra = tl.espacio_publico_block_0100.otra_cual_espacio_publico_0100;
+      licencia.push(`Otro espacio público: ${otra || ""}`);
+    }
+  }
+
+  // POT
+  if (tl?.planes_pot_0100) {
+    licencia.push(`POT: ${tl.planes_pot_0100}`);
+  }
+
+  // Demolición en ruina
+  if (tl?.demolicion_ruina_block_0100) {
+    if (tl.demolicion_ruina_block_0100.demolicion_respuesta_0100) {
+      licencia.push(
+        `Demolición en ruina: ${tl.demolicion_ruina_block_0100.demolicion_respuesta_0100}`
+      );
+    }
+  }
+
+  // Resolución número
+  if (tl?.resolucion_numero_0100) {
+    licencia.push(`Resolución: ${tl.resolucion_numero_0100}`);
+  }
+
+  // ------------------------------------
+  //  CONVERTIR A STRING PLANO
+  // ------------------------------------
+  const licenciaPlano = licencia.join(", ");
+
+  // ----------------------------------------------------------
+  //  PROYECTO
+  // ----------------------------------------------------------
+  const Proyecto = {
+    nombre: v.nombre_del_proyecto,
+    ubicacion: v.direccion_del_proyecto,
+
+    tipoUsoPredio: referencia_catastral,
+    localidad: v.localidad_proyecto,
+    barrio: v.barrio_proyecto,
+
+    matriculaInmobiliaria: matricula_inmobiliaria,
+    referenciaCatastral: referencia_catastral,
+
+    fechaInicio: v.fecha_inicio,
+    fechaFin: v.fecha_final,
+
+    estadoProyecto: "No reportado",
+    numLicenciaUrbanismo: null,
+    fechaExpLicUrb: null,
+    titularLicUrb: null,
+    tipoIdentLicUrb: null,
+    identificacionLicUrb: null,
+
+    curaduria: null,
+
+    areaVerdes: null,
+    areaConstruccionAprobada: null,
+
+    valor: i.valor,
+
+    volumenEstimGenrEscombros: null,
+    volumenEstimEscavaciones: null,
+
+    idgenerador: 0,
+
+    fechaExpedicionPIN: i.fecha_expedicion_pin,
+    codigoRadicadoSIGOD: i.consecutivo_sigob,
+
+    CoordenadaX: v.latitud != null ? String(v.latitud) : null,
+    CoordenadaY: v.longitud != null ? String(v.longitud) : null,
+
+    tipo: v.tipo_de_generador,
+
+    licencia: licenciaPlano,   // ⭐⭐ AQUI VA LA VARIABLE EXACTA QUE PIDE LA BD
+
+    // -----------------------------
+    // DOCUMENTOS
+    // -----------------------------
+    carta_solicitud: this.extractFilename(d.carta_solicitud),
+    descripcion_tecnica_proyecto: this.extractFilename(
+      d.descripcion_tecnica_proyecto
+    ),
+    certificado_tradicion_libertad: this.extractFilename(
+      d.certificado_tradicion_libertad
+    ),
+    autorizacion_bic: this.extractFilename(d.autorizacion_bic),
+    registro_defuncion: this.extractFilename(d.registro_defuncion),
+    cuadro_cantidades_rcd: this.extractFilename(d.cuadro_cantidades_rcd),
+    soporte_pago_pin: this.extractFilename(d.soporte_pago_pin),
+    cronograma_actividades: this.extractFilename(d.cronograma_actividades),
+    planos_aprobados_curaduria: this.extractFilename(
+      d.planos_aprobados_curaduria
+    ),
+    contrato_obra_otros: this.extractFilename(d.contrato_obra_otros),
+    resolucion_curaduria_o_licencia: this.extractFilename(
+      d.resolucion_curaduria_o_licencia
+    ),
+    programa_manejo_rcd_pdf: this.extractFilename(
+      d.programa_manejo_rcd_pdf
+    ),
+    autorizacion_bicBigOrSmall: this.extractFilename(
+      d.autorizacion_bicBigOrSmall
+    ),
+    certificado_no_requiere_licencia: this.extractFilename(
+      d.certificado_no_requiere_licencia
+    ),
+    permiso_ocupacion_cauce: this.extractFilename(
+      d.permiso_ocupacion_cauce
+    ),
+
+    fecha_expedicion_pin: i.fecha_expedicion_pin,
+    fecha_vencimiento_pin: this.addOneYear(i.fecha_expedicion_pin),
+    consecutivo_sigob: i.consecutivo_sigob,
+  };
+
+  return { Generador, Proyecto };
+}
+
+
 
   // -------------------------------
   // ENVÍO DEL FORMULARIO
