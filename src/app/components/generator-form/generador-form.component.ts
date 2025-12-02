@@ -120,8 +120,9 @@ export class GeneradorForm implements OnInit {
         fecha_final: ['', Validators.required],
 
         nombre_del_proyecto: ['', Validators.required],
-
-        datos_predios: this.fb.array([]),
+datos_predios: this.fb.array([
+  this.createPredio()
+]),
 
         descripcion_del_proyecto_o_actividad_a_ejecutar: ['', Validators.required],
         area_a_intervenir_m2: [''],
@@ -179,6 +180,7 @@ export class GeneradorForm implements OnInit {
       }
     );
 
+    
     // -------------------------------
     // 🟩 INFO EXTRA
     // -------------------------------
@@ -202,10 +204,10 @@ export class GeneradorForm implements OnInit {
     // 🟩 DOCUMENTOS
     // -------------------------------
     this.DocumentsForm = this.fb.group({
-      carta_solicitud: ['', Validators.required],
-      descripcion_tecnica_proyecto: ['', Validators.required],
-      certificado_tradicion_libertad: ['', Validators.required],
-      autorizacion_bic: ['', Validators.required],
+      carta_solicitud: [''],
+      descripcion_tecnica_proyecto: [''],
+      certificado_tradicion_libertad: [''],
+      autorizacion_bic: [''],
       registro_defuncion: [''],
       cuadro_cantidades_rcd: [''],
       soporte_pago_pin: [''],
@@ -227,6 +229,12 @@ export class GeneradorForm implements OnInit {
   // -------------------------------
   // VALIDACIONES
   // -------------------------------
+createPredio(): FormGroup {
+  return this.fb.group({
+    referencia_catastral: ['', Validators.required],
+    matricula_inmobiliaria: ['', Validators.required]
+  });
+}
 
   ngOnInit(): void {
     const localidadControl = this.contacto.get('localidad');
@@ -385,34 +393,46 @@ export class GeneradorForm implements OnInit {
   // -------------------------------
 
   nextStep() {
-    console.log('Proyecto group:', this.proyecto);
+  console.log('Proyecto group:', this.proyecto);
 
-    if (this.step === 4) {
-      this.onSubmit();
-      return;
-    }
-
-    let g =
-      this.step === 0
-        ? this.contacto
-        : this.step === 1
-        ? this.proyecto
-        : this.step === 2
-        ? this.DocumentsForm
-        : this.step === 3
-        ? this.infoextra
-        : null;
-
-    if (g && g.invalid) {
-      g.markAllAsTouched();
-      this.toast.showError('Completa todos los campos obligatorios antes de continuar.');
-      return;
-    }
-
-    if (this.step < this.totalSteps - 1) {
-      this.step++;
-    }
+  if (this.step === 4) {
+    this.onSubmit();
+    return;
   }
+
+  let g =
+    this.step === 0
+      ? this.contacto
+      : this.step === 1
+      ? this.proyecto
+      : this.step === 2
+      ? this.DocumentsForm
+      : this.step === 3
+      ? this.infoextra
+      : null;
+
+  if (g && g.invalid) {
+    g.markAllAsTouched();
+
+    // 🔍 Obtener el primer campo inválido
+    const campoInvalido = Object.keys(g.controls)
+      .find(key => g.get(key)?.invalid);
+
+    // Nombre amigable para mostrar (si quieres lo puedes mapear)
+    const nombreCampo = campoInvalido
+      ? campoInvalido.replace(/([A-Z])/g, ' $1') // separa camelCase
+                    .replace(/_/g, ' ')         // separa guiones bajos
+                    .toUpperCase()
+      : 'ALGÚN CAMPO OBLIGATORIO';
+
+    this.toast.showError(`El campo "${nombreCampo}" es obligatorio.`);
+    return;
+  }
+
+  if (this.step < this.totalSteps - 1) {
+    this.step++;
+  }
+}
 
   prevStep() {
     if (this.step > 0) this.step--;
@@ -604,6 +624,8 @@ console.log('Payload construido:', { v });
       //Crear generador + id
       const { Generador, Proyecto } = this.buildPayload();
 
+      console.log('Generador payload:', { Generador });
+      console.log('Proyecto payload:', { Proyecto });
       return
       const creado = await this.generadorServ.crearGenerador(Generador);
       console.log(creado.idgenerador);
