@@ -117,6 +117,8 @@ export class TablaComponent implements OnChanges {
         case 'reporte': this.data = lista.map(r => ReporteImpPmaRcd.fromResponse(r)); break;
         case 'usuarios': this.data = lista.map(r => User.fromResponse(r)); break;
       }
+
+      console.log(this.data,"Datos cargados")
     } catch (err) {
       console.error('❌ Error en búsqueda:', err);
       this.data = [];

@@ -810,7 +810,7 @@ createPredio(): FormGroup {
 
       console.log('Generador payload:', { Generador });
       console.log('Proyecto payload:', { Proyecto });
-      return
+
       const creado = await this.generadorServ.crearGenerador(Generador);
       console.log(creado.idgenerador);
       this.idGenerador = creado.idgenerador;
