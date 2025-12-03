@@ -268,6 +268,7 @@ createPredio(): FormGroup {
     localidad$.subscribe(() => barrioControl.setValue(''));
 
     // VALIDACIÓN DINÁMICA
+
     const tipoControl = this.contacto.get('tipo_de_solicitante')!;
     tipoControl.valueChanges.pipe(startWith(tipoControl.value)).subscribe((tipo: string) => {
       const identificacion = this.contacto.get('identificacion')!;
@@ -290,6 +291,13 @@ createPredio(): FormGroup {
       certExt.updateValueAndValidity();
     });
   }
+
+  // copilot: agrega la funcion de clearValidators 
+
+  
+
+
+  
 
   // project-form.component.ts
   isInvalid(name: string, group: FormGroup) {
