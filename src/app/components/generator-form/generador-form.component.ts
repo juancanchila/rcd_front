@@ -208,10 +208,10 @@ datos_predios: this.fb.array([
     // -------------------------------
     this.DocumentsForm = this.fb.group({
       carta_solicitud: ['',Validators.required],
-      descripcion_tecnica_proyecto: ['',Validators.required],
+      descripcion_tecnica_proyecto: [''],
       certificado_tradicion_libertad: ['',Validators.required],
-      autorizacion_bic: ['',Validators.required],
-      registro_defuncion: ['',Validators.required],
+      autorizacion_bic: [''],
+      registro_defuncion: [''],
       cuadro_cantidades_rcd: [''],
       soporte_pago_pin: [''],
       cronograma_actividades: [''],
@@ -403,15 +403,10 @@ createPredio(): FormGroup {
   //nextsetep con validacion
   // -------------------------------
 
-  nextStep() {
+nextStep() {
   console.log('Proyecto group:', this.proyecto);
-  
 
-  if (this.step === 4) {
-    this.onSubmit();
-    return;
-  }
-
+  // Obtener el formulario del step actual (sin cambiar nombres)
   let g =
     this.step === 0
       ? this.contacto
@@ -423,24 +418,58 @@ createPredio(): FormGroup {
       ? this.infoextra
       : null;
 
-  if (g && g.invalid) {
-    g.markAllAsTouched();
+  if (!g) return; // si no hay formulario, no hacemos nada
 
-    // 🔍 Obtener el primer campo inválido
-    const campoInvalido = Object.keys(g.controls)
-      .find(key => g.get(key)?.invalid);
+  // Marcar todo como touched para que aparezcan los errores visuales
+  g.markAllAsTouched();
 
-    // Nombre amigable para mostrar (si quieres lo puedes mapear)
+  // Función recursiva para encontrar el primer control inválido y devolver la ruta (ej: 'persona.email')
+  const findFirstInvalid = (form: any, path = ''): string | null => {
+    if (!form || !form.controls) return null;
+
+    for (const key of Object.keys(form.controls)) {
+      const control = form.controls[key];
+      const currentPath = path ? `${path}.${key}` : key;
+
+      // Si es FormControl y está inválido -> devolvemos la ruta
+      if (control.invalid && !control.controls) {
+        return currentPath;
+      }
+
+      // Si es FormGroup o FormArray -> recursión
+      if (control.controls) {
+        const found = findFirstInvalid(control, currentPath);
+        if (found) return found;
+      }
+    }
+    return null;
+  };
+
+  const campoInvalido = findFirstInvalid(g);
+
+  if (campoInvalido) {
+    // Formatear nombre para mostrar bonito
     const nombreCampo = campoInvalido
-      ? campoInvalido.replace(/([A-Z])/g, ' $1') // separa camelCase
-                    .replace(/_/g, ' ')         // separa guiones bajos
-                    .toUpperCase()
-      : 'ALGÚN CAMPO OBLIGATORIO';
+      .split('.')
+      .map(part =>
+        part
+          .replace(/([A-Z])/g, ' $1') // separa camelCase
+          .replace(/_/g, ' ')         // reemplaza guiones bajos
+      )
+      .join(' > ')
+      .toUpperCase();
 
     this.toast.showError(`El campo "${nombreCampo}" es obligatorio.`);
+    return; // NO avanza ni envía
+  }
+
+  // Si estamos en el último paso y todo está OK -> enviar
+  if (this.step === 4) {
+    this.onSubmit();
     return;
   }
 
+  // Avanzar paso si no es el último
   if (this.step < this.totalSteps - 1) {
     this.step++;
   }
