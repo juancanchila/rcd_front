@@ -61,6 +61,15 @@
     <input matInput formControlName="nombre_del_proyecto" placeholder="Ej: Edificio Los Robles" />
   </mat-form-field>
 
+  <!-- Uso del suelo -->
+  <mat-form-field appearance="outline">
+  <mat-label>Uso del suelo</mat-label>
+  <input 
+    matInput 
+    formControlName="uso_suelo" 
+    placeholder="Ej: Residencial, Comercial, Industrial" 
+  />
+</mat-form-field>
   <!-- Datos del Predio -->
   <div formArrayName="datos_predios" class="predios">
     <h4>Datos del Predio</h4>

@@ -119,7 +119,7 @@ export class GeneradorForm implements OnInit {
 
         fecha_inicio: ['', Validators.required],
         fecha_final: ['', Validators.required],
-
+uso_suelo:['',Validators.required],
         nombre_del_proyecto: ['', Validators.required],
         licencia: [''],
 datos_predios: this.fb.array([
@@ -181,6 +181,7 @@ datos_predios: this.fb.array([
         },
       }
     );
+    
 
     
     // -------------------------------
@@ -594,6 +595,8 @@ createPredio(): FormGroup {
 
     direccion: c.direccion_de_correspondencia_del_solicitante,
     correoElectronico: c.correo_electronico,
+    usoSuelo: v.uso_suelo,
+
 
     telefono:
       c.telefono_fijo?.toString().trim() !== ""

@@ -451,6 +451,8 @@
 <p><strong>Fecha Final:</strong> {{ proyecto.get('fecha_final')?.value | date:'dd/MM/yyyy' }}</p>
 
 <p><strong>Nombre del Proyecto:</strong> {{ proyecto.get('nombre_del_proyecto')?.value }}</p>
+<p><strong>Uso del suelo:</strong> {{ proyecto?.value?.uso_suelo }}</p>
+
 
     <div *ngFor="let predio of proyecto.get('datos_predios')?.value; let i = index">
   <p><strong>Predio {{ i + 1 }}</strong></p>
@@ -514,6 +516,7 @@
     <p><strong>Barrio:</strong> {{ proyecto.get('barrio_proyecto')?.value }}</p>
 
 <p><strong>Dirección del Proyecto:</strong> {{ proyecto.get('direccion_del_proyecto')?.value }}</p>
+<p><strong>Uso del suelo:</strong> {{ proyecto?.value?.uso_suelo }}</p>
 
 <p><strong>Fecha Inicio:</strong> {{ proyecto.get('fecha_inicio')?.value | date:'dd/MM/yyyy' }}</p>
 

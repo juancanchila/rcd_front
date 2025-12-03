@@ -91,7 +91,7 @@ isSubmitting = false;
     fecha_final: ['', Validators.required],
 
     nombre_del_proyecto: ['', Validators.required],
-
+uso_suelo:['',Validators.required],
     datos_predios: this.fb.array([]),
 
     descripcion_del_proyecto_o_actividad_a_ejecutar: ['', Validators.required],
@@ -377,6 +377,8 @@ getTodayDate(): string {
     idProyecto: null, // AUTO_INCREMENT
   nombre: v.nombre_del_proyecto,
   ubicacion: v.direccion_del_proyecto,
+  usoSuelo: v.uso_suelo,
+
  // Corrección:
 tipoUsoPredio: v.datos_predios && v.datos_predios.length > 0
     ? v.datos_predios[0].referencia_catastral: null, // Envía una cadena vacía si no hay datos.

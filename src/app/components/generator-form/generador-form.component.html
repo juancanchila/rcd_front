@@ -44,7 +44,7 @@
         <mat-label>Razón social</mat-label>
         <input
           matInput
-          type="number"
+          
           formControlName="razon_social"
           placeholder="Ej: Comercializadora ABC S.A.S"
         />
@@ -601,6 +601,8 @@
           <strong>Dirección del Proyecto:</strong>
           {{ proyecto.get('direccion_del_proyecto')?.value }}
         </p>
+        <p><strong>Uso del suelo:</strong> {{ proyecto?.value?.uso_suelo }}</p>
+
         <p>
           <strong>Fecha Inicio:</strong>
           {{ proyecto.get('fecha_inicio')?.value | date : 'dd/MM/yyyy' }}
@@ -655,6 +657,37 @@
         proyecto.get('tipo_de_generador')?.value === 'GRAN GENERADOR DE RCD'
       "
     >
+          <div class="summary-box">
+        <h3>Resumen — Datos de Contacto</h3>
+        <p>
+          <strong>Tipo de solicitante:</strong> {{ contacto.get('tipo_de_solicitante')?.value }}
+        </p>
+
+        <ng-container *ngIf="contacto.get('tipo_de_solicitante')?.value === 'Persona Natural'">
+          <p>
+            <strong>Nombres y apellidos:</strong> {{ contacto.get('nombres_y_apellidos')?.value }}
+          </p>
+          <p>
+            <strong>Documento de identidad:</strong>
+            {{ contacto.get('documento_de_identidad')?.value }}
+          </p>
+        </ng-container>
+
+        <ng-container *ngIf="contacto.get('tipo_de_solicitante')?.value === 'Persona Jurídica'">
+          <p><strong>Razón social:</strong> {{ contacto.get('razon_social')?.value }}</p>
+          <p><strong>NIT:</strong> {{ contacto.get('nit')?.value }}</p>
+        </ng-container>
+
+        <p><strong>Correo electrónico:</strong> {{ contacto.get('correo_electronico')?.value }}</p>
+        <p><strong>Teléfono móvil:</strong> {{ contacto.get('telefono_movil')?.value }}</p>
+        <p><strong>Teléfono fijo:</strong> {{ contacto.get('telefono_fijo')?.value }}</p>
+        <p><strong>Localidad:</strong> {{ contacto.get('localidad')?.value }}</p>
+        <p><strong>Barrio:</strong> {{ contacto.get('barrio')?.value }}</p>
+        <p>
+          <strong>Dirección de correspondencia:</strong>
+          {{ contacto.get('direccion_de_correspondencia_del_solicitante')?.value }}
+        </p>
+      </div>
       <h3>Resumen del Proyecto</h3>
       <div class="summary-box">
         <p><strong>Tipo de Generador:</strong> {{ proyecto.get('tipo_de_generador')?.value }}</p>
@@ -664,6 +697,8 @@
           <strong>Dirección del Proyecto:</strong>
           {{ proyecto.get('direccion_del_proyecto')?.value }}
         </p>
+        <p><strong>Uso del suelo:</strong> {{ proyecto?.value?.uso_suelo }}</p>
+
         <p>
           <strong>Fecha Inicio:</strong>
           {{ proyecto.get('fecha_inicio')?.value | date : 'dd/MM/yyyy' }}
