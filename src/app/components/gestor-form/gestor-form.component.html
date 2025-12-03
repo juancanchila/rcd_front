@@ -287,6 +287,19 @@
       <input type="file" (change)="onFileSelected($event, 'carta_solicitud')" accept=".pdf" />
     </div>
 
+      <!-- 💳 Soporte de pago del PIN -->
+  <div class="file-group">
+    <label [class.required]="isInvalid('soporte_pago_pin')">
+      Soporte de pago del PIN
+      <span *ngIf="isRequired('soporte_pago_pin')" class="asterisk">*</span>
+    </label>
+    <input id="soporte_pago_pin" type="file" formControlName="soporte_pago_pin" accept=".pdf" />
+    <p class="help-text">Comprobante de pago asociado al trámite ambiental.</p>
+    <div class="error" *ngIf="isInvalid('soporte_pago_pin')">
+      Debes adjuntar el soporte de pago del PIN.
+    </div>
+  </div>
+
     <div class="file-group">
       <label>Documento viabilidad ambiental para adecuación del terreno (PDF) *</label>
       <input

@@ -161,8 +161,8 @@ this.fechaActual = hoy.toLocaleDateString('es-ES', {
   nombreProyecto: proyecto.nombre || 'N/A',
   Direccion: proyecto.ubicacion || 'N/A',
   matriculaInmobiliaria: proyecto.matriculaInmobiliaria || 'N/A',
-  fechaExpedicion: proyecto.fechaExpedicionPIN ? this.formatDate(proyecto.fechaExpedicionPIN) : 'N/A',
-  fechaVencimiento: this.calculateExpirationDateFromDate(1, proyecto.fechaExpedicionPIN)
+  fechaExpedicion: proyecto.fechaExpedicionPIN,
+  fechaVencimiento: proyecto.fechaVencimiento
 };
 
       console.log('Datos del proyecto cargados:', this.pinData);
@@ -221,12 +221,12 @@ this.fechaActual = hoy.toLocaleDateString('es-ES', {
 
       this.pinData = {
         ...this.pinData,
-        tipoPin: '',
+        tipoPin: 'GESTOR',
         numeroPin: resolucion.pin || 'N/A',
         numeroResolucion: resolucion.numeroResolucion || 'N/A',
        tipoAprovechamiento: resolucion.tipoAprovechamiento ? this.fixEncoding(resolucion.tipoAprovechamiento) : 'N/A',
-        fechaExpedicion: resolucion.fechaExpedicionPIN ? this.formatDate(resolucion.fechaExpedicionPIN) : 'N/A',
-        fechaVencimiento: this.calculateExpirationDateFromDate(1, resolucion.fechaExpedicionPIN), 
+        fechaExpedicion:resolucion.fechaInicio,
+        fechaVencimiento: resolucion.fechaFin, 
         razonSocial: receptor.razonSocial || receptor.primerNombre + ' ' + receptor.segundoNombre || 'N/A',
         tipoIdentificacion: receptor.tipoDocumento === 'Cedula' ? 'Cédula' : receptor.tipoDocumento || 'N/A',
         numeroIdentificacion: receptor.numeroDocumento || 'N/A',

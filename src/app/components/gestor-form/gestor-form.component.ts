@@ -149,6 +149,7 @@ export class GestorFormComponent implements OnInit {
       medidas_manejo_disp_final: [''],
       permisos_disp_final: [''],
       certificacion_pot_disp_final: [''],
+      soporte_pago_pin: [''],
     });
 
     this.infoextra = this.fb.group({
