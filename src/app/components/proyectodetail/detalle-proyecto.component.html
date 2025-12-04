@@ -16,79 +16,122 @@
     <mat-card-header>
       <mat-card-title>📋 Detalle del Proyecto</mat-card-title>
     </mat-card-header>
+
     <mat-card-content>
       <table class="tabla-detalle">
- <tr><th>Ubicación:</th><td>{{ proyecto.ubicacion }}</td></tr>
-      <tr><th>Tipo de uso:</th><td>{{ proyecto.tipoUsoPredio }}</td></tr>
-      <tr><th>Localidad:</th><td>{{ proyecto.localidad }}</td></tr>
-      <tr><th>Barrio:</th><td>{{ proyecto.barrio }}</td></tr>
-      <tr><th>Matrícula Inmobiliaria:</th><td>{{ proyecto.matriculaInmobiliaria }}</td></tr>
-      <tr><th>Referencia Catastral:</th><td>{{ proyecto.referenciaCatastral || '—' }}</td></tr>
-      <tr><th>Fecha Inicio:</th><td>{{ proyecto.fechaInicio }}</td></tr>
-      <tr><th>Fecha Fin:</th><td>{{ proyecto.fechaFin }}</td></tr>
-      <tr><th>Estado:</th><td>{{ proyecto.estadoProyecto }}</td></tr>
-      <tr><th>Número Licencia Urbanismo:</th><td>{{ proyecto.numLicenciaUrbanismo }}</td></tr>
-      <tr><th>Fecha Exp. Licencia:</th><td>{{ proyecto.fechaExpLicUrb }}</td></tr>
-      <tr><th>Titular Licencia:</th><td>{{ proyecto.titularLicUrb }}</td></tr>
-      <tr><th>Identificación Titular:</th><td>{{ proyecto.tipoIdentLicUrb }} {{ proyecto.identificacionLicUrb }}</td></tr>
-      <tr><th>Curaduría:</th><td>{{ proyecto.curaduria }}</td></tr>
-      <tr><th>Área Verdes:</th><td>{{ proyecto.areaVerdes || '—' }}</td></tr>
-      <tr><th>Área Construcción Aprobada:</th><td>{{ proyecto.areaConstruccionAprobada }}</td></tr>
-      <tr><th>Valor:</th><td>{{ proyecto.valor }}</td></tr>
-      <tr><th>Volumen Escombros:</th><td>{{ proyecto.volumenEstimGenrEscombros }}</td></tr>
-      <tr><th>Volumen Excavaciones:</th><td>{{ proyecto.volumenEstimEscavaciones || '—' }}</td></tr>
-      <tr><th>ID Generador:</th><td>{{ proyecto.idgenerador }}</td></tr>
-      <tr><th>PIN:</th><td>{{ proyecto.pin }}</td></tr>
-      <tr><th>Fecha Expedición PIN:</th><td>{{ proyecto.fechaExpedicionPIN }}</td></tr>
-      <tr><th>Radicado SIGOD:</th><td>{{ proyecto.codigoRadicadoSIGOD }}</td></tr>
-      <tr><th>Coordenada X:</th><td>{{ proyecto.CoordenadaX }}</td></tr>
-      <tr><th>Coordenada Y:</th><td>{{ proyecto.CoordenadaY }}</td></tr>
-       <tr><th>Ver Pin</th><td><button mat-icon-button  (click)="goToPin(proyecto.id)">  <mat-icon>picture_as_pdf</mat-icon></button></td></tr>
+
+        <!-- TUS CAMPOS ORIGINALES — NO TOQUÉ NADA -->
+        <tr><th>Ubicación:</th><td>{{ proyecto.ubicacion }}</td></tr>
+        <tr><th>Tipo de uso:</th><td>{{ proyecto.tipoUsoPredio }}</td></tr>
+        <tr><th>Localidad:</th><td>{{ proyecto.localidad }}</td></tr>
+        <tr><th>Barrio:</th><td>{{ proyecto.barrio }}</td></tr>
+        <tr><th>Matrícula Inmobiliaria:</th><td>{{ proyecto.matriculaInmobiliaria }}</td></tr>
+        <tr><th>Referencia Catastral:</th><td>{{ proyecto.referenciaCatastral || '—' }}</td></tr>
+        <tr><th>Fecha Inicio:</th><td>{{ proyecto.fechaInicio }}</td></tr>
+        <tr><th>Fecha Fin:</th><td>{{ proyecto.fechaFin }}</td></tr>
+        <tr><th>Estado:</th><td>{{ proyecto.estadoProyecto }}</td></tr>
+        <tr><th>Número Licencia Urbanismo:</th><td>{{ proyecto.numLicenciaUrbanismo }}</td></tr>
+        <tr><th>Fecha Exp. Licencia:</th><td>{{ proyecto.fechaExpLicUrb }}</td></tr>
+        <tr><th>Titular Licencia:</th><td>{{ proyecto.titularLicUrb }}</td></tr>
+        <tr><th>Identificación Titular:</th><td>{{ proyecto.tipoIdentLicUrb }} {{ proyecto.identificacionLicUrb }}</td></tr>
+        <tr><th>Curaduría:</th><td>{{ proyecto.curaduria }}</td></tr>
+        <tr><th>Área Verdes:</th><td>{{ proyecto.areaVerdes || '—' }}</td></tr>
+        <tr><th>Área Construcción Aprobada:</th><td>{{ proyecto.areaConstruccionAprobada }}</td></tr>
+        <tr><th>Valor:</th><td>{{ proyecto.valor }}</td></tr>
+        <tr><th>Volumen Escombros:</th><td>{{ proyecto.volumenEstimGenrEscombros }}</td></tr>
+        <tr><th>Volumen Excavaciones:</th><td>{{ proyecto.volumenEstimEscavaciones || '—' }}</td></tr>
+        <tr><th>ID Generador:</th><td>{{ proyecto.idgenerador }}</td></tr>
+        <tr><th>PIN:</th><td>{{ proyecto.pin }}</td></tr>
+        <tr><th>Fecha Expedición PIN:</th><td>{{ proyecto.fechaExpedicionPIN }}</td></tr>
+        <tr><th>Radicado SIGOD:</th><td>{{ proyecto.codigoRadicadoSIGOD }}</td></tr>
+        <tr><th>Coordenada X:</th><td>{{ proyecto.CoordenadaX }}</td></tr>
+        <tr><th>Coordenada Y:</th><td>{{ proyecto.CoordenadaY }}</td></tr>
+        <tr><th>Ver Pin</th>
+            <td>
+              <button mat-icon-button (click)="goToPin(proyecto.id)">
+                <mat-icon>picture_as_pdf</mat-icon>
+              </button>
+            </td>
+        </tr>
+
+        <!-- 🔥 CAMPOS FALTANTES (AGREGADOS) -->
+
+        <tr><th>Carta Solicitud:</th><td>{{ proyecto.carta_solicitud }}</td></tr>
+        <tr><th>Descripción Técnica:</th><td>{{ proyecto.descripcion_tecnica_proyecto }}</td></tr>
+        <tr><th>Certificado Tradición y Libertad:</th><td>{{ proyecto.certificado_tradicion_libertad }}</td></tr>
+        <tr><th>Autorización BIC:</th><td>{{ proyecto.autorizacion_bic }}</td></tr>
+        <tr><th>Registro Defunción:</th><td>{{ proyecto.registro_defuncion }}</td></tr>
+        <tr><th>Cuadro Cantidades RCD:</th><td>{{ proyecto.cuadro_cantidades_rcd }}</td></tr>
+        <tr><th>Soporte Pago PIN:</th><td>{{ proyecto.soporte_pago_pin }}</td></tr>
+        <tr><th>Cronograma Actividades:</th><td>{{ proyecto.cronograma_actividades }}</td></tr>
+        <tr><th>Planos Aprobados Curaduría:</th><td>{{ proyecto.planos_aprobados_curaduria }}</td></tr>
+        <tr><th>Contrato Obra/Otros:</th><td>{{ proyecto.contrato_obra_otros }}</td></tr>
+        <tr><th>Resolución Curaduría o Licencia:</th><td>{{ proyecto.resolucion_curaduria_o_licencia }}</td></tr>
+        <tr><th>Programa Manejo RCD PDF:</th><td>{{ proyecto.programa_manejo_rcd_pdf }}</td></tr>
+        <tr><th>Autorización BIC Big/Small:</th><td>{{ proyecto.autorizacion_bicBigOrSmall }}</td></tr>
+        <tr><th>Certificado No Requiere Licencia:</th><td>{{ proyecto.certificado_no_requiere_licencia }}</td></tr>
+        <tr><th>Permiso Ocupación Cauce:</th><td>{{ proyecto.permiso_ocupacion_cauce }}</td></tr>
+        <tr><th>Tipo Proyecto:</th><td>{{ proyecto.tipo }}</td></tr>
+        <tr><th>Licencia:</th><td>{{ proyecto.licencia }}</td></tr>
+        <tr><th>Radicación Juzgado Sucesión:</th><td>{{ proyecto.radicacion_juzgado_sucesion }}</td></tr>
+        <tr><th>Documento Privado Herederos:</th><td>{{ proyecto.documento_privado_herederos }}</td></tr>
+        <tr><th>Cédula Herederos:</th><td>{{ proyecto.cedula_herederos }}</td></tr>
+        <tr><th>Registro Civil Hijos:</th><td>{{ proyecto.registro_civil_hijos }}</td></tr>
+
       </table>
     </mat-card-content>
+
   </mat-card>
 
   <!-- Card: Visitas Técnicas -->
   <mat-card class="visitas-card">
     <mat-card-header>
       <mat-card-title>📂 Visitas Técnicas</mat-card-title>
-  <button mat-icon-button color="primary"
-          class="btn-add-tvisit"
-          (click)="agregarVisita()">
-    <mat-icon>add_circle</mat-icon>
-  </button>
 
-      
+      <button mat-icon-button color="primary"
+              class="btn-add-tvisit"
+              (click)="agregarVisita()">
+        <mat-icon>add_circle</mat-icon>
+      </button>
+
     </mat-card-header>
+
     <mat-card-content>
       <table *ngIf="visitas.length > 0" class="tabla-visitas">
         <thead>
           <tr>
-                <th>Fecha Visita</th>
-              <th>Estado</th>
-              <th>Observaciones</th>
-              <th>Acta</th>
-                <th>Acciones</th>
+            <th>Fecha Visita</th>
+            <th>Estado</th>
+            <th>Observaciones</th>
+            <th>Acta</th>
+            <th>Acciones</th>
           </tr>
         </thead>
+
         <tbody>
           <tr *ngFor="let visita of visitas">
             <td>{{ visita.fechaVisita || '—' }}</td>
-              <td>{{ visita.estado || '—' }}</td>
-              <td>{{ visita.observaciones|| '—' }}</td>
-                 <td>
-                <a [href]="'/assets/actas/' + visita.acta" target="_blank">Ver Acta</a>
-              </td>
+            <td>{{ visita.estado || '—' }}</td>
+            <td>{{ visita.observaciones || '—' }}</td>
+            <td>
+              <a [href]="'/assets/actas/' + visita.acta" target="_blank">
+                Ver Acta
+              </a>
+            </td>
 
-               <td>  <button mat-icon-button (click)="goToDetalle(visita.id)">
+            <td>
+              <button mat-icon-button (click)="goToDetalle(visita.id)">
                 <mat-icon>search</mat-icon>
-              </button></td>
+              </button>
+            </td>
           </tr>
         </tbody>
       </table>
+
       <p *ngIf="visitas.length === 0" class="sin-datos">
         No hay visitas técnicas registradas para este proyecto.
       </p>
+
     </mat-card-content>
   </mat-card>
 
@@ -98,6 +141,8 @@
 <div *ngIf="loading" class="loader-wrapper">
   <mat-spinner></mat-spinner>
 </div>
+
 <br><br><br><br>
+
 <!-- Footer -->
 <shared-footer></shared-footer>

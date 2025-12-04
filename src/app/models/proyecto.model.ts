@@ -31,7 +31,31 @@ export class Proyecto {
     public codigoRadicadoSIGOD: string,
     public CoordenadaX: string,
     public CoordenadaY: string,
-    public visitas: VisitaTecnica[] | null
+    public visitas: VisitaTecnica[] | null,
+
+    // 🔥 CAMPOS NUEVOS DOCUMENTOS Y OTROS
+    public carta_solicitud: string | null,
+    public descripcion_tecnica_proyecto: string | null,
+    public certificado_tradicion_libertad: string | null,
+    public autorizacion_bic: string | null,
+    public registro_defuncion: string | null,
+    public cuadro_cantidades_rcd: string | null,
+    public soporte_pago_pin: string | null,
+    public cronograma_actividades: string | null,
+    public planos_aprobados_curaduria: string | null,
+    public contrato_obra_otros: string | null,
+    public resolucion_curaduria_o_licencia: string | null,
+    public programa_manejo_rcd_pdf: string | null,
+    public autorizacion_bicBigOrSmall: string | null,
+    public certificado_no_requiere_licencia: string | null,
+    public permiso_ocupacion_cauce: string | null,
+    public tipo: string,
+    public licencia: string | null,
+    public radicacion_juzgado_sucesion: string | null,
+    public documento_privado_herederos: string | null,
+    public cedula_herederos: string | null,
+    public registro_civil_hijos: string | null,
+    public registro_matrimonio_conyuge: string | null
   ) {}
 
   static fromResponse(response: any): Proyecto {
@@ -58,14 +82,38 @@ export class Proyecto {
       response.valor,
       response.volumenEstimGenrEscombros,
       response.volumenEstimEscavaciones,
-      response.idgenerador,         // ✔ idgenerador
-      response.generador,           // ✔ generador
-      response.pin,                 // ✔ pin
-      response.fechaExpedicionPIN,  // ✔ fechaExpedicionPIN
-      response.codigoRadicadoSIGOD, // ✔ codigoRadicadoSIGOD
-      response.CoordenadaX,         // ✔ CoordenadaX
-      response.CoordenadaY,         // ✔ CoordenadaY
-      response.visitas || null      // ✔ visitas
+      response.idgenerador,
+      response.generador,
+      response.pin,
+      response.fechaExpedicionPIN,
+      response.codigoRadicadoSIGOD,
+      response.CoordenadaX,
+      response.CoordenadaY,
+      response.visitas || null,
+
+      // 🔥 ASIGNACIÓN CAMPOS NUEVOS
+      response.carta_solicitud || null,
+      response.descripcion_tecnica_proyecto || null,
+      response.certificado_tradicion_libertad || null,
+      response.autorizacion_bic || null,
+      response.registro_defuncion || null,
+      response.cuadro_cantidades_rcd || null,
+      response.soporte_pago_pin || null,
+      response.cronograma_actividades || null,
+      response.planos_aprobados_curaduria || null,
+      response.contrato_obra_otros || null,
+      response.resolucion_curaduria_o_licencia || null,
+      response.programa_manejo_rcd_pdf || null,
+      response.autorizacion_bicBigOrSmall || null,
+      response.certificado_no_requiere_licencia || null,
+      response.permiso_ocupacion_cauce || null,
+      response.tipo || '',
+      response.licencia || null,
+      response.radicacion_juzgado_sucesion || null,
+      response.documento_privado_herederos || null,
+      response.cedula_herederos || null,
+      response.registro_civil_hijos || null,
+      response.registro_matrimonio_conyuge || null
     );
   }
 }

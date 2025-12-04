@@ -585,10 +585,19 @@ nextStep() {
   // ----------------------------------------------------------
   //  Extraer predio plano
   // ----------------------------------------------------------
-  const predio = v.datos_predios?.[0] ?? {};
+const predios = v.datos_predios ?? [];
 
-  const referencia_catastral = predio.referencia_catastral ?? null;
-  const matricula_inmobiliaria = predio.matricula_inmobiliaria ?? null;
+const referencia_catastral = predios
+  .map((p: { referencia_catastral: any; }) => p.referencia_catastral)
+  .filter(Boolean)
+  .join(', ');
+
+// Concatenar todas las matrículas inmobiliarias
+const matricula_inmobiliaria = predios
+  .map((p: { matricula_inmobiliaria: any; }) => p.matricula_inmobiliaria)
+  .filter(Boolean)
+  .join(', ');
+
 
   // ----------------------------------------------------------
   //  GENERADOR
@@ -726,6 +735,8 @@ nextStep() {
   // ------------------------------------
   const licenciaPlano = licencia.join(", ");
 
+
+
   // ----------------------------------------------------------
   //  PROYECTO
   // ----------------------------------------------------------
@@ -753,11 +764,11 @@ nextStep() {
     curaduria: null,
 
     areaVerdes: null,
-    areaConstruccionAprobada: null,
+    areaConstruccionAprobada:v.area_a_intervenir_m2,
 
     valor: i.valor,
 
-    volumenEstimGenrEscombros: null,
+    volumenEstimGenrEscombros:v.cantidad_de_rcd_a_generar_toneladas,
     volumenEstimEscavaciones: null,
 
     idgenerador: 0,
@@ -840,6 +851,7 @@ nextStep() {
       console.log('Generador payload:', { Generador });
       console.log('Proyecto payload:', { Proyecto });
 
+    
       const creado = await this.generadorServ.crearGenerador(Generador);
       console.log(creado.idgenerador);
       this.idGenerador = creado.idgenerador;
@@ -870,26 +882,31 @@ nextStep() {
       }
 
       // 3️⃣ ACTUALIZAR VEHÍCULO CON NOMBRES FINALES
-      const proyectoUpdate = {
-        carta_solicitud: archivosRenombrados['carta_solicitud'] || null,
-        descripcion_tecnica_proyecto: archivosRenombrados['descripcion_tecnica_proyecto'] || null,
-        certificado_tradicion_libertad:
-          archivosRenombrados['certificado_tradicion_libertad'] || null,
-        autorizacion_bic: archivosRenombrados['autorizacion_bic'] || null,
-        registro_defuncion: archivosRenombrados['registro_defuncion'] || null,
-        cuadro_cantidades_rcd: archivosRenombrados['cuadro_cantidades_rcd'] || null,
-        soporte_pago_pin: archivosRenombrados['soporte_pago_pin'] || null,
-        cronograma_actividades: archivosRenombrados['cronograma_actividades'] || null,
-        planos_aprobados_curaduria: archivosRenombrados['planos_aprobados_curaduria'] || null,
-        contrato_obra_otros: archivosRenombrados['contrato_obra_otros'] || null,
-        resolucion_curaduria_o_licencia:
-          archivosRenombrados['resolucion_curaduria_o_licencia'] || null,
-        programa_manejo_rcd_pdf: archivosRenombrados['programa_manejo_rcd_pdf'] || null,
-        autorizacion_bicBigOrSmall: archivosRenombrados['autorizacion_bicBigOrSmall'] || null,
-        certificado_no_requiere_licencia:
-          archivosRenombrados['certificado_no_requiere_licencia'] || null,
-        permiso_ocupacion_cauce: archivosRenombrados['permiso_ocupacion_cauce'] || null,
-      };
+ const proyectoUpdate = {
+  carta_solicitud: archivosRenombrados['carta_solicitud'] || null,
+  descripcion_tecnica_proyecto: archivosRenombrados['descripcion_tecnica_proyecto'] || null,
+  certificado_tradicion_libertad: archivosRenombrados['certificado_tradicion_libertad'] || null,
+  autorizacion_bic: archivosRenombrados['autorizacion_bic'] || null,
+  registro_defuncion: archivosRenombrados['registro_defuncion'] || null,
+  cuadro_cantidades_rcd: archivosRenombrados['cuadro_cantidades_rcd'] || null,
+  soporte_pago_pin: archivosRenombrados['soporte_pago_pin'] || null,
+  cronograma_actividades: archivosRenombrados['cronograma_actividades'] || null,
+  planos_aprobados_curaduria: archivosRenombrados['planos_aprobados_curaduria'] || null,
+  contrato_obra_otros: archivosRenombrados['contrato_obra_otros'] || null,
+  resolucion_curaduria_o_licencia: archivosRenombrados['resolucion_curaduria_o_licencia'] || null,
+  programa_manejo_rcd_pdf: archivosRenombrados['programa_manejo_rcd_pdf'] || null,
+  autorizacion_bicBigOrSmall: archivosRenombrados['autorizacion_bicBigOrSmall'] || null,
+  certificado_no_requiere_licencia: archivosRenombrados['certificado_no_requiere_licencia'] || null,
+  permiso_ocupacion_cauce: archivosRenombrados['permiso_ocupacion_cauce'] || null,
+
+  // 🆕 CAMPOS NUEVOS
+  radicacion_juzgado_sucesion: archivosRenombrados['radicacion_juzgado_sucesion'] || null,
+  documento_privado_herederos: archivosRenombrados['documento_privado_herederos'] || null,
+  cedula_herederos: archivosRenombrados['cedula_herederos'] || null,
+  registro_civil_hijos: archivosRenombrados['registro_civil_hijos'] || null,
+  registro_matrimonio_conyuge: archivosRenombrados['registro_matrimonio_conyuge'] || null,
+};
+
 
       await this.ProyectoServ.actualizarProyecto(idProyecto, proyectoUpdate);
 
