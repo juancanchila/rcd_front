@@ -161,7 +161,7 @@ this.fechaActual = hoy.toLocaleDateString('es-ES', {
   nombreProyecto: proyecto.nombre || 'N/A',
   Direccion: proyecto.ubicacion || 'N/A',
   matriculaInmobiliaria: proyecto.matriculaInmobiliaria || 'N/A',
-  fechaExpedicion: proyecto.fechaExpedicionPIN,
+  fechaExpedicionPIN: proyecto.fechaExpedicionPIN,
   fechaVencimiento: proyecto.fechaVencimiento
 };
 
@@ -241,7 +241,7 @@ this.pinData = {
         numeroPin: resolucion.pin || 'N/A',
         numeroResolucion: resolucion.numeroResolucion || 'N/A',
        tipoAprovechamiento: resolucion.tipoAprovechamiento ? this.fixEncoding(resolucion.tipoAprovechamiento) : 'N/A',
-        fechaExpedicion:resolucion.fechaInicio,
+         fechaExpedicionPIN: resolucion.fechaExpedicionPIN,
         fechaVencimiento: resolucion.fechaFin, 
         razonSocial: receptor.razonSocial || receptor.primerNombre + ' ' + receptor.segundoNombre || 'N/A',
         tipoIdentificacion: receptor.tipoDocumento === 'Cedula' ? 'Cédula' : receptor.tipoDocumento || 'N/A',

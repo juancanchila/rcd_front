@@ -9,6 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { Subscription } from 'rxjs';
 import { RouterModule } from '@angular/router';
+import { environment } from '../../environments/environment.prod';
 
 type TipoEntidad = 'usuarios' | 'generador' | 'transportador' | 'receptor' | 'vehiculo' | 'resolucion' | 'proyecto' | 'visitatecnica' | 'reporte';
 
@@ -31,6 +32,7 @@ type TipoEntidad = 'usuarios' | 'generador' | 'transportador' | 'receptor' | 've
 })
 export class ListaPageComponent implements OnDestroy {
   tipo: TipoEntidad = 'generador';
+  private endpoint = `${environment.API_URL}/export?tipo=`;
   private routeSub: Subscription;
 
   constructor(private route: ActivatedRoute) {
@@ -49,4 +51,9 @@ export class ListaPageComponent implements OnDestroy {
   ngOnDestroy() {
     this.routeSub.unsubscribe();
   }
+  descargarCsv() {
+    const url =this.endpoint + this.tipo;
+  window.open(this.endpoint + this.tipo, '_blank');
+}
+
 }

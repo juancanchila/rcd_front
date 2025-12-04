@@ -8,6 +8,15 @@
       Crear nuevo {{ tipo === 'receptor' ? 'Gestor' : (tipo | titlecase) }}
     </button>
   </div>
+  <!-- Botón de descarga CSV solo para tipos permitidos -->
+<div style="text-align:right; margin-bottom:12px"
+     *ngIf="['vehiculo', 'proyecto', 'resolucion'].includes(tipo)">
+  <button mat-raised-button color="accent" (click)="descargarCsv()">
+    <mat-icon>download</mat-icon>
+    Descargar CSV
+  </button>
+</div>
+
 
   <!-- Título dinámico -->
   <h2 class="lista-page-title">
