@@ -183,21 +183,37 @@ this.fechaActual = hoy.toLocaleDateString('es-ES', {
         return;
       }
       
-      const transportador = await this.transportadorService.obtenerTransportadorPorId(vehiculo.idtransportador);
-      
-      this.pinData = {
-        ...this.pinData,
-        tipoPin: 'TRANSPORTADOR',
-        numeroPin: vehiculo.pin || 'N/A',
-        placa: vehiculo.placaVehiculo || 'N/A',
-        modelo: vehiculo.modelo || 'N/A',
-        capacidad: vehiculo.capacidad ? `${vehiculo.capacidad} Kg` : 'N/A',
-        fechaExpedicionPIN: vehiculo.fechaExpedicionPIN,
-        fechaVencimiento: vehiculo.fechaVencimientoPIN,
-        tipoIdentificacion: transportador.tipoDocumento === 'Cedula' ? 'Cédula' : transportador.tipoDocumento || 'N/A',
-        numeroIdentificacion: transportador.numeroDocumento || 'N/A',
-        lugarExpedicion: vehiculo.lugarExpedicion || 'CARTAGENA'
-      };
+   const transportador = await this.transportadorService.obtenerTransportadorPorId(vehiculo.idtransportador);
+
+// Construir el nombre según tipo de documento
+let nombreTransportador = '';
+if (transportador.tipoDocumento === 'NIT') {
+  nombreTransportador = transportador.razonSocial || 'N/A';
+} else {
+  // Persona natural: concatenar nombres y apellidos ignorando campos vacíos
+  nombreTransportador = [
+    transportador.primerNombre,
+    transportador.segundoNombre,
+    transportador.primerApellidos,
+    transportador.segundoApellido
+  ].filter(Boolean).join(' ');
+  if (!nombreTransportador) nombreTransportador = 'N/A';
+}
+
+this.pinData = {
+  ...this.pinData,
+  tipoPin: 'TRANSPORTADOR',
+  numeroPin: vehiculo.pin || 'N/A',
+  placa: vehiculo.placaVehiculo || 'N/A',
+  modelo: vehiculo.modelo || 'N/A',
+  capacidad: vehiculo.capacidad ? `${vehiculo.capacidad} Kg` : 'N/A',
+  fechaExpedicionPIN: vehiculo.fechaExpedicionPIN,
+  fechaVencimiento: vehiculo.fechaVencimientoPIN,
+  tipoIdentificacion: transportador.tipoDocumento === 'Cedula' ? 'Cédula' : transportador.tipoDocumento || 'N/A',
+  numeroIdentificacion: transportador.numeroDocumento || 'N/A',
+  lugarExpedicion: vehiculo.lugarExpedicion || 'CARTAGENA',
+  razonSocial: nombreTransportador // 🔥 Aquí va el nombre o razón social ya calculado
+};
 
       console.log('Datos del vehículo cargados:', this.pinData);
     } catch (error) {

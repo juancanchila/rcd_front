@@ -362,22 +362,40 @@ export class GestorFormComponent implements OnInit {
   // ==========================
   // MULTISTEP
   // ==========================
-  nextStep() {
-    const grp =
-      this.step === 0
-        ? this.contacto
-        : this.step === 1
-        ? this.gestor
-        : this.step === 2
-        ? this.documentos
-        : this.infoextra;
-    if (grp.invalid) {
-      grp.markAllAsTouched();
-      this.snack.open('Completa todos los campos obligatorios.', 'Cerrar', { duration: 3000 });
-      return;
-    }
-    if (this.step < this.totalSteps - 1) this.step++;
+nextStep() {
+  // Obtener el grupo actual según el step
+  const grp =
+    this.step === 0
+      ? this.contacto
+      : this.step === 1
+      ? this.gestor
+      : this.step === 2
+      ? this.documentos
+      : this.infoextra;
+
+  if (grp.invalid) {
+    // Marcar todos los campos como tocados para mostrar errores
+    grp.markAllAsTouched();
+
+    // Obtener los nombres exactos de los campos inválidos
+    const invalidFields = Object.keys(grp.controls).filter(
+      field => grp.get(field)?.invalid
+    );
+
+    // Mostrar mensaje con los nombres de los campos inválidos
+    this.snack.open(
+      `Completa los campos obligatorios: ${invalidFields.join(', ')}`,
+      'Cerrar',
+      { duration: 5000 }
+    );
+
+    return;
   }
+
+  // Avanzar al siguiente step si todo es válido
+  if (this.step < this.totalSteps - 1) this.step++;
+}
+
 
   prevStep() {
     if (this.step > 0) this.step--;

@@ -194,16 +194,29 @@ export class TransportadorFormComponent implements OnInit {
   //                WIZARD
   // ===========================================
 
-  nextStep() {
-    const currentGroup = this.getCurrentGroup();
+nextStep() {
+  const currentGroup = this.getCurrentGroup();
 
-    if (currentGroup.invalid) {
-      currentGroup.markAllAsTouched();
-      this.snack.open('Completa todos los campos requeridos.', 'Cerrar', { duration: 3000 });
-      return;
-    }
-    if (this.step < this.totalSteps - 1) this.step++;
+  if (currentGroup.invalid) {
+    currentGroup.markAllAsTouched();
+
+    // Obtener exactamente los nombres de los campos inválidos
+    const invalidFields = Object.keys(currentGroup.controls)
+      .filter(field => currentGroup.get(field)?.invalid);
+
+    // Mostrar mensaje con los nombres exactos de los campos
+    this.snack.open(
+      `Campos incompletos o inválidos: ${invalidFields.join(', ')}`,
+      'Cerrar',
+      { duration: 5000 }
+    );
+
+    return;
   }
+
+  if (this.step < this.totalSteps - 1) this.step++;
+}
+
 
   prevStep() {
     if (this.step > 0) this.step--;

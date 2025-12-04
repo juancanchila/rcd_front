@@ -21,7 +21,9 @@
       <table class="tabla-detalle">
 
         <!-- TUS CAMPOS ORIGINALES — NO TOQUÉ NADA -->
+            <tr><th>Tipo Proyecto:</th><td>{{ proyecto.tipo }}</td></tr>
         <tr><th>Ubicación:</th><td>{{ proyecto.ubicacion }}</td></tr>
+          <tr><th>Licencia:</th><td>{{ proyecto.licencia }}</td></tr>
         <tr><th>Tipo de uso:</th><td>{{ proyecto.tipoUsoPredio }}</td></tr>
         <tr><th>Localidad:</th><td>{{ proyecto.localidad }}</td></tr>
         <tr><th>Barrio:</th><td>{{ proyecto.barrio }}</td></tr>
@@ -46,13 +48,6 @@
         <tr><th>Radicado SIGOD:</th><td>{{ proyecto.codigoRadicadoSIGOD }}</td></tr>
         <tr><th>Coordenada X:</th><td>{{ proyecto.CoordenadaX }}</td></tr>
         <tr><th>Coordenada Y:</th><td>{{ proyecto.CoordenadaY }}</td></tr>
-        <tr><th>Ver Pin</th>
-            <td>
-              <button mat-icon-button (click)="goToPin(proyecto.id)">
-                <mat-icon>picture_as_pdf</mat-icon>
-              </button>
-            </td>
-        </tr>
 
         <!-- 🔥 CAMPOS FALTANTES (AGREGADOS) -->
 
@@ -71,12 +66,19 @@
         <tr><th>Autorización BIC Big/Small:</th><td>{{ proyecto.autorizacion_bicBigOrSmall }}</td></tr>
         <tr><th>Certificado No Requiere Licencia:</th><td>{{ proyecto.certificado_no_requiere_licencia }}</td></tr>
         <tr><th>Permiso Ocupación Cauce:</th><td>{{ proyecto.permiso_ocupacion_cauce }}</td></tr>
-        <tr><th>Tipo Proyecto:</th><td>{{ proyecto.tipo }}</td></tr>
-        <tr><th>Licencia:</th><td>{{ proyecto.licencia }}</td></tr>
+     
+      
         <tr><th>Radicación Juzgado Sucesión:</th><td>{{ proyecto.radicacion_juzgado_sucesion }}</td></tr>
         <tr><th>Documento Privado Herederos:</th><td>{{ proyecto.documento_privado_herederos }}</td></tr>
         <tr><th>Cédula Herederos:</th><td>{{ proyecto.cedula_herederos }}</td></tr>
         <tr><th>Registro Civil Hijos:</th><td>{{ proyecto.registro_civil_hijos }}</td></tr>
+                <tr><th>Ver Pin</th>
+            <td>
+              <button mat-icon-button (click)="goToPin(proyecto.id)">
+                <mat-icon>picture_as_pdf</mat-icon>
+              </button>
+            </td>
+        </tr>
 
       </table>
     </mat-card-content>
