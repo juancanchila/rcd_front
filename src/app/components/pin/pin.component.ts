@@ -242,6 +242,7 @@ this.pinData = {
         numeroResolucion: resolucion.numeroResolucion || 'N/A',
        tipoAprovechamiento: resolucion.tipoAprovechamiento ? this.fixEncoding(resolucion.tipoAprovechamiento) : 'N/A',
          fechaExpedicionPIN: resolucion.fechaExpedicionPIN,
+         fechaInicio: resolucion.fechaInicio,
         fechaVencimiento: resolucion.fechaFin, 
         razonSocial: receptor.razonSocial || receptor.primerNombre + ' ' + receptor.segundoNombre || 'N/A',
         tipoIdentificacion: receptor.tipoDocumento === 'Cedula' ? 'Cédula' : receptor.tipoDocumento || 'N/A',
