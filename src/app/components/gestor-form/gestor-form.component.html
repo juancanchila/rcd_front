@@ -84,6 +84,37 @@
       <input matInput formControlName="telefono_fijo" placeholder="Ej: 6051234567" />
     </mat-form-field>
 
+<!-- SELECTOR DE CIUDAD -->
+<mat-form-field appearance="outline">
+  <mat-label>Ciudad</mat-label>
+  <mat-select formControlName="ciudad" (selectionChange)="onCiudadChange($event.value)">
+    <mat-option value="Cartagena">Cartagena</mat-option>
+    <mat-option value="Otra">Otra ciudad</mat-option>
+  </mat-select>
+  <mat-error *ngIf="isInvalid('ciudad', contacto)">
+    Debes seleccionar la ciudad.
+  </mat-error>
+</mat-form-field>
+
+<!-- INPUT PARA ESCRIBIR LA CIUDAD SOLO SI ELIGE "OTRA" -->
+<div *ngIf="mostrarInputOtraCiudad">
+  <mat-form-field appearance="outline">
+    <mat-label>Escribe la ciudad</mat-label>
+    <input
+      matInput
+      formControlName="otraCiudad"
+      (input)="onOtraCiudadInput($event.target.value)"
+      required
+    />
+    <mat-error *ngIf="isInvalid('otraCiudad', contacto)">
+      Debes ingresar la ciudad.
+    </mat-error>
+  </mat-form-field>
+</div>
+
+<!-- TUS CAMPOS SIN CAMBIAR -->
+<div *ngIf="mostrarLocalidad">
+
     <mat-form-field appearance="outline">
       <mat-label>Localidad</mat-label>
       <mat-select formControlName="localidad" required>
@@ -109,8 +140,14 @@
           {{ barrio }}
         </mat-option>
       </mat-autocomplete>
-      <mat-error *ngIf="isInvalid('barrio', contacto)"> Debes seleccionar un barrio. </mat-error>
+      <mat-error *ngIf="isInvalid('barrio', contacto)">
+        Debes seleccionar un barrio.
+      </mat-error>
     </mat-form-field>
+
+</div>
+
+
 
     <mat-form-field appearance="outline">
       <mat-label>Dirección de correspondencia</mat-label>

@@ -91,6 +91,7 @@ export class TransportadorFormComponent implements OnInit {
       ],
       marca: ['', Validators.required],
       modelo: ['', Validators.required],
+      expedicion: ['', Validators.required],
     });
 
     // FORMULARIO INFO EXTRA
@@ -331,7 +332,7 @@ nextStep() {
     const vehiculo = {
       idvehiculo: 0,
       placaVehiculo: v.placa_vehiculo.toUpperCase(),
-      lugarExpedicion: c.localidad,
+      lugarExpedicion: c.expedicion,
       modelo: v.modelo,
       capacidad: `${v.capacidad_vehiculo} ${v.unidad_capacidad}`,
       fechaUltimaRevTecMec: null, // ✔️ AHORA EN NULL

@@ -63,6 +63,7 @@ export class VehicleFormComponent {
       ],
       marca: ['', Validators.required],
       modelo: ['', Validators.required],
+      expedicion: ['', Validators.required],
       color: [''],
       numero_chasis: [''],
       numero_motor: [''],
@@ -180,7 +181,7 @@ export class VehicleFormComponent {
     return {
       idvehiculo: 0,
       placaVehiculo: v.placa_vehiculo.toUpperCase(),
-      lugarExpedicion: null,
+      lugarExpedicion: v.expedicion,
       modelo: v.modelo,
       capacidad: `${v.capacidad_vehiculo} ${v.unidad_capacidad}`,
       fechaUltimaRevTecMec: null,

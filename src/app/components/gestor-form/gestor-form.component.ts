@@ -43,7 +43,9 @@ import { MapPickerComponent } from '../map-picker/map-picker.component';
 })
 export class GestorFormComponent implements OnInit {
   @Output() saved = new EventEmitter<any>();
+mostrarInputOtraCiudad = false;
 
+  mostrarLocalidad = true;
   step = 0;
   totalSteps = 5;
   isSubmitting = false;
@@ -89,21 +91,29 @@ export class GestorFormComponent implements OnInit {
     // FORMULARIOS
     // ==========================
     this.contacto = this.fb.group({
+        ciudad: ['', Validators.required],
       tipo_de_solicitante: ['', Validators.required],
       nombres_y_apellidos: [''],
-      documento_de_identidad: [''],
+      documento_de_identidad: ['',[Validators.pattern(/^[0-9]*$/)]],
       razon_social: [''],
-      nit: [''],
+      nit: ['',[Validators.pattern(/^[0-9]*$/)]],
       correo_electronico: ['', [Validators.required, Validators.email]],
-      telefono_movil: ['', Validators.required],
-      telefono_fijo: [''],
-      localidad: ['', Validators.required],
-      barrio: ['', Validators.required],
+   telefono_movil: [
+  '',
+  [
+    Validators.required,
+    Validators.pattern(/^[0-9]{10}$/)   // solo números y exactamente 10 dígitos
+  ]
+],
+      telefono_fijo: ['', [Validators.pattern(/^[0-9]{0,10}$/)]],
+      localidad: [''],
+      barrio: [''],
       direccion_de_correspondencia_del_solicitante: ['', Validators.required],
     });
 
     this.gestor = this.fb.group(
       {
+      
         localidad_gestor: ['', Validators.required],
         barrio_gestor: ['', Validators.required],
         direccion_gestor: ['', Validators.required],
@@ -417,6 +427,12 @@ nextStep() {
         ? c.documento_de_identidad?.trim() || ''
         : c.nit?.trim() || '';
 
+        const direccionCompleta = (
+  `${c.direccion_de_correspondencia_del_solicitante || ''}${
+    c.ciudad ? `, ${c.ciudad}` : c.localidad ? `, ${c.localidad}` : ''
+  }${c.barrio ? `, ${c.barrio}` : ''}`
+).trim() || null;
+
     const receptor = {
       tipoDocumento,
       numeroDocumento,
@@ -425,10 +441,7 @@ nextStep() {
       primerApellidos: tipoDocumento === 'cedula' ? nombres[2] || null : null,
       segundoApellido: tipoDocumento === 'cedula' ? nombres[3] || null : null,
       razonSocial: tipoDocumento === 'NIT' ? c.razon_social || null : null,
-      direccion:
-        `${c.direccion_de_correspondencia_del_solicitante || ''}, ${c.localidad || ''}, ${
-          c.barrio || ''
-        }`.trim() || null,
+      direccion:direccionCompleta,
       correoElectronico: c.correo_electronico || null,
       celular: c.telefono_movil || null,
       clave: i.clave || null,
@@ -479,6 +492,41 @@ nextStep() {
   // ==========================
   // SUBMIT
   // ==========================
+ 
+
+
+onCiudadChange(ciudad: string) {
+  if (ciudad === 'Cartagena') {
+    this.mostrarInputOtraCiudad = false;
+    this.contacto.get('otraCiudad')?.setValue('');
+
+    this.mostrarLocalidad = true;
+
+  } else {
+    // Si elige OTRA CIUDAD → activar input
+    this.mostrarInputOtraCiudad = true;
+    this.mostrarLocalidad = false;
+
+    // limpiar campos
+    this.contacto.get('localidad')?.setValue('');
+    this.contacto.get('barrio')?.setValue('');
+  }
+}
+
+onOtraCiudadInput(valor: string) {
+  const ciudad = valor.trim().toLowerCase();
+
+  // solo si escribe Cartagena se activan los campos
+  if (ciudad === 'cartagena') {
+    this.mostrarLocalidad = true;
+  } else {
+    this.mostrarLocalidad = false;
+
+    this.contacto.get('localidad')?.setValue('');
+    this.contacto.get('barrio')?.setValue('');
+  }
+}
+
   async onSubmit() {
     if (this.isSubmitting) return; // evita doble clic
     this.isSubmitting = true;
@@ -492,6 +540,8 @@ nextStep() {
     try {
       // 1. Crear receptor
       const { receptor } = this.buildPayload();
+      console.log('Payload receptor:', receptor);
+   
       const respReceptor: any = await this.receptorSrv.crearReceptor(receptor);
       const idReceptor = respReceptor?.idreceptor ?? respReceptor?.data?.idreceptor;
       if (!idReceptor) throw new Error('No se obtuvo ID del receptor');

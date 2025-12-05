@@ -63,4 +63,11 @@
       Este campo es obligatorio
     </mat-error>
   </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Lugar de Expedición</mat-label>
+      <input matInput formControlName="expedicion" />
+      <mat-error *ngIf="isInvalid('modelo', expedicion)">Debes ingresar el Lugar de Expedición.</mat-error>
+    </mat-form-field>
+    
 </div>

@@ -153,6 +153,12 @@
       <input matInput formControlName="modelo" />
       <mat-error *ngIf="isInvalid('modelo', vehiculo)">Debes ingresar el modelo.</mat-error>
     </mat-form-field>
+
+       <mat-form-field appearance="outline">
+      <mat-label>Lugar de Expedición</mat-label>
+      <input matInput formControlName="expedicion" />
+      <mat-error *ngIf="isInvalid('modelo', expedicion)">Debes ingresar el Lugar de Expedición.</mat-error>
+    </mat-form-field>
   </div>
 
  <!-- PASO 2: DOCUMENTOS -->
@@ -328,6 +334,7 @@
         <tr><td><strong>Placa:</strong></td><td>{{ vehiculo.get('placa_vehiculo')?.value }}</td></tr>
         <tr><td><strong>Marca:</strong></td><td>{{ vehiculo.get('marca')?.value }}</td></tr>
         <tr><td><strong>Modelo:</strong></td><td>{{ vehiculo.get('modelo')?.value }}</td></tr>
+        <p><strong>Lugar de Expedición:</strong> {{ vehiculo.get('expedicion')?.value }}</p>
         <tr><td><strong>Capacidad:</strong></td>
           <td>{{ vehiculo.get('capacidad_vehiculo')?.value }} {{ vehiculo.get('unidad_capacidad')?.value }}</td>
         </tr>
