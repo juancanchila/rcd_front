@@ -209,6 +209,7 @@ this.pinData = {
   capacidad: vehiculo.capacidad ? `${vehiculo.capacidad}` : 'N/A',
   fechaExpedicionPIN: vehiculo.fechaExpedicionPIN,
   fechaVencimiento: vehiculo.fechaVencimientoPIN,
+  fechaInicio: vehiculo.fechaInicio,
   tipoIdentificacion: transportador.tipoDocumento === 'Cedula' ? 'Cédula' : transportador.tipoDocumento || 'N/A',
   numeroIdentificacion: transportador.numeroDocumento || 'N/A',
   lugarExpedicion: vehiculo.lugarExpedicion || 'CARTAGENA',

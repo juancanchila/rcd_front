@@ -71,6 +71,7 @@ export class VehicleFormComponent {
 
     this.infoextra = this.fb.group({
       fecha_expedicion_pin: ['', Validators.required],
+      fecha_inico_pin: ['', Validators.required],
       consecutivo_sigob: ['', Validators.required],
     });
 
@@ -200,6 +201,7 @@ export class VehicleFormComponent {
 
       fechaExpedicionPIN: i.fecha_expedicion_pin,
       fechaVencimientoPIN: this.addOneYear(i.fecha_expedicion_pin),
+      fechaInicio: i.fecha_inico_pin,
       codigoRadicadoSIGOD: i.consecutivo_sigob,
     };
   }

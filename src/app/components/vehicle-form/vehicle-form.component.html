@@ -134,6 +134,13 @@
         Debes ingresar la fecha de expedición del PIN.
       </mat-error>
     </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Fecha de Inicio del PIN</mat-label>
+      <input matInput type="date" formControlName="fecha_inicio_pin" />
+      <mat-error *ngIf="isInvalid('fecha_inicio_pin', infoextra)">
+        Debes ingresar la fecha de Inicio.
+      </mat-error>
+    </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Consecutivo SIGOB</mat-label>
@@ -175,6 +182,7 @@
 
       <h3>Información adicional</h3>
       <p><strong>Fecha PIN:</strong> {{ infoextra.get('fecha_expedicion_pin')?.value }}</p>
+      <p><strong>Fecha PIN:</strong> {{ infoextra.get('fecha_inicio_pin')?.value }}</p>
       <p><strong>Consecutivo SIGOB:</strong> {{ infoextra.get('consecutivo_sigob')?.value }}</p>
 
     </div>

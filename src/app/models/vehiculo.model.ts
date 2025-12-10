@@ -21,6 +21,7 @@ export class Vehiculo {
     public certificadoRevTecMec: string | null,
     public fechaExpedicionPIN: string,
     public fechaVencimientoPIN: string,
+    public fechaInicio: string,
     public codigoRadicadoSIGOD: string,
     public transportador: Transportador | null
   ) {}
@@ -46,6 +47,7 @@ export class Vehiculo {
       response.certificadoRevTecMec,
       response.fechaExpedicionPIN,
       response.fechaVencimientoPIN,
+      response.fechaInicio,
       response.codigoRadicadoSIGOD,
       response.transportador ? Transportador.fromResponse(response.transportador) : null
     );
