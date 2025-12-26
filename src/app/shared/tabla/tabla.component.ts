@@ -98,7 +98,7 @@ export class TablaComponent implements OnChanges {
     try {
       const url = `${this.baseUrl}/pin?tipo=${this.tipo}&valor=${valor}`;
       const res: any = await this.http.get(url).toPromise();
-
+console.log(res,"Respuesta búsqueda");
       // 👇 Adaptamos respuesta
       let lista: any[] = [];
       if (res) {

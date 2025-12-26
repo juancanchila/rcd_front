@@ -8,7 +8,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { SharedFooterComponent } from '../../shared/shared-footer/shared-footer.component';
-
 @Component({
   selector: 'app-pines-vigentes',
   standalone: true,
@@ -19,7 +18,7 @@ import { SharedFooterComponent } from '../../shared/shared-footer/shared-footer.
     MatButtonModule,
     MatToolbarModule,
     SharedFooterComponent,
-    MatProgressSpinnerModule,
+    MatProgressSpinnerModule
   ],
   templateUrl: './pines-vigentes.component.html',
   styleUrls: ['./pines-vigentes.component.css']

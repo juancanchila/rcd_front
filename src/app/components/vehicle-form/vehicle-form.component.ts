@@ -71,7 +71,7 @@ export class VehicleFormComponent {
 
     this.infoextra = this.fb.group({
       fecha_expedicion_pin: ['', Validators.required],
-      fecha_inico_pin: ['', Validators.required],
+      fecha_inicio_pin: ['', Validators.required],
       consecutivo_sigob: ['', Validators.required],
     });
 
@@ -124,22 +124,43 @@ export class VehicleFormComponent {
   }
 
   // WIZARD
-  nextStep() {
-    let g =
-      this.step === 0
-        ? this.vehicleForm
-        : this.step === 1
-        ? this.vehicleDocumentsForm
-        : this.infoextra;
+ nextStep() {
+  // Determinar el formulario actual según el paso
+  let g =
+    this.step === 0
+      ? this.vehicleForm
+      : this.step === 1
+      ? this.vehicleDocumentsForm
+      : this.infoextra;
 
-    if (g.invalid) {
-      g.markAllAsTouched();
-      this.toast.showError('Completa todos los campos obligatorios antes de continuar.');
-      return;
+  // Si hay campos inválidos
+  if (g.invalid) {
+    g.markAllAsTouched();
+
+    // Obtener los nombres de los campos inválidos
+    const invalidFields = Object.keys(g.controls).filter(
+      field => g.get(field)?.invalid
+    );
+
+    // Mostrar mensaje con los campos específicos
+    if (invalidFields.length) {
+      this.toast.showError(
+        `Campos incompletos o inválidos: ${invalidFields.join(', ')}`
+      );
+    } else {
+      // Mensaje por defecto si no se detecta ninguno (por si acaso)
+      this.toast.showError(
+        'Completa todos los campos obligatorios antes de continuar.'
+      );
     }
 
-    if (this.step < this.totalSteps - 1) this.step++;
+    return;
   }
+
+  // Pasar al siguiente paso si todo está bien
+  if (this.step < this.totalSteps - 1) this.step++;
+}
+
 
   prevStep() {
     if (this.step > 0) this.step--;

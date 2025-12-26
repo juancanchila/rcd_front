@@ -610,6 +610,7 @@ const matricula_inmobiliaria = predios
       ? c.documento_de_identidad
       : c.nit;
 
+      console.log('numeroDocumento :', numeroDocumento );
   const nombres = c.nombres_y_apellidos?.trim().split(" ") || [];
 
   const Generador = {

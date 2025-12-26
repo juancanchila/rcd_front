@@ -197,7 +197,7 @@
               </tr>
                  <tr>
                 <td><strong>FECHA DE INICIO</strong></td>
-                <td>{{ formatDate(pinData.fechaInicio) }}</td>
+              <td>{{ formatDate(pinData.fechaInicio || pinData.fechaExpedicionPIN) }}</td>
               </tr>
               <tr>
                 <td><strong>FECHA DE FINALIZACIÓN</strong></td>
@@ -277,7 +277,7 @@
               <td><strong>FECHA DE VENCIMIENTO</strong></td>
               <td>{{ formatDate(pinData.fechaVencimiento)}}</td>
             </tr>
-                  <tr>
+               <tr *ngIf="pinData.cantidad_autorizada">
         <td><strong>CAPACIDAD AUTORIZADA</strong></td>
         <td>{{ pinData.cantidad_autorizada }}</td>
       </tr>
